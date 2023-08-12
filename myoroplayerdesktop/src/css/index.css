@@ -1,0 +1,27 @@
+@font-face {
+  font-family: "Ubuntu Mono Regular";
+  src:         url("../fonts/UbuntuMono-R.ttf");
+}
+
+body {
+  margin:      0;
+  font-family: "Ubuntu Mono Regular";
+}
+
+/* Setting default font */
+button, p {
+  font-family: "Ubuntu Mono Regular";
+}
+
+/* Global tag styling */
+ul, p {
+  margin: 0; padding: 0;
+}
+button {
+  border:     none;
+  outline:    none;
+  background: none;
+}
+ul {
+  list-style-type: none;
+}

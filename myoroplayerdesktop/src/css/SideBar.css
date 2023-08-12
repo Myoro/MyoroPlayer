@@ -1,0 +1,8 @@
+#sideBar {
+  width:     280px;
+  min-width: 220px;
+
+  /* Resize */
+  resize:   horizontal;
+  overflow: auto;
+}

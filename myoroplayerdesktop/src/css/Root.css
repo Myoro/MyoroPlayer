@@ -1,0 +1,21 @@
+#root {
+  display:        flex;
+  flex-direction: column;
+  width:          100%;
+  height:         100%;
+  position:       fixed;
+  top:            0;
+  left:           0;
+}
+
+#root > main {
+  flex:           1;
+  display:        flex;
+  flex-direction: row;
+}
+
+#root > main > section {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+}
