@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/TopBar.css";
-import { hoverButton } from "../Functions.js";
+import { hoverButton, newPlaylist } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
@@ -19,7 +19,7 @@ function TopBar() {
         {
           name:     "New Playlist",
           shortcut: "Ctrl + N",
-          onClick:  () => alert("New Playlist")
+          onClick:  newPlaylist
         }
       ]
     },
@@ -105,6 +105,7 @@ function TopBar() {
         buttons.map((button, index) =>
           <div key={index}>
             <button
+              className="topBarButton"
               style={{
                 color:       darkMode ? "#EDE6D6" : "#181818",
                 borderRight: darkMode ? "2px solid #EDE6D6" : "2px solid #181818"

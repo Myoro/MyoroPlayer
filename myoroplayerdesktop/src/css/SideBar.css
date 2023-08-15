@@ -6,3 +6,10 @@
   resize:   horizontal;
   overflow: auto;
 }
+
+#sideBar > button {
+  width:     100%;
+  font-size: 24px;
+  padding:   7px 5px;
+  cursor:    pointer;
+}
