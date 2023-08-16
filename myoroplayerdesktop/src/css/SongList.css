@@ -1,3 +1,59 @@
 #songList {
   flex: 1;
 }
+
+#songList > button {
+  width:          100%;
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  gap:            10px;
+  padding:        10px;
+  cursor:         pointer;
+}
+
+#songList > button > img {
+  width:  50px;
+  height: 50px;
+}
+
+/* Song name + artist container */
+#songList > button > div {
+  width:          0; /* Allows ellipsizing to work */
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  gap:            3px;
+  text-align:     left;
+}
+
+/* Album */
+#songList > button > p:nth-child(3) {
+  width: 0; /* Allows ellipsizing to work */
+  flex:  1;
+}
+
+/* Song length */
+#songList > button > p:nth-child(4) {
+  min-width: 60px;
+}
+
+/* Song name & length */
+#songList > button > div > p:first-child,
+#songList > button > p:nth-child(4) {
+  font-size: 20px;
+}
+
+/* Artist & album name */
+#songList > button > div > p:nth-child(2),
+#songList > button > p:nth-child(3) {
+  font-size: 16px;
+}
+
+/* Song, artist, & album name */
+#songList > button > div > p,
+#songList > button > p:nth-child(3) {
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}

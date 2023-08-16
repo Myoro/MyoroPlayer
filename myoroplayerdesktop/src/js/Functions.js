@@ -23,6 +23,11 @@ export function noArgIpcCall(evt) {
   });
 }
 
+export async function openPlaylists() {
+  const data = await noArgIpcCall("openPlaylists");
+  Store.dispatch({ type: "addPlaylists", payload: data });
+}
+
 export async function newPlaylist() {
   const data = await noArgIpcCall("newPlaylist");
   Store.dispatch({ type: "addPlaylist", payload: data });

@@ -5,6 +5,7 @@ import Root from "./components/Root.js";
 import {
   noArgIpcCall,
   newPlaylist,
+  openPlaylists,
   quit
 } from "./Functions.js";
 
@@ -39,6 +40,10 @@ function App() {
   function keydown(event) {
     if(event.ctrlKey) {
       switch(event.key.toUpperCase()) {
+        // Open playlist(s)
+        case "O":
+          openPlaylists();
+          break;
         // New Playlist
         case "N":
           newPlaylist();

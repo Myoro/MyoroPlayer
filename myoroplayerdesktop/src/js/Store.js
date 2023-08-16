@@ -13,6 +13,8 @@ function reducer(state = initialState, action) {
     //
     case "addPlaylist":
       return { ...state, playlists: [ ...state.playlists, action.payload ] };
+    case "addPlaylists":
+      return { ...state, playlists: [ ...state.playlists, ...action.payload ] };
     case "setPlaylists":
       return { ...state, playlists: action.payload };
     //

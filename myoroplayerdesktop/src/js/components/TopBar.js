@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/TopBar.css";
-import { hoverButton, newPlaylist } from "../Functions.js";
+import { hoverButton, newPlaylist, openPlaylists } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
@@ -14,7 +14,7 @@ function TopBar() {
         {
           name:     "Open Playlist(s)",
           shortcut: "Ctrl + O",
-          onClick:  () => alert("Open playlist")
+          onClick:  openPlaylists
         },
         {
           name:     "New Playlist",

@@ -1,8 +1,8 @@
-const { app, BrowserWindow, ipcMain }  = require("electron");
-const path                             = require("path");
-const isDev                            = require("electron-is-dev");
-const { initializeDatabase }           = require("./Database.js");
-const { newPlaylist, getPlaylistsIpc } = require("./ipcFunctions.js");
+const { app, BrowserWindow, ipcMain }                 = require("electron");
+const path                                            = require("path");
+const isDev                                           = require("electron-is-dev");
+const { initializeDatabase }                          = require("./Database.js");
+const { newPlaylist, openPlaylists, getPlaylistsIpc } = require("./ipcFunctions.js");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -32,6 +32,7 @@ function createWindow() {
   ipcMain.on("initializeDatabase", (event) => initializeDatabase(event));
   ipcMain.on("quit", (event) => app.exit(0));
   // Playlists
+  ipcMain.on("openPlaylists", (event) => openPlaylists(win, event));
   ipcMain.on("newPlaylist", (event) => newPlaylist(win, event));
   ipcMain.on("getPlaylists", (event) => getPlaylistsIpc(event));
 }
