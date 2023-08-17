@@ -9,7 +9,7 @@
 }
 
 #root > main {
-  flex:           1;
+  height:         calc(100% - 42px);
   display:        flex;
   flex-direction: row;
 }

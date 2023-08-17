@@ -19,8 +19,15 @@ function App() {
       Store.dispatch({ type: "setPlaylists", payload: playlists });
     })();
 
+    // Event listeners
     document.addEventListener("click", click);
     document.addEventListener("keydown", keydown);
+
+    // Setting CSS variables
+    const darkMode = Store.getState().darkMode;
+    document.documentElement.style.setProperty("--scrollbar-background",  darkMode ? "#181818" : "#EDE6D6");
+    document.documentElement.style.setProperty("--scrollbar-track",       darkMode ? "#EDE6D6" : "#181818");
+    document.documentElement.style.setProperty("--scrollbar-track-hover", darkMode ? "#CCC3B3" : "#000000");
 
     return () => {
       document.removeEventListener("click", click);

@@ -3,6 +3,12 @@
   src:         url("../fonts/UbuntuMono-R.ttf");
 }
 
+:root {
+  --scrollbar-background:  #181818;
+  --scrollbar-track:       #EDE6D6;
+  --scrollbar-track-hover: #CCC3B3;
+}
+
 body {
   margin:      0;
   font-family: "Ubuntu Mono Regular";
@@ -25,3 +31,8 @@ button {
 ul {
   list-style-type: none;
 }
+
+::-webkit-scrollbar             { width: 12px; }
+::-webkit-scrollbar-track       { background: var(--scrollbar-background); }
+::-webkit-scrollbar-thumb       { background: var(--scrollbar-track); }
+::-webkit-scrollbar-thumb:hover { background: var(--scrollbar-track-hover); }

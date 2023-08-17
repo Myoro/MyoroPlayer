@@ -5,8 +5,9 @@ import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
 function SongList() {
-  const darkMode = useSelector(state => state.darkMode);
-  const songs    = useSelector(state => state.songs);
+  const darkMode       = useSelector(state => state.darkMode);
+  const songs          = useSelector(state => state.songs);
+  const showLoadingBar = useSelector(state => state.showLoadingBar);
 
   function hoverButton(event) {
     let button = event.target;
@@ -29,6 +30,8 @@ function SongList() {
   return(
     <ul id="songList">
       {
+        !showLoadingBar
+        ?
         songs.map((song, index) =>
           <button
             key={index}
@@ -43,22 +46,28 @@ function SongList() {
 
             <div>
               <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.name}</p>
-              {
-                song.artist
-                &&
-                <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.artist}</p>
-              }
+              <p
+                style={{
+                  color:  darkMode ? "#EDE6D6" : "#181818",
+                  height: !song.artist && 0
+                }}
+              >{song.artist || ""}</p>
             </div>
 
-            {
-              song.album
-              &&
-              <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>song.album</p>
-            }
+            <p
+              style={{
+                color: darkMode ? "#EDE6D6" : "#181818",
+                flex: !song.album && 0
+              }}
+            >{song.album || ""}</p>
 
-            <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>420:00</p>
+            <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.lengthStr}</p>
           </button>
         )
+        :
+        <div style={{ border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}>
+          <div style={{ background: darkMode ? "#EDE6D6" : "#181818" }}></div>
+        </div>
       }
     </ul>
   );

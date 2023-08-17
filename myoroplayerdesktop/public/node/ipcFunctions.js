@@ -218,6 +218,8 @@ async function openPlaylist(event, directory) {
     const resolutions = await Promise.all(promises);
     for(let i = 0; i < resolutions.length; i++)
       songs.push(...resolutions[i]);
+    for(let i = 0; i < songs.length; i++)
+      songs[i].playlistDirectory = directory;
   }
 
   event.reply("openPlaylist", [ ...playlistSongs, ...songs ]);

@@ -91,6 +91,7 @@ function TopBar() {
     <header
       id="topBar"
       style={{ borderBottom: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}
+      onClick={(event) => { if(event.target.tagName === "HEADER") alert(event.target.offsetHeight) }}
     >
       {/* Logo */}
       <img

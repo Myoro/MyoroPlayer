@@ -40,6 +40,8 @@ export async function newPlaylist() {
 }
 
 export async function openPlaylist(directory) {
+  Store.dispatch({ type: "setShowLoadingBar", payload: true });
   const songs = await oneArgIpcCall("openPlaylist", directory);
+  await Store.dispatch({ type: "setShowLoadingBar", payload: false });
   Store.dispatch({ type: "setSongs", payload: songs });
 }

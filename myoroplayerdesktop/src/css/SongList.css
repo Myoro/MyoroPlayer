@@ -1,5 +1,7 @@
 #songList {
-  flex:       1;
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 
 #songList > button {
@@ -56,4 +58,23 @@
   white-space:   nowrap;
   overflow:      hidden;
   text-overflow: ellipsis;
+}
+
+/* Loading bar */
+#songList > div {
+  width:     300px;
+  height:    40px;
+  position:  relative;
+  top:       50%;
+  left:      50%;
+  transform: translate(-50%, -50%);
+}
+#songList > div > div {
+  width:     0;
+  height:    100%;
+  animation: loading 1.5s linear infinite;
+}
+@keyframes loading {
+  0%   { width: 0; }
+  100% { width: 100%; }
 }

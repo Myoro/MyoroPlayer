@@ -93,15 +93,18 @@ function getPlaylists() {
         // Removing non-existent directories
         const badDirectories  = [];
         const goodDirectories = [];
-        for(let i = 0; i < rows.length; i++) {
-          try {
-            const stat = fs.statSync(rows[i].directory);
-            goodDirectories.push(rows[i]);
-          } catch(error) { badDirectories.push(rows[i]); }
-        }
 
-        for(let i = 0; i < badDirectories.length; i++)
-          deletePlaylist(badDirectories[i].directory, badDirectories[i].name);
+        if(rows) {
+          for(let i = 0; i < rows.length; i++) {
+            try {
+              const stat = fs.statSync(rows[i].directory);
+              goodDirectories.push(rows[i]);
+            } catch(error) { badDirectories.push(rows[i]); }
+          }
+
+          for(let i = 0; i < badDirectories.length; i++)
+            deletePlaylist(badDirectories[i].directory, badDirectories[i].name);
+        }
 
         resolve(goodDirectories);
       }
