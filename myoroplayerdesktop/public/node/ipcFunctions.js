@@ -3,7 +3,8 @@ const { dialog, BrowserWindow } = require("electron");
 const {
   getPlaylists,
   insertPlaylist,
-  getPlaylistSongs
+  getPlaylistSongs,
+  insertSong
 } = require("./Database.js");
 
 async function openPlaylists(win, event) {
