@@ -6,6 +6,7 @@ import LogoLight from "../../img/LogoLight.svg";
 
 function SongList() {
   const darkMode = useSelector(state => state.darkMode);
+  const songs    = useSelector(state => state.songs);
 
   function hoverButton(event) {
     let button = event.target;
@@ -27,25 +28,38 @@ function SongList() {
 
   return(
     <ul id="songList">
-      <button
-        onMouseOver={hoverButton}
-        onMouseOut={hoverButton}
-      >
-        <img
-          draggable={false}
-          alt="cover"
-          src={darkMode ? LogoDark : LogoLight}
-        />
+      {
+        songs.map((song, index) =>
+          <button
+            key={index}
+            onMouseOver={hoverButton}
+            onMouseOut={hoverButton}
+          >
+            <img
+              draggable={false}
+              alt="cover"
+              src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)}
+            />
 
-        <div>
-          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>Song Name</p>
-          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>Artist</p>
-        </div>
+            <div>
+              <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.name}</p>
+              {
+                song.artist
+                &&
+                <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.artist}</p>
+              }
+            </div>
 
-        <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>Album Name</p>
+            {
+              song.album
+              &&
+              <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>song.album</p>
+            }
 
-        <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>420:00</p>
-      </button>
+            <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>420:00</p>
+          </button>
+        )
+      }
     </ul>
   );
 }

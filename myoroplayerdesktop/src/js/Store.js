@@ -3,7 +3,9 @@ import { createStore } from "redux";
 const initialState = {
   darkMode: true,
   //
-  playlists: []   // Playlists shown in SideBar
+  playlists: [],  // Playlists shown in SideBar
+  //
+  songs: []       // Opened playlist's songs in SongList
 };
 
 function reducer(state = initialState, action) {
@@ -17,6 +19,9 @@ function reducer(state = initialState, action) {
       return { ...state, playlists: [ ...state.playlists, ...action.payload ] };
     case "setPlaylists":
       return { ...state, playlists: action.payload };
+    //
+    case "setSongs":
+      return { ...state, songs: action.payload };
     //
     default:
       return state;

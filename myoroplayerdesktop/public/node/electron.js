@@ -1,8 +1,13 @@
-const { app, BrowserWindow, ipcMain }                 = require("electron");
-const path                                            = require("path");
-const isDev                                           = require("electron-is-dev");
-const { initializeDatabase }                          = require("./Database.js");
-const { newPlaylist, openPlaylists, getPlaylistsIpc } = require("./ipcFunctions.js");
+const { app, BrowserWindow, ipcMain } = require("electron");
+const path                            = require("path");
+const isDev                           = require("electron-is-dev");
+const { initializeDatabase }          = require("./Database.js");
+const {
+  newPlaylist,
+  openPlaylists,
+  getPlaylistsIpc,
+  openPlaylist
+} = require("./ipcFunctions.js");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -24,7 +29,7 @@ function createWindow() {
   );
   win.setMenu(null);
 
-  if(isDev) win.webContents.openDevTools();
+  // if(isDev) win.webContents.openDevTools();
 
 
 
@@ -32,7 +37,8 @@ function createWindow() {
   ipcMain.on("initializeDatabase", (event) => initializeDatabase(event));
   ipcMain.on("quit", (event) => app.exit(0));
   // Playlists
-  ipcMain.on("openPlaylists", (event) => openPlaylists(win, event));
+  ipcMain.on("openPlaylists", (event) => openPlaylists(win, event));                // Load playlist from computer
+  ipcMain.on("openPlaylist", (event, directory) => openPlaylist(event, directory)); // Load songs from playlist
   ipcMain.on("newPlaylist", (event) => newPlaylist(win, event));
   ipcMain.on("getPlaylists", (event) => getPlaylistsIpc(event));
 }

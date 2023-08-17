@@ -22,6 +22,12 @@ export function noArgIpcCall(evt) {
     ipcRenderer.once(evt, (event, data) => resolve(data));
   });
 }
+export function oneArgIpcCall(evt, data) {
+  return new Promise(resolve => {
+    ipcRenderer.send(evt, data);
+    ipcRenderer.once(evt, (event, data) => resolve(data));
+  });
+}
 
 export async function openPlaylists() {
   const data = await noArgIpcCall("openPlaylists");
@@ -31,4 +37,9 @@ export async function openPlaylists() {
 export async function newPlaylist() {
   const data = await noArgIpcCall("newPlaylist");
   Store.dispatch({ type: "addPlaylist", payload: data });
+}
+
+export async function openPlaylist(directory) {
+  const songs = await oneArgIpcCall("openPlaylist", directory);
+  Store.dispatch({ type: "setSongs", payload: songs });
 }

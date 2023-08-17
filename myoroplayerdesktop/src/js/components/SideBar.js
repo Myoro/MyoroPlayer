@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SideBar.css";
-import { hoverButton } from "../Functions.js";
+import { hoverButton, openPlaylist } from "../Functions.js";
 
 function SideBar() {
   const darkMode  = useSelector(state => state.darkMode);
@@ -19,7 +19,7 @@ function SideBar() {
             style={{ color: darkMode ? "#EDE6D6" : "#181818" }}
             onMouseOver={hoverButton}
             onMouseOut={hoverButton}
-            onClick={() => alert(playlist.directory)}
+            onClick={() => openPlaylist(playlist.directory)}
           >{playlist.name}</button>
         )
       }
