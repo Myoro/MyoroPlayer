@@ -153,7 +153,7 @@ async function openPlaylist(event, directory) {
     for(let i = 0; i < buffer.length; i++) {
       const id3  = NodeID3.read(buffer[i]);
       const json = {
-        songDirectory:     null,
+        songDirectory:     buffer[i],
         playlistDirectory: null,
         cover:             null,
         name:              null,
