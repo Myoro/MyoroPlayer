@@ -1,6 +1,6 @@
 #sideBar {
-  width:     280px;
-  min-width: 220px;
+  width:     340px;
+  min-width: 160px;
 
   /* Resize */
   resize:   horizontal;
@@ -8,8 +8,11 @@
 }
 
 #sideBar > button {
-  width:     100%;
-  font-size: 24px;
-  padding:   7px 5px;
-  cursor:    pointer;
+  width:         100%;
+  font-size:     24px;
+  padding:       7px 5px;
+  cursor:        pointer;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
 }

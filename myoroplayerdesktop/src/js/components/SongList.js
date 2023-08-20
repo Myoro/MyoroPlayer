@@ -5,18 +5,12 @@ import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
 function SongList() {
-  const darkMode       = useSelector(state => state.darkMode);
-  const songs          = useSelector(state => state.songs);
-  const showLoadingBar = useSelector(state => state.showLoadingBar);
+  const darkMode                  = useSelector(state => state.darkMode);
+  const songs                     = useSelector(state => state.songs);
+  const showLoadingBar            = useSelector(state => state.showLoadingBar);
+  const [ selected, setSelected ] = React.useState(null);
 
-  function hoverButton(event) {
-    let button = event.target;
-    while(button.tagName !== "BUTTON") button = button.parentNode;
-
-    let hovered = false;
-    if(window.getComputedStyle(button).backgroundColor !== "rgba(0, 0, 0, 0)") hovered = true;
-
-   
+  function toggleHover(button, hovered) {
     button.style.background = !hovered ? (darkMode ? "#EDE6D6" : "#181818") : "none"; 
     if(button.childNodes[0].src.includes(!hovered ? (darkMode ? "LogoDark" : "LogoLight") : (darkMode ? "LogoLight" : "LogoDark")))
       button.childNodes[0].src = !hovered ? (darkMode ? LogoLight : LogoDark) : (darkMode ? LogoDark : LogoLight);
@@ -27,6 +21,26 @@ function SongList() {
     button.childNodes[3].style.color = textStyle;
   }
 
+  function hoverButton(event, index) {
+    if(selected === index) return;
+
+    let button = event.target;
+    while(button.tagName !== "BUTTON") button = button.parentNode;
+
+    let hovered = false;
+    if(window.getComputedStyle(button).backgroundColor !== "rgba(0, 0, 0, 0)") hovered = true;
+
+    toggleHover(button, hovered); 
+  }
+
+  function onClick(index) {
+    setSelected(index);
+    const songListChildren = document.getElementById("songList").childNodes;
+    for(let i = 0; i < songListChildren.length; i++)
+      if(i !== index)
+        toggleHover(songListChildren[i], true);
+  }
+
   return(
     <ul id="songList">
       {
@@ -35,8 +49,11 @@ function SongList() {
         songs.map((song, index) =>
           <button
             key={index}
-            onMouseOver={hoverButton}
-            onMouseOut={hoverButton}
+            name={song.songDirectory}
+            className="songListButton"
+            onMouseOver={(event) => hoverButton(event, index)}
+            onMouseOut={(event) => hoverButton(event, index)}
+            onClick={() => onClick(index)}
           >
             <img
               draggable={false}

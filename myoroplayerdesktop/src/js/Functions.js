@@ -45,3 +45,59 @@ export async function openPlaylist(directory) {
   await Store.dispatch({ type: "setShowLoadingBar", payload: false });
   Store.dispatch({ type: "setSongs", payload: songs });
 }
+
+export async function renamePlaylist(directory) {
+  const newName   = document.getElementById("renameDialogInput").value;
+  if(newName === "") return;
+  // eslint-disable-next-line
+  const success   = await oneArgIpcCall("renamePlaylist", { newName: newName, directory: directory });
+  const playlists = await noArgIpcCall("getPlaylists");
+  Store.dispatch({ type: "setPlaylists", payload: playlists });
+  Store.dispatch({ type: "resetModal" });
+}
+
+export async function softDeletePlaylist(directory) {
+  // eslint-disable-next-line
+  const success   = await oneArgIpcCall("softDeletePlaylist", directory);
+  const playlists = await noArgIpcCall("getPlaylists");
+  Store.dispatch({ type: "setPlaylists", payload: playlists });
+}
+
+export async function hardDeletePlaylist(directory) {
+  // eslint-disable-next-line
+  const success   = await oneArgIpcCall("hardDeletePlaylist", directory);
+  const playlists = await noArgIpcCall("getPlaylists");
+  Store.dispatch({ type: "setPlaylists", payload: playlists });
+  Store.dispatch({ type: "resetModal" });
+}
+
+export async function copySongToPlaylists(directory) {
+  // eslint-disable-next-line
+  const success = await oneArgIpcCall("copySongToPlaylists", directory);
+}
+
+function removeFromSongsState(directory) {
+  const songList = document.getElementById("songList");
+  for(let i = 0; i < songList.childNodes.length; i++) {
+    if(songList.childNodes[i].name === directory) {
+      songList.removeChild(songList.childNodes[i]);
+      let songs = Store.getState().songs;
+      songs.splice(i, 1);
+      Store.dispatch({ type: "setSongs", payload: songs });
+      return;
+    }
+  }
+}
+
+export async function moveSongToPlaylist(directory) {
+  // eslint-disable-next-line
+  const success  = await oneArgIpcCall("moveSongToPlaylist", directory);
+  removeFromSongsState(directory);
+}
+
+export async function hardDeleteSong(directory) {
+  // eslint-disable-next-line
+  const success = await oneArgIpcCall("hardDeleteSong", directory);
+  removeFromSongsState(directory);
+  Store.dispatch({ type: "resetModal" });
+}

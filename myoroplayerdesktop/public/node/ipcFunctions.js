@@ -4,7 +4,9 @@ const {
   getPlaylists,
   insertPlaylist,
   getPlaylistSongs,
-  insertSong
+  insertSong,
+  deletePlaylist,
+  deleteSong
 } = require("./Database.js");
 
 async function openPlaylists(win, event) {
@@ -29,7 +31,7 @@ async function openPlaylists(win, event) {
     } return data;
   });
 
-  if(data === null) event.reply("openPlaylists", []);
+  if(data === null) { event.reply("openPlaylists", []); return; }
 
   // Checking for duplicate directories
   const playlists     = await getPlaylists();
@@ -42,11 +44,11 @@ async function openPlaylists(win, event) {
     if(!duplicate) nonduplicates.push(data[i]);
   }
 
-  event.reply("openPlaylists", data);
+  event.reply("openPlaylists", nonduplicates);
 
   // Inserting playlists to playlists table
-  for(let i = 0; i < data.length; i++)
-    insertPlaylist(data[i].directory, data[i].name);
+  for(let i = 0; i < nonduplicates.length; i++)
+    insertPlaylist(nonduplicates[i].directory, nonduplicates[i].name);
 }
 
 async function newPlaylist(win, event) {
@@ -107,12 +109,14 @@ async function openPlaylist(event, directory) {
   async function getSongs(directory) {
     const files = fs.readdirSync(directory);
     for(let i = 0; i < files.length; i++) {
-      const stat  = fs.statSync(directory + files[i]);
-      const split = files[i].split('.');
-      if(stat.isFile() && split[split.length - 1].toUpperCase() === "MP3")
-        songDirectories.push(directory + files[i]);
-      else if(stat.isDirectory())
-        await getSongs(directory + files[i] + '/');
+      try {
+        const stat  = fs.statSync(directory + files[i]);
+        const split = files[i].split('.');
+        if(stat.isFile() && split[split.length - 1].toUpperCase() === "MP3")
+          songDirectories.push(directory + files[i]);
+        else if(stat.isDirectory())
+          await getSongs(directory + files[i] + '/');
+      } catch(error) { deleteSong(directory + files[i]); }
     }
   }
 
@@ -233,9 +237,113 @@ async function openPlaylist(event, directory) {
     insertSong(songs[i]);
 }
 
+async function softDeletePlaylist(event, directory) {
+  await deletePlaylist(directory);
+  event.reply("softDeletePlaylist", true);
+}
+
+function hardDeletePlaylist(event, directory) {
+  fs.rmdir(directory.substr(0, directory.length - 1), { recursive: true }, async (error) => {
+    if(error) { event.reply("hardDeletePlaylist", false); return; }
+    await deletePlaylist(directory);
+    event.reply("hardDeletePlaylist", true);
+  });
+}
+
+async function copySongToPlaylists(win, event, directory) {
+  const directories = await dialog.showOpenDialog(
+    win,
+    {
+      title:      "Copy to Playlist(s)",
+      properties: [ "openDirectory", "multiSelections" ]
+    }
+  ).then(result => {
+    if(result.canceled) return null;
+
+    const directories = [];
+    for(let i = 0; i < result.filePaths.length; i++) {
+      let directory = result.filePaths[i].replaceAll('\\', '/');
+      if(directory[directory.length - 1] !== '/') directory += '/';
+      directories.push(directory);
+    }
+
+    return directories
+  });
+
+  if(directories === null) {
+    event.reply("copySongToPlaylists", false);
+    return;
+  }
+
+  let name;
+  for(let i = (directory.length - 1); i >= 0; i--) {
+    if(directory[i] === '/') {
+      name = directory.substr(i + 1);
+      break;
+    }
+  }
+
+  for(let i = 0; i < directories.length; i++) {
+    const newDirectory = directories[i] + name;
+    fs.copyFile(directory, newDirectory, (error) => {
+      if(error) console.log(error);
+    });
+  }
+
+  event.reply("copySongToPlaylists", true);
+}
+
+async function moveSongToPlaylist(win, event, directory) {
+  const newDirectory = await dialog.showOpenDialog(
+    win,
+    {
+      title:      "Move to Playlist",
+      properties: [ "openDirectory" ]
+    }
+  ).then(result => {
+    if(result.canceled) return null;
+
+    let newDirectory = result.filePaths[0].replaceAll('\\', '/');
+    if(newDirectory[newDirectory.length - 1] !== '/') newDirectory += '/';
+
+    for(let i = (directory.length - 1); i >= 0; i--) {
+      if(directory[i] == '/') {
+        newDirectory += directory.substr(i + 1);
+        break;
+      }
+    }
+
+    return newDirectory;
+  });
+
+  if(newDirectory === null) {
+    event.reply("moveSongToPlaylist", false);
+    return;
+  }
+
+  fs.rename(directory, newDirectory, async (error) => {
+    if(error) { event.reply("moveSongToPlaylist", false); return; }
+    deleteSong(directory);
+    event.reply("moveSongToPlaylist", true);
+  });
+}
+
+function hardDeleteSong(event, directory) {
+  fs.unlink(directory, (error) => {
+    if(error) { event.reply("hardDeleteSong", false); return; }
+    deleteSong(directory);
+    event.reply("hardDeleteSong", true);
+  });
+}
+
 module.exports = {
   openPlaylists,
   newPlaylist,
   getPlaylistsIpc,
-  openPlaylist
+  openPlaylist,
+  softDeletePlaylist,
+  hardDeletePlaylist,
+  copySongToPlaylists,
+  moveSongToPlaylist,
+  hardDeleteSong
 };

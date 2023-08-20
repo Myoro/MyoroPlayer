@@ -15,7 +15,7 @@ body {
 }
 
 /* Setting default font */
-button, p {
+button, p, input {
   font-family: "Ubuntu Mono Regular";
 }
 
@@ -23,7 +23,7 @@ button, p {
 ul, p {
   margin: 0; padding: 0;
 }
-button {
+button, input {
   border:     none;
   outline:    none;
   background: none;

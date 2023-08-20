@@ -24,6 +24,21 @@ function TopBar() {
       ]
     },
     {
+      name: "View",
+      buttons: [
+        {
+          name:     "Toggle Sidebar",
+          shortcut: "Ctrl + 1",
+          onClick:  () => alert("Toggle SideBar")
+        },
+        {
+          name:     "Toggle Footer Controls",
+          shortcut: "Ctrl + 2",
+          onClick:  () => alert("Toggle Controls")
+        }
+      ]
+    },
+    {
       name: "Streaming",
       buttons: [
         {

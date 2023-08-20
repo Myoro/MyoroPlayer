@@ -5,6 +5,8 @@ import TopBar from "./TopBar.js";
 import SideBar from "./SideBar.js";
 import SongList from "./SongList.js";
 import FooterControls from "./FooterControls.js";
+import ContextMenu from "./ContextMenu.js";
+import Modal from "./Modal.js";
 
 function Root() {
   const darkMode = useSelector(state => state.darkMode);
@@ -14,6 +16,9 @@ function Root() {
       id="root"
       style={{ background: darkMode ? "#181818" : "#EDE6D6" }}
     >
+      <ContextMenu />
+      <Modal />
+
       <TopBar />
 
       {/* Container for SideBar & container with SongList & FooterControls */}

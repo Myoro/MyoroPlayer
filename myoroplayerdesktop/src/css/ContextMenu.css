@@ -1,0 +1,11 @@
+#contextMenu {
+  display:        flex;
+  flex-direction: column;
+  position: fixed;
+}
+
+#contextMenu > button {
+  font-size: 24px;
+  padding:   5px;
+  cursor:    pointer;
+}

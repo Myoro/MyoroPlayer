@@ -1,0 +1,56 @@
+#modal {
+  width:           100%;
+  height:          100%;
+  position:        fixed;
+  top:             0;
+  left:            0;
+  background:      rgba(0, 0, 0, 0.5);
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+
+.dialogButton {
+  flex:      1;
+  font-size: 20px;
+  padding:   5px;
+  cursor:    pointer;
+}
+
+#renameDialog {
+  width:          300px;
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  align-items:    center;
+  padding:        7px 5px;
+}
+#renameDialogInput {
+  width:     calc(100% - 20px);
+  font-size: 24px;
+  padding:   5px;
+}
+#renameDialog > div {
+  width:          calc(100% - 8px);
+  display:        flex;
+  flex-direction: row;
+  gap:            10px;
+}
+
+#deleteDialog {
+  display:        flex;
+  flex-direction: column;
+  gap:            10px;
+  align-items:    center;
+  padding:        7px;
+}
+#deleteDialog > p {
+  font-size: 24px;
+}
+#deleteDialog > div {
+  width:          100%;
+  display:        flex;
+  flex-direction: row;
+  gap:            10px;
+}
+

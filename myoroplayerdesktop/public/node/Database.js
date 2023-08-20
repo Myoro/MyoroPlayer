@@ -179,10 +179,67 @@ function insertSong(song) {
   );
 }
 
+function renamePlaylist(event, newName, directory) {
+  directory = directory.substr(0, directory.length - 1);
+  let oldName, newDirectory;
+  for(let i = (directory.length - 1); i >= 0; i--) {
+    if(directory[i] === '/') {
+      oldName      = directory.substr(i + 1);
+      newDirectory = directory.substr(0, i) + '/' + newName;
+      break;
+    }
+  }
+
+  fs.rename(directory, newDirectory, (error) => {
+    if(error) { event.reply("renamePlaylist", false); return; }
+
+    db.run(
+      `UPDATE playlists SET directory=?,name=? WHERE directory=? AND name=?;`,
+      [ newDirectory + '/', newName, directory + '/', oldName ],
+      (error) => {
+        if(error) event.reply("renamePlaylist", false);
+        else      event.reply("renamePlaylist", true);
+      }
+    );
+  });
+}
+
+function deletePlaylist(directory) {
+  return new Promise((resolve, reject) => {
+    db.run(
+      `DELETE FROM playlists WHERE directory=?;`,
+      [ directory ],
+      (error) => {
+        if(error) reject();
+
+        db.run(
+          `DELETE FROM songs WHERE playlistDirectory=?;`,
+          [ directory ],
+          (error) => {
+            if(error) reject();
+            else      resolve();
+          }
+        );
+      }
+    );
+  });
+}
+
+function deleteSong(directory) {
+  db.run(
+    `DELETE FROM songs WHERE songDirectory=?;`,
+    [ directory ],
+    (error) => { if(error) console.log(error); }
+  );
+}
+
 module.exports = {
   initializeDatabase,
   getPlaylists,
   insertPlaylist,
   getPlaylistSongs,
-  insertSong
+  insertSong,
+  renamePlaylist,
+  deletePlaylist,
+  deleteSong
 };
