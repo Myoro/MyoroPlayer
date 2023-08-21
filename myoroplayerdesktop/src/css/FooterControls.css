@@ -1,4 +1,102 @@
 #footerControls {
-  width: 100%;
-  height: 80px; /* REMOVE */
+  width:          100%;
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  gap:            10px;
+}
+
+#songInformation {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+}
+#songInformation > img {
+  width:   50px;
+  height:  50px;
+  padding: 10px;
+}
+#songInformation > div {
+  display:        flex;
+  flex-direction: column;
+  width:          150px;
+}
+#songInformation > div > marquee {
+  font-size: 18px;
+}
+#songInformation > div > p {
+  font-size:     14px;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+
+#controls {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            5px;
+}
+#musicSlider {
+  width: 162px;
+}
+#controls > div {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  gap:            1px;
+}
+#controls > div > button {
+  width:           36px;
+  height:          36px;
+  border-radius:   20px;
+  cursor:          pointer;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+#controls > div > button > img {
+  width:  26px;
+  height: 26px;
+}
+#controls > div > button:first-child,
+#controls > div > button:nth-child(5) {
+  width:  31px;
+  height: 31px;
+}
+#controls > div > button:first-child > img,
+#controls > div > button:nth-child(5) > img {
+  width:  22px;
+  height: 22px;
+}
+
+#miscControls {
+  display:         flex;
+  flex-direction:  row;
+  align-items:     center;
+  justify-content: center;
+  gap:             5px;
+}
+#miscControls > div {
+  display:        flex;
+  flex-direction: row;
+  gap:            1px;
+}
+#miscControls > div > button {
+  width:           28px;
+  height:          28px;
+  border-radius:   20px;
+  cursor:          pointer;
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}
+#miscControls > div > button > img {
+  width:  20px;
+  height: 20px;
+}
+#volumeSlider {
+  width:        146px;
+  margin-right: 10px;
 }
