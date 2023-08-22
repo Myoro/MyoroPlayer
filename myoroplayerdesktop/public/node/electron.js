@@ -3,7 +3,9 @@ const path                            = require("path");
 const isDev                           = require("electron-is-dev");
 const {
   initializeDatabase,
-  renamePlaylist
+  renamePlaylist,
+  setShuffleRepeat,
+  getShuffleRepeat
 } = require("./Database.js");
 const {
   newPlaylist,
@@ -55,6 +57,8 @@ function createWindow() {
   ipcMain.on("copySongToPlaylists", (event, directory) => copySongToPlaylists(win, event, directory));
   ipcMain.on("moveSongToPlaylist", (event, directory) => moveSongToPlaylist(win, event, directory));
   ipcMain.on("hardDeleteSong", (event, directory) => hardDeleteSong(event, directory));
+  ipcMain.on("setShuffleRepeat", (event, data) => setShuffleRepeat(event, data.mode, data.value));
+  ipcMain.on("getShuffleRepeat", (event) => getShuffleRepeat(event));
 }
 
 app.whenReady().then(createWindow);

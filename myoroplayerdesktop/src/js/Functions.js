@@ -101,3 +101,14 @@ export async function hardDeleteSong(directory) {
   removeFromSongsState(directory);
   Store.dispatch({ type: "resetModal" });
 }
+
+export async function setShuffleRepeat(mode, value) {
+  // eslint-disable-next-line
+  const success = await oneArgIpcCall("setShuffleRepeat", { mode: mode, value: value });
+}
+
+export async function getShuffleRepeat() {
+  const values = await noArgIpcCall("getShuffleRepeat");
+  if(values === null) return null;
+  else                return values;
+}

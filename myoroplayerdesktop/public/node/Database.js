@@ -32,7 +32,7 @@ function initializeDatabase(event) {
               console.log(error);
               event.reply("initializeDatabase", false);
             } else {
-              console.log("playlists table created");
+              console.log("playlists table created\n");
               event.reply("initializeDatabase", true);
             }
           }
@@ -71,11 +71,43 @@ function initializeDatabase(event) {
               console.log(error);
               event.reply("initializeDatabase", false);
             } else {
-              console.log("songs table created");
+              console.log("songs table created\n");
               event.reply("initializeDatabase", true);
             }
           }
         )
+      }
+    }
+  );
+
+  // Creating shuffle_repeat table
+  db.get(
+    `SELECT name FROM sqlite_master WHERE type="table" AND name="songs";`,
+    (error, row) => {
+      if(error)    console.log(error);
+      else if(row) console.log("shuffle_repeat already created\n");
+      else {
+        db.run(
+          `
+            CREATE TABLE shuffle_repeat(
+              id      INTEGER PRIMARY KEY,
+              shuffle TEXT,
+              repeat  TEXT
+            );
+          `,
+          (error) => {
+            if(error) { console.log(error); return; }
+
+            db.run(
+              `INSERT INTO shuffle_repeat(shuffle, repeat) VALUES(?, ?);`,
+              [ '0', '0' ],
+              (error) => {
+                if(error) console.log(error);
+                else      console.log("shuffle_repeat table created\n");
+              }
+            );
+          }
+        );
       }
     }
   );
@@ -233,6 +265,29 @@ function deleteSong(directory) {
   );
 }
 
+function setShuffleRepeat(event, mode, value) {
+  if(mode === "shuffle") query = `UPDATE shuffle_repeat SET shuffle=?;`;
+  else                   query = `UPDATE shuffle_repeat SET repeat=?;`;
+  db.run(
+    query,
+    [ value ],
+    (error) => {
+      if(error) event.reply("setShuffleRepeat", false);
+      else      event.reply("SetShuffleRepeat", true);
+    }
+  );
+}
+
+function getShuffleRepeat(event) {
+  db.get(
+    `SELECT shuffle, repeat FROM shuffle_repeat;`,
+    (error, row) => {
+      if(error) event.reply("getShuffleRepeat", null);
+      else      event.reply("getShuffleRepeat", row);
+    }
+  );
+}
+
 module.exports = {
   initializeDatabase,
   getPlaylists,
@@ -241,5 +296,7 @@ module.exports = {
   insertSong,
   renamePlaylist,
   deletePlaylist,
-  deleteSong
+  deleteSong,
+  setShuffleRepeat,
+  getShuffleRepeat
 };

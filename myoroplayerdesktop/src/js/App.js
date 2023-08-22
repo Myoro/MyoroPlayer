@@ -22,6 +22,7 @@ function App() {
     (async function getPlaylists() {
       const init      = await noArgIpcCall("initializeDatabase");
       if(!init) quit();
+      Store.dispatch({ type: "setDatabaseInitialized", payload: true });
       const playlists = await noArgIpcCall("getPlaylists");
       Store.dispatch({ type: "setPlaylists", payload: playlists });
     })();
