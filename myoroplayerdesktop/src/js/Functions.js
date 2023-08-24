@@ -16,6 +16,20 @@ export function hoverButton(event) {
   }
 }
 
+export function toggleUI(id) {
+  const object = document.getElementById(id);
+  if(window.getComputedStyle(object).display !== "none") {
+    object.style.display = "none";
+  } else {
+    if(id === "sideBar") {
+      object.style.display = "block";
+    } else if(id === "footerControls") {
+      object.style.display = "flex";
+      document.getElementById("footerSongName").start();
+    }
+  }
+}
+
 export function noArgIpcCall(evt) {
   return new Promise(resolve => {
     ipcRenderer.send(evt);

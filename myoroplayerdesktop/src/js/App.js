@@ -12,9 +12,10 @@ import {
   copySongToPlaylists,
   moveSongToPlaylist,
   hardDeleteSong,
+  toggleUI,
   quit
 } from "./Functions.js";
-import { addToQueue } from "./players/LocalPlayer.js";
+import { addToQueue, togglePlay } from "./players/LocalPlayer.js";
 
 function App() {
   React.useEffect(() => {
@@ -60,6 +61,13 @@ function App() {
   }
 
   function keydown(event) {
+    // Play/pause
+    if(event.keyCode === 32) {
+      const state = togglePlay();
+      if(state === null) return;
+      Store.dispatch({ type: "setPlaySrc", payload: state });
+    }
+
     if(event.ctrlKey) {
       switch(event.key.toUpperCase()) {
         // Open playlist(s)
@@ -73,6 +81,14 @@ function App() {
         // Quit MyoroPlayer
         case "Q":
           quit();
+          break;
+        // Toggle SideBar
+        case "1":
+          toggleUI("sideBar");
+          break;
+        // Toggle FooterControls
+        case "2":
+          toggleUI("footerControls");
           break;
         default:
           break;

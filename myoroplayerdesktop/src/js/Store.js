@@ -12,7 +12,9 @@ const initialState = {
   //
   contextMenu: { show: false, buttons: [] },
   //
-  modal: { show: false, dialog: null, directory: null, buttons: [] }
+  modal: { show: false, dialog: null, directory: null, buttons: [] },
+  //
+  playSrc: null // Used to toggle the playSrc from other files
 };
 
 function reducer(state = initialState, action) {
@@ -72,6 +74,9 @@ function reducer(state = initialState, action) {
           buttons:   []
         }
       };
+    //
+    case "setPlaySrc":
+      return { ...state, playSrc: action.payload };
     //
     default:
       return state;

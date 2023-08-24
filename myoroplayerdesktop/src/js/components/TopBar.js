@@ -1,7 +1,13 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/TopBar.css";
-import { hoverButton, newPlaylist, openPlaylists } from "../Functions.js";
+import {
+  hoverButton,
+  newPlaylist,
+  openPlaylists,
+  toggleUI,
+  quit
+} from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
@@ -20,6 +26,11 @@ function TopBar() {
           name:     "New Playlist",
           shortcut: "Ctrl + N",
           onClick:  newPlaylist
+        },
+        {
+          name:     "Quit MyoroPlayer",
+          shortcut: "Ctrl + Q",
+          onClick:  quit
         }
       ]
     },
@@ -27,14 +38,19 @@ function TopBar() {
       name: "View",
       buttons: [
         {
+          name:     "Toggle Dark Mode",
+          shortcut: "Ctrl +  D",
+          onClick:  () => alert("Dark mode")
+        },
+        {
           name:     "Toggle Sidebar",
           shortcut: "Ctrl + 1",
-          onClick:  () => alert("Toggle SideBar")
+          onClick:  () => toggleUI("sideBar")
         },
         {
           name:     "Toggle Footer Controls",
           shortcut: "Ctrl + 2",
-          onClick:  () => alert("Toggle Controls")
+          onClick:  () => toggleUI("footerControls")
         }
       ]
     },

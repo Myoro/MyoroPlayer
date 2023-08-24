@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SongList.css";
+import { directPlay } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
@@ -54,6 +55,7 @@ function SongList() {
             onMouseOver={(event) => hoverButton(event, index)}
             onMouseOut={(event) => hoverButton(event, index)}
             onClick={() => onClick(index)}
+            onDoubleClick={() => directPlay(song.songDirectory, song.playlistDirectory)}
           >
             <img
               draggable={false}

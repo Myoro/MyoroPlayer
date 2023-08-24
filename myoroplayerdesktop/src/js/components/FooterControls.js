@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
+import Store from "../Store.js";
 import {
   setShuffleRepeat as setShuffleRepeatDb,
   getShuffleRepeat as getShuffleRepeatDb
 } from "../Functions.js";
+import { togglePlay, previousPlay, nextPlay } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 import ShuffleDark from "../../img/ShuffleDark.svg";
@@ -27,6 +29,7 @@ import QueueLight from "../../img/QueueLight.svg";
 function FooterControls() {
   const darkMode                              = useSelector(state => state.darkMode);
   const databaseInitialized                   = useSelector(state => state.databaseInitialized);
+  const remotePlaySrc                         = useSelector(state => state.playSrc);
   const [ coverSrc, setCoverSrc ]             = useState(darkMode ? LogoDark : LogoLight);
   const [ controlButtons, setControlButtons ] = useState([
     {
@@ -38,17 +41,17 @@ function FooterControls() {
     {
       alt:     "previous",
       src:     darkMode ? PreviousDark : PreviousLight,
-      onClick: () => alert("Previous")
+      onClick: previousPlay
     },
     {
       alt:     "play",
       src:     darkMode ? PlayDark : PlayLight,
-      onClick: () => alert("Play/pause")
+      onClick: playOnClick
     },
     {
       alt:     "next",
       src:     darkMode ? NextDark : NextLight,
-      onClick: () => alert("Next")
+      onClick: nextPlay
     },
     {
       alt:     "repeat",
@@ -92,6 +95,33 @@ function FooterControls() {
     })();
   }, [databaseInitialized]);
 
+  React.useEffect(() => {
+    setControlButtons(previous => {
+      const result  = [ ...previous ];
+      if(remotePlaySrc === "playing")     result[2].src = darkMode ? PauseDark : PauseLight;
+      else if(remotePlaySrc === "paused") result[2].src = darkMode ? PlayDark : PlayLight;
+      return result;
+    });
+    Store.dispatch({ type: "setPlaySrc", payload: null });
+  }, [remotePlaySrc, darkMode]);
+
+  function playOnClick() {
+    const state = togglePlay();
+    if(state === null)
+      return;
+
+    setControlButtons(previous => {
+      const result  = [ ...previous ];
+
+      if(state === "playing")
+        result[2].src = darkMode ? PauseLight : PauseDark;
+      else
+        result[2].src = darkMode ? PlayLight : PlayDark;
+
+      return result;
+    });
+  }
+
   function setShuffleRepeat(event) {
     let button = event.target;
     if(button.tagName === "IMG") button = button.parentNode;
@@ -114,7 +144,7 @@ function FooterControls() {
       });
       setShuffleRepeatDb("shuffle", value);
     } else {
-      let value, src;
+      let value;
       // eslint-disable-next-line
       if(controlButtons[4].value == 0) value = 1;
       else                             value = 0;
@@ -161,7 +191,10 @@ function FooterControls() {
           result[index].src = !hovered ? (darkMode ? PreviousLight : PreviousDark) : (darkMode ? PreviousDark : PreviousLight);
           break;
         case 2:
-          result[index].src = !hovered ? (darkMode ? PlayLight : PlayDark) : (darkMode ? PlayDark : PlayLight);
+          if(result[index].src.includes("Play"))
+            result[index].src = !hovered ? (darkMode ? PlayLight : PlayDark) : (darkMode ? PlayDark : PlayLight);
+          else
+            result[index].src = !hovered ? (darkMode ? PauseLight : PauseDark) : (darkMode ? PauseDark : PauseLight);
           break;
         case 3:
           result[index].src = !hovered ? (darkMode ? NextLight : NextDark) : (darkMode ? NextDark : NextLight);
@@ -193,6 +226,7 @@ function FooterControls() {
         <div>
           {/* eslint-disable-next-line */}
           <marquee
+            id="footerSongName"
             behavior="scroll"
             diration="left"
             style={{ color: darkMode ? "#EDE6D6" : "#181818" }}

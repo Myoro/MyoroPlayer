@@ -21,7 +21,7 @@
   flex-direction: column;
   width:          150px;
 }
-#songInformation > div > marquee {
+#footerSongName {
   font-size: 18px;
 }
 #songInformation > div > p {
