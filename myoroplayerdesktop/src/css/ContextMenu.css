@@ -1,7 +1,8 @@
 #contextMenu {
   display:        flex;
   flex-direction: column;
-  position: fixed;
+  position:       fixed;
+  z-index:        9999;
 }
 
 #contextMenu > button {

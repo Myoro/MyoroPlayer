@@ -39,13 +39,13 @@
   gap:            5px;
 }
 #musicSlider {
-  width: 162px;
+  width: 166px;
 }
 #controls > div {
   display:        flex;
   flex-direction: row;
   align-items:    center;
-  gap:            1px;
+  gap:            2px;
 }
 #controls > div > button {
   width:           36px;
