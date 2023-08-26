@@ -29,8 +29,8 @@ import NextDark from "../../img/NextDark.svg";
 import NextLight from "../../img/NextLight.svg";
 import RepeatDark from "../../img/RepeatDark.svg";
 import RepeatLight from "../../img/RepeatLight.svg";
-import LocalPlayerDark from "../../img/LocalPlayerDark.svg";
-import LocalPlayerLight from "../../img/LocalPlayerLight.svg";
+import LocalPlayerDark from "../../img/LocalPlayerDark.png";
+import LocalPlayerLight from "../../img/LocalPlayerLight.png";
 import QueueDark from "../../img/QueueDark.svg";
 import QueueLight from "../../img/QueueLight.svg";
 
