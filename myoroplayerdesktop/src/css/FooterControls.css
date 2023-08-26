@@ -95,7 +95,7 @@
   flex-direction: row;
   gap:            1px;
 }
-#miscControls > div > button {
+.miscControlButton {
   width:           28px;
   height:          28px;
   border-radius:   20px;
@@ -104,11 +104,53 @@
   align-items:     center;
   justify-content: center;
 }
-#miscControls > div > button > img {
+.miscControlButton > img {
   width:  20px;
   height: 20px;
 }
 #volumeSlider {
   width:        136px;
   margin-right: 10px;
+}
+#queueButtonWrapper {
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+}
+#queueList {
+  display:        none; /* flex */
+  flex-direction: column;
+  width:          200px;
+  max-height:     calc(100% - 130px);
+  position:       absolute;
+  bottom:         80px;
+  border-radius:  5px;
+}
+#queueList > button {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  gap:            10px;
+  padding:        10px;
+  cursor:         pointer;
+}
+#queueList > button > img {
+  width:  30px;
+  height: 30px;
+}
+#queueList > button > div {
+  width: 0;
+  flex: 1;
+  text-align: left;
+}
+#queueList > button > div > p {
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+#queueList > button > div > p:first-child {
+  font-size: 16px;
+}
+#queueList > button > div > p:nth-child(2) {
+  font-size: 12px;
 }

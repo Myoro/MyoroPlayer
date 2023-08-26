@@ -14,7 +14,19 @@ const initialState = {
   //
   modal: { show: false, dialog: null, directory: null, buttons: [] },
   //
-  currentSong: null
+  currentSong: null,
+  //
+  queueList: [], // Queued songs that the user can view in Footer(Misc)Controls
+  //
+  sliderValues: {
+    song: {
+      valueStr: "0:00",
+      valueInt: 0,
+      maxStr:   "0:00",
+      maxInt:   100
+    },
+    volume: 0
+  }
 };
 
 function reducer(state = initialState, action) {
@@ -77,6 +89,14 @@ function reducer(state = initialState, action) {
     //
     case "setCurrentSong":
       return { ...state, currentSong: action.payload };
+    //
+    case "setQueueList":
+      return { ...state, queueList: action.payload };
+    //
+    case "setSongSliderValues":
+      return { ...state, sliderValues: { ...state.sliderValues, song: action.payload } };
+    case "setVolumeSliderValue":
+      return { ...state, sliderValues: { ...state.sliderValues, volume: action.payload } };
     //
     default:
       return state;

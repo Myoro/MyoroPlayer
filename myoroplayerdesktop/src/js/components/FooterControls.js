@@ -1,11 +1,20 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
+import Store from "../Store.js";
 import {
   setShuffleRepeat as setShuffleRepeatDb,
-  getShuffleRepeat as getShuffleRepeatDb
+  getShuffleRepeat as getShuffleRepeatDb,
 } from "../Functions.js";
-import { togglePlay, previousPlay, nextPlay } from "../players/LocalPlayer.js";
+import {
+  togglePlay,
+  previousPlay,
+  nextPlay,
+  toggleQueueList
+} from "../players/LocalPlayer.js";
+import FooterSongInformation from "./FooterSongInformation.js";
+import FooterSongControls from "./FooterSongControls.js";
+import FooterMiscControls from "./FooterMiscControls.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 import ShuffleDark from "../../img/ShuffleDark.svg";
@@ -26,15 +35,13 @@ import QueueDark from "../../img/QueueDark.svg";
 import QueueLight from "../../img/QueueLight.svg";
 
 function FooterControls() {
-  const darkMode                                = useSelector(state => state.darkMode);
-  const databaseInitialized                     = useSelector(state => state.databaseInitialized);
-  const currentSong                             = useSelector(state => state.currentSong);
-  const [ coverSrc, setCoverSrc ]               = useState(darkMode ? LogoDark : LogoLight);
-  const [ songName, setSongName ]               = useState("");
-  const [ artist, setArtist ]                   = useState("");
-  const [ currentSongTime, setCurrentSongTime ] = useState("0:00");
-  const [ songLength, setSongLength ]           = useState("0:00");
-  const [ controlButtons, setControlButtons ]   = useState([
+  const darkMode                                    = useSelector(state => state.darkMode);
+  const databaseInitialized                         = useSelector(state => state.databaseInitialized);
+  const currentSong                                 = useSelector(state => state.currentSong);
+  const [ coverSrc, setCoverSrc ]                   = useState(darkMode ? LogoDark : LogoLight);
+  const [ songName, setSongName ]                   = useState("");
+  const [ artist, setArtist ]                       = useState("");
+  const [ controlButtons, setControlButtons ]       = useState([
     {
       alt:     "shuffle",
       src:     darkMode ? ShuffleDark : ShuffleLight,
@@ -70,18 +77,9 @@ function FooterControls() {
     {
       alt:     "queue",
       src:     darkMode ? QueueDark : QueueLight,
-      onClick: () => alert("View queue")
+      onClick: toggleQueueList
     }
   ]);
-  const [ sliderValues, setSliderValues ]   = useState({
-    music: {
-      max:   "100",
-      value: "50"
-    },
-    volume: {
-      value: "50"
-    }
-  });
 
   // Grabbing shuffle & repeat values from db
   React.useEffect(() => {
@@ -104,12 +102,15 @@ function FooterControls() {
     setCoverSrc(currentSong.cover || (darkMode ? LogoDark : LogoLight));
     setSongName(currentSong.name);
     setArtist(currentSong.artist);
-    setCurrentSongTime("0:00");
-    setSongLength(currentSong.lengthStr);
-    setSliderValues(previous => ({
-      music:  { max: currentSong.lengthInt, value: 0 },
-      volume: previous.volume 
-    }));
+    Store.dispatch({
+      type: "setSongSliderValues",
+      payload: {
+        valueStr: "0:00",
+        valueInt: 0,
+        maxStr:   currentSong.lengthStr,
+        maxInt:   currentSong.lengthInt
+      }
+    });
 
     setControlButtons(previous => {
       const result  = [ ...previous ];
@@ -136,38 +137,40 @@ function FooterControls() {
   }
 
   function setShuffleRepeat(event) {
-    let button = event.target;
-    if(button.tagName === "IMG") button = button.parentNode;
+    let img = event.target;
+    if(img.tagName !== "IMG") img = img.childNodes[0];
 
-    if(button.childNodes[0].alt === "shuffle") {
-      let value, src;
+    let index, value, src;
+    if(img.alt === "shuffle") {
+      index = 0;
       // eslint-disable-next-line
-      if(controlButtons[0].value == 0) {
+      if(controlButtons[index].value == 0) {
         value = 1;
         src   = darkMode ? ShuffleLight : ShuffleDark;
       } else {
         value = 0;
         src   = darkMode ? ShuffleDark : ShuffleLight;
       }
-      setControlButtons(previous => {
-        const result = [ ...previous ];
-        result[0].src   = src;
-        result[0].value = value;
-        return result;
-      });
-      setShuffleRepeatDb("shuffle", value);
     } else {
-      let value;
+      index = 4
       // eslint-disable-next-line
-      if(controlButtons[4].value == 0) value = 1;
-      else                             value = 0;
-      setControlButtons(previous => {
-        const result = [ ...previous ];
-        result[4].value = value;
-        return result;
-      });
-      setShuffleRepeatDb("repeat", value);
+      if(controlButtons[index].value == 0) {
+        value = 1;
+        src   = darkMode ? RepeatLight : RepeatDark;
+      } else {
+        value = 0;
+        src   = darkMode ? RepeatDark : RepeatLight;
+      }
     }
+
+    setControlButtons(previous => {
+      const result = [ ...previous ];
+      result[index].src   = src;
+      result[index].value = value;
+      return result;
+    });
+
+    setShuffleRepeatDb(img.alt, value);
   }
 
   function hoverButton(event, index) {
@@ -234,103 +237,21 @@ function FooterControls() {
       id="footerControls"
       style={{ borderTop: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}
     >
-      <section id="songInformation"> {/* 220px */}
-        <img draggable={false} alt="cover" src={coverSrc} />
-        <div>
-          {/* eslint-disable-next-line */}
-          <marquee
-            id="footerSongName"
-            behavior="scroll"
-            diration="left"
-            style={{ color: darkMode ? "#EDE6D6" : "#181818" }}
-          >{songName}</marquee>
-          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{artist}</p>
-        </div>
-      </section>
+      <FooterSongInformation
+        coverSrc={coverSrc}
+        songName={songName}
+        artist={artist}
+      />
 
-      <section id="controls">
-        <div id="musicSliderContainer">
-          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{currentSongTime}</p>
-          <input
-            className="slider"
-            id="musicSlider"
-            type="range"
-            min="0"
-            max={sliderValues.music.max}
-            value={sliderValues.music.value}
-          />
-          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{songLength}</p>
-        </div>
-        <div id="controlButtons">
-          {
-            controlButtons.map((button, index) => {
-              if(index > 4) return null;
-              else {
-                // For shuffle/repeat buttons
-                let hover;
-                let src = null;
-                if(!button.value) {
-                  hover = null;
-                // eslint-disable-next-line
-                } else if(button.value == 1) {
-                  hover = true;
-                  if(index === 0)      src = darkMode ? ShuffleLight : ShuffleDark;
-                  else if(index === 4) src = darkMode ? RepeatLight : RepeatDark;
-                } else hover = false;
+      <FooterSongControls
+        controlButtons={controlButtons}
+        hoverButton={hoverButton}
+      />
 
-                return(
-                  <button
-                    key={index}
-                    onMouseOver={(event) => hoverButton(event, index)}
-                    onMouseOut={(event) => hoverButton(event, index)}
-                    onClick={button.onClick}
-                    style={{ background: hover ? (darkMode ? "#EDE6D6" : "#181818") : "none" }}
-                  >
-                    <img
-                      draggable={false}
-                      alt={button.alt}
-                      src={src || button.src}
-                    />
-                  </button>
-                );
-              }
-            })
-          }
-        </div>
-      </section>
-
-      <section id="miscControls"> {/* 220px */}
-        <div>
-          {
-            controlButtons.map((button, index) => {
-              if(index < 5) return null;
-              else return(
-                <button
-                  key={index}
-                  onMouseOver={(event) => hoverButton(event, index)}
-                  onMouseOut={(event) => hoverButton(event, index)}
-                  onClick={button.onClick}
-                >
-                  <img
-                    draggable={false}
-                    alt={button.alt}
-                    src={button.src}
-                  />
-                </button>
-              );
-            })
-          }
-        </div>
-
-        <input
-          className="slider"
-          id="volumeSlider"
-          type="range"
-          min="0"
-          max="100"
-          value={sliderValues.volume.value}
-        />
-      </section>
+      <FooterMiscControls
+        controlButtons={controlButtons}
+        hoverButton={hoverButton}
+      />
     </footer>
   );
 }

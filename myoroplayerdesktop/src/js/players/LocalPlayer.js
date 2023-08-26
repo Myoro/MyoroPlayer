@@ -1,11 +1,28 @@
 import Store from "../Store.js";
 import { getShuffleRepeat } from "../Functions.js";
 
-const player   = new Audio();
-player.volume  = 0.5;
-const queue    = [];
-const cache    = [];
-var playlist   = { directory: null, songs: [] }; // Playlist used to get new songs from (i.e. next song)
+const player        = new Audio();
+player.volume       = 0.5;
+player.onended      = () => { nextPlay(); };
+player.ontimeupdate = () => {
+  const timeInt            = Math.floor(player.currentTime);
+  const minutes            = Math.floor(timeInt / 60);
+  const seconds            = Math.floor(timeInt % 60);
+  const timeStr            = minutes + ':' + seconds.toString().padStart(2, '0');
+  const { maxStr, maxInt } = Store.getState().sliderValues.song;
+  Store.dispatch({
+    type: "setSongSliderValues",
+    payload: {
+      valueStr: timeStr,
+      valueInt: timeInt,
+      maxStr:   maxStr,
+      maxInt:   maxInt
+    }
+  });
+}
+const queue         = [];
+const cache         = [];
+var playlist        = { directory: null, songs: [] }; // Playlist used to get new songs from (i.e. next song)
 
 export function addToQueue(song) { queue.push(song); }
 
@@ -100,4 +117,40 @@ function playSong(song, cacheSong) {
   player.name = cacheSong;
   player.play();
   Store.dispatch({ type: "setCurrentSong", payload: song });
+}
+
+export function toggleQueueList() {
+  if(queue.length === 0) return;
+  const queueList = document.getElementById("queueList");
+  if(window.getComputedStyle(queueList).display === "none") {
+    queueList.style.display = "flex";
+    Store.dispatch({ type: "setQueueList", payload: queue });
+  } else {
+    queueList.style.display = "none";
+    Store.dispatch({ type: "setQueueList", payload: [] });
+  }
+}
+
+export function songSliderOnChange(event) {
+  if(!player.src) return;
+
+  player.currentTime = event.target.value;
+  const minutes            = Math.floor(event.target.value / 60);
+  const seconds            = Math.floor(event.target.value % 60);
+  const timeStr            = minutes + ':' + seconds.toString().padStart(2, '0');
+  const { maxStr, maxInt } = Store.getState().sliderValues.song;
+  Store.dispatch({
+    type: "setSongSliderValues",
+    payload: {
+      valueStr: timeStr,
+      valueInt: event.target.value,
+      maxStr:   maxStr,
+      maxInt:   maxInt
+    }
+  });
+}
+
+export function volumeSliderOnChange(event) {
+  player.volume = event.target.value / 100;
+  Store.dispatch({ type: "setVolumeSliderValue", payload: player.volume });
 }

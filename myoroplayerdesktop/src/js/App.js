@@ -58,6 +58,16 @@ function App() {
     }
     // Disable modal when clicking background
     if(event.target.id === "modal") Store.dispatch({ type: "resetModal" });
+
+    // Disable queueList when shown
+    let queueButton = event.target;
+    if(queueButton.tagName !== "IMG")    queueButton = queueButton.parentNode;
+    if(queueButton.tagName !== "IMG")    queueButton = false;
+    else if(queueButton.alt !== "queue") queueButton = false;
+    else                                 queueButton = true;
+    const queueList = document.getElementById("queueList");
+    if(window.getComputedStyle(queueList).display !== "none" && !queueButton)
+      queueList.style.display = "none";
   }
 
   function keydown(event) {
