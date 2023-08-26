@@ -50,12 +50,12 @@ function SongList() {
         songs.map((song, index) =>
           <button
             key={index}
-            name={song.songDirectory}
+            name={index}
             className="songListButton"
             onMouseOver={(event) => hoverButton(event, index)}
             onMouseOut={(event) => hoverButton(event, index)}
             onClick={() => onClick(index)}
-            onDoubleClick={() => directPlay(song.songDirectory, song.playlistDirectory)}
+            onDoubleClick={() => directPlay(song)}
           >
             <img
               draggable={false}

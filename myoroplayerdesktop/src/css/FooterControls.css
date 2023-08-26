@@ -39,15 +39,27 @@
   gap:            5px;
 }
 #musicSlider {
-  width: 166px;
+  flex:      1;
+  max-width: 300px;
 }
-#controls > div {
+#musicSliderContainer {
+  width:           90%;
+  display:         flex;
+  flex-direction:  row;
+  align-items:     center;
+  justify-content: center;
+  gap:             2px;
+}
+#musicSliderContainer > p {
+  font-size: 12px;
+}
+#controlButtons {
   display:        flex;
   flex-direction: row;
   align-items:    center;
   gap:            2px;
 }
-#controls > div > button {
+#controlButtons > button {
   width:           36px;
   height:          36px;
   border-radius:   20px;
@@ -56,17 +68,17 @@
   align-items:     center;
   justify-content: center;
 }
-#controls > div > button > img {
+#controlButtons > button > img {
   width:  26px;
   height: 26px;
 }
-#controls > div > button:first-child,
-#controls > div > button:nth-child(5) {
+#controlButtons > button:first-child,
+#controlButtons > button:nth-child(5) {
   width:  31px;
   height: 31px;
 }
-#controls > div > button:first-child > img,
-#controls > div > button:nth-child(5) > img {
+#controlButtons > button:first-child > img,
+#controlButtons > button:nth-child(5) > img {
   width:  20px;
   height: 20px;
 }

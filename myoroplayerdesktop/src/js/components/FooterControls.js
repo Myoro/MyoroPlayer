@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
-import Store from "../Store.js";
 import {
   setShuffleRepeat as setShuffleRepeatDb,
   getShuffleRepeat as getShuffleRepeatDb
@@ -27,11 +26,15 @@ import QueueDark from "../../img/QueueDark.svg";
 import QueueLight from "../../img/QueueLight.svg";
 
 function FooterControls() {
-  const darkMode                              = useSelector(state => state.darkMode);
-  const databaseInitialized                   = useSelector(state => state.databaseInitialized);
-  const remotePlaySrc                         = useSelector(state => state.playSrc);
-  const [ coverSrc, setCoverSrc ]             = useState(darkMode ? LogoDark : LogoLight);
-  const [ controlButtons, setControlButtons ] = useState([
+  const darkMode                                = useSelector(state => state.darkMode);
+  const databaseInitialized                     = useSelector(state => state.databaseInitialized);
+  const currentSong                             = useSelector(state => state.currentSong);
+  const [ coverSrc, setCoverSrc ]               = useState(darkMode ? LogoDark : LogoLight);
+  const [ songName, setSongName ]               = useState("");
+  const [ artist, setArtist ]                   = useState("");
+  const [ currentSongTime, setCurrentSongTime ] = useState("0:00");
+  const [ songLength, setSongLength ]           = useState("0:00");
+  const [ controlButtons, setControlButtons ]   = useState([
     {
       alt:     "shuffle",
       src:     darkMode ? ShuffleDark : ShuffleLight,
@@ -96,14 +99,24 @@ function FooterControls() {
   }, [databaseInitialized]);
 
   React.useEffect(() => {
+    if(currentSong === null) return;
+
+    setCoverSrc(currentSong.cover || (darkMode ? LogoDark : LogoLight));
+    setSongName(currentSong.name);
+    setArtist(currentSong.artist);
+    setCurrentSongTime("0:00");
+    setSongLength(currentSong.lengthStr);
+    setSliderValues(previous => {
+      const result = [ ...previous ];
+      result.music = { max: currentSong.lengthInt, value: 0 };
+    });
+
     setControlButtons(previous => {
       const result  = [ ...previous ];
-      if(remotePlaySrc === "playing")     result[2].src = darkMode ? PauseDark : PauseLight;
-      else if(remotePlaySrc === "paused") result[2].src = darkMode ? PlayDark : PlayLight;
+      result[2].src = darkMode ? PauseDark : PauseLight;
       return result;
     });
-    Store.dispatch({ type: "setPlaySrc", payload: null });
-  }, [remotePlaySrc, darkMode]);
+  }, [currentSong, darkMode]);
 
   function playOnClick() {
     const state = togglePlay();
@@ -230,21 +243,25 @@ function FooterControls() {
             behavior="scroll"
             diration="left"
             style={{ color: darkMode ? "#EDE6D6" : "#181818" }}
-          >Song Name</marquee>
-          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>Artists Name Here qweqweqeqweqwe</p>
+          >{songName}</marquee>
+          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{artist}</p>
         </div>
       </section>
 
       <section id="controls">
-        <input
-          className="slider"
-          id="musicSlider"
-          type="range"
-          min="0"
-          max={sliderValues.music.max}
-          value={sliderValues.music.value}
-        />
-        <div>
+        <div id="musicSliderContainer">
+          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{currentSongTime}</p>
+          <input
+            className="slider"
+            id="musicSlider"
+            type="range"
+            min="0"
+            max={sliderValues.music.max}
+            value={sliderValues.music.value}
+          />
+          <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{songLength}</p>
+        </div>
+        <div id="controlButtons">
           {
             controlButtons.map((button, index) => {
               if(index > 4) return null;

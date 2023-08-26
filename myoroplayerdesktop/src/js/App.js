@@ -153,20 +153,21 @@ function App() {
         if(x <= 5)                          x = 5;
         if((window.innerHeight - y) <= 115) y = window.innerHeight - 115;
       } else if(songListButton) {
+        const songs = Store.getState().songs;
         await Store.dispatch({
           type: "setContextMenu",
           payload: [
             {
               name:    "Add to Queue",
-              onClick: () => addToQueue(songListButton.name)
+              onClick: () => addToQueue(songs[songListButton.name])
             },
             {
               name:    "Copy to Other Playlist(s)",
-              onClick: () => copySongToPlaylists(songListButton.name)
+              onClick: () => copySongToPlaylists(songs[songListButton.name].songDirectory)
             },
             {
               name:    "Move to Other Playlist",
-              onClick: () => moveSongToPlaylist(songListButton.name)
+              onClick: () => moveSongToPlaylist(songs[songListButton.name].songDirectory)
             },
             {
               name:    "Delete Song from Computer",
@@ -174,9 +175,9 @@ function App() {
                 type:    "setModal",
                 payload: {
                   dialog:    "delete",
-                  directory: songListButton.name,
+                  directory: songs[songListButton.name].songDirectory,
                   buttons:    [
-                    { name: "Yes", onClick: () => hardDeleteSong(songListButton.name) },
+                    { name: "Yes", onClick: () => hardDeleteSong(songs[songListButton.name].songDirectory) },
                     { name: "No",  onClick: () => Store.dispatch({ type: "resetModal" }) }
                   ]
                 }
