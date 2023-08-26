@@ -39,7 +39,7 @@ function createWindow() {
   );
   win.setMenu(null);
 
-  if(isDev) win.webContents.openDevTools();
+  // if(isDev) win.webContents.openDevTools();
 
   // TopBar
   ipcMain.on("initializeDatabase", (event) => initializeDatabase(event));

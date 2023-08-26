@@ -29,7 +29,7 @@ export async function directPlay(song) {
   playlist.songs           = Store.getState().songs;
   playlist.songDirectories = [];
   for(let i = 0; i < playlist.songs.length; i++)
-    playlist.songDirectories.push(playlist.songs[i]);
+    playlist.songDirectories.push(playlist.songs[i].songDirectory);
 }
 export function previousPlay() {
   if(cache.length === 0) return;
@@ -56,9 +56,9 @@ export async function nextPlay() {
   let lastPlaylistSongIndex = null;
 
   if(player.src) {
-    const currentSong = decodeURIComponent(player.src.substr(7, player.src.length));
-    if(currentSong.includes(playlist.directory))
-      lastPlaylistSongIndex = playlist.songDirectories.indexOf(currentSong);
+    const currentSong = Store.getState().currentSong;
+    if(currentSong.playlistDirectory === playlist.directory)
+      lastPlaylistSongIndex = playlist.songDirectories.indexOf(currentSong.songDirectory);
   }
 
   if(lastPlaylistSongIndex === null) {

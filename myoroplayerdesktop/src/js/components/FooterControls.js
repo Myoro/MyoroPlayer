@@ -106,10 +106,10 @@ function FooterControls() {
     setArtist(currentSong.artist);
     setCurrentSongTime("0:00");
     setSongLength(currentSong.lengthStr);
-    setSliderValues(previous => {
-      const result = [ ...previous ];
-      result.music = { max: currentSong.lengthInt, value: 0 };
-    });
+    setSliderValues(previous => ({
+      music:  { max: currentSong.lengthInt, value: 0 },
+      volume: previous.volume 
+    }));
 
     setControlButtons(previous => {
       const result  = [ ...previous ];
