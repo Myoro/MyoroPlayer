@@ -6,6 +6,7 @@ import {
   newPlaylist,
   openPlaylists,
   toggleUI,
+  toggleSearchBar,
   quit
 } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
@@ -37,6 +38,11 @@ function TopBar() {
     {
       name: "View",
       buttons: [
+        {
+          name:     "Search Songs",
+          shortcut: '/',
+          onClick:  toggleSearchBar
+        },
         {
           name:     "Toggle Dark Mode",
           shortcut: "Ctrl +  D",

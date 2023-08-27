@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SongList.css";
+import Store from "../Store.js";
 import { directPlay } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
@@ -9,6 +10,7 @@ function SongList() {
   const darkMode                  = useSelector(state => state.darkMode);
   const songs                     = useSelector(state => state.songs);
   const showLoadingBar            = useSelector(state => state.showLoadingBar);
+  const searchBarOptions          = useSelector(state => state.searchBarOptions);
   const [ selected, setSelected ] = React.useState(null);
 
   function toggleHover(button, hovered) {
@@ -42,53 +44,77 @@ function SongList() {
         toggleHover(songListChildren[i], true);
   }
 
-  return(
-    <ul id="songList">
-      {
-        !showLoadingBar
-        ?
-        songs.map((song, index) =>
-          <button
-            key={index}
-            name={index}
-            className="songListButton"
-            onMouseOver={(event) => hoverButton(event, index)}
-            onMouseOut={(event) => hoverButton(event, index)}
-            onClick={() => onClick(index)}
-            onDoubleClick={() => directPlay(song)}
-          >
-            <img
-              draggable={false}
-              alt="cover"
-              src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)}
-            />
+  function searchBarKeyDown(event) {
+    const newSongs = searchBarOptions.songsCopy.filter(song => {
+      return song.songDirectory.toUpperCase().includes(event.target.value.toUpperCase());
+    });
+    Store.dispatch({ type: "setSongs", payload: newSongs });
+  }
 
-            <div>
-              <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.name}</p>
+  return(
+    <>
+      <ul id="songList">
+        {
+          !showLoadingBar
+          ?
+          songs.map((song, index) =>
+            <button
+              key={index}
+              name={index}
+              className="songListButton"
+              onMouseOver={(event) => hoverButton(event, index)}
+              onMouseOut={(event) => hoverButton(event, index)}
+              onClick={() => onClick(index)}
+              onDoubleClick={() => directPlay(song)}
+            >
+              <img
+                draggable={false}
+                alt="cover"
+                src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)}
+              />
+
+              <div>
+                <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.name}</p>
+                <p
+                  style={{
+                    color:  darkMode ? "#EDE6D6" : "#181818",
+                    height: !song.artist && 0
+                  }}
+                >{song.artist || ""}</p>
+              </div>
+
               <p
                 style={{
-                  color:  darkMode ? "#EDE6D6" : "#181818",
-                  height: !song.artist && 0
+                  color: darkMode ? "#EDE6D6" : "#181818",
+                  flex: !song.album && 0
                 }}
-              >{song.artist || ""}</p>
-            </div>
+              >{song.album || ""}</p>
 
-            <p
-              style={{
-                color: darkMode ? "#EDE6D6" : "#181818",
-                flex: !song.album && 0
-              }}
-            >{song.album || ""}</p>
+              <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.lengthStr}</p>
+            </button>
+          )
+          :
+          <div style={{ border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}>
+            <div style={{ background: darkMode ? "#EDE6D6" : "#181818" }}></div>
+          </div>
+        }
+      </ul>
 
-            <p style={{ color: darkMode ? "#EDE6D6" : "#181818" }}>{song.lengthStr}</p>
-          </button>
-        )
-        :
-        <div style={{ border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}>
-          <div style={{ background: darkMode ? "#EDE6D6" : "#181818" }}></div>
-        </div>
+      {
+        searchBarOptions.show
+        &&
+        <input
+          id="searchBar"
+          type="text"
+          style={{
+            color:     darkMode ? "#EDE6D6" : "#181818",
+            borderTop: darkMode ? "2px solid #EDE6D6" : "2px solid #181818"
+          }}
+          onKeyUp={searchBarKeyDown}
+          autofocus
+        />
       }
-    </ul>
+    </>
   );
 }
 

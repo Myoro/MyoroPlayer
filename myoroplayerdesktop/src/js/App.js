@@ -13,6 +13,7 @@ import {
   moveSongToPlaylist,
   hardDeleteSong,
   toggleUI,
+  toggleSearchBar,
   quit
 } from "./Functions.js";
 import { addToQueue, togglePlay } from "./players/LocalPlayer.js";
@@ -77,6 +78,14 @@ function App() {
       if(state === null) return;
       Store.dispatch({ type: "setPlaySrc", payload: state });
     }
+    // Toggle searchbar
+    else if(event.key === '/') {
+      event.preventDefault();
+      toggleSearchBar();
+    }
+    // Disable searchbar
+    else if(event.key === "Escape" && Store.getState().searchBarOptions.show)
+      toggleSearchBar();
 
     if(event.ctrlKey) {
       switch(event.key.toUpperCase()) {

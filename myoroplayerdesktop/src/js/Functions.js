@@ -126,3 +126,17 @@ export async function getShuffleRepeat() {
   if(values === null) return null;
   else                return values;
 }
+
+export async function toggleSearchBar() {
+  const { show, songsCopy } = Store.getState().searchBarOptions;
+
+  if(show) {
+    Store.dispatch({ type: "setSongs", payload: songsCopy });
+    Store.dispatch({ type: "resetSearchBarOptions" });
+  } else {
+    const songs = Store.getState().songs;
+    if(songs.length === 0) return;
+    await Store.dispatch({ type: "setSearchBarOptions", payload: songs });
+    document.getElementById("searchBar").focus();
+  }
+}

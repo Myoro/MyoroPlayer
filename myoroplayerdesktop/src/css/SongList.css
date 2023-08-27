@@ -76,3 +76,9 @@
   0%   { width: 0; }
   100% { width: 100%; }
 }
+
+#searchBar {
+  padding:    5px;
+  font-size:  24px;
+  text-align: center;
+}

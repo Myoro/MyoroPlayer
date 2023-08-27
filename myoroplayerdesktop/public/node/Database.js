@@ -176,8 +176,18 @@ function getPlaylistSongs(directory) {
         FROM songs WHERE playlistDirectory = ?;
       `,
       (error, rows) => {
-        if(error) reject(error);
-        else      resolve(rows);
+        if(error) {
+          reject(error);
+        } else {
+          const result = [];
+          for(let i = 0; i < rows.length; i++) {
+            try {
+              const stat = fs.statSync(rows[i].songDirectory);
+              result.push(rows[i]);
+            } catch(error) { deleteSong(rows[i].songDirectory); }
+          }
+          resolve(result);
+        }
       }
     );
   });
