@@ -41,7 +41,7 @@ function TopBar() {
         {
           name:     "Search Songs",
           shortcut: '/',
-          onClick:  toggleSearchBar
+          onClick:  () => toggleSearchBar("Local")
         },
         {
           name:     "Toggle Dark Mode",
@@ -66,12 +66,12 @@ function TopBar() {
         {
           name:     "Search YouTube",
           shortcut: "Ctrl + Y",
-          onClick:  () => alert("Search YouTube")
+          onClick:  () => toggleSearchBar("YouTube")
         },
         {
           name:     "Search SoundCloud",
           shortcut: "Ctrl + S",
-          onClick:  () => alert("Search SoundCloud")
+          onClick:  () => toggleSearchBar("SoundCloud")
         },
         {
           name:     "YouTube to MP3",

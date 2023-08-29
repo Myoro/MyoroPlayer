@@ -9,7 +9,7 @@ const initialState = {
   //
   songs:            [], // Opened playlist's songs in SongList
   showLoadingBar:   false,
-  searchBarOptions: { show: false, songsCopy: [] },
+  searchBarOptions: { show: false, mode: null, songsCopy: [] },
   //
   contextMenu: { show: false, buttons: [] },
   //
@@ -49,10 +49,33 @@ function reducer(state = initialState, action) {
       return { ...state, songs: action.payload };
     case "setShowLoadingBar":
       return { ...state, showLoadingBar: action.payload };
-    case "setSearchBarOptions":
-      return { ...state, searchBarOptions: { show: true, songsCopy: action.payload } };
+    case "setLocalSearchBar":
+      return { 
+        ...state,
+        searchBarOptions: {
+          show:      true,
+          mode:      "Local",
+          songsCopy: action.payload
+        }
+      };
+    case "setScraperSearchBar":
+      return {
+        ...state,
+        searchBarOptions: {
+          show:            true,
+          mode:            action.payload,
+          songsCopy:       []
+        }
+      };
     case "resetSearchBarOptions":
-      return { ...state, searchBarOptions: { show: false, songsCopy: [] } };
+      return {
+        ...state,
+        searchBarOptions: {
+          show: false,
+          mode: null,
+          songsCopy: []
+        }
+      };
     //
     case "setContextMenu":
       return {

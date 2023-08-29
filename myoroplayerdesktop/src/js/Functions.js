@@ -127,16 +127,19 @@ export async function getShuffleRepeat() {
   else                return values;
 }
 
-export async function toggleSearchBar() {
-  const { show, songsCopy } = Store.getState().searchBarOptions;
+export function toggleSearchBar(searchMode) {
+  const { show, mode, songsCopy } = Store.getState().searchBarOptions;
 
   if(show) {
-    Store.dispatch({ type: "setSongs", payload: songsCopy });
+    if(mode === "Local") Store.dispatch({ type: "setSongs", payload: songsCopy });
     Store.dispatch({ type: "resetSearchBarOptions" });
-  } else {
+  }
+
+  if(searchMode === "Local") {
     const songs = Store.getState().songs;
     if(songs.length === 0) return;
-    await Store.dispatch({ type: "setSearchBarOptions", payload: songs });
-    document.getElementById("searchBar").focus();
+    Store.dispatch({ type: "setLocalSearchBar", payload: songs });
+  } else if(searchMode === "YouTube" || searchMode === "SoundCloud") {
+    Store.dispatch({ type: "setScraperSearchBar", payload: searchMode });
   }
 }

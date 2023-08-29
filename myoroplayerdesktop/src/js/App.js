@@ -81,7 +81,7 @@ function App() {
     // Toggle searchbar
     else if(event.key === '/') {
       event.preventDefault();
-      toggleSearchBar();
+      toggleSearchBar("Local");
     }
     // Disable searchbar
     else if(event.key === "Escape" && Store.getState().searchBarOptions.show)
@@ -90,24 +90,32 @@ function App() {
     if(event.ctrlKey) {
       switch(event.key.toUpperCase()) {
         // Open playlist(s)
-        case "O":
+        case 'O':
           openPlaylists();
           break;
         // New Playlist
-        case "N":
+        case 'N':
           newPlaylist();
           break;
         // Quit MyoroPlayer
-        case "Q":
+        case 'Q':
           quit();
           break;
         // Toggle SideBar
-        case "1":
+        case '1':
           toggleUI("sideBar");
           break;
         // Toggle FooterControls
-        case "2":
+        case '2':
           toggleUI("footerControls");
+          break;
+        // YouTube search
+        case 'Y':
+          toggleSearchBar("YouTube");
+          break;
+        // SoundCloud search
+        case 'S':
+          toggleSearchBar("SoundCloud");
           break;
         default:
           break;

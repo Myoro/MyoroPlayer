@@ -45,10 +45,12 @@ function SongList() {
   }
 
   function searchBarKeyDown(event) {
-    const newSongs = searchBarOptions.songsCopy.filter(song => {
-      return song.songDirectory.toUpperCase().includes(event.target.value.toUpperCase());
-    });
-    Store.dispatch({ type: "setSongs", payload: newSongs });
+    if(searchBarOptions.mode === "Local") {
+      const newSongs = searchBarOptions.songsCopy.filter(song => {
+        return song.songDirectory.toUpperCase().includes(event.target.value.toUpperCase());
+      });
+      Store.dispatch({ type: "setSongs", payload: newSongs });
+    }
   }
 
   return(
@@ -111,7 +113,7 @@ function SongList() {
             borderTop: darkMode ? "2px solid #EDE6D6" : "2px solid #181818"
           }}
           onKeyUp={searchBarKeyDown}
-          autofocus
+          autoFocus
         />
       }
     </>
