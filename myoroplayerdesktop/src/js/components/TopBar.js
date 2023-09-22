@@ -4,6 +4,8 @@ import "../../css/TopBar.css";
 import {
   quit,
   hoverButton,
+  openPlaylist,
+  newPlaylist,
   cleanTopBarDropdowns as cleanDropdowns
 } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
@@ -17,11 +19,13 @@ function TopBar() {
       options: [
         {
           name:     "Open Playlist",
-          shortcut: "Ctrl + O"
+          shortcut: "Ctrl + O",
+          onClick:  openPlaylist
         },
         {
           name:     "New Playlist",
-          shortcut: "Ctrl + N"
+          shortcut: "Ctrl + N",
+          onClick:  newPlaylist
         },
         {
           name:     "Transfer/Sync Music",

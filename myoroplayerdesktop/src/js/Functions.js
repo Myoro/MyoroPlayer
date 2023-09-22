@@ -3,7 +3,10 @@ import Store from "./ReduxStore.js";
 const { ipcRenderer } = window.require("electron");
 
 // Electron IPC calls
-export function quit() { ipcRenderer.send("quit"); }
+export function quit()               { ipcRenderer.send("quit"); }
+export function openPlaylist()       { ipcRenderer.send("openPlaylist"); }
+export function newPlaylist()        { ipcRenderer.send("newPlaylist"); }
+export function initializeDatabase() { ipcRenderer.send("initializeDatabase"); }
 
 export function hoverButton(event) {
   const darkMode = Store.getState().darkMode;

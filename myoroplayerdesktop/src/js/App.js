@@ -1,11 +1,19 @@
 import React from "react";
 import { Provider } from "react-redux";
 import Store from "./ReduxStore.js";
-import { quit, cleanTopBarDropdowns } from "./Functions.js";
+import {
+  quit,
+  openPlaylist,
+  newPlaylist,
+  initializeDatabase,
+  cleanTopBarDropdowns
+} from "./Functions.js";
 import Root from "./components/Root.js";
 
 function App() {
   React.useEffect(() => {
+    initializeDatabase();
+
     document.addEventListener("click", click);
     document.addEventListener("keydown", keydown);
 
@@ -29,6 +37,14 @@ function App() {
         // Quit MyoroPlayer
         case 'Q':
           quit();
+          break;
+        // Open playlist
+        case 'O':
+          openPlaylist();
+          break;
+        // New playlist
+        case 'N':
+          newPlaylist();
           break;
         default:
           break;
