@@ -1,7 +1,11 @@
 const { app, BrowserWindow, ipcMain } = require("electron");
 const path                            = require("path");
 const isDev                           = require("electron-is-dev");
-const { openPlaylist, newPlaylist }   = require("./ipcFunctions.js");
+const {
+  openPlaylist,
+  newPlaylist,
+  getPlaylists
+}                                     = require("./ipcFunctions.js");
 const { initializeDatabase }          = require("./Database.js");
 
 function createWindow() {
@@ -25,9 +29,12 @@ function createWindow() {
   );
   win.setMenu(null);
 
+  // if(isDev) win.webContents.openDevTools(true);
+
   ipcMain.on("initializeDatabase", initializeDatabase);
-  ipcMain.on("openPlaylist", () => openPlaylist(win));
+  ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));
   ipcMain.on("newPlaylist", (event) => newPlaylist(event, win));
+  ipcMain.on("getPlaylists", (event) => getPlaylists(event));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 

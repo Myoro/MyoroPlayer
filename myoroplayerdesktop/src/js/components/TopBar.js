@@ -94,7 +94,7 @@ function TopBar() {
 
   function mapButtons() {
     return buttons.map((button, index) =>
-      <div>
+      <div key={index}>
         <button
           key={index}
           className="topBarButton"
@@ -118,6 +118,7 @@ function TopBar() {
           {
             button.options.map((option, index) =>
               <li
+                key={index}
                 style={{ borderBottom: styles.border }}
                 onMouseOver={hoverDropdownButton}
                 onMouseOut={hoverDropdownButton}

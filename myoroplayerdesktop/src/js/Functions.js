@@ -2,11 +2,33 @@
 import Store from "./ReduxStore.js";
 const { ipcRenderer } = window.require("electron");
 
-// Electron IPC calls
+// Electron IPC call abstractions
+function oneArgIPC(arg) {
+  return new Promise(resolve => {
+    ipcRenderer.send(arg);
+    ipcRenderer.once(arg, (event, data) => resolve(data));
+  });
+}
+
+// Electron one-liner IPC calls
 export function quit()               { ipcRenderer.send("quit"); }
-export function openPlaylist()       { ipcRenderer.send("openPlaylist"); }
-export function newPlaylist()        { ipcRenderer.send("newPlaylist"); }
 export function initializeDatabase() { ipcRenderer.send("initializeDatabase"); }
+
+export async function openPlaylist() {
+  const newPlaylists = await oneArgIPC("openPlaylist");
+  if(!newPlaylists) return;
+  else              Store.dispatch({ type: "appendPlaylists", payload: newPlaylists });
+}
+export async function newPlaylist() {
+  const newPlaylist = await oneArgIPC("newPlaylist");
+  if(!newPlaylist) return;
+  else             Store.dispatch({ type: "appendPlaylists", payload: [ newPlaylist ] });
+}
+
+export async function getPlaylists() {
+  const playlists = await oneArgIPC("getPlaylists");
+  Store.dispatch({ type: "appendPlaylists", payload: playlists });
+}
 
 export function hoverButton(event) {
   const darkMode = Store.getState().darkMode;

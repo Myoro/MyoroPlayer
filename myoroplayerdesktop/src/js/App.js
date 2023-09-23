@@ -5,6 +5,7 @@ import {
   quit,
   openPlaylist,
   newPlaylist,
+  getPlaylists,
   initializeDatabase,
   cleanTopBarDropdowns
 } from "./Functions.js";
@@ -13,6 +14,8 @@ import Root from "./components/Root.js";
 function App() {
   React.useEffect(() => {
     initializeDatabase();
+
+    getPlaylists();
 
     document.addEventListener("click", click);
     document.addEventListener("keydown", keydown);
