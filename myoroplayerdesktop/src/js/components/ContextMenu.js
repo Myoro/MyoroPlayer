@@ -1,7 +1,12 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/ContextMenu.css";
-import { hoverButton } from "../Functions.js";
+import Store from "../ReduxStore.js";
+import {
+  hoverButton,
+  softDeletePlaylist,
+  hardDeletePlaylist
+} from "../Functions.js";
 
 function ContextMenu() {
   const darkMode                = useSelector(state => state.darkMode);
@@ -18,15 +23,25 @@ function ContextMenu() {
         setOptions([
           {
             name: "Rename Playlist",
-            onClick: () => alert("Rename Playlist")
+            onClick: async () => {
+              await Store.dispatch({
+                type: "enableModal",
+                payload: {
+                  mode:     "renamePlaylist",
+                  selected: contextMenu.selected
+                }
+              });
+
+              document.getElementById("input").focus();
+            }
           },
           {
             name:    "Delete Playlist from MyoroPlayer",
-            onClick: () => alert("Soft deletion")
+            onClick: softDeletePlaylist
           },
           {
             name:    "Delete Playlist from Computer",
-            onClick: () => alert("Hard deletion")
+            onClick: hardDeletePlaylist
           }
         ]);
         break;

@@ -9,11 +9,22 @@ function oneArgIPC(arg) {
     ipcRenderer.once(arg, (event, data) => resolve(data));
   });
 }
+function twoArgIPC(event, data) {
+  return new Promise(resolve => {
+    ipcRenderer.send(event, data);
+    ipcRenderer.once(event, (evt, data) => resolve(data));
+  });
+}
+
+
 
 // Electron one-liner IPC calls
 export function quit()               { ipcRenderer.send("quit"); }
 export function initializeDatabase() { ipcRenderer.send("initializeDatabase"); }
 
+
+
+// Playlist oriented
 export async function openPlaylist() {
   const newPlaylists = await oneArgIPC("openPlaylist");
   if(!newPlaylists) return;
@@ -24,12 +35,32 @@ export async function newPlaylist() {
   if(!newPlaylist) return;
   else             Store.dispatch({ type: "appendPlaylists", payload: [ newPlaylist ] });
 }
-
+export async function renamePlaylist(playlist, name) {
+  const success = await twoArgIPC("renamePlaylist", { playlist: playlist, name: name });
+  if(success === true) {
+    await Store.dispatch({ type: "clearPlaylists" });
+    getPlaylists();
+  }
+  Store.dispatch({ type: "disableModal" });
+}
 export async function getPlaylists() {
   const playlists = await oneArgIPC("getPlaylists");
   Store.dispatch({ type: "appendPlaylists", payload: playlists });
 }
+export async function softDeletePlaylist() {
+  alert("Comes later when songs table comes into play");
+  /*
+  const success = await twoArgIPC("softDeletePlaylist", Store.getState().contextMenu.selected);
+  Store.dispatch({ type: "disableContextMenu" });
+  */
+}
+export async function hardDeletePlaylist() {
+  alert("Comes later when songs table comes into play");
+}
 
+
+
+// Basic UI functions
 export function hoverButton(event) {
   const darkMode = Store.getState().darkMode;
 
@@ -41,7 +72,6 @@ export function hoverButton(event) {
     event.target.style.color      = darkMode ? "#EDE6D6" : "#181818";
   }
 }
-
 export function cleanTopBarDropdowns() {
     const topBarButtons = document.getElementsByClassName("topBarButton");
     for(let i = 0; i < topBarButtons.length; i++)

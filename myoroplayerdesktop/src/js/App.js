@@ -42,7 +42,8 @@ function App() {
   }
 
   function keydown(event) {
-    if(event.key === "Escape") cleanTopBarDropdowns();
+    if(event.key === "Escape")                                cleanTopBarDropdowns();
+    if(event.key === "Escape" && Store.getState().modal.show) Store.dispatch({ type: "disableModal" });
 
     // Ctrl key keyboard shortcuts
     if(event.ctrlKey) {

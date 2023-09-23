@@ -79,6 +79,32 @@ function insertPlaylist(playlist) {
 
 
 
+// Updates
+function renamePlaylist(event, playlist, name) {
+  let newDirectory;
+  for(let i = (playlist.directory.length - 2); i >= 0; i--) {
+    if(playlist.directory[i] === '/') {
+      newDirectory = playlist.directory.substr(0, i + 1) + name + '/';
+      break;
+    }
+  }
+
+  fs.rename(playlist.directory, newDirectory, (error) => {
+    if(error) { event.reply("renamePlaylist", undefined); return; }
+
+    db.run(
+      `UPDATE playlists SET directory = ?, name = ? WHERE directory = ? AND name = ?;`,
+      [ newDirectory, name, playlist.directory, playlist.name ],
+      (error) => {
+        if(error) event.reply("renamePlaylist", undefined);
+        else      event.reply("renamePlaylist", true);
+      }
+    );
+  });
+}
+
+
+
 // Deletions
 function deletePlaylist(playlist) {
   db.run(
@@ -93,5 +119,6 @@ function deletePlaylist(playlist) {
 module.exports = {
   initializeDatabase,
   getPlaylists,
-  insertPlaylist
+  insertPlaylist,
+  renamePlaylist
 };

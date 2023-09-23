@@ -10,6 +10,12 @@ const initialState = {
     show:     false,
     mode:     null,
     selected: null
+  },
+  // Modal
+  modal: {
+    show:     false,
+    mode:     null,
+    selected: null
   }
 };
 
@@ -20,6 +26,8 @@ function reducer(state = initialState, action) {
     //
     case "appendPlaylists":
       return { ...state, playlists: [ ...state.playlists, ...action.payload ] };
+    case "clearPlaylists":
+      return { ...state, playlists: [] };
     //
     case "enableContextMenu":
       return {
@@ -36,6 +44,25 @@ function reducer(state = initialState, action) {
         contextMenu: {
           show:     false,
           mode:     null,
+          selected: null
+        }
+      };
+    //
+    case "enableModal":
+      return {
+        ...state,
+        modal: {
+          show:     true,
+          mode:     action.payload.mode,
+          selected: action.payload.selected
+        }
+      };
+    case "disableModal":
+      return {
+        ...state,
+        modal: {
+          show:     false,
+          modal:    null,
           selected: null
         }
       };

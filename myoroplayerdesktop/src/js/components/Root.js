@@ -4,6 +4,7 @@ import "../../css/Root.css";
 import TopBar from "./TopBar.js";
 import SideBar from "./SideBar.js";
 import ContextMenu from "./ContextMenu.js";
+import Modal from "./Modal.js";
 
 function Root() {
   const darkMode = useSelector(state => state.darkMode);
@@ -11,6 +12,7 @@ function Root() {
   return(
     <>
       <ContextMenu />
+      <Modal />
 
       <div
         id="root"

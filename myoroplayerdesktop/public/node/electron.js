@@ -6,7 +6,10 @@ const {
   newPlaylist,
   getPlaylists
 }                                     = require("./ipcFunctions.js");
-const { initializeDatabase }          = require("./Database.js");
+const {
+  initializeDatabase,
+  renamePlaylist
+}                                     = require("./Database.js");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -35,6 +38,7 @@ function createWindow() {
   ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));
   ipcMain.on("newPlaylist", (event) => newPlaylist(event, win));
   ipcMain.on("getPlaylists", (event) => getPlaylists(event));
+  ipcMain.on("renamePlaylist", (event, data) => renamePlaylist(event, data.playlist, data.name));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 
