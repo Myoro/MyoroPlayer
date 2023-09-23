@@ -17,25 +17,29 @@ function openPlaylist(event, win) {
 
     const newPlaylists = [];
     for(let i = 0; i < result.filePaths.length; i++) {
-      if(result.filePaths[i] === '/') {
+      const directory = result.filePaths[i].replaceAll('\\', '/');
+
+      if(directory === '/') {
         newPlaylists.push({ directory: '/', name: '/' });
-      } else if(result.filePaths[i].length === 3 && result.filePaths[i].substr(1) === ":/") {
+      } else if(directory.length === 3 && directory.substr(1) === ":/") {
         newPlaylists.push({
-          directory: result.filePaths[i].replaceAll('\\', '/'),
-          name:      result.filePaths[i][0] + "Drive"
+          directory: directory,
+          name:      directory[0] + " Drive"
         });
-      }else {
-        for(let o = (result.filePaths[i].length); o >= 0; o--) {
-          if(result.filePaths[i][o] === '/') {
+      } else {
+        for(let o = (directory.length - 1); o >= 0; o--) {
+          if(directory[o] === '/') {
             newPlaylists.push({
-              directory: result.filePaths[i].replaceAll('\\', '/') + '/',
-              name:      result.filePaths[i].substr(o + 1)
+              directory: directory + '/',
+              name:      directory.substr(o + 1)
             });
             break;
           }
         }
       }
     }
+
+    console.log("Reached here: " + newPlaylists);
 
     const oldPlaylists  = await getPlaylistsDb();
     const notDuplicates = [];
@@ -70,18 +74,20 @@ function newPlaylist(event, win) {
   ).then(async (result) => {
     if(result.canceled) { event.reply("newPlaylist", undefined); return; }
 
+    const directory   = result.filePath.replaceAll('\\', '/');
     const newPlaylist = { directory: null, name: null };
-    if(result.filePath === '/') {
+
+    if(directory === '/') {
       newPlaylist.directory = '/';
       newPlaylist.name      = '/';
-    } else if(result.filePath.length === 3 && result.filePath.substr(1) === ":/") {
-      newPlaylist.directory = result.filePath.replaceAll('\\', '/');
-      newPlaylist.name      = result.filePath[0] + " Drive";
+    } else if(directory.length === 3 && directory.substr(1) === ":/") {
+      newPlaylist.directory = directory;
+      newPlaylist.name      = directory[0] + " Drive";
     } else {
-      for(let i = (result.filePath.length - 1); i >= 0; i--) {
-        if(result.filePath[i] === '/') {
-          newPlaylist.directory = result.filePath.replaceAll('\\', '/') + '/';
-          newPlaylist.name      = result.filePath.substr(i + 1);
+      for(let i = (directory.length - 1); i >= 0; i--) {
+        if(directory[i] === '/') {
+          newPlaylist.directory = directory + '/';
+          newPlaylist.name      = directory.substr(i + 1);
           break;
         }
       }
