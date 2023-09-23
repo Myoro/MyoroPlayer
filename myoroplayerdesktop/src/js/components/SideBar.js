@@ -11,6 +11,7 @@ function SideBar() {
     return playlists.map((playlist, index) =>
       <button
         key={index}
+        name={JSON.stringify(playlist)}
         onMouseOver={hoverButton}
         onMouseOut={hoverButton}
       >{playlist.name}</button>

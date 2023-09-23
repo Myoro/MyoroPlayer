@@ -3,24 +3,29 @@ import { useSelector } from "react-redux";
 import "../../css/Root.css";
 import TopBar from "./TopBar.js";
 import SideBar from "./SideBar.js";
+import ContextMenu from "./ContextMenu.js";
 
 function Root() {
   const darkMode = useSelector(state => state.darkMode);
 
   return(
-    <div
-      id="root"
-      style={{ background: darkMode ? "#181818" : "#EDE6D6" }}
-    >
-      <TopBar />
+    <>
+      <ContextMenu />
 
-      <main>
-        <SideBar />
+      <div
+        id="root"
+        style={{ background: darkMode ? "#181818" : "#EDE6D6" }}
+      >
+        <TopBar />
 
-        <div>
-        </div>
-      </main>
-    </div>
+        <main>
+          <SideBar />
+
+          <div>
+          </div>
+        </main>
+      </div>
+    </>
   );
 }
 
