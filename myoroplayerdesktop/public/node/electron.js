@@ -4,12 +4,13 @@ const isDev                           = require("electron-is-dev");
 const {
   openPlaylist,
   newPlaylist,
-  getPlaylists
-}                                     = require("./ipcFunctions.js");
+  getPlaylists,
+  loadPlaylist
+} = require("./ipcFunctions.js");
 const {
   initializeDatabase,
   renamePlaylist
-}                                     = require("./Database.js");
+} = require("./Database.js");
 
 function createWindow() {
   const win = new BrowserWindow({
@@ -39,6 +40,7 @@ function createWindow() {
   ipcMain.on("newPlaylist", (event) => newPlaylist(event, win));
   ipcMain.on("getPlaylists", (event) => getPlaylists(event));
   ipcMain.on("renamePlaylist", (event, data) => renamePlaylist(event, data.playlist, data.name));
+  ipcMain.on("loadPlaylist", (event, playlist) => loadPlaylist(event, playlist));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 

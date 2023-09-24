@@ -57,6 +57,10 @@ export async function softDeletePlaylist() {
 export async function hardDeletePlaylist() {
   alert("Comes later when songs table comes into play");
 }
+export async function loadPlaylist(playlist) {
+  const songs = await twoArgIPC("loadPlaylist", playlist);
+  alert("Time to create songs Redux state: " + songs.length);
+}
 
 
 

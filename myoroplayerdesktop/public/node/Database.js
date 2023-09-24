@@ -36,6 +36,35 @@ function initializeDatabase() {
     }
   );
 
+  db.get(
+    `SELECT name FROM sqlite_master WHERE type="table" AND name="songs";`,
+    (error, row) => {
+      if(error)    console.log("Error fetching 'songs' table's existence");
+      else if(row) console.log("'songs' table already exists");
+      else {
+        db.run(
+          `
+            CREATE TABLE songs(
+              id                INTEGER PRIMARY KEY AUTOINCREMENT,
+              songDirectory     TEXT,
+              playlistDirectory TEXT,
+              title             TEXT,
+              artist            TEXT,
+              album             TEXT,
+              cover             TEXT,
+              lengthStr         TEXT,
+              lengthInt         INTEGER
+            );
+          `,
+          (error) => {
+            if(error) console.log("Error creating 'songs' table");
+            else      console.log("'songs' table created");
+          }
+        );
+      }
+    }
+  );
+
   setTimeout(() => console.log("\n\n\n"), 100);
 }
 
@@ -65,6 +94,41 @@ function getPlaylists() {
     );
   });
 }
+function getPlaylistSongs(directory) {
+  return new Promise((resolve, reject) => {
+    db.all(
+      `
+        SELECT
+          songDirectory,
+          playlistDirectory,
+          title,
+          artist,
+          album,
+          cover,
+          lengthStr,
+          lengthInt
+        FROM songs WHERE playlistDirectory = ?;
+      `,
+      [ directory ],
+      (error, rows) => {
+        if(error) {
+          reject(error);
+        } else {
+          const result = [];
+
+          for(let i = 0; i < rows.length; i++) {
+            try {
+              const stat = fs.statSync(rows[i].songDirectory);
+              result.push(rows[i]);
+            } catch(error) { deleteSong(rows[i].songDirectory); }
+          }
+
+          resolve(result);
+        }
+      }
+    );
+  });
+}
 
 
 
@@ -74,6 +138,34 @@ function insertPlaylist(playlist) {
     `INSERT INTO playlists (directory, name) VALUES (?, ?);`,
     [ playlist.directory, playlist.name ],
     (error) => { if(error) console.log("Error inserting playlist (Database:insertPlaylist)") }
+  );
+}
+
+function insertSong(song) {
+  db.run(
+    `
+      INSERT INTO songs(
+        songDirectory,
+        playlistDirectory,
+        cover,
+        title,
+        artist,
+        album,
+        lengthStr,
+        lengthInt
+      ) VALUES(?, ?, ?, ?, ?, ?, ?, ?);
+    `,
+    [
+      song.songDirectory,
+      song.playlistDirectory,
+      song.cover,
+      song.name,
+      song.artist,
+      song.album,
+      song.lengthStr,
+      song.lengthInt
+    ],
+    (error) => { if(error) console.log(error); }
   );
 }
 
@@ -114,11 +206,21 @@ function deletePlaylist(playlist) {
   );
 }
 
+function deleteSong(directory) {
+  db.run(
+    `DELETE FROM songs WHERE songDirectory = ?;`,
+    [ directory ],
+    (error) => { if(error) console.log(error); }
+  );
+}
+
 
 
 module.exports = {
   initializeDatabase,
   getPlaylists,
   insertPlaylist,
-  renamePlaylist
+  renamePlaylist,
+  getPlaylistSongs,
+  insertSong
 };
