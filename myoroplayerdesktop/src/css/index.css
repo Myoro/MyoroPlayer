@@ -28,7 +28,7 @@ button, input {
   font-family: "Ubuntu Mono Regular";
 }
 
-button, ul, input {
+button, ul, input, p {
   margin:     0;
   padding:    0;
   outline:    none;

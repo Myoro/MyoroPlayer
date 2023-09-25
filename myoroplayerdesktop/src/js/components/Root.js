@@ -5,6 +5,8 @@ import TopBar from "./TopBar.js";
 import SideBar from "./SideBar.js";
 import ContextMenu from "./ContextMenu.js";
 import Modal from "./Modal.js";
+import SongList from "./SongList.js";
+import FooterControls from "./FooterControls.js";
 
 function Root() {
   const darkMode = useSelector(state => state.darkMode);
@@ -23,8 +25,10 @@ function Root() {
         <main>
           <SideBar />
 
-          <div>
-          </div>
+          <section>
+            <SongList />
+            <FooterControls />
+          </section>
         </main>
       </div>
     </>

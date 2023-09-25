@@ -143,7 +143,6 @@ async function loadPlaylist(event, playlist) {
   const dbSongDirectories = [];
   for(let i = 0; i < dbSongs.length; i++)
     dbSongDirectories.push(dbSongs[i].songDirectory);
-
   const newSongs = songs.filter((song) => { return !dbSongDirectories.includes(song); });
 
   // 3. Multi-threadedly get unanalyzed songs and add them to the songs table

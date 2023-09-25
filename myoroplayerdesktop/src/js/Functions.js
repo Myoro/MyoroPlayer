@@ -59,6 +59,7 @@ export async function hardDeletePlaylist() {
 }
 export async function loadPlaylist(playlist) {
   const songs = await twoArgIPC("loadPlaylist", playlist);
+  // ipcRenderer.on("loadPlaylistProgress", (event, percentage) => console.log(percentage));
   alert("Time to create songs Redux state: " + songs.length);
 }
 
