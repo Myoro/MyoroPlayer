@@ -16,7 +16,11 @@ const initialState = {
     show:     false,
     mode:     null,
     selected: null
-  }
+  },
+  // Loading bar displayed in SongList
+  showLoadingBar: false,
+  // Songs displayed in SongList
+  songs: []
 };
 
 function reducer(state = initialState, action) {
@@ -66,6 +70,12 @@ function reducer(state = initialState, action) {
           selected: null
         }
       };
+    //
+    case "setShowLoadingBar":
+      return { ...state, showLoadingBar: action.payload };
+    //
+    case "setSongs":
+      return { ...state, songs: action.payload };
     //
     default:
       return state;

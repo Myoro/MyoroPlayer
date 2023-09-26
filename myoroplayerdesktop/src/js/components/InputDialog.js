@@ -4,7 +4,7 @@ import "../../css/Modal.css";
 import Store from "../ReduxStore.js";
 import { renamePlaylist } from "../Functions.js";
 
-function InputDialog() {
+function InputDialog({ hoverButton }) {
   const darkMode                = useSelector(state => state.darkMode);
   const modal                   = useSelector(state => state.modal);
   const [ buttons, setButtons ] = React.useState([]);
@@ -26,19 +26,12 @@ function InputDialog() {
     border:     darkMode ? "2px solid #EDE6D6" : "2px solid #181818"
   };
 
-  function hoverButton(event) {
-    if(window.getComputedStyle(event.target).backgroundColor === (darkMode ? "rgb(24, 24, 24)" : "rgb(237, 230, 214)")) {
-      event.target.style.background = darkMode ? "#EDE6D6" : "#181818";
-      event.target.style.color      = darkMode ? "#181818" : "#EDE6D6";
-    } else {
-      event.target.style.background = darkMode ? "#181818" : "#EDE6D6";
-      event.target.style.color      = darkMode ? "#EDE6D6" : "#181818";
-    }
-  }
 
   function mapButtons() {
     return buttons.map((button, index) =>
       <button
+        key={index}
+        className="dialogButton"
         onMouseOver={hoverButton}
         onMouseOut={hoverButton}
         onClick={button.onClick}
@@ -57,7 +50,7 @@ function InputDialog() {
 
   if(modal.mode === "renamePlaylist") {
     return(
-      <div id="inputDialog">
+      <div className="dialog" id="inputDialog">
         <input
           id="input"
           type="text"
@@ -68,7 +61,7 @@ function InputDialog() {
             border:     styles.border
           }}
         />
-        <div>
+        <div className="dialogButtonFlexBox">
           { mapButtons() }
         </div>
       </div>

@@ -145,6 +145,9 @@ async function loadPlaylist(event, playlist) {
     dbSongDirectories.push(dbSongs[i].songDirectory);
   const newSongs = songs.filter((song) => { return !dbSongDirectories.includes(song); });
 
+  // 5% complete
+  event.reply("loadPlaylistProgress", 5);
+
   // 3. Multi-threadedly get unanalyzed songs and add them to the songs table
   const threads    = [];
   const threadPool = 5;
@@ -174,10 +177,28 @@ async function loadPlaylist(event, playlist) {
     for(let i = 0; i < buffer.length; i++) {
       const tags = NodeID3.read(buffer[i]);
 
+      let fileName;
+      if(!tags.title) {
+        for(let o = (buffer[i].length - 1); o >= 0; o--) {
+          if(buffer[i][o] === '/') {
+            fileName = buffer[i].substr(o + 1);
+
+            for(let p = (fileName.length - 1); p >= 0; p--) {
+              if(fileName[p] === '.') {
+                fileName = fileName.substr(0, p);
+                break;
+              }
+            }
+
+            break;
+          }
+        }
+      }
+
       songs.push({
         songDirectory:     buffer[i],
         playlistDirectory: playlistDirectory,
-        title:             tags.title,
+        title:             tags.title ? tags.title : fileName,
         artist:            tags.artist ? tags.artist : null,
         album:             tags.album ? tags.album : null,
         cover:             (tags.image && tags.image.imageBuffer) ? `data:${tags.image.mime};base64,${Buffer.from(tags.image.imageBuffer).toString("base64")}` : null,
@@ -203,7 +224,9 @@ async function loadPlaylist(event, playlist) {
     return songs;
   }
 
-  const processedSongs = [];
+  const processedSongs   = [];
+  const bufferLength     = buffers.length;
+  let completedBuffers   = 0; // For updating loading bar
   while(buffers.length > 0) {
     const promises = [];
 
@@ -215,6 +238,8 @@ async function loadPlaylist(event, playlist) {
     }
 
     const resolutions = await Promise.all(promises);
+    completedBuffers  += resolutions.length;
+    event.reply("loadPlaylistProgress", (completedBuffers / bufferLength) * 100);
     for(let i = 0; i < resolutions.length; i++)
       processedSongs.push(...resolutions[i]);
   }

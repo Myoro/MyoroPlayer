@@ -4,8 +4,7 @@ import "../../css/ContextMenu.css";
 import Store from "../ReduxStore.js";
 import {
   hoverButton,
-  softDeletePlaylist,
-  hardDeletePlaylist
+  softDeletePlaylist
 } from "../Functions.js";
 
 function ContextMenu() {
@@ -41,7 +40,15 @@ function ContextMenu() {
           },
           {
             name:    "Delete Playlist from Computer",
-            onClick: hardDeletePlaylist
+            onClick: () => {
+              Store.dispatch({
+                type: "enableModal",
+                payload: {
+                  mode:    "deletePlaylist",
+                  selected: contextMenu.selected
+                }
+              })
+            }
           }
         ]);
         break;
@@ -52,6 +59,7 @@ function ContextMenu() {
   function mapOptions() {
     return options.map((option, index) =>
       <li
+        key={index}
         onMouseOver={hoverButton}
         onMouseOut={hoverButton}
         onClick={option.onClick}

@@ -11,25 +11,35 @@
   justify-content: center;
 }
 
-#inputDialog {
+.dialog {
   width:          250px;
   padding:        10px;
   display:        flex;
   flex-direction: column;
   gap:            5px;
+  text-align:     center;
 }
-#input {
-  text-align: center;
-  padding:    5px;
+.dialog > p {
+  font-size:   20px;
+  user-select: none;
+  padding:     10px;
 }
-#inputDialog > div {
+.dialogButton {
+  flex:      1;
+  padding:   3px;
+  cursor:    pointer;
+  font-size: 20px;
+}
+.dialogButtonFlexBox {
   display:        flex;
   flex-direction: row;
   gap:            10px;
 }
-#inputDialog > div > button {
-  flex:    1;
-  padding: 3px;
-  cursor:  pointer;
+
+#input {
+  text-align: center;
+  padding:    5px;
 }
-#input, #inputDialog > div > button { font-size: 20px; }
+#input { font-size: 20px; }
+
+

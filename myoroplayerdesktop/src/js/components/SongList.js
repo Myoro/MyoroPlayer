@@ -6,13 +6,17 @@ import LogoLight from "../../img/LogoLight.svg";
 
 function SongList() {
   const darkMode                  = useSelector(state => state.darkMode);
+  const showLoadingBar            = useSelector(state => state.showLoadingBar);
+  const songs                     = useSelector(state => state.songs);
   const [ selected, setSelected ] = React.useState(null);
 
   const styles = {
     text: darkMode ? "#EDE6D6" : "#181818"
   };
 
-  function hoverButton(event) {
+  function hoverButton(event, index) {
+    if(selected === index) return;
+
     let li = event.target;
     while(li.tagName !== "LI") li = li.parentNode;
 
@@ -20,6 +24,10 @@ function SongList() {
     if(window.getComputedStyle(li).backgroundColor === "rgba(0, 0, 0, 0)")
       hovered = false;
 
+    toggleHover(li, hovered);
+  }
+
+  function toggleHover(li, hovered) {
     const text          = !hovered ? (darkMode ? "#181818" : "#EDE6D6") : (darkMode ? "#EDE6D6" : "#181818");
     li.style.background = !hovered ? (darkMode ? "#EDE6D6" : "#181818") : "none";
     if(li.childNodes[0].src.includes(!hovered ? (darkMode ? "LogoDark" : "LogoLight") : (darkMode ? "LogoLight" : "LogoDark")))
@@ -30,28 +38,64 @@ function SongList() {
     li.childNodes[3].style.color = text;
   }
 
-  return(
-    <ul id="songList">
-      <p>SELECT SONG ON SINGLE CLICK</p>
+  function mapSongs() {
+    return songs.map((song, index) =>
       <li
-        onMouseOver={hoverButton}
-        onMouseOut={hoverButton}
+        key={index}
+        onMouseOver={(event) => hoverButton(event, index)}
+        onMouseOut={(event) => hoverButton(event, index)}
+        onClick={() => {
+          setSelected(index);
+          const lis = document.getElementById("songList").childNodes;
+          for(let i = 0; i < lis.length; i++)
+            if(i !== index)
+              toggleHover(lis[i], true);
+        }}
       >
         {/* Album cover */}
-        <img alt="cover" src={darkMode ? LogoDark : LogoLight} />
+        <img alt="cover" src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)} />
 
         {/* Song title & artist */}
         <div>
-          <p style={{ color: styles.text }}>Song titqwoiejwqoirtjhreoigsdhnfdfngojnfgole</p>
-          <p style={{ color: styles.text }}>Ski Mask the Slump Poo Poo God</p>
+          <p style={{ color: styles.text }}>{song.title}</p>
+          {
+            song.artist
+            &&
+            <p style={{ color: styles.text }}>{song.artist}</p>
+          }
         </div>
 
         {/* Album */}
-        <p style={{ color: styles.text }}>Madvillainyqweoijqgofjegoisdjfioj</p>
+        <p style={{ color: styles.text }}>{song.album ? song.album : ''}</p>
 
         {/* Song duration */}
-        <p style={{ color: styles.text }}>420:00</p>
+        <p style={{ color: styles.text }}>{song.lengthStr}</p>
       </li>
+    );
+  }
+
+  return(
+    <ul id="songList">
+      {
+        !showLoadingBar
+
+        ?
+
+        mapSongs()
+
+        :
+
+        <div
+          id="loading"
+          style={{ border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}
+        >
+          <div
+            id="loadingBar"
+            style={{ background: styles.text }}
+          >
+          </div>
+        </div>
+      }
     </ul>
   );
 }

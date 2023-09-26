@@ -8,15 +8,15 @@ function SideBar() {
   const playlists                 = useSelector(state => state.playlists);
   const [ selected, setSelected ] = React.useState(null);
 
-  function hoverButton(event) {
-    if(event.target.name !== JSON.stringify(selected)) {
-      if(window.getComputedStyle(event.target).backgroundColor === "rgba(0, 0, 0, 0)") {
-        event.target.style.background = darkMode ? "#EDE6D6" : "#181818";
-        event.target.style.color      = darkMode ? "#181818" : "#EDE6D6";
-      } else {
-        event.target.style.background = "none";
-        event.target.style.color      = darkMode ? "#EDE6D6" : "#181818";
-      }
+  function hoverButton(event, index) {
+    if(selected === index) return;
+
+    if(window.getComputedStyle(event.target).backgroundColor === "rgba(0, 0, 0, 0)") {
+      event.target.style.background = darkMode ? "#EDE6D6" : "#181818";
+      event.target.style.color      = darkMode ? "#181818" : "#EDE6D6";
+    } else {
+      event.target.style.background = "none";
+      event.target.style.color      = darkMode ? "#EDE6D6" : "#181818";
     }
   }
 
@@ -25,10 +25,10 @@ function SideBar() {
       <button
         key={index}
         name={JSON.stringify(playlist)}
-        onMouseOver={hoverButton}
-        onMouseOut={hoverButton}
+        onMouseOver={(event) => hoverButton(event, index)}
+        onMouseOut={(event) => hoverButton(event, index)}
         onClick={() => {
-          setSelected(playlist);
+          setSelected(index);
           const playlists = document.getElementById("sideBar").childNodes;
           for(let i = 0; i < playlists.length; i++) {
             if(playlists[i].name !== JSON.stringify(playlist)) {

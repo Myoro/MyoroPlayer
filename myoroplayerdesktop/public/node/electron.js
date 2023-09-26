@@ -9,7 +9,9 @@ const {
 } = require("./ipcFunctions.js");
 const {
   initializeDatabase,
-  renamePlaylist
+  renamePlaylist,
+  softDeletePlaylist,
+  hardDeletePlaylist
 } = require("./Database.js");
 
 function createWindow() {
@@ -41,6 +43,8 @@ function createWindow() {
   ipcMain.on("getPlaylists", (event) => getPlaylists(event));
   ipcMain.on("renamePlaylist", (event, data) => renamePlaylist(event, data.playlist, data.name));
   ipcMain.on("loadPlaylist", (event, playlist) => loadPlaylist(event, playlist));
+  ipcMain.on("softDeletePlaylist", (event, playlist) => softDeletePlaylist(event, playlist));
+  ipcMain.on("hardDeletePlaylist", (event, playlist) => hardDeletePlaylist(event, playlist));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 

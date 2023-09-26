@@ -159,7 +159,7 @@ function insertSong(song) {
       song.songDirectory,
       song.playlistDirectory,
       song.cover,
-      song.name,
+      song.title,
       song.artist,
       song.album,
       song.lengthStr,
@@ -202,8 +202,31 @@ function deletePlaylist(playlist) {
   db.run(
     `DELETE FROM playlists WHERE directory = ? AND name = ?;`,
     [ playlist.directory, playlist.name ],
-    (error) => { if(error) console.log(error); }
+    (error) => {
+      if(error) { console.log(error); return; }
+
+      db.run(
+        `DELETE FROM songs WHERE playlistDirectory = ?`,
+        [ playlist.directory ],
+        (error) => { if(error) console.log(error); }
+      );
+    }
   );
+}
+function softDeletePlaylist(event, playlist) {
+  deletePlaylist(playlist);
+  event.reply("softDeletePlaylist", true);
+}
+function hardDeletePlaylist(event, playlist) {
+  fs.rmdir(playlist.directory.substr(0, playlist.directory.length - 1), { recursive: true }, (error) => {
+    if(error) {
+      event.reply("hardDeletePlaylist", false);
+      return;
+    } else {
+      deletePlaylist(playlist);
+      event.reply("hardDeletePlaylist", true);
+    }
+  });
 }
 
 function deleteSong(directory) {
@@ -222,5 +245,7 @@ module.exports = {
   insertPlaylist,
   renamePlaylist,
   getPlaylistSongs,
-  insertSong
+  insertSong,
+  softDeletePlaylist,
+  hardDeletePlaylist
 };

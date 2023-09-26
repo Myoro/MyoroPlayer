@@ -48,19 +48,31 @@ export async function getPlaylists() {
   Store.dispatch({ type: "appendPlaylists", payload: playlists });
 }
 export async function softDeletePlaylist() {
-  alert("Comes later when songs table comes into play");
-  /*
+  // eslint-disable-next-line
   const success = await twoArgIPC("softDeletePlaylist", Store.getState().contextMenu.selected);
-  Store.dispatch({ type: "disableContextMenu" });
-  */
+  Store.dispatch({ type: "clearPlaylists" });
+  getPlaylists();
 }
 export async function hardDeletePlaylist() {
-  alert("Comes later when songs table comes into play");
+  // eslint-disable-next-line
+  const success = await twoArgIPC("hardDeletePlaylist", Store.getState().modal.selected);
+  Store.dispatch({ type: "clearPlaylists" });
+  Store.dispatch({ type: "disableModal" });
+  getPlaylists();
 }
 export async function loadPlaylist(playlist) {
-  const songs = await twoArgIPC("loadPlaylist", playlist);
-  // ipcRenderer.on("loadPlaylistProgress", (event, percentage) => console.log(percentage));
-  alert("Time to create songs Redux state: " + songs.length);
+  await Store.dispatch({ type: "setShowLoadingBar", payload: true });
+  const loadingBar = document.getElementById("loadingBar");
+
+  ipcRenderer.send("loadPlaylist", playlist);
+  ipcRenderer.on("loadPlaylistProgress", (event, percentage) => {
+    loadingBar.style.width = percentage + '%';
+  });
+  ipcRenderer.once("loadPlaylist", async (event, data) => {
+    loadingBar.style.width = "0%";
+    await Store.dispatch({ type: "setShowLoadingBar", payload: false });
+    Store.dispatch({ type: "setSongs", payload: data });
+  });
 }
 
 
