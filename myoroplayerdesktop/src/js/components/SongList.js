@@ -38,7 +38,7 @@ function SongList() {
         onMouseOut={hoverButton}
       >
         {/* Album cover */}
-        <img src={darkMode ? LogoDark : LogoLight} />
+        <img alt="cover" src={darkMode ? LogoDark : LogoLight} />
 
         {/* Song title & artist */}
         <div>
