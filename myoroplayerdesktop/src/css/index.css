@@ -15,6 +15,22 @@
 ::-webkit-scrollbar-thumb       { background: var(--primary); }
 ::-webkit-scrollbar-thumb:hover { background: var(--primary-hover); }
 
+/* Slider */
+.slider {
+  -webkit-appearance: none;
+  background:         var(--primary);
+  height:             2px;
+}
+.slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width:              13px;
+  height:             13px;
+  border-radius:      30px;
+  background:         var(--primary);
+  cursor:             pointer;
+}
+.slider::-webkit-slider-thumb:hover { background: var(--primary-hover); }
+
 body {
   margin:  0;
   padding: 0;

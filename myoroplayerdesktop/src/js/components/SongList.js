@@ -49,7 +49,7 @@ function SongList() {
         onContextMenu={(event) => toggleContextMenu(event, "song", song)}
       >
         {/* Album cover */}
-        <img alt="cover" src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)} />
+        <img alt="cover" draggable={false} src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)} />
 
         {/* Song title & artist */}
         <div>
