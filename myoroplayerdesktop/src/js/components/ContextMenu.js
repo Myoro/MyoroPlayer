@@ -4,8 +4,11 @@ import "../../css/ContextMenu.css";
 import Store from "../ReduxStore.js";
 import {
   hoverButton,
-  softDeletePlaylist
+  softDeletePlaylist,
+  copySongToPlaylists,
+  moveSongToPlaylist
 } from "../Functions.js";
+import { addToQueue } from "../players/LocalPlayer.js";
 
 function ContextMenu() {
   const darkMode                = useSelector(state => state.darkMode);
@@ -48,6 +51,34 @@ function ContextMenu() {
                   selected: contextMenu.selected
                 }
               })
+            }
+          }
+        ]);
+        break;
+      case "song":
+        setOptions([
+          {
+            name:    "Add to Queue",
+            onClick: () => addToQueue(contextMenu.selected)
+          },
+          {
+            name:    "Copy to Another Playlist(s)",
+            onClick: () => copySongToPlaylists(contextMenu.selected)
+          },
+          {
+            name:    "Move to Another Playlist",
+            onClick: () => moveSongToPlaylist(contextMenu.selected)
+          },
+          {
+            name:    "Delete Song from Computer",
+            onClick: () => {
+              Store.dispatch({
+                type: "enableModal",
+                payload: {
+                  mode:     "deleteSong",
+                  selected: contextMenu.selected
+                }
+              });
             }
           }
         ]);

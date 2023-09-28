@@ -24,12 +24,10 @@ function App() {
 
     document.addEventListener("click", click);
     document.addEventListener("keydown", keydown);
-    document.addEventListener("contextmenu", contextmenu);
 
     return () => {
       document.removeEventListener("click", click);
       document.removeEventListener("keydown", keydown);
-      document.removeEventListener("contextmenu", contextmenu);
     }
   }, []);
 
@@ -64,23 +62,6 @@ function App() {
           break;
       }
     }
-  }
-
-  async function contextmenu(event) {
-    // Context menu for playlists displayed in SideBar
-    if(event.target.parentNode.id === "sideBar") {
-      await Store.dispatch({
-        type: "enableContextMenu",
-        payload: {
-          mode:     "playlist",
-          selected: JSON.parse(event.target.name)
-        }
-      });
-
-      const contextMenu      = document.getElementById("contextMenu");
-      contextMenu.style.top  = (((window.innerHeight - event.clientY) < 100) ? (window.innerHeight - 103) : event.clientY) + "px";
-      contextMenu.style.left = ((event.clientX < 5) ? 5 : event.clientX) + "px";
-    } else Store.dispatch({ type: "disableContextMenu" });
   }
 
   return (

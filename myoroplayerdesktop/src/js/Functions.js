@@ -60,6 +60,21 @@ export async function hardDeletePlaylist() {
   Store.dispatch({ type: "disableModal" });
   getPlaylists();
 }
+export async function hardDeleteSong() {
+  const selected = Store.getState().modal.selected;
+  const success  = await twoArgIPC("hardDeleteSong", selected.songDirectory);
+  if(!success) return;
+  Store.dispatch({ type: "disableModal" });
+  loadPlaylist(selected.playlistDirectory);
+}
+export async function copySongToPlaylists(song) {
+  // eslint-disable-next-line
+  const success = await twoArgIPC("copySongToPlaylists", song);
+}
+export async function moveSongToPlaylist(song) {
+  const success = await twoArgIPC("moveSongToPlaylist", song);
+  if(success) loadPlaylist(song.playlistDirectory);
+}
 export async function loadPlaylist(playlist) {
   await Store.dispatch({ type: "setShowLoadingBar", payload: true });
   const loadingBar = document.getElementById("loadingBar");
@@ -93,4 +108,39 @@ export function cleanTopBarDropdowns() {
     const topBarButtons = document.getElementsByClassName("topBarButton");
     for(let i = 0; i < topBarButtons.length; i++)
       document.getElementById(topBarButtons[i].innerHTML).style.display = "none";
+}
+
+
+
+// Context menu functions
+export async function toggleContextMenu(event, mode, obj) {
+  let contextMenu           = document.getElementById("contextMenu");
+  const contextMenuSelected = Store.getState().contextMenu.selected;
+
+  if(!contextMenu || (contextMenu && contextMenuSelected !== obj)) {
+    await Store.dispatch({
+      type: "enableContextMenu",
+      payload: {
+        mode:     mode,
+        selected: obj
+      }
+    });
+
+    contextMenu = document.getElementById("contextMenu");
+
+    switch(mode) {
+      case "playlist":
+        contextMenu.style.top  = (((window.innerHeight - event.clientY) < 100) ? (window.innerHeight - 103) : event.clientY) + "px";
+        contextMenu.style.left = ((event.clientX < 5) ? 5 : event.clientX) + "px";
+        break;
+      case "song":
+        contextMenu.style.top  = (((window.innerHeight - event.clientY) < 140) ? (window.innerHeight - 140) : event.clientY) + "px";
+        contextMenu.style.left = (((window.innerWidth - event.clientX) < 260) ? (window.innerWidth - 300) : event.clientX) + "px";
+        break;
+      default: break;
+    }
+
+  } else if(contextMenu && contextMenuSelected === obj) {
+    Store.dispatch({ type: "disableContextMenu" });
+  }
 }

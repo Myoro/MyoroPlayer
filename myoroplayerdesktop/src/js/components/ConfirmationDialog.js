@@ -2,12 +2,12 @@ import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import "../../css/Modal.css";
 import Store from "../ReduxStore.js";
-import { hardDeletePlaylist } from "../Functions.js";
+import { hardDeletePlaylist, hardDeleteSong } from "../Functions.js";
 
 function ConfirmationDialog({ hoverButton }) {
   const darkMode                = useSelector(state => state.darkMode);
   const modal                   = useSelector(state => state.modal);
-  const [ text, setText ]       = React.useState("Are you sure you want to do this?");
+  const [ text, setText ]       = React.useState(null);
   const [ buttons, setButtons ] = useState([]);
 
   const styles = {
@@ -21,6 +21,13 @@ function ConfirmationDialog({ hoverButton }) {
         setText("Are you sure you want to delete " + modal.selected.name);
         setButtons([
           { name: "Yes", onClick: hardDeletePlaylist },
+          { name: "No",  onClick: () => Store.dispatch({ type: "disableModal" }) }
+        ]);
+        break;
+      case "deleteSong":
+        setText("Are you sure you want to delete " + modal.selected.title);
+        setButtons([
+          { name: "Yes", onClick: hardDeleteSong },
           { name: "No",  onClick: () => Store.dispatch({ type: "disableModal" }) }
         ]);
         break;
@@ -44,7 +51,7 @@ function ConfirmationDialog({ hoverButton }) {
     );
   }
 
-  if(modal.mode === "deletePlaylist") {
+  if(modal.mode === "deletePlaylist" || modal.mode === "deleteSong") {
     return(
       <div className="dialog" id="confirmationDialog">
         <p

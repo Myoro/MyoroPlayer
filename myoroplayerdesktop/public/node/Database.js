@@ -228,6 +228,12 @@ function hardDeletePlaylist(event, playlist) {
     }
   });
 }
+function hardDeleteSong(event, songDirectory) {
+  fs.unlink(songDirectory, (error) => {
+    if(error) event.reply("hardDeleteSong", false);
+    else      { deleteSong(songDirectory); event.reply("hardDeleteSong", true); }
+  });
+}
 
 function deleteSong(directory) {
   db.run(
@@ -247,5 +253,7 @@ module.exports = {
   getPlaylistSongs,
   insertSong,
   softDeletePlaylist,
-  hardDeletePlaylist
+  hardDeletePlaylist,
+  hardDeleteSong,
+  deleteSong
 };

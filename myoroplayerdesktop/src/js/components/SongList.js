@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SongList.css";
+import { toggleContextMenu } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
@@ -44,13 +45,8 @@ function SongList() {
         key={index}
         onMouseOver={(event) => hoverButton(event, index)}
         onMouseOut={(event) => hoverButton(event, index)}
-        onClick={() => {
-          setSelected(index);
-          const lis = document.getElementById("songList").childNodes;
-          for(let i = 0; i < lis.length; i++)
-            if(i !== index)
-              toggleHover(lis[i], true);
-        }}
+        onClick={() => onClick(index)}
+        onContextMenu={(event) => toggleContextMenu(event, "song", song)}
       >
         {/* Album cover */}
         <img alt="cover" src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)} />
@@ -72,6 +68,14 @@ function SongList() {
         <p style={{ color: styles.text }}>{song.lengthStr}</p>
       </li>
     );
+  }
+
+  function onClick(index) {
+    setSelected(index);
+    const LIs = document.getElementById("songList").childNodes;
+    for(let i = 0; i < LIs.length; i++)
+      if(i !== index)
+        toggleHover(LIs[i], true);
   }
 
   return(

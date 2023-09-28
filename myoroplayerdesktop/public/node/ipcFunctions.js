@@ -7,7 +7,8 @@ const {
   getPlaylists: getPlaylistsDb,
   insertPlaylist,
   getPlaylistSongs,
-  insertSong
+  insertSong,
+  deleteSong
 } = require("./Database.js");
 
 function openPlaylist(event, win) {
@@ -136,10 +137,10 @@ async function loadPlaylist(event, playlist) {
       else if(stat.isDirectory())
         getSongs(directory + files[i] + '/');
     }
-  })(playlist.directory);
+  })(playlist);
 
   // 2. Analyze which songs have not been added to songs table yet
-  const dbSongs           = await getPlaylistSongs(playlist.directory);
+  const dbSongs           = await getPlaylistSongs(playlist);
   const dbSongDirectories = [];
   for(let i = 0; i < dbSongs.length; i++)
     dbSongDirectories.push(dbSongs[i].songDirectory);
@@ -232,7 +233,7 @@ async function loadPlaylist(event, playlist) {
 
     for(let i = 0; i < threadPool; i++) {
       if(buffers.length > 0) {
-        promises.push(threads[i].webContents.executeJavaScript(`(${getID3Tags.toString()})(${JSON.stringify(buffers[0])}, ${JSON.stringify(playlist.directory)});`));
+        promises.push(threads[i].webContents.executeJavaScript(`(${getID3Tags.toString()})(${JSON.stringify(buffers[0])}, ${JSON.stringify(playlist)});`));
         buffers.shift();
       } else break;
     }
@@ -256,9 +257,81 @@ async function loadPlaylist(event, playlist) {
     insertSong(processedSongs[i]);
 }
 
+async function copySongToPlaylists(event, win, song) {
+  const directories = await dialog.showOpenDialog(
+    win,
+    {
+      title:      "Copy Song to Playlist(s)",
+      properties: [ "openDirectory", "multiSelections" ]
+    }
+  ).then(result => {
+    if(result.canceled) return null;
+
+    const directories = [];
+    for(let i = 0; i < result.filePaths.length; i++) {
+      let directory = result.filePaths[i].replaceAll('\\', '/');
+      if(directory[directory.length - 1] !== '/') directory += '/';
+      directories.push(directory);
+    }
+
+    return directories;
+  });
+
+  if(directories === null) {
+    event.reply("copySongToPlaylists", undefined);
+    return;
+  }
+
+  let songName;
+  for(let i = (song.songDirectory.length - 1); i >= 0; i--) {
+    if(song.songDirectory[i] === '/') {
+      songName = song.songDirectory.substr(i + 1);
+      break;
+    }
+  }
+
+  for(let i = 0; i < directories.length; i++) {
+    fs.copyFile(song.songDirectory, directories[i] + songName, (error) => {
+      if(error) console.log(error);
+    });
+  }
+
+  event.reply("copySongToPlaylists", true);
+}
+
+function moveSongToPlaylist(event, win, song) {
+  dialog.showOpenDialog(
+    win,
+    {
+      title:      "Move Song to Playlist",
+      properties: [ "openDirectory" ]
+    }
+  ).then(result => {
+    if(result.canceled) { event.reply("moveSongToPlaylist", undefined); return; }
+
+    let directory = result.filePaths[0].replaceAll('\\', '/');
+    if(directory[directory.length - 1] !== '/') directory += '/';
+
+    for(let i = (song.songDirectory.length - 1); i >= 0; i--) {
+      if(song.songDirectory[i] === '/') {
+        directory += song.songDirectory.substr(i + 1);
+
+        fs.rename(song.songDirectory, directory, (error) => {
+          if(error) event.reply("moveSongToPlaylist", false);
+          else      { deleteSong(song.songDirectory); event.reply("moveSongToPlaylist", true); }
+        });
+
+        break;
+      }
+    }
+  });
+}
+
 module.exports = {
   openPlaylist,
   newPlaylist,
   getPlaylists,
-  loadPlaylist
+  loadPlaylist,
+  copySongToPlaylists,
+  moveSongToPlaylist
 };

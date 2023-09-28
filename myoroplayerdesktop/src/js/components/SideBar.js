@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SideBar.css";
-import { loadPlaylist } from "../Functions.js";
+import { loadPlaylist, toggleContextMenu } from "../Functions.js";
 
 function SideBar() {
   const darkMode                  = useSelector(state => state.darkMode);
@@ -27,20 +27,23 @@ function SideBar() {
         name={JSON.stringify(playlist)}
         onMouseOver={(event) => hoverButton(event, index)}
         onMouseOut={(event) => hoverButton(event, index)}
-        onClick={() => {
-          setSelected(index);
-          const playlists = document.getElementById("sideBar").childNodes;
-          for(let i = 0; i < playlists.length; i++) {
-            if(playlists[i].name !== JSON.stringify(playlist)) {
-              playlists[i].style.background = "none";
-              playlists[i].style.color      = darkMode ? "#EDE6D6" : "#181818";
-            }
-          }
-
-          loadPlaylist(playlist);
-        }}
+        onClick={() => onClick(playlist, index)}
+        onContextMenu={(event) => toggleContextMenu(event, "playlist", playlist)}
       >{playlist.name}</button>
     );
+  }
+
+  function onClick(playlist, index) {
+    setSelected(index);
+    const playlists = document.getElementById("sideBar").childNodes;
+    for(let i = 0; i < playlists.length; i++) {
+      if(playlists[i].name !== JSON.stringify(playlist)) {
+        playlists[i].style.background = "none";
+        playlists[i].style.color      = darkMode ? "#EDE6D6" : "#181818";
+      }
+    }
+
+    loadPlaylist(playlist.directory);
   }
 
   return(

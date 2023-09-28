@@ -5,13 +5,16 @@ const {
   openPlaylist,
   newPlaylist,
   getPlaylists,
-  loadPlaylist
+  loadPlaylist,
+  copySongToPlaylists,
+  moveSongToPlaylist
 } = require("./ipcFunctions.js");
 const {
   initializeDatabase,
   renamePlaylist,
   softDeletePlaylist,
-  hardDeletePlaylist
+  hardDeletePlaylist,
+  hardDeleteSong
 } = require("./Database.js");
 
 function createWindow() {
@@ -35,7 +38,7 @@ function createWindow() {
   );
   win.setMenu(null);
 
-  if(isDev) win.webContents.openDevTools(true);
+  // if(isDev) win.webContents.openDevTools(true);
 
   ipcMain.on("initializeDatabase", initializeDatabase);
   ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));
@@ -45,6 +48,9 @@ function createWindow() {
   ipcMain.on("loadPlaylist", (event, playlist) => loadPlaylist(event, playlist));
   ipcMain.on("softDeletePlaylist", (event, playlist) => softDeletePlaylist(event, playlist));
   ipcMain.on("hardDeletePlaylist", (event, playlist) => hardDeletePlaylist(event, playlist));
+  ipcMain.on("copySongToPlaylists", (event, song) => copySongToPlaylists(event, win, song));
+  ipcMain.on("moveSongToPlaylist", (event, song) => moveSongToPlaylist(event, win, song));
+  ipcMain.on("hardDeleteSong", (event, songDirectory) => hardDeleteSong(event, songDirectory));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 
