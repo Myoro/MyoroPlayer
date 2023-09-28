@@ -63,6 +63,10 @@ function TopBar() {
       name: "View",
       options: [
         {
+          name:     "Toggle Dark Mode",
+          shortcut: "Alt + D"
+        },
+        {
           name:     "Toggle Sidebar",
           shortcut: "Alt + S"
         },
