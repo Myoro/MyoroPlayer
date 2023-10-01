@@ -14,7 +14,9 @@ const {
   renamePlaylist,
   softDeletePlaylist,
   hardDeletePlaylist,
-  hardDeleteSong
+  hardDeleteSong,
+  getShuffleRepeat,
+  setShuffleRepeat
 } = require("./Database.js");
 
 function createWindow() {
@@ -38,7 +40,7 @@ function createWindow() {
   );
   win.setMenu(null);
 
-  // if(isDev) win.webContents.openDevTools(true);
+  if(isDev) win.webContents.openDevTools(true);
 
   ipcMain.on("initializeDatabase", initializeDatabase);
   ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));
@@ -51,6 +53,8 @@ function createWindow() {
   ipcMain.on("copySongToPlaylists", (event, song) => copySongToPlaylists(event, win, song));
   ipcMain.on("moveSongToPlaylist", (event, song) => moveSongToPlaylist(event, win, song));
   ipcMain.on("hardDeleteSong", (event, songDirectory) => hardDeleteSong(event, songDirectory));
+  ipcMain.on("getShuffleRepeat", (event) => getShuffleRepeat(event));
+  ipcMain.on("setShuffleRepeat", (event, data) => setShuffleRepeat(data));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 

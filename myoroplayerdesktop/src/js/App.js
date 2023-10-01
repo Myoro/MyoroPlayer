@@ -15,6 +15,9 @@ function App() {
   React.useEffect(() => {
     initializeDatabase();
 
+    // Allows other components to wait until database is initialized to avoid errors
+    Store.dispatch({ type: "setDatabaseInitialized", payload: true });
+
     getPlaylists();
 
     const darkMode = Store.getState().darkMode;

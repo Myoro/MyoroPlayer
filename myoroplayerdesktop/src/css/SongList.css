@@ -17,8 +17,9 @@
 
 /* Album cover */
 #songList > li > img {
-  width:  55px;
-  height: 55px;
+  width:       55px;
+  height:      55px;
+  user-select: none;
 }
 /* Song title & artist */
 #songList > li > div {

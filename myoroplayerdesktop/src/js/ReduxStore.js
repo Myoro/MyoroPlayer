@@ -20,7 +20,14 @@ const initialState = {
   // Loading bar displayed in SongList
   showLoadingBar: false,
   // Songs displayed in SongList
-  songs: []
+  songs: [],
+  // Local player current song
+  currentSong: null,
+  // Slider values in FooterSongControls
+  songSlider:   { value: 50, max: 100 },
+  volumeSlider: 50,
+  // Allows components to not cause errors with the Database
+  databaseInitialized: false
 };
 
 function reducer(state = initialState, action) {
@@ -76,6 +83,19 @@ function reducer(state = initialState, action) {
     //
     case "setSongs":
       return { ...state, songs: action.payload };
+    //
+    case "setCurrentSong":
+      return { ...state, currentSong: action.payload };
+    //
+    case "setSongSliderValue":
+      return { ...state, songSlider: { ...state.songSlider, value: action.payload } };
+    case "setSongSliderMax":
+      return { ...state, songSlider: { ...state.songSlider, max: action.payload } };
+    case "setVolumeSlider":
+      return { ...state, volumeSlider: action.payload };
+    //
+    case "setDatabaseInitialized":
+      return { ...state, databaseInitialized: true };
     //
     default:
       return state;

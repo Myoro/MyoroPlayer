@@ -2,6 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SongList.css";
 import { toggleContextMenu } from "../Functions.js";
+import { playSong } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 
@@ -46,6 +47,7 @@ function SongList() {
         onMouseOver={(event) => hoverButton(event, index)}
         onMouseOut={(event) => hoverButton(event, index)}
         onClick={() => onClick(index)}
+        onDoubleClick={() => playSong(song)}
         onContextMenu={(event) => toggleContextMenu(event, "song", song)}
       >
         {/* Album cover */}

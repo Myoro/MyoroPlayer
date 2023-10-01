@@ -19,8 +19,9 @@ function twoArgIPC(event, data) {
 
 
 // Electron one-liner IPC calls
-export function quit()               { ipcRenderer.send("quit"); }
-export function initializeDatabase() { ipcRenderer.send("initializeDatabase"); }
+export function quit()                        { ipcRenderer.send("quit"); }
+export function initializeDatabase()          { ipcRenderer.send("initializeDatabase"); }
+export function setShuffleRepeat(mode, value) { ipcRenderer.send("setShuffleRepeat", { mode: mode, value: value }); }
 
 
 
@@ -108,6 +109,14 @@ export function cleanTopBarDropdowns() {
     const topBarButtons = document.getElementsByClassName("topBarButton");
     for(let i = 0; i < topBarButtons.length; i++)
       document.getElementById(topBarButtons[i].innerHTML).style.display = "none";
+}
+
+
+
+// FooterSongControls
+export async function getShuffleRepeatValues() {
+  const result = await oneArgIPC("getShuffleRepeat");
+  return result;
 }
 
 

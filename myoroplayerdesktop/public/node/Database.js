@@ -65,6 +65,37 @@ function initializeDatabase() {
     }
   );
 
+  db.get(
+    `SELECT name FROM sqlite_master WHERE type="table" AND name="shuffle_repeat";`,
+    (error, row) => {
+      if(error)    console.log("Error fetching 'shuffle_repeat' table's existence");
+      else if(row) console.log("'shuffle_repeat' table already exists");
+      else {
+        db.run(
+          `
+            CREATE TABLE shuffle_repeat(
+              id      INTEGER PRIMARY KEY,
+              shuffle INTEGER,
+              repeat  INTEGER
+            );
+          `,
+          (error) => {
+            if(error) console.log("Error creating 'shuffle_repeat' table");
+            else {
+              db.all(
+                `INSERT INTO shuffle_repeat(shuffle, repeat) VALUES(0, 0)`,
+                (error) => {
+                  if(error) console.log("Error creating 'shuffle_repeat' table");
+                  else      console.log("'shuffle_repeat' table created");
+                }
+              );
+            }
+          }
+        );
+      }
+    }
+  );
+
   setTimeout(() => console.log("\n\n\n"), 100);
 }
 
@@ -129,6 +160,15 @@ function getPlaylistSongs(directory) {
     );
   });
 }
+function getShuffleRepeat(event) {
+  db.get(
+    `SELECT shuffle, repeat FROM shuffle_repeat;`,
+    (error, row) => {
+      if(error) console.log(error);
+      else      event.reply("getShuffleRepeat", row);
+    }
+  );
+}
 
 
 
@@ -138,6 +178,13 @@ function insertPlaylist(playlist) {
     `INSERT INTO playlists (directory, name) VALUES (?, ?);`,
     [ playlist.directory, playlist.name ],
     (error) => { if(error) console.log("Error inserting playlist (Database:insertPlaylist)") }
+  );
+}
+function setShuffleRepeat(data) {
+  db.run(
+    `UPDATE shuffle_repeat SET ${data.mode} = ?;`,
+    [ data.value ],
+    (error) => { if(error) console.log(error); }
   );
 }
 
@@ -255,5 +302,7 @@ module.exports = {
   softDeletePlaylist,
   hardDeletePlaylist,
   hardDeleteSong,
-  deleteSong
+  deleteSong,
+  getShuffleRepeat,
+  setShuffleRepeat
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
+import { setVolume } from "../players/LocalPlayer.js";
 import QueueDark from "../../img/QueueDark.svg";
 import QueueLight from "../../img/QueueLight.svg";
 import YouTubePlayerDark from "../../img/YouTubePlayerDark.png";
@@ -10,6 +11,7 @@ import SoundCloudPlayerLight from "../../img/SoundCloudPlayerLight.png";
 
 function FooterMiscControls() {
   const darkMode                = useSelector(state => state.darkMode);
+  const volumeSlider            = useSelector(state => state.volumeSlider);
   const [ buttons, setButtons ] = React.useState([
     {
       src: darkMode ? QueueDark : QueueLight,
@@ -56,7 +58,14 @@ function FooterMiscControls() {
   return(
     <section id="footerMiscControls">
       <div>{mapButtons()}</div>
-      <input className="slider" type="range" min={0} max={100} value={50} />
+      <input
+        className="slider"
+        type="range"
+        min={0}
+        max={100}
+        value={volumeSlider}
+        onChange={setVolume}
+      />
     </section>
   );
 }
