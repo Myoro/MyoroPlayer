@@ -32,7 +32,7 @@
   display:      inline-block;
   font-size:    18px;
   padding-left: 100%; /* Start offscreen */
-  animation:    marquee 3s linear infinite;
+  animation:    marquee 5s linear infinite;
 }
 @keyframes marquee {
   0% { transform: translateX(100%); }
