@@ -40,7 +40,7 @@ function createWindow() {
   );
   win.setMenu(null);
 
-  if(isDev) win.webContents.openDevTools(true);
+  // if(isDev) win.webContents.openDevTools(true);
 
   ipcMain.on("initializeDatabase", initializeDatabase);
   ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));

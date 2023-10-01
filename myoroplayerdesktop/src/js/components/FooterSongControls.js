@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
 import Store from "../ReduxStore.js";
-import { previousSong, togglePlay, setSongPosition } from "../players/LocalPlayer.js";
+import { previousSong, nextSong, togglePlay, setSongPosition } from "../players/LocalPlayer.js";
 import { getShuffleRepeatValues, setShuffleRepeat as setShuffleRepeatDb } from "../Functions.js";
 import ShuffleDark from "../../img/ShuffleDark.svg";
 import ShuffleLight from "../../img/ShuffleLight.svg";
@@ -40,8 +40,9 @@ function FooterSongControls() {
       onClick: playOnClick
     },
     {
-      src: darkMode ? NextDark : NextLight,
-      alt: "next"
+      src:     darkMode ? NextDark : NextLight,
+      alt:     "next",
+      onClick: nextSong
     },
     {
       src:     darkMode ? RepeatDark : RepeatLight,

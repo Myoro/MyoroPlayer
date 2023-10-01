@@ -1,7 +1,9 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
-import { setVolume } from "../players/LocalPlayer.js";
+import Store from "../ReduxStore.js";
+import { setVolume, getQueue, playQueuedSong } from "../players/LocalPlayer.js";
+import { hoverButton as basicHover } from "../Functions.js";
 import QueueDark from "../../img/QueueDark.svg";
 import QueueLight from "../../img/QueueLight.svg";
 import YouTubePlayerDark from "../../img/YouTubePlayerDark.png";
@@ -12,16 +14,20 @@ import SoundCloudPlayerLight from "../../img/SoundCloudPlayerLight.png";
 function FooterMiscControls() {
   const darkMode                = useSelector(state => state.darkMode);
   const volumeSlider            = useSelector(state => state.volumeSlider);
+  const queueList               = useSelector(state => state.queueList);
   const [ buttons, setButtons ] = React.useState([
     {
-      src: darkMode ? QueueDark : QueueLight,
-      alt: "queue"
+      src:     darkMode ? QueueDark : QueueLight,
+      alt:     "queue",
+      onClick: toggleQueueList
     },
     {
       src: darkMode ? YouTubePlayerDark : YouTubePlayerLight,
       alt: "listeningMode"
     }
   ]);
+
+  const styles = { border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" };
 
   function hoverButton(event) {
     let hovered = false;
@@ -42,17 +48,66 @@ function FooterMiscControls() {
     });
   }
 
+  function toggleQueueList() {
+    const queue = getQueue();
+    if(Store.getState().queueList.show === true) Store.dispatch({ type: "disableQueueList" });
+    else if(queue.length > 0)                    Store.dispatch({ type: "enableQueueList", payload: queue });
+  }
+
   function mapButtons() {
-    return buttons.map((button, index) =>
-      <img
-        key={index}
-        draggable={false}
-        alt={button.alt}
-        src={button.src}
-        onMouseOver={hoverButton}
-        onMouseOut={hoverButton}
-      />
-    );
+    return buttons.map((button, index) => {
+      if(button.alt === "queue") {
+        return(
+          <div>
+            {
+              queueList.show
+              &&
+              <ul
+                style={{
+                  background:  darkMode ? "#181818" : "#EDE6D6",
+                  borderTop:   styles.border,
+                  borderLeft:  styles.border,
+                  borderRight: styles.border
+                }}
+              >
+                {
+                  queueList.queue.map((song, index) =>
+                    <li
+                      style={{ borderBottom: styles.border }}
+                      onMouseOver={basicHover}
+                      onMouseOut={basicHover}
+                      onClick={() => playQueuedSong(index)}
+                    >{song.title}</li>
+                  )
+                }
+              </ul>
+            }
+            <img
+              id="queueList"
+              key={index}
+              draggable={false}
+              alt={button.alt}
+              src={button.src}
+              onMouseOver={hoverButton}
+              onMouseOut={hoverButton}
+              onClick={button.onClick}
+            />
+          </div>
+        );
+      } else {
+        return(
+          <img
+            key={index}
+            draggable={false}
+            alt={button.alt}
+            src={button.src}
+            onMouseOver={hoverButton}
+            onMouseOut={hoverButton}
+            onClick={button.onClick}
+          />
+        );
+      }
+    });
   }
 
   return(

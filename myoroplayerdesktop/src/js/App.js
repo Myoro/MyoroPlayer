@@ -40,10 +40,16 @@ function App() {
 
     // Clean dropdowns whenever topBarButton is not clicked
     if(event.target.className !== "topBarButton") cleanTopBarDropdowns();
+
+    // Clean queue list shown in FooterMiscControls on left clicks
+    if(event.target.id !== "queueList") Store.dispatch({ type: "disableQueueList" });
   }
 
   function keydown(event) {
-    if(event.key === "Escape")                                cleanTopBarDropdowns();
+    if(event.key === "Escape") {
+      cleanTopBarDropdowns();
+      Store.dispatch({ type: "disableQueueList" });
+    }
     if(event.key === "Escape" && Store.getState().modal.show) Store.dispatch({ type: "disableModal" });
 
     // Ctrl key keyboard shortcuts

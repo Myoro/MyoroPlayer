@@ -27,7 +27,9 @@ const initialState = {
   songSlider:   { value: 50, max: 100 },
   volumeSlider: 50,
   // Allows components to not cause errors with the Database
-  databaseInitialized: false
+  databaseInitialized: false,
+  // Queue list shown in FooterMiscControls
+  queueList: { show: false, queue: [] }
 };
 
 function reducer(state = initialState, action) {
@@ -96,6 +98,11 @@ function reducer(state = initialState, action) {
     //
     case "setDatabaseInitialized":
       return { ...state, databaseInitialized: true };
+    //
+    case "enableQueueList":
+      return { ...state, queueList: { show: true, queue: action.payload } };
+    case "disableQueueList":
+      return { ...state, queueList: { show: false, queue: [] } };
     //
     default:
       return state;

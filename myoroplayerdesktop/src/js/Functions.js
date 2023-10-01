@@ -139,12 +139,12 @@ export async function toggleContextMenu(event, mode, obj) {
 
     switch(mode) {
       case "playlist":
-        contextMenu.style.top  = (((window.innerHeight - event.clientY) < 100) ? (window.innerHeight - 103) : event.clientY) + "px";
+        contextMenu.style.top  = (((window.innerHeight - event.clientY) < 103) ? (window.innerHeight - 103) : event.clientY) + "px";
         contextMenu.style.left = ((event.clientX < 5) ? 5 : event.clientX) + "px";
         break;
       case "song":
         contextMenu.style.top  = (((window.innerHeight - event.clientY) < 140) ? (window.innerHeight - 140) : event.clientY) + "px";
-        contextMenu.style.left = (((window.innerWidth - event.clientX) < 260) ? (window.innerWidth - 300) : event.clientX) + "px";
+        contextMenu.style.left = (((window.innerWidth - event.clientX) < 300) ? (window.innerWidth - 300) : event.clientX) + "px";
         break;
       default: break;
     }

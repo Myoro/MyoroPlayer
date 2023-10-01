@@ -75,7 +75,7 @@
   flex-direction: row;
   gap:            5px;
 }
-#footerMiscControls > div > img {
+#footerMiscControls > div img {
   width:         30px;
   height:        30px;
   cursor:        pointer;
@@ -83,6 +83,21 @@
   padding:       5px;
 }
 #footerMiscControls > input { width: 100%; }
+/* Queue list */
+#footerMiscControls > div > div > ul {
+  width:      200px;
+  position:   absolute;
+  transform:  translate(-84px, -70px);
+  text-align: center;
+}
+#footerMiscControls > div > div > ul > li {
+  user-select:   none;
+  padding:       5px;
+  cursor:        pointer;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
 
 #spacer {
   display: none;
