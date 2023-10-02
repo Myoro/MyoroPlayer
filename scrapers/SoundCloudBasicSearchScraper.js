@@ -4,22 +4,10 @@ const cheerio  = require("cheerio");
 const prettier = require("prettier");
 const fs       = require("fs");
 
-const url   = "https://soundcloud.com/search?q=";
 const query = RLS.question("Enter query: ");
 
-// songDirectory
-// playlistDirectory
-// title
-// artist
-// album
-// cover
-// lengthStr
-// lengthInt
-
-// RELATED TRACKS
-
-async function scrape(url) {
-  let response = await axios.get(url);
+async function basicSearchScrape(query) {
+  let response = await axios.get("https://soundcloud.com/search?q=" + query);
   let $        = cheerio.load(response.data);
 
   // Gathering the song titles & hrefs
@@ -86,4 +74,4 @@ async function scrape(url) {
   return result;
 }
 
-scrape(url + query).then(result => console.log(result));
+basicSearchScrape(query).then(result => console.log(result));

@@ -5,6 +5,7 @@ import { toggleContextMenu } from "../Functions.js";
 import { playSong } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
+import SearchBar from "./SearchBar.js";
 
 function SongList() {
   const darkMode                  = useSelector(state => state.darkMode);
@@ -81,28 +82,33 @@ function SongList() {
   }
 
   return(
-    <ul id="songList">
-      {
-        !showLoadingBar
+    <>
+      <ul id="songList">
+        {
+          !showLoadingBar
 
-        ?
+          ?
 
-        mapSongs()
+          mapSongs()
 
-        :
+          :
 
-        <div
-          id="loading"
-          style={{ border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}
-        >
           <div
-            id="loadingBar"
-            style={{ background: styles.text }}
+            id="loading"
+            style={{ border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" }}
           >
+            <div
+              id="loadingBar"
+              style={{ background: styles.text }}
+            >
+            </div>
           </div>
-        </div>
-      }
-    </ul>
+        }
+
+      </ul>
+
+      <SearchBar />
+    </>
   );
 }
 

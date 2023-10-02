@@ -29,7 +29,9 @@ const initialState = {
   // Allows components to not cause errors with the Database
   databaseInitialized: false,
   // Queue list shown in FooterMiscControls
-  queueList: { show: false, queue: [] }
+  queueList: { show: false, queue: [] },
+  // SearchBar
+  searchBar: { show: false, songsCopy: null }
 };
 
 function reducer(state = initialState, action) {
@@ -103,6 +105,11 @@ function reducer(state = initialState, action) {
       return { ...state, queueList: { show: true, queue: action.payload } };
     case "disableQueueList":
       return { ...state, queueList: { show: false, queue: [] } };
+    //
+    case "enableSearchBar":
+      return { ...state, searchBar: { show: true, songsCopy: action.payload } };
+    case "disableSearchBar":
+      return { ...state, searchBar: { show: false, songsCopy: null } };
     //
     default:
       return state;

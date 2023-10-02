@@ -7,7 +7,8 @@ import {
   newPlaylist,
   getPlaylists,
   initializeDatabase,
-  cleanTopBarDropdowns
+  cleanTopBarDropdowns,
+  toggleSearchBar
 } from "./Functions.js";
 import Root from "./components/Root.js";
 
@@ -46,11 +47,19 @@ function App() {
   }
 
   function keydown(event) {
+    /* Escape key shortcuts */
+    // TopBar buttons & queue list in FooterMiscControls
     if(event.key === "Escape") {
       cleanTopBarDropdowns();
       Store.dispatch({ type: "disableQueueList" });
     }
+    // Modal
     if(event.key === "Escape" && Store.getState().modal.show) Store.dispatch({ type: "disableModal" });
+    // SearchBar
+    if(event.key === "Escape" && Store.getState().searchBar.show) toggleSearchBar();
+
+    // SearchBar
+    if(event.key === '/') { event.preventDefault(); toggleSearchBar(); }
 
     // Ctrl key keyboard shortcuts
     if(event.ctrlKey) {

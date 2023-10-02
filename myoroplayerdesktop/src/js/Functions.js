@@ -153,3 +153,21 @@ export async function toggleContextMenu(event, mode, obj) {
     Store.dispatch({ type: "disableContextMenu" });
   }
 }
+
+
+
+// SearchBar
+export async function toggleSearchBar() {
+  const songs     = Store.getState().songs;
+  const searchBar = Store.getState().searchBar;
+
+  if(songs.length === 0) return;
+
+  if(searchBar.show) {
+    Store.dispatch({ type: "setSongs", payload: searchBar.songsCopy });
+    Store.dispatch({ type: "disableSearchBar" });
+  } else {
+    await Store.dispatch({ type: "enableSearchBar", payload: songs });
+    document.getElementById("searchBar").focus();
+  }
+}

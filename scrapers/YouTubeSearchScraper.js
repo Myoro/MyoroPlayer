@@ -4,45 +4,50 @@ const cheerio  = require("cheerio");
 const prettier = require("prettier");
 const fs       = require("fs");
 
-const url   = "https://www.youtube.com/results?search_query=";
 const query = RLS.question("Enter query: ");
 
-async function scrape(url) {
-  const response = await axios.get(url);
+async function basicSearchScrape(query, related) {
+  var   url       = "https://www.youtube.com/results?search_query=" + query;
+  if(related) url += " related songs";
+
+  const response = await axios.get("https://www.youtube.com/results?search_query=" + query);
   const $        = cheerio.load(response.data);
 
+  // Getting ytInitialData (JSON with the treasure)
   var ytInitialData;
-  $("body script").each((index, obj) => {
-    const contents = $(obj).text();
-    if(!contents.includes("var ytInitialData")) return;
-    ytInitialData = JSON.parse(
-      contents.substring(
-        contents.indexOf('{'),
-        contents.lastIndexOf('}') + 1
-      )
-    );
-  });
-  ytInitialData = ytInitialData.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents[0].itemSectionRenderer.contents;
+  $("body script").each((index, script) => {
+    const contents = $(script).text();
 
-  const results = [];
+    if(contents.includes("var ytInitialData")) {
+      ytInitialData = JSON.parse(
+        contents.substring(
+          contents.indexOf('{'),
+          contents.lastIndexOf('}') + 1
+        )
+      );
+      ytInitialData = ytInitialData.contents.twoColumnSearchResultsRenderer.primaryContents.sectionListRenderer.contents[0].itemSectionRenderer.contents;
+    }
+  });
+
+  // Getting song inforamtion
+  const result = [];
   for(let i = 0; i < ytInitialData.length; i++) {
     if(ytInitialData[i].hasOwnProperty("videoRenderer")) {
-      const video = ytInitialData[i].videoRenderer;
-      const json  = {
-        videoID:   video.videoId,
-        cover:     video.thumbnail.thumbnails[0].url,
-        name:      video.title.runs[0].text,
-        artist:    video.ownerText.runs[0].text,
-        lengthInt: null,
-        lengthStr: video.thumbnailOverlays[0].thumbnailOverlayTimeStatusRenderer.text.simpleText
-      };
-      const split    = json.lengthStr.split(':');
-      json.lengthInt = Number(split[0] * 60) + Number(split[1]);
-      results.push(json);
+      const data  = ytInitialData[i].videoRenderer;
+      const split = data.lengthText.simpleText.split(':');
+
+      result.push({
+        videoID:   data.videoId,
+        title:     data.title.runs[0].text,
+        channel:   data.longBylineText.runs[0].text,
+        pfp:       data.channelThumbnailSupportedRenderers.channelThumbnailWithLinkRenderer.thumbnail.thumbnails[0].url,
+        lengthStr: data.lengthText.simpleText,
+        lengthInt: (split[0] * 60) + split[1]
+      });
     }
   }
 
-  return results;
+  return result;
 }
 
-scrape(url + query).then(result => console.log(result));
+basicSearchScrape(query, true).then(result => console.log(result));

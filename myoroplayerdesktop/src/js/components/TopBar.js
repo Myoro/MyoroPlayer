@@ -6,7 +6,8 @@ import {
   hoverButton,
   openPlaylist,
   newPlaylist,
-  cleanTopBarDropdowns as cleanDropdowns
+  cleanTopBarDropdowns as cleanDropdowns,
+  toggleSearchBar
 } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
@@ -28,13 +29,14 @@ function TopBar() {
           onClick:  newPlaylist
         },
         {
-          name:     "Transfer/Sync Music",
-          shortcut: "Ctrl + T"
-        },
-        {
           name:     "Quit MyoroPlayer",
           shortcut: "Ctrl + Q",
           onClick:  quit
+        },
+        {
+          name:     "Search Songs",
+          shortcut: "/",
+          onClick:  toggleSearchBar
         }
       ]
     },

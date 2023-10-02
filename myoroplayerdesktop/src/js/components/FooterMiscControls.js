@@ -6,6 +6,8 @@ import { setVolume, getQueue, playQueuedSong } from "../players/LocalPlayer.js";
 import { hoverButton as basicHover } from "../Functions.js";
 import QueueDark from "../../img/QueueDark.svg";
 import QueueLight from "../../img/QueueLight.svg";
+import LocalPlayerDark from "../../img/LocalPlayerDark.png";
+import LocalPlayerLight from "../../img/LocalPlayerLight.png";
 import YouTubePlayerDark from "../../img/YouTubePlayerDark.png";
 import YouTubePlayerLight from "../../img/YouTubePlayerLight.png";
 import SoundCloudPlayerDark from "../../img/SoundCloudPlayerDark.png";
@@ -22,7 +24,7 @@ function FooterMiscControls() {
       onClick: toggleQueueList
     },
     {
-      src: darkMode ? YouTubePlayerDark : YouTubePlayerLight,
+      src: darkMode ? LocalPlayerDark : LocalPlayerLight,
       alt: "listeningMode"
     }
   ]);
@@ -42,7 +44,7 @@ function FooterMiscControls() {
       if(event.target.alt === "queue")
         result[0].src = !hovered ? (darkMode ? QueueLight : QueueDark) : (darkMode ? QueueDark : QueueLight);
       else
-        result[1].src = !hovered ? (darkMode ? YouTubePlayerLight : YouTubePlayerDark) : (darkMode ? YouTubePlayerDark : YouTubePlayerLight);
+        result[1].src = !hovered ? (darkMode ? LocalPlayerLight : LocalPlayerDark) : (darkMode ? LocalPlayerDark : LocalPlayerLight);
 
       return result;
     });
@@ -58,7 +60,7 @@ function FooterMiscControls() {
     return buttons.map((button, index) => {
       if(button.alt === "queue") {
         return(
-          <div>
+          <div key={index}>
             {
               queueList.show
               &&
@@ -73,6 +75,7 @@ function FooterMiscControls() {
                 {
                   queueList.queue.map((song, index) =>
                     <li
+                      key={index}
                       style={{ borderBottom: styles.border }}
                       onMouseOver={basicHover}
                       onMouseOut={basicHover}
@@ -84,7 +87,6 @@ function FooterMiscControls() {
             }
             <img
               id="queueList"
-              key={index}
               draggable={false}
               alt={button.alt}
               src={button.src}
