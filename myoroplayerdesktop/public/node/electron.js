@@ -7,7 +7,9 @@ const {
   getPlaylists,
   loadPlaylist,
   copySongToPlaylists,
-  moveSongToPlaylist
+  moveSongToPlaylist,
+  searchYouTube,
+  searchSoundCloud
 } = require("./ipcFunctions.js");
 const {
   initializeDatabase,
@@ -40,7 +42,7 @@ function createWindow() {
   );
   win.setMenu(null);
 
-  if(isDev) win.webContents.openDevTools(true);
+  // if(isDev) win.webContents.openDevTools(true);
 
   ipcMain.on("initializeDatabase", initializeDatabase);
   ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));
@@ -55,6 +57,8 @@ function createWindow() {
   ipcMain.on("hardDeleteSong", (event, songDirectory) => hardDeleteSong(event, songDirectory));
   ipcMain.on("getShuffleRepeat", (event) => getShuffleRepeat(event));
   ipcMain.on("setShuffleRepeat", (event, data) => setShuffleRepeat(data));
+  ipcMain.on("searchYouTube", (event, data) => searchYouTube(event, data.query, data.related));
+  ipcMain.on("searchSoundCloud", (event, query) => searchSoundCloud(event, query));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 

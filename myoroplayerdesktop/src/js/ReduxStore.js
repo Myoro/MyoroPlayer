@@ -6,17 +6,9 @@ const initialState = {
   // Playlists used by SideBar
   playlists: [],
   // Abstract context menu
-  contextMenu: {
-    show:     false,
-    mode:     null,
-    selected: null
-  },
+  contextMenu: { show: false, mode: null, selected: null },
   // Modal
-  modal: {
-    show:     false,
-    mode:     null,
-    selected: null
-  },
+  modal: { show: false, mode: null, selected: null },
   // Loading bar displayed in SongList
   showLoadingBar: false,
   // Songs displayed in SongList
@@ -31,7 +23,9 @@ const initialState = {
   // Queue list shown in FooterMiscControls
   queueList: { show: false, queue: [] },
   // SearchBar
-  searchBar: { show: false, songsCopy: null }
+  searchBar: { show: false, mode: null, songsCopy: null },
+  // Either local, YouTube, or SoundCloud
+  listeningMode: "local"
 };
 
 function reducer(state = initialState, action) {
@@ -107,9 +101,12 @@ function reducer(state = initialState, action) {
       return { ...state, queueList: { show: false, queue: [] } };
     //
     case "enableSearchBar":
-      return { ...state, searchBar: { show: true, songsCopy: action.payload } };
+      return { ...state, searchBar: { show: true, mode: action.payload.mode, songsCopy: action.payload.songsCopy } };
     case "disableSearchBar":
-      return { ...state, searchBar: { show: false, songsCopy: null } };
+      return { ...state, searchBar: { show: false, mode: null, songsCopy: null } };
+    //
+    case "setListeningMode":
+      return { ...state, listeningMode: action.payload };
     //
     default:
       return state;

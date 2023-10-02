@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SideBar.css";
+import Store from "../ReduxStore.js";
 import { loadPlaylist, toggleContextMenu } from "../Functions.js";
 
 function SideBar() {
@@ -43,6 +44,7 @@ function SideBar() {
       }
     }
 
+    Store.dispatch({ type: "setListeningMode", payload: "local" });
     loadPlaylist(playlist.directory);
   }
 

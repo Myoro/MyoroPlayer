@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
 import Store from "../ReduxStore.js";
-import { previousSong, nextSong, togglePlay, setSongPosition } from "../players/LocalPlayer.js";
+import { previousSong, nextSong, togglePlay, setSongPosition, pause } from "../players/LocalPlayer.js";
 import { getShuffleRepeatValues, setShuffleRepeat as setShuffleRepeatDb } from "../Functions.js";
 import ShuffleDark from "../../img/ShuffleDark.svg";
 import ShuffleLight from "../../img/ShuffleLight.svg";
@@ -22,6 +22,7 @@ function FooterSongControls() {
   const currentSong              = useSelector(state => state.currentSong);
   const songSlider               = useSelector(state => state.songSlider);
   const databaseInitialized      = useSelector(state => state.databaseInitialized);
+  const listeningMode            = useSelector(state => state.listeningMode);
   const [ buttons, setButtons ]  = React.useState([
     {
       src:     darkMode ? ShuffleDark : ShuffleLight,
@@ -51,6 +52,16 @@ function FooterSongControls() {
       onClick: (event) => setShuffleRepeat(event, "repeat")
     }
   ]);
+
+  React.useEffect(() => {
+    pause();
+    setButtons(previousButtons => {
+      const result = [ ...previousButtons ];
+      result[2].src = darkMode ? PlayDark : PlayLight;
+      return result;
+    });
+    // eslint-disable-next-line
+  }, [listeningMode]);
 
   React.useEffect(() => {
     if(databaseInitialized === false) return;

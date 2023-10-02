@@ -15,9 +15,7 @@ function ContextMenu() {
   const contextMenu             = useSelector(state => state.contextMenu);
   const [ options, setOptions ] = React.useState([]);
 
-  const styles = {
-    border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818"
-  };
+  const styles = { border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" };
 
   React.useEffect(() => {
     switch(contextMenu.mode) {
@@ -80,6 +78,38 @@ function ContextMenu() {
                 }
               });
             }
+          }
+        ]);
+        break;
+      case "youtube":
+        setOptions([
+          {
+            name:    "Add to Queue",
+            onClick: () => alert("online player queue")
+          },
+          {
+            name:    "Convert Video to Playlist",
+            onClick: () => alert("youtube convert")
+          },
+          {
+            name:    "Search Related Videos",
+            onClick: () => alert("Search related videos")
+          }
+        ]);
+        break;
+      case "soundcloud":
+        setOptions([
+          {
+            name:    "Add to Queue",
+            onClick: () => alert("online player queue")
+          },
+          {
+            name:    "Convert Song to Playlist",
+            onClick: () => alert("soundcloud convert")
+          },
+          {
+            name:    "Search Related Songs",
+            onClick: () => alert("Search related songs")
           }
         ]);
         break;

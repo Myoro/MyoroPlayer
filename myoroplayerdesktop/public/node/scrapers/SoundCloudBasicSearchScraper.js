@@ -1,12 +1,7 @@
-const RLS      = require("readline-sync");
 const axios    = require("axios");
 const cheerio  = require("cheerio");
-const prettier = require("prettier");
-const fs       = require("fs");
 
-const query = RLS.question("Enter query: ");
-
-async function basicSearchScrape(query) {
+async function scrape(query) {
   let response = await axios.get("https://soundcloud.com/search?q=" + query);
   let $        = cheerio.load(response.data);
 
@@ -31,7 +26,6 @@ async function basicSearchScrape(query) {
           const $ulContent = cheerio.load($(ul).html());
           const aTags      = $ulContent("a");
           aTags.each((index, a) => {
-            // console.log($(a).attr("href") + " --- " + $(a).html());
             const href = $(a).attr("href");
             if(href.split('/').length === 3) {
               result.push({
@@ -74,4 +68,4 @@ async function basicSearchScrape(query) {
   return result;
 }
 
-basicSearchScrape(query).then(result => console.log(result));
+module.exports = scrape;

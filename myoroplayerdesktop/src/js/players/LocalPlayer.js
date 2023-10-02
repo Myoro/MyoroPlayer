@@ -34,6 +34,10 @@ export function togglePlay() {
   else if(player.paused) { player.play();  return "playing"; }
   else                   { player.pause(); return "paused"; }
 }
+export function pause() {
+  if(!player.src)         return;
+  else if(!player.paused) player.pause();
+}
 
 export async function nextSong() {
   const { shuffle, repeat } = await getShuffleRepeatValues();

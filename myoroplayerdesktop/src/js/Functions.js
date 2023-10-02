@@ -137,37 +137,55 @@ export async function toggleContextMenu(event, mode, obj) {
 
     contextMenu = document.getElementById("contextMenu");
 
-    switch(mode) {
-      case "playlist":
-        contextMenu.style.top  = (((window.innerHeight - event.clientY) < 103) ? (window.innerHeight - 103) : event.clientY) + "px";
-        contextMenu.style.left = ((event.clientX < 5) ? 5 : event.clientX) + "px";
-        break;
-      case "song":
-        contextMenu.style.top  = (((window.innerHeight - event.clientY) < 140) ? (window.innerHeight - 140) : event.clientY) + "px";
-        contextMenu.style.left = (((window.innerWidth - event.clientX) < 300) ? (window.innerWidth - 300) : event.clientX) + "px";
-        break;
-      default: break;
+    if(mode === "playlist") {
+      contextMenu.style.top  = (((window.innerHeight - event.clientY) < 103) ? (window.innerHeight - 103) : event.clientY) + "px";
+      contextMenu.style.left = ((event.clientX < 5) ? 5 : event.clientX) + "px";
+    } else if(mode === "song" || mode === "youtube" || mode === "soundcloud") {
+      contextMenu.style.top  = (((window.innerHeight - event.clientY) < 140) ? (window.innerHeight - 140) : event.clientY) + "px";
+      contextMenu.style.left = (((window.innerWidth - event.clientX) < 300) ? (window.innerWidth - 300) : event.clientX) + "px";
     }
-
-  } else if(contextMenu && contextMenuSelected === obj) {
-    Store.dispatch({ type: "disableContextMenu" });
-  }
+  } else if(contextMenu && contextMenuSelected === obj) Store.dispatch({ type: "disableContextMenu" });
 }
 
 
 
 // SearchBar
-export async function toggleSearchBar() {
-  const songs     = Store.getState().songs;
+export async function toggleSearchBar(mode) {
   const searchBar = Store.getState().searchBar;
 
-  if(songs.length === 0) return;
-
-  if(searchBar.show) {
-    Store.dispatch({ type: "setSongs", payload: searchBar.songsCopy });
+  if(searchBar.show && (searchBar.mode === mode || !mode)) {
+    if(searchBar.mode === "search") Store.dispatch({ type: "setSongs", payload: searchBar.songsCopy });
     Store.dispatch({ type: "disableSearchBar" });
   } else {
-    await Store.dispatch({ type: "enableSearchBar", payload: songs });
-    document.getElementById("searchBar").focus();
+    switch(mode) {
+      case "search":
+        const songs = Store.getState().songs;
+        if(songs.length > 0) {
+          await Store.dispatch({ type: "enableSearchBar", payload: { mode: mode, songsCopy: songs }});
+          document.getElementById("searchBar").focus();
+        }
+        break;
+      case "youtube":
+        await Store.dispatch({ type: "setListeningMode", payload: "youtube" });
+        await Store.dispatch({ type: "setSongs", payload: [] });
+        await Store.dispatch({ type: "enableSearchBar", payload: { mode: mode, songsCopy: null }});
+        document.getElementById("searchBar").focus();
+        break;
+      case "soundcloud":
+        await Store.dispatch({ type: "setListeningMode", payload: "soundcloud" });
+        await Store.dispatch({ type: "setSongs", payload: [] });
+        await Store.dispatch({ type: "enableSearchBar", payload: { mode: mode, songsCopy: null }});
+        document.getElementById("searchBar").focus();
+        break;
+      default: break;
+    }
   }
+}
+export async function scrapeYouTube(query, related) {
+  const result = await twoArgIPC("searchYouTube", { query: query, related: related });
+  return result;
+}
+export async function scrapeSoundCloud(query) {
+  const result = await twoArgIPC("searchSoundCloud", query);
+  return result;
 }

@@ -36,7 +36,7 @@ function TopBar() {
         {
           name:     "Search Songs",
           shortcut: "/",
-          onClick:  toggleSearchBar
+          onClick:  () => toggleSearchBar("search")
         }
       ]
     },
@@ -45,11 +45,13 @@ function TopBar() {
       options: [
         {
           name:     "Search YouTube",
-          shortcut: "Ctrl + Y"
+          shortcut: "Ctrl + Y",
+          onClick:  () => toggleSearchBar("youtube")
         },
         {
           name:     "Search SoundCloud",
-          shortcut: "Ctrl + S"
+          shortcut: "Ctrl + S",
+          onClick:  () => toggleSearchBar("soundcloud")
         },
         {
           name:     "YouTube to MP3",

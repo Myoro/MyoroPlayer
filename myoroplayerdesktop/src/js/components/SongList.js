@@ -11,6 +11,7 @@ function SongList() {
   const darkMode                  = useSelector(state => state.darkMode);
   const showLoadingBar            = useSelector(state => state.showLoadingBar);
   const songs                     = useSelector(state => state.songs);
+  const listeningMode             = useSelector(state => state.listeningMode);
   const [ selected, setSelected ] = React.useState(null);
 
   const styles = {
@@ -42,35 +43,69 @@ function SongList() {
   }
 
   function mapSongs() {
-    return songs.map((song, index) =>
-      <li
-        key={index}
-        onMouseOver={(event) => hoverButton(event, index)}
-        onMouseOut={(event) => hoverButton(event, index)}
-        onClick={() => onClick(index)}
-        onDoubleClick={() => playSong(song)}
-        onContextMenu={(event) => toggleContextMenu(event, "song", song)}
-      >
-        {/* Album cover */}
-        <img alt="cover" draggable={false} src={song.cover ? song.cover : (darkMode ? LogoDark : LogoLight)} />
+    return songs.map((song, index) => {
+      let onDoubleClick, onContextMenu, artist, cover, album;
 
-        {/* Song title & artist */}
-        <div>
-          <p style={{ color: styles.text }}>{song.title}</p>
-          {
-            song.artist
-            &&
-            <p style={{ color: styles.text }}>{song.artist}</p>
-          }
-        </div>
+      switch(listeningMode) {
+        case "local":
+          cover         = song.cover;
+          artist        = song.artist;
+          album         = song.album;
+          onContextMenu = (event) => toggleContextMenu(event, "song", song);
+          onDoubleClick = () => playSong(song);
+          break;
+        case "youtube":
+          cover         = song.pfp;
+          artist        = song.channel;
+          album         = null;
+          onContextMenu = (event) => toggleContextMenu(event, "youtube", song);
+          onDoubleClick = () => alert("Play the youtube song with react-player");
+          break;
+        case "soundcloud":
+          cover         = song.cover;
+          artist        = song.artist;
+          album         = song.album;
+          onContextMenu = (event) => toggleContextMenu(event, "soundcloud", song);
+          onDoubleClick = () => alert("Play the SoundCloud song with react-player");
+          break;
+        default: break;
+      }
 
-        {/* Album */}
-        <p style={{ color: styles.text }}>{song.album ? song.album : ''}</p>
+      return(
+        <li
+          key={index}
+          onMouseOver={(event) => hoverButton(event, index)}
+          onMouseOut={(event) => hoverButton(event, index)}
+          onClick={() => onClick(index)}
+          onDoubleClick={onDoubleClick}
+          onContextMenu={onContextMenu}
+        >
+          {/* Album cover */}
+          <img alt="cover" draggable={false} src={cover ? cover : (darkMode ? LogoDark : LogoLight)} />
 
-        {/* Song duration */}
-        <p style={{ color: styles.text }}>{song.lengthStr}</p>
-      </li>
-    );
+          {/* Song title & artist */}
+          <div>
+            <p style={{ color: styles.text }}>{song.title}</p>
+            {
+              artist
+              &&
+              <p style={{ color: styles.text }}>{artist}</p>
+            }
+          </div>
+
+          {/* Album */}
+          <p
+            style={{
+              color: styles.text,
+              flex:  !album && 0
+            }}
+          >{album ? album : ''}</p>
+
+          {/* Song duration */}
+          <p style={{ color: styles.text }}>{song.lengthStr}</p>
+        </li>
+      );
+    });
   }
 
   function onClick(index) {

@@ -59,7 +59,7 @@ function App() {
     if(event.key === "Escape" && Store.getState().searchBar.show) toggleSearchBar();
 
     // SearchBar
-    if(event.key === '/') { event.preventDefault(); toggleSearchBar(); }
+    if(event.key === '/') { event.preventDefault(); toggleSearchBar("search"); }
 
     // Ctrl key keyboard shortcuts
     if(event.ctrlKey) {
@@ -75,6 +75,14 @@ function App() {
         // New playlist
         case 'N':
           newPlaylist();
+          break;
+        // YouTube search
+        case 'Y':
+          toggleSearchBar("youtube");
+          break;
+        // SoundCloud search
+        case 'S':
+          toggleSearchBar("soundcloud");
           break;
         default:
           break;

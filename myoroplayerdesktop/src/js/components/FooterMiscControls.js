@@ -17,6 +17,7 @@ function FooterMiscControls() {
   const darkMode                = useSelector(state => state.darkMode);
   const volumeSlider            = useSelector(state => state.volumeSlider);
   const queueList               = useSelector(state => state.queueList);
+  const listeningMode           = useSelector(state => state.listeningMode);
   const [ buttons, setButtons ] = React.useState([
     {
       src:     darkMode ? QueueDark : QueueLight,
@@ -31,6 +32,24 @@ function FooterMiscControls() {
 
   const styles = { border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" };
 
+  React.useEffect(() => {
+    setButtons(previousButtons => {
+      const result = [ ...previousButtons ];
+      let   src;
+
+      switch(listeningMode) {
+        case "local":      src = darkMode ? LocalPlayerDark : LocalPlayerLight;           break;
+        case "youtube":    src = darkMode ? YouTubePlayerDark : YouTubePlayerLight;       break;
+        case "soundcloud": src = darkMode ? SoundCloudPlayerDark : SoundCloudPlayerLight; break;
+        default:                                                                          break;
+      }
+      result[1].src = src;
+
+      return result;
+    });
+    // eslint-disable-next-line
+  }, [listeningMode]);
+
   function hoverButton(event) {
     let hovered = false;
     if(window.getComputedStyle(event.target).backgroundColor !== "rgba(0, 0, 0, 0)")
@@ -41,10 +60,24 @@ function FooterMiscControls() {
     setButtons(previousButtons => {
       const result = [ ...previousButtons ];
 
-      if(event.target.alt === "queue")
+      if(event.target.alt === "queue") {
         result[0].src = !hovered ? (darkMode ? QueueLight : QueueDark) : (darkMode ? QueueDark : QueueLight);
-      else
-        result[1].src = !hovered ? (darkMode ? LocalPlayerLight : LocalPlayerDark) : (darkMode ? LocalPlayerDark : LocalPlayerLight);
+      } else {
+        let src;
+        switch(listeningMode) {
+          case "local":
+            src = !hovered ? (darkMode ? LocalPlayerLight : LocalPlayerDark) : (darkMode ? LocalPlayerDark : LocalPlayerLight);
+            break;
+          case "youtube":
+            src = !hovered ? (darkMode ? YouTubePlayerLight : YouTubePlayerDark) : (darkMode ? YouTubePlayerDark : YouTubePlayerLight);
+            break;
+          case "soundcloud":
+            src = !hovered ? (darkMode ? SoundCloudPlayerLight : SoundCloudPlayerDark) : (darkMode ? SoundCloudPlayerDark : SoundCloudPlayerLight);
+            break;
+          default: break;
+        }
+        result[1].src = src;
+      }
 
       return result;
     });

@@ -1,4 +1,6 @@
-const fs = require("fs");
+const fs                = require("fs");
+const YouTubeScraper    = require("./scrapers/YouTubeSearchScraper.js");
+const SoundCloudScraper = require("./scrapers/SoundCloudBasicSearchScraper.js");
 const {
   dialog,
   BrowserWindow
@@ -327,11 +329,27 @@ function moveSongToPlaylist(event, win, song) {
   });
 }
 
+async function searchYouTube(event, query, related) {
+  try {
+    const result = await YouTubeScraper(query, related);
+    event.reply("searchYouTube", result);
+  } catch(error) { event.reply("searchYouTube", []); }
+}
+
+async function searchSoundCloud(event, query) {
+  try {
+    const result = await SoundCloudScraper(query);
+    event.reply("searchSoundCloud", result);
+  } catch(error) { event.reply("searchSoundCloud", []); }
+}
+
 module.exports = {
   openPlaylist,
   newPlaylist,
   getPlaylists,
   loadPlaylist,
   copySongToPlaylists,
-  moveSongToPlaylist
+  moveSongToPlaylist,
+  searchYouTube,
+  searchSoundCloud
 };

@@ -1,16 +1,11 @@
-const RLS      = require("readline-sync");
-const axios    = require("axios");
-const cheerio  = require("cheerio");
-const prettier = require("prettier");
-const fs       = require("fs");
+const axios   = require("axios");
+const cheerio = require("cheerio");
 
-const query = RLS.question("Enter query: ");
-
-async function basicSearchScrape(query, related) {
+async function scrape(query, related) {
   var   url       = "https://www.youtube.com/results?search_query=" + query;
   if(related) url += " related songs";
 
-  const response = await axios.get("https://www.youtube.com/results?search_query=" + query);
+  const response = await axios.get(url);
   const $        = cheerio.load(response.data);
 
   // Getting ytInitialData (JSON with the treasure)
@@ -50,4 +45,4 @@ async function basicSearchScrape(query, related) {
   return result;
 }
 
-basicSearchScrape(query, true).then(result => console.log(result));
+module.exports = scrape;
