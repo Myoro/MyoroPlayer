@@ -85,7 +85,7 @@ function ContextMenu() {
         setOptions([
           {
             name:    "Add to Queue",
-            onClick: () => alert("online player queue")
+            onClick: () => alert("add to queue")
           },
           {
             name:    "Convert Video to Playlist",

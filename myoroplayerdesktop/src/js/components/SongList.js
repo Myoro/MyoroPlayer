@@ -1,6 +1,7 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/SongList.css";
+import Store from "../ReduxStore.js";
 import { toggleContextMenu } from "../Functions.js";
 import { playSong } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
@@ -59,14 +60,14 @@ function SongList() {
           artist        = song.channel;
           album         = null;
           onContextMenu = (event) => toggleContextMenu(event, "youtube", song);
-          onDoubleClick = () => alert("Play the youtube song with react-player");
+          onDoubleClick = () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "playSong", song: song }});
           break;
         case "soundcloud":
           cover         = song.cover;
           artist        = song.artist;
           album         = song.album;
           onContextMenu = (event) => toggleContextMenu(event, "soundcloud", song);
-          onDoubleClick = () => alert("Play the SoundCloud song with react-player");
+          onDoubleClick = () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "playSong", song: song }}); 
           break;
         default: break;
       }

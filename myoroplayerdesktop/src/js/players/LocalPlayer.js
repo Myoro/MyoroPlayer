@@ -9,6 +9,7 @@ var   playlist  = { directory: null, songs: [] };
 
 player.volume       = 0.5;
 player.ontimeupdate = () => { Store.dispatch({ type: "setSongSliderValue", payload: player.currentTime }); };
+player.onended      = () => nextSong();
 
 export function addToQueue(song) { queue.push(song); }
 export function getQueue()       { return queue; }

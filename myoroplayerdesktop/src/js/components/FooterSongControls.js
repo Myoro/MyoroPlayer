@@ -55,11 +55,25 @@ function FooterSongControls() {
 
   React.useEffect(() => {
     pause();
+
     setButtons(previousButtons => {
       const result = [ ...previousButtons ];
+
       result[2].src = darkMode ? PlayDark : PlayLight;
+
+      if(listeningMode === "local") {
+        result[1].onClick = previousSong;
+        result[2].onClick = playOnClick;
+        result[3].onClick = nextSong;
+      } else {
+        result[1].onClick = () => alert("kakádadalala");
+        result[2].onClick = () => alert("kakádada");
+        result[3].onClick = () => alert("kaká");
+      }
+
       return result;
     });
+
     // eslint-disable-next-line
   }, [listeningMode]);
 
