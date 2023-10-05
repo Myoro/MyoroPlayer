@@ -101,13 +101,12 @@ export async function nextSong() {
   loadSong(playlist.songs[nextSongIndex], true);
 }
 
-export function setSongPosition(event) {
-  player.currentTime = event.target.value;
-  Store.dispatch({ type: "setSongSliderValue", payload: event.target.value });
-}
+export function setSongPosition(event) { player.currentTime = event.target.value; }
 
+// Player function
 export function setVolume(event) {
   player.volume = event.target.value / 100;
+  Store.dispatch({ type: "setStreamPlayerVolume", payload: player.volume });
   Store.dispatch({ type: "setVolumeSlider", payload: event.target.value });
 }
 

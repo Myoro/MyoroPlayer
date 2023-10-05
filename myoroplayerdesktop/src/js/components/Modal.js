@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import "../../css/Modal.css";
 import InputDialog from "./InputDialog.js";
 import ConfirmationDialog from "./ConfirmationDialog.js";
+import TextDialog from "./TextDialog.js";
 
 function Modal() {
   const darkMode = useSelector(state => state.darkMode);
@@ -23,6 +24,7 @@ function Modal() {
       <div id="modal">
         <InputDialog hoverButton={hoverButton} />
         <ConfirmationDialog hoverButton={hoverButton} />
+        <TextDialog hoverButton={hoverButton} />
       </div>
     );
   } else return null;

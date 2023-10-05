@@ -1,12 +1,7 @@
-const RLS      = require("readline-sync");
 const axios    = require("axios");
 const cheerio  = require("cheerio");
-const prettier = require("prettier");
-const fs       = require("fs");
 
-const query = RLS.question("Enter URL: ");
-
-async function relatedSearchScrape(url) {
+async function scrape(url) {
   let response = await axios.get(url + "/recommended");
   let $        = cheerio.load(response.data);
 
@@ -56,4 +51,4 @@ async function relatedSearchScrape(url) {
   return result;
 }
 
-relatedSearchScrape(query).then(result => console.log(result));
+module.exports = scrape;

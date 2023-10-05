@@ -8,7 +8,10 @@ import {
   getPlaylists,
   initializeDatabase,
   cleanTopBarDropdowns,
-  toggleSearchBar
+  toggleSearchBar,
+  toggleSideBar,
+  toggleFooterControls,
+  setDarkMode
 } from "./Functions.js";
 import Root from "./components/Root.js";
 
@@ -20,11 +23,6 @@ function App() {
     Store.dispatch({ type: "setDatabaseInitialized", payload: true });
 
     getPlaylists();
-
-    const darkMode = Store.getState().darkMode;
-    document.documentElement.style.setProperty("--primary",       darkMode ? "#EDE6D6" : "#181818");
-    document.documentElement.style.setProperty("--primary-hover", darkMode ? "#CCC3B3" : "#000000");
-    document.documentElement.style.setProperty("--secondary",     darkMode ? "#181818" : "#EDE6D6");
 
     document.addEventListener("click", click);
     document.addEventListener("keydown", keydown);
@@ -65,27 +63,45 @@ function App() {
     if(event.ctrlKey) {
       switch(event.key.toUpperCase()) {
         // Quit MyoroPlayer
-        case 'Q':
-          quit();
-          break;
+        case 'Q': quit();                        break;
         // Open playlist
-        case 'O':
-          openPlaylist();
-          break;
+        case 'O': openPlaylist();                break;
         // New playlist
-        case 'N':
-          newPlaylist();
-          break;
+        case 'N': newPlaylist();                 break;
         // YouTube search
-        case 'Y':
-          toggleSearchBar("youtube");
-          break;
+        case 'Y': toggleSearchBar("youtube");    break;
         // SoundCloud search
-        case 'S':
-          toggleSearchBar("soundcloud");
-          break;
-        default:
-          break;
+        case 'S': toggleSearchBar("soundcloud"); break;
+        default:                                 break;
+      }
+    }
+
+    // Shift key keyboard shortcuts
+    if(event.shiftKey) {
+      event.preventDefault();
+      switch(event.key.toUpperCase()) {
+        // YouTube to MP3
+        case 'Y': Store.dispatch({ type: "enableModal", payload: { mode: "yt2mp3" }}); break;
+        // SoundCloud to MP3
+        case 'S': Store.dispatch({ type: "enableModal", payload: { mode: "sc2mp3" }}); break;
+        default:                                                                       break;
+      }
+    }
+
+    // Alt key keyboard shortcuts
+    if(event.altKey) {
+      switch(event.key.toUpperCase()) {
+        // Toggle darkMode
+        case 'D': setDarkMode();                                                       break;
+        // Toggle SideBar
+        case 'S': toggleSideBar();                                                     break;
+        // Toggle FooterControls
+        case 'C': toggleFooterControls();                                              break;
+        // About MyoroPlayer
+        case 'A': Store.dispatch({ type: "enableModal", payload: { mode: "about" }});  break;
+        // Donate
+        case 'M': Store.dispatch({ type: "enableModal", payload: { mode: "donate" }}); break;
+        default:                                                                       break;
       }
     }
   }

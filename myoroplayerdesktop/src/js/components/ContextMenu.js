@@ -6,7 +6,12 @@ import {
   hoverButton,
   softDeletePlaylist,
   copySongToPlaylists,
-  moveSongToPlaylist
+  moveSongToPlaylist,
+  YouTubeToMP3,
+  SoundCloudToMP3,
+  scrapeYouTube,
+  scrapeSoundCloudRecommended,
+
 } from "../Functions.js";
 import { addToQueue } from "../players/LocalPlayer.js";
 
@@ -85,15 +90,15 @@ function ContextMenu() {
         setOptions([
           {
             name:    "Add to Queue",
-            onClick: () => alert("add to queue")
+            onClick: () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "addToQueue", song: contextMenu.selected }})
           },
           {
             name:    "Convert Video to Playlist",
-            onClick: () => alert("youtube convert")
+            onClick: () => YouTubeToMP3(contextMenu.selected.videoID)
           },
           {
             name:    "Search Related Videos",
-            onClick: () => alert("Search related videos")
+            onClick: () => searchRelated("youtube", contextMenu.selected.title)
           }
         ]);
         break;
@@ -101,21 +106,34 @@ function ContextMenu() {
         setOptions([
           {
             name:    "Add to Queue",
-            onClick: () => alert("online player queue")
+            onClick: () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "addToQueue", song: contextMenu.selected }})
           },
           {
             name:    "Convert Song to Playlist",
-            onClick: () => alert("soundcloud convert")
+            onClick: () => SoundCloudToMP3(contextMenu.selected.url)
           },
           {
             name:    "Search Related Songs",
-            onClick: () => alert("Search related songs")
+            onClick: () => searchRelated("soundcloud", contextMenu.selected.url)
           }
         ]);
         break;
       default: break;
     }
   }, [contextMenu]);
+
+  async function searchRelated(site, query) {
+    await Store.dispatch({ type: "setShowLoadingBar", payload: true });
+    document.getElementById("loadingBar").style.animation = "loading 2.2s linear infinite";
+
+    let result;
+    if(site === "youtube")         result = await scrapeYouTube(query, true);
+    else if(site === "soundcloud") result = await scrapeSoundCloudRecommended(query);
+
+    document.getElementById("loadingBar").style.animation = "none";
+    await Store.dispatch({ type: "setShowLoadingBar", payload: false });
+    Store.dispatch({ type: "setSongs", payload: result });
+  }
 
   function mapOptions() {
     return options.map((option, index) =>

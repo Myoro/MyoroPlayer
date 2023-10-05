@@ -37,3 +37,15 @@
   flex:       1;
   text-align: left;
 }
+
+#converterPercentageContainer {
+  flex:            1;
+  display:         flex;
+  align-items:     center;
+  justify-content: right;
+  padding-right:   5px;
+}
+#converterPercentage {
+  font-size:   20px;
+  user-select: none;
+}

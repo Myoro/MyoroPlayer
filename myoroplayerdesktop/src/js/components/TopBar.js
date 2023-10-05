@@ -1,13 +1,17 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/TopBar.css";
+import Store from "../ReduxStore.js";
 import {
   quit,
   hoverButton,
   openPlaylist,
   newPlaylist,
   cleanTopBarDropdowns as cleanDropdowns,
-  toggleSearchBar
+  toggleSearchBar,
+  toggleSideBar,
+  toggleFooterControls,
+  setDarkMode
 } from "../Functions.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
@@ -55,11 +59,13 @@ function TopBar() {
         },
         {
           name:     "YouTube to MP3",
-          shortcut: "Shft + Y"
+          shortcut: "Shft + Y",
+          onClick:  () => Store.dispatch({ type: "enableModal", payload: { mode: "yt2mp3" }})
         },
         {
           name:     "SoundCloud to MP3",
-          shortcut: "Shft + S"
+          shortcut: "Shft + S",
+          onClick:  () => Store.dispatch({ type: "enableModal", payload: { mode: "sc2mp3" }})
         }
       ]
     },
@@ -68,15 +74,18 @@ function TopBar() {
       options: [
         {
           name:     "Toggle Dark Mode",
-          shortcut: "Alt + D"
+          shortcut: "Alt + D",
+          onClick:  setDarkMode
         },
         {
           name:     "Toggle Sidebar",
-          shortcut: "Alt + S"
+          shortcut: "Alt + S",
+          onClick:  toggleSideBar
         },
         {
           name:     "Toggle Controls",
-          shortcut: "Alt + C"
+          shortcut: "Alt + C",
+          onClick:  toggleFooterControls
         }
       ]
     },
@@ -85,11 +94,13 @@ function TopBar() {
       options: [
         {
           name:     "About MyoroPlayer",
-          shortcut: "Alt + A"
+          shortcut: "Alt + A",
+          onClick:  () => Store.dispatch({ type: "enableModal", payload: { mode: "about" }})
         },
         {
           name:     "Donate",
-          shortcut: "Alt + D"
+          shortcut: "Alt + M",
+          onClick:  () => Store.dispatch({ type: "enableModal", payload: { mode: "donate" }})
         }
       ]
     }
@@ -178,6 +189,14 @@ function TopBar() {
       />
 
       { mapButtons() }
+
+      {/* Loading bar for YouTube/SoundCloud to MP3 */}
+      <section id="converterPercentageContainer">
+        <p
+          id="converterPercentage"
+          style={{ color: darkMode ? "#EDE6D6" : "#181818" }}
+        ></p>
+      </section>
     </header>
   );
 }

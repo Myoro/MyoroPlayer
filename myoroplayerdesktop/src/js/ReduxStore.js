@@ -16,7 +16,9 @@ const initialState = {
   // Local player current song
   currentSong: null,
   // State to invoke functions
-  streamPlayerCommand: { command: null, song: null },
+  streamPlayerCommand: { command: null, song: null, seekTo: null },
+  streamPlayerPlaying: false,
+  streamPlayerVolume:  0.5,
   // Slider values in FooterSongControls
   songSlider:   { value: 50, max: 100 },
   volumeSlider: 50,
@@ -88,7 +90,11 @@ function reducer(state = initialState, action) {
       return { ...state, currentSong: action.payload };
     //
     case "invokeStreamPlayerCommand":
-      return { ...state, streamPlayerCommand: { command: action.payload.command, song: action.payload.song } };
+      return { ...state, streamPlayerCommand: { command: action.payload.command, song: action.payload.song, seekTo: action.payload.seekTo } };
+    case "setStreamPlayerPlaying":
+      return { ...state, streamPlayerPlaying: action.payload };
+    case "setStreamPlayerVolume":
+      return { ...state, streamPlayerVolume: action.payload };
     //
     case "setSongSliderValue":
       return { ...state, songSlider: { ...state.songSlider, value: action.payload } };

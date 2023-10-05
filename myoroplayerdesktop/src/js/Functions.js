@@ -25,6 +25,100 @@ export function setShuffleRepeat(mode, value) { ipcRenderer.send("setShuffleRepe
 
 
 
+// darkMode
+export async function getDarkMode() {
+  const result = await oneArgIPC("getDarkMode");
+  return result;
+}
+export function setDarkMode() {
+  const darkMode = Store.getState().darkMode
+  ipcRenderer.send("setDarkMode", darkMode ? 0 : 1);
+  Store.dispatch({ type: "setDarkMode", payload: darkMode ? false : true });
+}
+
+
+
+// Scrapers
+export async function scrapeYouTube(query, related) {
+  const result = await twoArgIPC("searchYouTube", { query: query, related: related });
+  return result;
+}
+export async function scrapeSoundCloud(query) {
+  const result = await twoArgIPC("searchSoundCloud", query);
+  return result;
+}
+export async function scrapeSoundCloudRecommended(query) {
+  const result = await twoArgIPC("searchSoundCloudRecommended", query);
+  return result;
+}
+
+
+
+// YouTube / SoundCloud to MP3 functions
+export function YouTubeToMP3(video) {
+  let videoID = null;
+
+  // Making sure the video is valid
+  if(video.length > 11) {
+    // Checking for a link like this https://www.youtube.com/watch?v=IYAjG0oAJPQ
+    let split = video.split('=');
+    if(/^[A-Za-z0-9_-]{11}$/.test(split[split.length - 1])) videoID = split[split.length - 1];
+    else if(split.length > 2) {
+      split = split[split.length - 2].split('/');
+      split = split[split.length - 1].substr(0, split[split.length - 1].length - 3);
+      if(/^[A-Za-z0-9_-]{11}$/.test(split)) videoID = split;
+    } else video = null;
+  } else if(/^[A-Za-z0-9_-]{11}$/.test(video)) {
+    video = videoID;
+  } else video = null;
+
+  if(videoID === null) {
+    alert("Bad Input");
+    return;
+  }
+
+  ipcRenderer.send("YouTubeToMP3", videoID);
+  ipcRenderer.once("YouTubeToMP3Complete", (event) => {
+    document.getElementById("converterPercentage").innerHTML = "Download Completed";
+    setTimeout(() => { document.getElementById("converterPercentage").innerHTML = ""; }, 2000);
+  });
+  ipcRenderer.on("YouTubeToMP3Progress", (event, percentage) => {
+    document.getElementById("converterPercentage").innerHTML = percentage + '%';
+  });
+  ipcRenderer.once("YouTubeToMP3Error", (event) => {
+    document.getElementById("converterPercentage").innerHTML = "Error Downloading";
+    setTimeout(() => { document.getElementById("converterPercentage").innerHTML = ""; }, 2000);
+  });
+
+  Store.dispatch({ type: "disableModal" });
+}
+export function SoundCloudToMP3(url) {
+  if(!/^(https?:\/\/)?soundcloud\.com\/\S+\/\S+$/.test(url)) {
+    alert("Bad Input");
+    return;
+  }
+
+  ipcRenderer.send("SoundCloudToMP3", url);
+  ipcRenderer.once("SoundCloudToMP3Scraping", (event) => {
+    document.getElementById("converterPercentage").innerHTML = "Scraping Song";
+  });
+  ipcRenderer.once("SoundCloudToMP3Downloading", (event) => {
+    document.getElementById("converterPercentage").innerHTML = "Downloading to System";
+  });
+  ipcRenderer.once("SoundCloudToMP3Complete", (event) => {
+    document.getElementById("converterPercentage").innerHTML = "Download Complete";
+    setTimeout(() => { document.getElementById("converterPercentage").innerHTML = ""; }, 2000);
+  });
+  ipcRenderer.once("SoundCloudToMP3Error", (event) => {
+    document.getElementById("converterPercentage").innerHTML = "Error Downloading";
+    setTimeout(() => { document.getElementById("converterPercentage").innerHTML = ""; }, 2000);
+  });
+
+  Store.dispatch({ type: "disableModal" });
+}
+
+
+
 // Playlist oriented
 export async function openPlaylist() {
   const newPlaylists = await oneArgIPC("openPlaylist");
@@ -110,6 +204,15 @@ export function cleanTopBarDropdowns() {
     for(let i = 0; i < topBarButtons.length; i++)
       document.getElementById(topBarButtons[i].innerHTML).style.display = "none";
 }
+function toggleSideBarFooterControls(id) {
+  const obj = document.getElementById(id);
+  if(window.getComputedStyle(obj).display === "none") {
+    if(id === "sideBar") obj.style.display = "block";
+    else                 obj.style.display = "flex";
+  } else obj.style.display = "none";
+}
+export function toggleSideBar()        { toggleSideBarFooterControls("sideBar"); }
+export function toggleFooterControls() { toggleSideBarFooterControls("footerControls"); }
 
 
 
@@ -180,12 +283,4 @@ export async function toggleSearchBar(mode) {
       default: break;
     }
   }
-}
-export async function scrapeYouTube(query, related) {
-  const result = await twoArgIPC("searchYouTube", { query: query, related: related });
-  return result;
-}
-export async function scrapeSoundCloud(query) {
-  const result = await twoArgIPC("searchSoundCloud", query);
-  return result;
 }

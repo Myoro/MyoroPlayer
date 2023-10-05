@@ -83,7 +83,7 @@ function initializeDatabase() {
             if(error) console.log("Error creating 'shuffle_repeat' table");
             else {
               db.all(
-                `INSERT INTO shuffle_repeat(shuffle, repeat) VALUES(0, 0)`,
+                `INSERT INTO shuffle_repeat(shuffle, repeat) VALUES(0, 0);`,
                 (error) => {
                   if(error) console.log("Error creating 'shuffle_repeat' table");
                   else      console.log("'shuffle_repeat' table created");
@@ -93,6 +93,37 @@ function initializeDatabase() {
           }
         );
       }
+    }
+  );
+
+  db.get(
+    `SELECT name FROM sqlite_master WHERE type="table" AND name="dark_mode";`,
+    (error, row) => {
+      if(error)    console.log("Error fetching 'dark_mode' table's existence");
+      else if(row) console.log("'dark_mode' table already exists");
+      else {
+        db.run(
+          `
+            CREATE TABLE dark_mode(
+              id   INTEGER PRIMARY KEY,
+              dark INTEGER
+            );
+          `,
+          (error) => {
+            if(error) console.log("Error creating 'dark_mode' table");
+            else {
+              db.all(
+                `INSERT INTO dark_mode(dark) VALUES(0);`,
+                (error) => {
+                  if(error) console.log("Error creating 'dark_mode' table");
+                  else      console.log("'dark_mode' table created");
+                }
+              );
+            }
+          }
+        );
+      }
+
     }
   );
 
@@ -169,6 +200,15 @@ function getShuffleRepeat(event) {
     }
   );
 }
+function getDarkMode(event) {
+  db.get(
+    `SELECT dark FROM dark_mode;`,
+    (error, row) => {
+      if(error) console.log(error);
+      else      event.reply("getDarkMode", row);
+    }
+  );
+}
 
 
 
@@ -184,6 +224,13 @@ function setShuffleRepeat(data) {
   db.run(
     `UPDATE shuffle_repeat SET ${data.mode} = ?;`,
     [ data.value ],
+    (error) => { if(error) console.log(error); }
+  );
+}
+function setDarkMode(value) {
+  db.run(
+    `UPDATE dark_mode SET dark = ?;`,
+    [ value ],
     (error) => { if(error) console.log(error); }
   );
 }
@@ -304,5 +351,7 @@ module.exports = {
   hardDeleteSong,
   deleteSong,
   getShuffleRepeat,
-  setShuffleRepeat
+  setShuffleRepeat,
+  getDarkMode,
+  setDarkMode
 };

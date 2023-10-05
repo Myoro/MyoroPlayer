@@ -18,19 +18,23 @@ function FooterMiscControls() {
   const volumeSlider            = useSelector(state => state.volumeSlider);
   const queueList               = useSelector(state => state.queueList);
   const listeningMode           = useSelector(state => state.listeningMode);
-  const [ buttons, setButtons ] = React.useState([
-    {
-      src:     darkMode ? QueueDark : QueueLight,
-      alt:     "queue",
-      onClick: toggleQueueList
-    },
-    {
-      src: darkMode ? LocalPlayerDark : LocalPlayerLight,
-      alt: "listeningMode"
-    }
-  ]);
+  const [ buttons, setButtons ] = React.useState([]);
 
   const styles = { border: darkMode ? "2px solid #EDE6D6" : "2px solid #181818" };
+
+  React.useEffect(() => {
+    setButtons([
+      {
+        src:     darkMode ? QueueDark : QueueLight,
+        alt:     "queue",
+        onClick: toggleQueueList
+      },
+      {
+        src: darkMode ? LocalPlayerDark : LocalPlayerLight,
+        alt: "listeningMode"
+      }
+    ]);
+  }, [darkMode]);
 
   React.useEffect(() => {
     setButtons(previousButtons => {

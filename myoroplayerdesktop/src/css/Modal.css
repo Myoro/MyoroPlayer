@@ -12,7 +12,7 @@
 }
 
 .dialog {
-  width:          250px;
+  width:          480px;
   padding:        10px;
   display:        flex;
   flex-direction: column;
@@ -42,4 +42,8 @@
 }
 #input { font-size: 20px; }
 
-
+#textDialog {
+  display:         flex;
+  align-items:     center;
+  justify-content: center;
+}

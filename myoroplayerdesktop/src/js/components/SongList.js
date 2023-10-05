@@ -3,7 +3,7 @@ import { useSelector } from "react-redux";
 import "../../css/SongList.css";
 import Store from "../ReduxStore.js";
 import { toggleContextMenu } from "../Functions.js";
-import { playSong } from "../players/LocalPlayer.js";
+import { playSong, pause } from "../players/LocalPlayer.js";
 import LogoDark from "../../img/LogoDark.svg";
 import LogoLight from "../../img/LogoLight.svg";
 import SearchBar from "./SearchBar.js";
@@ -53,21 +53,30 @@ function SongList() {
           artist        = song.artist;
           album         = song.album;
           onContextMenu = (event) => toggleContextMenu(event, "song", song);
-          onDoubleClick = () => playSong(song);
+          onDoubleClick = () => {
+            Store.dispatch({ type: "setStreamPlayerPlaying", payload: false });
+            playSong(song);
+          }
           break;
         case "youtube":
           cover         = song.pfp;
           artist        = song.channel;
           album         = null;
           onContextMenu = (event) => toggleContextMenu(event, "youtube", song);
-          onDoubleClick = () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "playSong", song: song }});
+          onDoubleClick = () => {
+            pause();
+            Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "playSong", song: song }});
+          }
           break;
         case "soundcloud":
           cover         = song.cover;
           artist        = song.artist;
           album         = song.album;
           onContextMenu = (event) => toggleContextMenu(event, "soundcloud", song);
-          onDoubleClick = () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "playSong", song: song }}); 
+          onDoubleClick = () => {
+            pause();
+            Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "playSong", song: song }});
+          }
           break;
         default: break;
       }

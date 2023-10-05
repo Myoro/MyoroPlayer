@@ -21,8 +21,10 @@
     "react-redux": "^8.1.2",
     "react-scripts": "5.0.1",
     "redux": "^4.2.1",
+    "soundcloud-scraper": "^5.0.3",
     "sqlite3": "^5.1.6",
-    "web-vitals": "^2.1.4"
+    "web-vitals": "^2.1.4",
+    "youtube-mp3-downloader": "^0.7.11"
   },
   "scripts": {
     "build": "react-scripts build",

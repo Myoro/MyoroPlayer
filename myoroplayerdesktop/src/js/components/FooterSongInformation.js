@@ -7,17 +7,39 @@ import LogoLight from "../../img/LogoLight.svg";
 function FooterSongInformation() {
   const darkMode              = useSelector(state => state.darkMode);
   const currentSong           = useSelector(state => state.currentSong);
-  const [ cover, setCover ]   = useState(darkMode ? LogoDark : LogoLight);
+  const listeningMode         = useSelector(state => state.listeningMode);
+  const [ cover, setCover ]   = useState(null);
   const [ title, setTitle ]   = useState(null);
   const [ artist, setArtist ] = useState(null);
 
   React.useEffect(() => {
     if(currentSong === null) return;
-    setCover(currentSong.cover ? currentSong.cover : (darkMode ? LogoDark : LogoLight));
+
+    let cover, artist;
+
+    switch(listeningMode) {
+      case "local":
+        cover  = currentSong.cover;
+        artist = currentSong.artist;
+        break;
+      case "youtube":
+        cover  = currentSong.pfp;
+        artist = currentSong.channel;
+        break;
+      case "soundcloud":
+        cover  = currentSong.cover;
+        artist = currentSong.artist;
+        break;
+      default: break;
+    }
+
+    setCover(cover ? cover : (darkMode ? LogoDark : LogoLight));
     setTitle(currentSong.title);
-    setArtist(currentSong.artist);
+    setArtist(artist);
   // eslint-disable-next-line
   }, [currentSong]);
+
+  React.useEffect(() => setCover(darkMode ? LogoDark : LogoLight), [darkMode]);
 
   return(
     <section id="footerSongInformation">

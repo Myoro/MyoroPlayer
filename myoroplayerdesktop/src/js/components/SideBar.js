@@ -30,6 +30,7 @@ function SideBar() {
         onMouseOut={(event) => hoverButton(event, index)}
         onClick={() => onClick(playlist, index)}
         onContextMenu={(event) => toggleContextMenu(event, "playlist", playlist)}
+        style={{ color: darkMode ? "#EDE6D6" : "#181818" }}
       >{playlist.name}</button>
     );
   }

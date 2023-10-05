@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import "../../css/FooterControls.css";
 import Store from "../ReduxStore.js";
-import { previousSong, nextSong, togglePlay, setSongPosition, pause } from "../players/LocalPlayer.js";
+import { previousSong, nextSong, togglePlay, setSongPosition } from "../players/LocalPlayer.js";
 import { getShuffleRepeatValues, setShuffleRepeat as setShuffleRepeatDb } from "../Functions.js";
 import ShuffleDark from "../../img/ShuffleDark.svg";
 import ShuffleLight from "../../img/ShuffleLight.svg";
@@ -54,21 +54,15 @@ function FooterSongControls() {
   ]);
 
   React.useEffect(() => {
-    pause();
-
     setButtons(previousButtons => {
       const result = [ ...previousButtons ];
 
-      result[2].src = darkMode ? PlayDark : PlayLight;
-
       if(listeningMode === "local") {
         result[1].onClick = previousSong;
-        result[2].onClick = playOnClick;
         result[3].onClick = nextSong;
       } else {
-        result[1].onClick = () => alert("kakádadalala");
-        result[2].onClick = () => alert("kakádada");
-        result[3].onClick = () => alert("kaká");
+        result[1].onClick = () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "previousSong" }})
+        result[3].onClick = () => Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "nextSong" }})
       }
 
       return result;
@@ -134,9 +128,18 @@ function FooterSongControls() {
     });
   }
 
-  function playOnClick() {
-    const result = togglePlay();
-    if(result === null) return;
+  async function playOnClick() {
+    let result;
+
+    if(Store.getState().listeningMode === "local") {
+      result = togglePlay();
+    } else {
+      await Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "togglePlay" }})
+      if(Store.getState().streamPlayerPlaying) result = "playing";
+      else                                     result = "paused";
+    }
+
+    if(result !== "playing" && result !== "paused") return;
 
     setButtons(previousButtons => {
       const newButtons = [ ...previousButtons ];
@@ -206,6 +209,14 @@ function FooterSongControls() {
     );
   }
 
+  function onChange(event) {
+    if(Store.getState().listeningMode === "local")
+      setSongPosition(event);
+    else
+      Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: "seekTo", seekTo: event.target.value }});
+    Store.dispatch({ type: "setSongSliderValue", payload: event.target.value });
+  }
+
   return(
     <section id="footerSongControls">
       {/* Song Position Slider */}
@@ -215,7 +226,7 @@ function FooterSongControls() {
         min={0}
         max={songSlider.max}
         value={songSlider.value}
-        onChange={setSongPosition}
+        onChange={onChange}
       />
 
       <div>{mapButtons()}</div>

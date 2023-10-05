@@ -1,6 +1,10 @@
-const fs                = require("fs");
-const YouTubeScraper    = require("./scrapers/YouTubeSearchScraper.js");
-const SoundCloudScraper = require("./scrapers/SoundCloudBasicSearchScraper.js");
+const fs                           = require("fs");
+const os                           = require("os");
+const YouTubeMP3Downloader         = require("youtube-mp3-downloader");
+const SoundCloudDownloader         = require("soundcloud-scraper");
+const YouTubeScraper               = require("./scrapers/YouTubeSearchScraper.js");
+const SoundCloudScraper            = require("./scrapers/SoundCloudBasicSearchScraper.js");
+const SoundCloudRecommendedScraper = require("./scrapers/SoundCloudRelatedSearchScraper.js");
 const {
   dialog,
   BrowserWindow
@@ -343,6 +347,70 @@ async function searchSoundCloud(event, query) {
   } catch(error) { event.reply("searchSoundCloud", []); }
 }
 
+async function searchSoundCloudRecommended(event, query) {
+  try {
+    const result = await SoundCloudRecommendedScraper(query);
+    event.reply("searchSoundCloudRecommended", result);
+  } catch(error) { event.reply("searchSoundCloudRecommended", []); }
+}
+
+async function YouTubeToMP3(win, event, videoID) {
+  const directory = await dialog.showOpenDialog(
+    win,
+    {
+      title:      "Open Playlist(s)",
+      properties: [ "openDirectory" ]
+    }
+  ).then(async (result) => {
+    if(result.canceled) return null;
+    let directory = result.filePaths[0].replaceAll('\\', '/');
+    if(directory[directory.length - 1] !== '/') directory += '/';
+    return directory;
+  });
+
+  if(directory === null) return;
+
+  const downloader = new YouTubeMP3Downloader({
+    "ffmpegPath":          "ffmpeg",
+    "outputPath":          directory,
+    "youtubeVideoQuality": "highestaudio",
+  });
+
+  downloader.download(videoID);
+  downloader.on("finished", (error, data) => event.reply("YouTubeToMP3Complete"));
+  downloader.on("progress", (progress) => event.reply("YouTubeToMP3Progress", Math.floor(progress.progress.percentage)));
+  downloader.on("error", (error) => event.reply("YouTubeToMP3Error"));
+}
+
+async function SoundCloudToMP3(win, event, url) {
+  const directory = await dialog.showOpenDialog(
+    win,
+    {
+      title:      "Open Playlist(s)",
+      properties: [ "openDirectory" ]
+    }
+  ).then(async (result) => {
+    if(result.canceled) return null;
+    let directory = result.filePaths[0].replaceAll('\\', '/');
+    if(directory[directory.length - 1] !== '/') directory += '/';
+    return directory;
+  });
+
+  if(directory === null) return;
+
+  event.reply("SoundCloudToMP3Scraping");
+
+  const downloader = new SoundCloudDownloader.Client();
+  downloader.getSongInfo(url).then(async (song) => {
+    event.reply("SoundCloudToMP3Downloading");
+
+    const stream = await song.downloadProgressive();
+    const writer = stream.pipe(fs.createWriteStream(`${directory}${song.title}.mp3`));
+
+    writer.on("finish", () => { event.reply("SoundCloudToMP3Complete"); });
+  }).catch(error => event.reply("SoundCloudToMP3Error"));
+}
+
 module.exports = {
   openPlaylist,
   newPlaylist,
@@ -351,5 +419,8 @@ module.exports = {
   copySongToPlaylists,
   moveSongToPlaylist,
   searchYouTube,
-  searchSoundCloud
+  searchSoundCloud,
+  searchSoundCloudRecommended,
+  YouTubeToMP3,
+  SoundCloudToMP3
 };

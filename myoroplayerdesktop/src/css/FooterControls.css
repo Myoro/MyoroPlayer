@@ -39,7 +39,12 @@
   100% { transform: translateX(-100%); }
 }
 /* Song artist */
-#footerSongInformation > div > p { font-size: 16px; }
+#footerSongInformation > div > p {
+  font-size: 16px;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
 /* Text elements */
 #footerSongInformation p, span { user-select: none; }
 

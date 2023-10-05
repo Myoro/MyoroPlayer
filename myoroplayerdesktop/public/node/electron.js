@@ -9,7 +9,10 @@ const {
   copySongToPlaylists,
   moveSongToPlaylist,
   searchYouTube,
-  searchSoundCloud
+  searchSoundCloud,
+  searchSoundCloudRecommended,
+  YouTubeToMP3,
+  SoundCloudToMP3
 } = require("./ipcFunctions.js");
 const {
   initializeDatabase,
@@ -18,7 +21,9 @@ const {
   hardDeletePlaylist,
   hardDeleteSong,
   getShuffleRepeat,
-  setShuffleRepeat
+  setShuffleRepeat,
+  getDarkMode,
+  setDarkMode
 } = require("./Database.js");
 
 function createWindow() {
@@ -59,6 +64,11 @@ function createWindow() {
   ipcMain.on("setShuffleRepeat", (event, data) => setShuffleRepeat(data));
   ipcMain.on("searchYouTube", (event, data) => searchYouTube(event, data.query, data.related));
   ipcMain.on("searchSoundCloud", (event, query) => searchSoundCloud(event, query));
+  ipcMain.on("searchSoundCloudRecommended", (event, query) => searchSoundCloudRecommended(event, query));
+  ipcMain.on("YouTubeToMP3", (event, videoID) => YouTubeToMP3(win, event, videoID));
+  ipcMain.on("SoundCloudToMP3", (event, url) => SoundCloudToMP3(win, event, url));
+  ipcMain.on("getDarkMode", (event) => getDarkMode(event));
+  ipcMain.on("setDarkMode", (event, value) => setDarkMode(value));
   ipcMain.on("quit", () => app.exit(0)); 
 }
 
