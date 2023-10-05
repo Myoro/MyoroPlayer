@@ -21,7 +21,6 @@
 }
 .dialog > p {
   font-size:   20px;
-  user-select: none;
   padding:     10px;
 }
 .dialogButton {

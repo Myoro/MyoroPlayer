@@ -33,6 +33,7 @@ function createWindow() {
     height:    600,
     minWidth:  600,
     minHeight: 600,
+    icon:      path.join(__dirname, "../icon.png"),
     webPreferences: {
       nodeIntegration:  true,
       contextIsolation: false, // Allows Electron IPC to function within React
@@ -43,11 +44,11 @@ function createWindow() {
   win.loadURL(
     isDev
       ? `http://localhost:3000`
-      : `file://${path.join(__dirname, "../build/index.html")}`
+      : `file://${path.join(__dirname, "../index.html")}`
   );
   win.setMenu(null);
 
-  // if(isDev) win.webContents.openDevTools(true);
+  if(isDev) win.webContents.openDevTools(true);
 
   ipcMain.on("initializeDatabase", initializeDatabase);
   ipcMain.on("openPlaylist", (event) => openPlaylist(event, win));

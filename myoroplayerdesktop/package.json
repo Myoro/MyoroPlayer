@@ -1,8 +1,31 @@
 {
   "name": "myoroplayerdesktop",
-  "version": "0.1.0",
+  "author": "Anton Koetzler-Faust",
+  "version": "1.0.0",
   "private": true,
   "main": "public/node/electron.js",
+  "homepage": "./",
+  "build": {
+    "productName": "MyoroPlayer",
+    "appId": "com.myoro.myoroplayer",
+    "icon": "icon.png",
+    "asar": true,
+    "directories": {
+      "output": "dist"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "mac": {
+      "target": "dmg"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "extraMetadata": {
+      "main": "build/node/electron.js"
+    }
+  },
   "dependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "@testing-library/jest-dom": "^5.17.0",
@@ -11,7 +34,6 @@
     "axios": "^1.5.1",
     "cheerio": "^1.0.0-rc.12",
     "clear": "^0.1.0",
-    "electron": "^25.5.0",
     "electron-is-dev": "^2.0.0",
     "mp3-duration": "^1.1.0",
     "node-id3": "^0.2.6",
@@ -31,7 +53,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "react-start": "react-scripts start",
-    "electron-start": "electron --disable-gpu ."
+    "electron-start": "electron --disable-gpu .",
+    "deploy": "electron-builder"
   },
   "eslintConfig": {
     "extends": [
@@ -50,5 +73,9 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "electron": "^25.5.0",
+    "electron-builder": "^24.6.4"
   }
 }
