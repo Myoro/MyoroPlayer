@@ -8,13 +8,19 @@
   "build": {
     "productName": "MyoroPlayer",
     "appId": "com.myoro.myoroplayer",
-    "icon": "icon.png",
+    "icon": "public/icon.png",
     "asar": true,
     "directories": {
       "output": "dist"
     },
     "win": {
-      "target": "nsis"
+      "target": "nsis",
+      "extraFiles": [
+        {
+          "from": "./MyoroPlayer.db",
+          "to": "."
+        }
+      ]
     },
     "mac": {
       "target": "dmg"
