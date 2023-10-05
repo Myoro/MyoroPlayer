@@ -17,7 +17,7 @@ function TextDialog({ hoverButton }) {
     if(modal.mode === "about")
       setText("MyoroPlayer is free & open source software with functionality to stream/download content from YouTube, SoundCloud, & of course your computer. Remember... MUSIC IS FREE!");
     else if(modal.mode === "donate")
-      setText("If you are looking to donate, please visit my PayPal at <>\nI really appreciate it :)");
+      setText("If you are looking to donate, my PayPal is antonkoetzler-faust@hotmail.com \nI really appreciate it :)");
   }, [modal]);
 
   if(modal.mode === "about" || modal.mode === "donate") {
