@@ -2,6 +2,7 @@ const sqlite3 = require("sqlite3").verbose();
 const clear   = require("clear");
 const fs      = require("fs");
 const os      = require("os");
+const path    = require("path");
 const isDev   = require("electron-is-dev");
 
 var db = null;
@@ -10,8 +11,16 @@ function initializeDatabase() {
   clear();
 
   // Moving MyoroPlayer.db to ./public/ will cause reloads (BAD!!!)
-  let path = (os.platform() === "linux" && !isDev) ? "/usr/local/bin/MyoroPlayer/MyoroPlayer.db" : "./MyoroPlayer.db";
-  db = new sqlite3.Database(path, (error) => {
+  let dbPath;
+  const platform = os.platform();
+  if(isDev || platform === "win32") {
+    dbPath = "./MyoroPlayer.db";
+  } else {
+    if(platform === "linux") dbPath = "/usr/local/bin/MyoroPlayer/MyoroPlayer.db";
+    else                     dbPath = path.join(process.resourcesPath, 'MyoroPlayer.db');
+  }
+
+  db = new sqlite3.Database(dbPath, (error) => {
     if(error) console.log("Error opening MyoroPlayer.db");
     else      console.log("MyoroPlayer.db opened");
   });

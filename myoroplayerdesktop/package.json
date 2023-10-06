@@ -23,7 +23,14 @@
       ]
     },
     "mac": {
-      "target": "dmg"
+      "target": "dmg",
+      "icon": "public/icon512.png",
+      "extraResources": [
+        {
+          "from": "./MyoroPlayer.db",
+          "to": "."
+        }
+      ]
     },
     "linux": {
       "target": "AppImage"
