@@ -62,14 +62,15 @@ export function YouTubeToMP3(video) {
   if(video.length > 11) {
     // Checking for a link like this https://www.youtube.com/watch?v=IYAjG0oAJPQ
     let split = video.split('=');
-    if(/^[A-Za-z0-9_-]{11}$/.test(split[split.length - 1])) videoID = split[split.length - 1];
-    else if(split.length > 2) {
+    if(/^[A-Za-z0-9_-]{11}$/.test(split[split.length - 1])) {
+      videoID = split[split.length - 1];
+    } else if(split.length > 2) {
       split = split[split.length - 2].split('/');
       split = split[split.length - 1].substr(0, split[split.length - 1].length - 3);
       if(/^[A-Za-z0-9_-]{11}$/.test(split)) videoID = split;
     } else video = null;
   } else if(/^[A-Za-z0-9_-]{11}$/.test(video)) {
-    video = videoID;
+    videoID = video;
   } else video = null;
 
   if(videoID === null) {
