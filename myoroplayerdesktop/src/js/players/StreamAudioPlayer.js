@@ -21,13 +21,25 @@ function StreamAudioPlayer() {
     if(streamPlayerCommand.command === null) return;
 
     switch(streamPlayerCommand.command) {
-      case "playSong":     playSong();                                                  break;
-      case "addToQueue":   setQueue(queued => [ ...queued, streamPlayerCommand.song ]); break;
-      case "togglePlay":   togglePlay();                                                break;
-      case "previousSong": previousSong();                                              break;
-      case "nextSong":     nextSong();                                                  break;
-      case "seekTo":       seekTo(streamPlayerCommand.seekTo);                          break;
-      default:                                                                          break;
+      case "playSong":
+        playSong();
+        break;
+      case "addToQueue":
+        setQueue(queued => Array.isArray(queued) ? [ ...queued, streamPlayerCommand.song ] : [streamPlayerCommand.song]);
+        break;
+      case "togglePlay":
+        togglePlay();
+        break;
+      case "previousSong":
+        previousSong();
+        break;
+      case "nextSong":
+        nextSong();
+        break;
+      case "seekTo":
+        seekTo(streamPlayerCommand.seekTo);
+        break;
+      default: break;
     }
 
     Store.dispatch({ type: "invokeStreamPlayerCommand", payload: { command: null, song: null }});
