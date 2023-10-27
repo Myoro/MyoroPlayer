@@ -4,7 +4,7 @@
 # What is MyoroPlayer?
 MyoroPlayer is a free and open source music player seeking to localize your music. MyoroPlayer allows users to stream and download music from YouTube and SoundCloud with ease!
 
-### [Download on Windows, MacOS, & Linux](https://github.com/Myoro/MyoroPlayerDesktop/releases/tag/1.0.1)
+### [Download on Windows, MacOS, & Linux](https://github.com/Myoro/MyoroPlayer/releases/tag/1.0.1)
 
 ### This is a one man job, feel free to donate :)
 Paypal: antonkoetzler-faust@hotmail.com
