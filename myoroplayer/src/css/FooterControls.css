@@ -1,0 +1,115 @@
+#footerControls {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  gap:            10px;
+}
+
+#footerSongInformation {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+}
+/* Album cover */
+#footerSongInformation > img {
+  width:   75px;
+  height:  75px;
+  padding: 7px;
+}
+/* Container for song title & artist */
+#footerSongInformation > div {
+  width:          106px;
+  display:        flex;
+  flex-direction: column;
+  gap:            3px;
+}
+/* Marquee element (song title) */
+#footerSongInformation > div > div {
+  overflow:    hidden;
+  white-space: nowrap;
+}
+#footerSongInformation > div > div > span {
+  display:      inline-block;
+  font-size:    18px;
+  padding-left: 100%; /* Start offscreen */
+  animation:    marquee 5s linear infinite;
+}
+@keyframes marquee {
+  0% { transform: translateX(100%); }
+  100% { transform: translateX(-100%); }
+}
+/* Song artist */
+#footerSongInformation > div > p {
+  font-size: 16px;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+/* Text elements */
+#footerSongInformation p, span { user-select: none; }
+
+#footerSongControls {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  align-items:    center;
+  gap:            8px;
+}
+#footerSongControls > div {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+}
+#footerSongControls > div > img {
+  cursor:        pointer;
+  border-radius: 10px;
+  padding:       5px;
+}
+#footerSongControls > input { width: 166px; }
+
+#footerMiscControls {
+  width:          188px;
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  gap:            5px;
+  padding-right:  7px;
+}
+#footerMiscControls > div {
+  display:        flex;
+  flex-direction: row;
+  gap:            5px;
+}
+#footerMiscControls > div img {
+  width:         30px;
+  height:        30px;
+  cursor:        pointer;
+  border-radius: 10px;
+  padding:       5px;
+}
+#footerMiscControls > input { width: 100%; }
+/* Queue list */
+#footerMiscControls > div > div > ul {
+  width:      200px;
+  position:   absolute;
+  transform:  translate(-84px, -70px);
+  text-align: center;
+}
+#footerMiscControls > div > div > ul > li {
+  user-select:   none;
+  padding:       5px;
+  cursor:        pointer;
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+
+#spacer {
+  display: none;
+  flex:    1;
+}
+
+@media (max-width: 775px) {
+  #footerSongControls { display: none; }
+  #spacer             { display: block; }
+}
