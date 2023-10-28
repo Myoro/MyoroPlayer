@@ -1,11 +1,12 @@
 import "package:flutter/material.dart";
+import "../widgets/TopBar.dart";
 
 class MainScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("MyoroPlayer")),
-      body: Center(child: Text("Hi"))
+      appBar: TopBar(),
+      body: Center(child: Text("Mobile"))
     );
   }
 }

@@ -36,5 +36,12 @@ ThemeData dark = ThemeData(
     onSurface:    Color(0xFFEDE6D6),
     error:        Colors.red,
     onError:      Colors.white
+  ),
+  textTheme: TextTheme(
+    bodyMedium: TextStyle(
+      fontFamily: "Ubuntu",
+      fontWeight: FontWeight.normal,
+      fontSize:   24
+    )
   )
 );

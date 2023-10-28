@@ -2,8 +2,7 @@ import "package:flutter/material.dart";
 import "package:provider/provider.dart";
 import "./State.dart" as StateManagement;
 import "./Themes.dart";
-import "./desktop/screens/MainScreen.dart" as Desktop;
-import "./mobile/screens/MainScreen.dart" as Mobile;
+import "./screens/MainScreen.dart";
 
 void main() {
   runApp(
@@ -17,10 +16,12 @@ void main() {
 class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    final StateManagement.State state = Provider.of<StateManagement.State>(context);
+
     return MaterialApp(
       title: "MyoroPlayer",
-      theme: light,
-      home:  MediaQuery.of(context).size.width > 600 ? Desktop.MainScreen() : Mobile.MainScreen()
+      theme: !state.state.darkMode ? light : dark,
+      home:  MainScreen()
     );
   }
 }
