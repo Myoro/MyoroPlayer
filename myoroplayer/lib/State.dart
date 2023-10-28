@@ -16,7 +16,7 @@ class State extends ChangeNotifier {
   _State state = _State();
 
   void setDarkMode() {
-    if(kIsWeb) state.database.setDarkMode(!state.darkMode);
+    if(!kIsWeb) state.database.setDarkMode(!state.darkMode);
     state.darkMode = !state.darkMode;
     notifyListeners();
   }
