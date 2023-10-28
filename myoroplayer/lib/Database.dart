@@ -1,3 +1,4 @@
+import "dart:io";
 import "package:flutter/foundation.dart";
 import "package:sqflite/sqflite.dart" as sqflite;
 import "package:sqflite_common_ffi/sqflite_ffi.dart";
@@ -11,8 +12,10 @@ class Database {
   Database({ required this.initialized }) { init(); }
 
   void init() async {
-    sqfliteFfiInit();
-    sqflite.databaseFactory = databaseFactoryFfi;
+    if(!kIsWeb && (Platform.isWindows || Platform.isMacOS || Platform.isLinux)) {
+      sqfliteFfiInit();
+      sqflite.databaseFactory = databaseFactoryFfi;
+    }
 
     final documentsDirectory = await getApplicationDocumentsDirectory();
     _database = await sqflite.openDatabase(join(documentsDirectory.path, "myoroplayer.db"));
