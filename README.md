@@ -1,10 +1,7 @@
-# An alternative to music streaming services
-![SocialPreview](https://github.com/Myoro/MyoroPlayerDesktop/assets/66643637/e355f1c3-0c8c-4c6b-9aff-9f39f35c739f)
-
-# What is MyoroPlayer?
-MyoroPlayer is a free and open source music player seeking to localize your music. MyoroPlayer allows users to stream and download music from YouTube and SoundCloud with ease!
-
-### [Download on Windows, MacOS, & Linux](https://github.com/Myoro/MyoroPlayer/releases/tag/1.0.1)
-
-### This is a one man job, feel free to donate :)
-Paypal: antonkoetzler-faust@hotmail.com
+# Features
+1. Music player
+2. Music downloader (from API (My Computer))
+3. Music sync (Desktop2Desktop or Desktop2Android or Android2Desktop)
+4. Public music repository (opt-in) (all music uploaded to account will be public)
+5. Account creation
+6. In-app instructions for getting music to mobile device
