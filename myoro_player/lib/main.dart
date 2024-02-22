@@ -33,9 +33,10 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) => BlocBuilder<DarkModeCubit, bool>(
-        builder: (context, isDarkMode) => MaterialApp(
+        builder: (context, darkMode) => MaterialApp(
           title: 'MyoroPlayer',
-          theme: createTheme(isDarkMode),
+          theme: createTheme(!darkMode),
+          darkTheme: createTheme(darkMode),
           home: PlatformHelper.isDesktop
               ? const Desktop.HomeScreen()
               : const SizedBox.shrink(), // TODO: Mobile UI

@@ -20,6 +20,7 @@ class _SideBarState extends State<SideBar> {
   @override
   Widget build(BuildContext context) => Container(
         width: 200,
+        height: double.infinity,
         constraints: const BoxConstraints(minWidth: 200),
         child: LayoutBuilder(
           builder: (context, constraints) => Scrollbar(
@@ -29,15 +30,17 @@ class _SideBarState extends State<SideBar> {
               controller: _controller,
               child: Padding(
                 padding: const EdgeInsets.only(left: 5, right: 15),
-                child: Column(children: [
-                  for (int i = 0; i < 20; i++)
-                    BaseHoverButton(
-                      onTap: () {}, // TODO
-                      text: '${'*' * i} Playlist',
-                      ellipsize: true,
-                      textWidth: constraints.maxWidth - 40,
-                    ),
-                ]),
+                child: Column(
+                  children: [
+                    for (int i = 0; i < 20; i++)
+                      BaseHoverButton(
+                        onTap: () {}, // TODO
+                        text: '${'*' * i} Playlist',
+                        ellipsize: true,
+                        textWidth: constraints.maxWidth - 40,
+                      ),
+                  ],
+                ),
               ),
             ),
           ),
