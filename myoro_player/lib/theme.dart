@@ -34,23 +34,23 @@ ThemeData createTheme(bool isDarkMode) => ThemeData(
       ),
       textTheme: TextTheme(
         // Normal styles
-        bodyLarge: _textStyle(isDarkMode, fontSize: 24),
+        bodyLarge: _textStyle(isDarkMode, fontSize: 25),
         bodyMedium: _textStyle(isDarkMode, fontSize: 20),
-        bodySmall: _textStyle(isDarkMode, fontSize: 16),
+        bodySmall: _textStyle(isDarkMode, fontSize: 15),
         // Bolded styles
         titleLarge:
-            _textStyle(isDarkMode, fontSize: 24, fontWeight: FontWeight.bold),
+            _textStyle(isDarkMode, fontSize: 25, fontWeight: FontWeight.bold),
         titleMedium:
             _textStyle(isDarkMode, fontSize: 20, fontWeight: FontWeight.bold),
         titleSmall:
-            _textStyle(isDarkMode, fontSize: 16, fontWeight: FontWeight.bold),
+            _textStyle(isDarkMode, fontSize: 15, fontWeight: FontWeight.bold),
         // Italicized styles
         headlineLarge:
-            _textStyle(isDarkMode, fontSize: 24, fontStyle: FontStyle.italic),
+            _textStyle(isDarkMode, fontSize: 25, fontStyle: FontStyle.italic),
         headlineMedium:
             _textStyle(isDarkMode, fontSize: 20, fontStyle: FontStyle.italic),
         headlineSmall:
-            _textStyle(isDarkMode, fontSize: 16, fontStyle: FontStyle.italic),
+            _textStyle(isDarkMode, fontSize: 15, fontStyle: FontStyle.italic),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: isDarkMode ? _primaryLightColor : _primaryDarkColor,

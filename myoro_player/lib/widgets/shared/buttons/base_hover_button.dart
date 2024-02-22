@@ -8,6 +8,7 @@ class BaseHoverButton extends StatefulWidget {
   final TextStyle? textStyle;
   final bool ellipsize;
   final double? textWidth;
+  final EdgeInsets padding;
 
   BaseHoverButton({
     super.key,
@@ -18,6 +19,7 @@ class BaseHoverButton extends StatefulWidget {
     this.textStyle,
     this.ellipsize = false,
     this.textWidth,
+    this.padding = const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
   }) {
     assert((icon != null && iconSize != null) || text != null);
 
@@ -49,7 +51,7 @@ class _BaseHoverButtonState extends State<BaseHoverButton> {
           borderRadius: BorderRadius.circular(10),
         ),
         child: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+          padding: widget.padding,
           child: InkWell(
             hoverColor: Colors.transparent,
             splashColor: Colors.transparent,

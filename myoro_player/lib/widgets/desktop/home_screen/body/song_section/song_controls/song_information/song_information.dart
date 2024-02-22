@@ -25,17 +25,25 @@ class SongInformation extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                'Song name qweiqwje',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.bodyMedium,
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 400),
+                message: 'Song name Long Boy',
+                child: Text(
+                  'Song name Long Boy',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodyMedium,
+                ),
               ),
-              Text(
-                'Song artistqwejqweoijqeoijqwioejqweiqwje',
-                maxLines: 1,
-                overflow: TextOverflow.ellipsis,
-                style: textTheme.bodySmall,
+              Tooltip(
+                waitDuration: const Duration(milliseconds: 400),
+                message: 'Ski Mask the Mother Fucking Slump God',
+                child: Text(
+                  'Ski Mask the Mother Fucking Slump God',
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textTheme.bodySmall,
+                ),
               ),
             ],
           ),

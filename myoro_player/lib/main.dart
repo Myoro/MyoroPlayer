@@ -13,7 +13,7 @@ void main() async {
 
   if (PlatformHelper.isDesktop) {
     windowManager.ensureInitialized();
-    windowManager.setMinimumSize(const Size(600, 600));
+    windowManager.setMinimumSize(const Size(648, 648));
   }
 
   await Database.init();
