@@ -38,17 +38,27 @@ ThemeData createTheme(bool isDarkMode) => ThemeData(
         bodyMedium: _textStyle(isDarkMode, fontSize: 20),
         bodySmall: _textStyle(isDarkMode, fontSize: 16),
         // Bolded styles
-        titleLarge: _textStyle(isDarkMode, fontSize: 24, fontWeight: FontWeight.bold),
-        titleMedium: _textStyle(isDarkMode, fontSize: 20, fontWeight: FontWeight.bold),
-        titleSmall: _textStyle(isDarkMode, fontSize: 16, fontWeight: FontWeight.bold),
+        titleLarge:
+            _textStyle(isDarkMode, fontSize: 24, fontWeight: FontWeight.bold),
+        titleMedium:
+            _textStyle(isDarkMode, fontSize: 20, fontWeight: FontWeight.bold),
+        titleSmall:
+            _textStyle(isDarkMode, fontSize: 16, fontWeight: FontWeight.bold),
         // Italicized styles
-        headlineLarge: _textStyle(isDarkMode, fontSize: 24, fontStyle: FontStyle.italic),
-        headlineMedium: _textStyle(isDarkMode, fontSize: 20, fontStyle: FontStyle.italic),
-        headlineSmall: _textStyle(isDarkMode, fontSize: 16, fontStyle: FontStyle.italic),
+        headlineLarge:
+            _textStyle(isDarkMode, fontSize: 24, fontStyle: FontStyle.italic),
+        headlineMedium:
+            _textStyle(isDarkMode, fontSize: 20, fontStyle: FontStyle.italic),
+        headlineSmall:
+            _textStyle(isDarkMode, fontSize: 16, fontStyle: FontStyle.italic),
       ),
       textSelectionTheme: TextSelectionThemeData(
         cursorColor: isDarkMode ? _primaryLightColor : _primaryDarkColor,
-        selectionColor: isDarkMode ? _primaryLightColor.withOpacity(0.3) : _primaryDarkColor.withOpacity(0.3),
-        selectionHandleColor: isDarkMode ? _primaryLightColor.withOpacity(0.3) : _primaryDarkColor.withOpacity(0.3),
+        selectionColor: isDarkMode
+            ? _primaryLightColor.withOpacity(0.3)
+            : _primaryDarkColor.withOpacity(0.3),
+        selectionHandleColor: isDarkMode
+            ? _primaryLightColor.withOpacity(0.3)
+            : _primaryDarkColor.withOpacity(0.3),
       ),
     );

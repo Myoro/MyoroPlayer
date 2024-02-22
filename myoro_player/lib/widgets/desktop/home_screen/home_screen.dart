@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/widgets/app_bars/home_screen_app_bar.dart';
-import 'package:myoro_player/widgets/bodies/home_screen_body.dart';
+import 'package:myoro_player/widgets/desktop/home_screen/app_bar/home_screen_app_bar.dart';
+import 'package:myoro_player/widgets/desktop/home_screen/body/home_screen_body.dart';
 
 /// Starting screen of the application
 class HomeScreen extends StatelessWidget {
