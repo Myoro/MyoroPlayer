@@ -6,6 +6,6 @@ app.get('/', (request, resolution) => {
   res.send('Hello, World!');
 });
 
-app.list(PORT, () => {
+app.listen(PORT, () => {
   console.log('Server started on port ${PORT}');
 });
