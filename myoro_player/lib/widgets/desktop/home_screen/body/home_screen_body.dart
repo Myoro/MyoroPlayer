@@ -9,6 +9,7 @@ class HomeScreenBody extends StatelessWidget {
   Widget build(BuildContext context) => const Row(
         children: [
           SideBar(),
+          VerticalDivider(resizeButton: true),
           SongSection(),
         ],
       );
