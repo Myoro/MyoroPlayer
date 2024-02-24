@@ -17,6 +17,9 @@ TextStyle _textStyle(
     );
 
 ThemeData createTheme(bool isDarkMode) => ThemeData(
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
+      hoverColor: Colors.transparent,
       colorScheme: ColorScheme(
         brightness: isDarkMode ? Brightness.dark : Brightness.light,
         primary: isDarkMode ? _primaryDarkColor : _primaryLightColor,

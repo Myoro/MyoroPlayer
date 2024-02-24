@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/widgets/shared/buttons/base_hover_button.dart';
+import 'package:myoro_player/widgets/shared/dropdowns/base_dropdown.dart';
 
 class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeScreenAppBar({super.key});
@@ -16,19 +17,34 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
               style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(width: 10),
-            BaseHoverButton(
-              onTap: () {}, // TODO
-              text: 'File',
+            BaseDropdown(
+              items: const [
+                'This',
+                'Is',
+                'A',
+                'Test',
+              ],
+              child: BaseHoverButton(text: 'File'),
             ),
             const SizedBox(width: 10),
-            BaseHoverButton(
-              onTap: () {}, // TODO
-              text: 'View',
+            BaseDropdown(
+              items: const [
+                'This',
+                'Is',
+                'A',
+                'Test',
+              ],
+              child: BaseHoverButton(text: 'View'),
             ),
             const SizedBox(width: 10),
-            BaseHoverButton(
-              onTap: () {}, // TODO
-              text: 'Streaming',
+            BaseDropdown(
+              items: const [
+                'This',
+                'Is',
+                'A',
+                'Test',
+              ],
+              child: BaseHoverButton(text: 'Streaming'),
             ),
             const Spacer(),
             BaseHoverButton(

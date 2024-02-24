@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class BaseHoverButton extends StatefulWidget {
-  final Function onTap;
+  final Function? onTap;
   final IconData? icon;
   final double? iconSize;
   final String? text;
@@ -12,7 +12,7 @@ class BaseHoverButton extends StatefulWidget {
 
   BaseHoverButton({
     super.key,
-    required this.onTap,
+    this.onTap,
     this.icon,
     this.iconSize,
     this.text,
@@ -45,49 +45,51 @@ class _BaseHoverButtonState extends State<BaseHoverButton> {
 
     return ValueListenableBuilder(
       valueListenable: _hovered,
-      builder: (context, hovered, child) => Container(
-        decoration: BoxDecoration(
-          color: !hovered ? Colors.transparent : theme.colorScheme.onPrimary,
-          borderRadius: BorderRadius.circular(10),
-        ),
-        child: Padding(
-          padding: widget.padding,
-          child: InkWell(
-            hoverColor: Colors.transparent,
-            splashColor: Colors.transparent,
-            highlightColor: Colors.transparent,
-            onHover: (value) => _hovered.value = value,
-            onTap: () => widget.onTap(),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                if (widget.icon != null)
-                  Icon(
-                    widget.icon,
-                    size: widget.iconSize,
-                    color: !hovered
-                        ? theme.colorScheme.onPrimary
-                        : theme.colorScheme.primary,
-                  ),
-                if (widget.icon != null && widget.text != null)
-                  const SizedBox(width: 5),
-                if (widget.text != null)
-                  SizedBox(
-                    width: widget.textWidth,
-                    child: Text(
-                      widget.text!,
-                      textAlign: TextAlign.center,
-                      maxLines: widget.ellipsize ? 1 : null,
-                      overflow: widget.ellipsize ? TextOverflow.ellipsis : null,
-                      style: (widget.textStyle ?? theme.textTheme.bodyMedium)!
-                          .copyWith(
-                        color: !hovered
-                            ? theme.colorScheme.onPrimary
-                            : theme.colorScheme.primary,
+      builder: (context, hovered, child) => MouseRegion(
+        cursor: SystemMouseCursors.click,
+        onEnter: (value) => _hovered.value = true,
+        onExit: (value) => _hovered.value = false,
+        child: Container(
+          decoration: BoxDecoration(
+            color: !hovered ? Colors.transparent : theme.colorScheme.onPrimary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: GestureDetector(
+            onTap: widget.onTap != null ? widget.onTap!() : null,
+            child: Padding(
+              padding: widget.padding,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (widget.icon != null)
+                    Icon(
+                      widget.icon,
+                      size: widget.iconSize,
+                      color: !hovered
+                          ? theme.colorScheme.onPrimary
+                          : theme.colorScheme.primary,
+                    ),
+                  if (widget.icon != null && widget.text != null)
+                    const SizedBox(width: 5),
+                  if (widget.text != null)
+                    SizedBox(
+                      width: widget.textWidth,
+                      child: Text(
+                        widget.text!,
+                        textAlign: TextAlign.center,
+                        maxLines: widget.ellipsize ? 1 : null,
+                        overflow:
+                            widget.ellipsize ? TextOverflow.ellipsis : null,
+                        style: (widget.textStyle ?? theme.textTheme.bodyMedium)!
+                            .copyWith(
+                          color: !hovered
+                              ? theme.colorScheme.onPrimary
+                              : theme.colorScheme.primary,
+                        ),
                       ),
                     ),
-                  ),
-              ],
+                ],
+              ),
             ),
           ),
         ),
