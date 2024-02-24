@@ -7,26 +7,29 @@ class SongControls extends StatelessWidget {
   const SongControls({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    final double screenWidth = MediaQuery.of(context).size.width;
-
-    return SizedBox(
-      height: 95,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          if (screenWidth >= 765) ...[
-            const SizedBox(width: 5),
-            const SongInformation(),
-            const Spacer(),
-          ],
-          const SongControlButtonsAndSlider(),
-          if (screenWidth >= 1030) ...[
-            const Spacer(),
-            const AdditionalControls(),
-          ],
-        ],
-      ),
-    );
-  }
+  Widget build(BuildContext context) =>
+      LayoutBuilder(builder: (context, constraints) {
+        if (constraints.maxWidth > 250) {
+          return SizedBox(
+            height: 95,
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (constraints.maxWidth >= 565) ...[
+                  const SizedBox(width: 5),
+                  const SongInformation(),
+                  const Spacer(),
+                ],
+                const SongControlButtonsAndSlider(),
+                if (constraints.maxWidth >= 830) ...[
+                  const Spacer(),
+                  const AdditionalControls(),
+                ],
+              ],
+            ),
+          );
+        } else {
+          return const SizedBox.shrink();
+        }
+      });
 }

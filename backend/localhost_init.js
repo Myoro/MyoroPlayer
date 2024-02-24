@@ -1,5 +1,7 @@
 // For testing
 const express = require('express');
+const database = require('./database/database.js');
+
 const app = express();
 const PORT = 3001;
 

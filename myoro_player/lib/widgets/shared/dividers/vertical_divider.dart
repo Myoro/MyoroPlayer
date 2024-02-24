@@ -1,23 +1,43 @@
 import 'package:flutter/material.dart';
 
-class VerticalDivider extends StatelessWidget {
-  final bool resizeButton;
+class BaseVerticalDivider extends StatelessWidget {
+  final bool isResizeButton;
+  final Function(double)? onHorizontalDragUpdate;
 
-  const VerticalDivider({ super.key, this.resizeButton = false });
+  const BaseVerticalDivider({
+    super.key,
+    this.isResizeButton = false,
+    this.onHorizontalDragUpdate,
+  });
 
   @override
-  Widget build(BuildContext context) => !resizeButton
-    ? _widget(context)
-    : GestureDetector(
-      onPanUpdate: (details) => print(details),
-      child: _widget(context),
-    );
+  Widget build(BuildContext context) {
+    assert(isResizeButton && onHorizontalDragUpdate != null);
 
-  Widget _widget(BuildContext context) => Container(
-    width: 0.5,
-    height: double.infinity,
-    decoration: BoxDecoration(
-      color: Theme.of(context).colorScheme.onPrimary,
-    ),
-  );
+    return !isResizeButton
+        ? _widget(context)
+        : MouseRegion(
+            cursor: SystemMouseCursors.resizeColumn,
+            child: GestureDetector(
+              onHorizontalDragUpdate: (details) =>
+                  onHorizontalDragUpdate!(details.delta.dx), // TODO
+              child: _widget(context),
+            ),
+          );
+  }
+
+  Widget _widget(BuildContext context) => Padding(
+        padding: const EdgeInsets.symmetric(vertical: 10),
+        child: Container(
+          color: Colors.transparent,
+          width: 10.5,
+          height: double.infinity,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 5),
+            child: Container(
+              color: Theme.of(context).colorScheme.onPrimary,
+            ),
+          ),
+        ),
+      );
 }

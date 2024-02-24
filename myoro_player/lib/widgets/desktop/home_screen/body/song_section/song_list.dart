@@ -57,17 +57,17 @@ class _SongState extends State<_Song> {
     final ThemeData theme = Theme.of(context);
 
     return ValueListenableBuilder(
-        valueListenable: _hovered,
-        builder: (context, hovered, child) {
-          final Color textColor = !hovered
-              ? theme.colorScheme.onPrimary
-              : theme.colorScheme.primary;
-          final TextStyle bodyMedium =
-              theme.textTheme.bodyMedium!.copyWith(color: textColor);
-          final TextStyle bodySmall =
-              theme.textTheme.bodySmall!.copyWith(color: textColor);
+      valueListenable: _hovered,
+      builder: (context, hovered, child) {
+        final Color textColor =
+            !hovered ? theme.colorScheme.onPrimary : theme.colorScheme.primary;
+        final TextStyle bodyMedium =
+            theme.textTheme.bodyMedium!.copyWith(color: textColor);
+        final TextStyle bodySmall =
+            theme.textTheme.bodySmall!.copyWith(color: textColor);
 
-          return Padding(
+        return LayoutBuilder(
+          builder: (context, constraints) => Padding(
             padding: const EdgeInsets.only(
               top: 5,
               bottom: 5,
@@ -90,6 +90,7 @@ class _SongState extends State<_Song> {
                 child: Padding(
                   padding: const EdgeInsets.all(5),
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       ClipRRect(
                         borderRadius: BorderRadius.circular(5),
@@ -104,69 +105,77 @@ class _SongState extends State<_Song> {
                           height: 60,
                         ),
                       ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Tooltip(
-                              message: 'iqojweioqjweoqiwejio',
-                              waitDuration: const Duration(milliseconds: 500),
-                              child: Text(
-                                'OOGABOOGA  whats uuuuup what supj w what',
-                                style: bodyMedium,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                      if (constraints.maxWidth > 120) ...[
+                        const SizedBox(width: 10),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Tooltip(
+                                message: 'iqojweioqjweoqiwejio',
+                                waitDuration: const Duration(milliseconds: 500),
+                                child: Text(
+                                  'OOGABOOGA  whats uuuuup what supj w what',
+                                  style: bodyMedium,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ),
-                            const SizedBox(width: 3),
-                            Tooltip(
-                              message: 'qjwepjqweiojqweoiqjweioj',
-                              waitDuration: const Duration(milliseconds: 500),
-                              child: Text(
-                                'Ski Mask the Slump God and now some useless text',
-                                style: bodySmall,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
+                              const SizedBox(width: 3),
+                              Tooltip(
+                                message: 'qjwepjqweiojqweoiqjweioj',
+                                waitDuration: const Duration(milliseconds: 500),
+                                child: Text(
+                                  'Ski Mask the Slump God and now some useless text',
+                                  style: bodySmall,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
                               ),
-                            ),
-                          ],
-                        ),
-                      ),
-                      const SizedBox(width: 10),
-                      Expanded(
-                        child: Tooltip(
-                          message: 'qjwepjqweiojqweoiqjweioj',
-                          waitDuration: const Duration(milliseconds: 500),
-                          child: Text(
-                            'Album name ioqpjweiqjweiqjeoiqwje',
-                            style: theme.textTheme.bodySmall!.copyWith(
-                              color: !hovered
-                                  ? theme.colorScheme.onPrimary
-                                  : theme.colorScheme.primary,
-                            ),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                            textAlign: TextAlign.center,
+                            ],
                           ),
                         ),
-                      ),
-                      const SizedBox(width: 10),
-                      Text(
-                        '420:00',
-                        style: theme.textTheme.bodyMedium!.copyWith(
-                          color: !hovered
-                              ? theme.colorScheme.onPrimary
-                              : theme.colorScheme.primary,
+                      ],
+                      if (constraints.maxWidth > 180) const SizedBox(width: 10),
+                      if (constraints.maxWidth > 500) ...[
+                        Expanded(
+                          child: Tooltip(
+                            message: 'qjwepjqweiojqweoiqjweioj',
+                            waitDuration: const Duration(milliseconds: 500),
+                            child: Text(
+                              'Album name ioqpjweiqjweiqjeoiqwje',
+                              style: theme.textTheme.bodySmall!.copyWith(
+                                color: !hovered
+                                    ? theme.colorScheme.onPrimary
+                                    : theme.colorScheme.primary,
+                              ),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              textAlign: TextAlign.center,
+                            ),
+                          ),
                         ),
-                      ),
-                      const SizedBox(width: 10), // For the scrollbar
+                        const SizedBox(width: 10),
+                      ],
+                      if (constraints.maxWidth > 170) ...[
+                        Text(
+                          '420:00',
+                          style: theme.textTheme.bodyMedium!.copyWith(
+                            color: !hovered
+                                ? theme.colorScheme.onPrimary
+                                : theme.colorScheme.primary,
+                          ),
+                        ),
+                        const SizedBox(width: 10), // For the scrollbar
+                      ],
                     ],
                   ),
                 ),
               ),
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
