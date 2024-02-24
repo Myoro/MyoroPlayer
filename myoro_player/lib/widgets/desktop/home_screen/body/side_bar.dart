@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/widgets/shared/buttons/base_hover_button.dart';
-import 'package:myoro_player/widgets/shared/dividers/vertical_divider.dart';
+import 'package:myoro_player/widgets/shared/vertical_divider.dart';
 
 class SideBar extends StatefulWidget {
   const SideBar({super.key});
