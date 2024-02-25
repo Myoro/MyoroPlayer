@@ -1,0 +1,1 @@
+enum LoginSignupEnum { login, signup }

@@ -8,6 +8,7 @@ class BaseHoverButton extends StatefulWidget {
   final TextStyle? textStyle;
   final bool ellipsize;
   final double? textWidth;
+  final bool bordered;
   final EdgeInsets padding;
 
   BaseHoverButton({
@@ -19,6 +20,7 @@ class BaseHoverButton extends StatefulWidget {
     this.textStyle,
     this.ellipsize = false,
     this.textWidth,
+    this.bordered = false,
     this.padding = const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
   }) {
     assert((icon != null && iconSize != null) || text != null);
@@ -53,9 +55,15 @@ class _BaseHoverButtonState extends State<BaseHoverButton> {
           decoration: BoxDecoration(
             color: !hovered ? Colors.transparent : theme.colorScheme.onPrimary,
             borderRadius: BorderRadius.circular(10),
+            border: Border.all(
+              width: widget.bordered ? 2 : 0,
+              color: widget.bordered
+                  ? theme.colorScheme.onPrimary
+                  : Colors.transparent,
+            ),
           ),
           child: GestureDetector(
-            onTap: widget.onTap != null ? widget.onTap!() : null,
+            onTap: widget.onTap != null ? () => widget.onTap!() : null,
             child: Padding(
               padding: widget.padding,
               child: Row(

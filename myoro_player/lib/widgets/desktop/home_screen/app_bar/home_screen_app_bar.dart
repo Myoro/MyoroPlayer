@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:myoro_player/enums/login_signup_enum.dart';
 import 'package:myoro_player/widgets/shared/buttons/base_hover_button.dart';
 import 'package:myoro_player/widgets/shared/buttons/base_dropdown.dart';
+import 'package:myoro_player/widgets/shared/modals/login_signup_modal.dart';
 
 class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
   const HomeScreenAppBar({super.key});
@@ -48,12 +50,14 @@ class HomeScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
             ),
             const Spacer(),
             BaseHoverButton(
-              onTap: () {}, // TODO
+              onTap: () =>
+                  LoginSignupModal.show(context, LoginSignupEnum.login),
               text: 'Login',
             ),
             const SizedBox(width: 10),
             BaseHoverButton(
-              onTap: () {}, // TODO
+              onTap: () =>
+                  LoginSignupModal.show(context, LoginSignupEnum.signup),
               text: 'Signup',
             ),
           ],
