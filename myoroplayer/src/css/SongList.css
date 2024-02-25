@@ -1,0 +1,78 @@
+#songList {
+  flex:       1;
+  overflow-y: auto;
+}
+
+
+
+/* Song Button */
+#songList > li {
+  display:        flex;
+  flex-direction: row;
+  align-items:    center;
+  padding:        7px;
+  cursor:         pointer;
+  gap:            10px;
+}
+
+/* Album cover */
+#songList > li > img {
+  width:       55px;
+  height:      55px;
+  user-select: none;
+}
+/* Song title & artist */
+#songList > li > div {
+  flex:           1;
+  display:        flex;
+  flex-direction: column;
+  gap:            4px;
+}
+/* Album name */
+#songList > li > p:nth-child(3) {
+  flex:       1;
+  text-align: center;
+}
+/* Song duration */
+#songList > li > p:nth-child(4) {
+  min-width:  50px;
+  text-align: right;
+}
+
+/* All <p> tags */
+#songList > li p { user-select: none; }
+/* Song title & duration <p> tags */
+#songList > li > div > p:first-child,
+#songList > li > p:nth-child(4) { font-size: 18px; }
+/* Artist & album name <p> tags */
+#songList > li > div > p:nth-child(2),
+#songList > li > p:nth-child(3) { font-size: 15px; }
+/* Song title, artist, & album name */
+#songList > li > div p,
+#songList > li > p:nth-child(3) {
+  white-space:   nowrap;
+  overflow:      hidden;
+  text-overflow: ellipsis;
+}
+/* To allow ellipsized <p> tags to ellipsize correctly */
+#songList > li > div, #songList > li > p:nth-child(3) { width: 0; }
+
+/* Loading bar + percentage text */
+#loading {
+  width:     200px;
+  height:    30px;
+  position:  relative;
+  top:       50%;
+  left:      50%;
+  transform: translate(-50%, -50%);
+}
+#loadingBar {
+  width:     0%;
+  height:    100%;
+  animation: none;
+  /* animation: loading 2.2s linear infinite; */
+}
+@keyframes loading {
+  0%   { width: 0; }
+  100% { width: 100%; }
+}
