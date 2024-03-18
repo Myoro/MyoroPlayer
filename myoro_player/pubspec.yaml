@@ -1,0 +1,30 @@
+name: myoro_player
+description: "A new Flutter project."
+publish_to: 'none'
+version: 0.1.0
+
+environment:
+  sdk: '>=3.4.0-240.0.dev <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  assets:
+    - assets/fonts/
+    - assets/svgs/
+
+  fonts:
+    - family: Ubuntu
+      fonts:
+        - asset: assets/fonts/Ubuntu-R.ttf
+        - asset: assets/fonts/Ubuntu-RI.ttf
+        - asset: assets/fonts/Ubuntu-B.ttf
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
