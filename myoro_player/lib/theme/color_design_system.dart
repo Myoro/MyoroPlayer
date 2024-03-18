@@ -12,6 +12,8 @@ class ColorDesignSystem {
   static Color onBackground(BuildContext context) => context.isDarkMode
       ? DarkDesignSystem.onBackground
       : LightDesignSystem.onBackground;
+
+  static Color get transparent => Colors.transparent;
 }
 
 class LightDesignSystem {
