@@ -5,9 +5,13 @@ const Color _primaryDarkColor = Color(0xFF181818);
 const Color _primaryLightColor = Color(0xFFEDE6D6);
 
 class ColorDesignSystem {
-  static Color background(BuildContext context) => context.isDarkMode ? DarkDesignSystem.background : LightDesignSystem.background;
+  static Color background(BuildContext context) => context.isDarkMode
+      ? DarkDesignSystem.background
+      : LightDesignSystem.background;
 
-  static Color onBackground(BuildContext context) => context.isDarkMode ? DarkDesignSystem.onBackground : LightDesignSystem.onBackground;
+  static Color onBackground(BuildContext context) => context.isDarkMode
+      ? DarkDesignSystem.onBackground
+      : LightDesignSystem.onBackground;
 }
 
 class LightDesignSystem {

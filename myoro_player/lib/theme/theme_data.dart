@@ -3,7 +3,8 @@ import 'package:myoro_player/theme/color_design_system.dart';
 import 'package:myoro_player/theme/typography_design_system.dart';
 
 ThemeData createTheme({required bool isDarkMode}) {
-  final Color background = isDarkMode ? DarkDesignSystem.background : LightDesignSystem.background;
+  final Color background =
+      isDarkMode ? DarkDesignSystem.background : LightDesignSystem.background;
 
   return ThemeData(
     brightness: isDarkMode ? Brightness.dark : Brightness.light,
@@ -17,7 +18,8 @@ ThemeData createTheme({required bool isDarkMode}) {
 
       // Italicized fonts
       headlineSmall: TypographyDesignSystem.italicSmall(isDarkMode: isDarkMode),
-      headlineMedium: TypographyDesignSystem.italicMedium(isDarkMode: isDarkMode),
+      headlineMedium:
+          TypographyDesignSystem.italicMedium(isDarkMode: isDarkMode),
       headlineLarge: TypographyDesignSystem.italicLarge(isDarkMode: isDarkMode),
 
       // Bolded fonts
