@@ -10,6 +10,14 @@ dependencies:
   flutter:
     sdk: flutter
 
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
+
   assets:
     - assets/fonts/
     - assets/svgs/
@@ -20,11 +28,3 @@ dependencies:
         - asset: assets/fonts/Ubuntu-R.ttf
         - asset: assets/fonts/Ubuntu-RI.ttf
         - asset: assets/fonts/Ubuntu-B.ttf
-
-dev_dependencies:
-  flutter_test:
-    sdk: flutter
-  flutter_lints: ^3.0.0
-
-flutter:
-  uses-material-design: true
