@@ -39,20 +39,6 @@ class BaseDivider extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    late final double width;
-    late final double height;
-
-    switch (dividerTypeEnum) {
-      case DividerTypeEnum.horizontal:
-        width = double.infinity;
-        height = 2;
-        break;
-      case DividerTypeEnum.vertical:
-        width = 2;
-        height = double.infinity;
-        break;
-    }
-
     return GestureDetector(
       onHorizontalDragUpdate: onHorizontalDragUpdate != null
           ? (details) => onHorizontalDragUpdate!(details)
@@ -67,19 +53,40 @@ class BaseDivider extends StatelessWidget {
         child: Container(
           width: padding,
           color: ColorDesignSystem.background(context),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 5),
-                child: Container(
-                  width: width,
-                  height: height,
-                  color: ColorDesignSystem.onBackground(context),
+          child: LayoutBuilder(builder: (context, constraints) {
+            late final double width;
+            late final double height;
+
+            switch (dividerTypeEnum) {
+              case DividerTypeEnum.horizontal:
+                width = constraints.maxWidth - 10;
+                height = 2;
+                break;
+              case DividerTypeEnum.vertical:
+                width = 2;
+                height = constraints.maxHeight - 10;
+                break;
+            }
+
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical:
+                        dividerTypeEnum == DividerTypeEnum.vertical ? 5 : 0,
+                    horizontal:
+                        dividerTypeEnum == DividerTypeEnum.horizontal ? 5 : 0,
+                  ),
+                  child: Container(
+                    width: width,
+                    height: height,
+                    color: ColorDesignSystem.onBackground(context),
+                  ),
                 ),
-              ),
-            ],
-          ),
+              ],
+            );
+          }),
         ),
       ),
     );

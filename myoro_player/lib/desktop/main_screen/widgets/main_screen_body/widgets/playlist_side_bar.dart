@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/shared/enums/divider_type_enum.dart';
 import 'package:myoro_player/shared/widgets/buttons/hover_button.dart';
+import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 
 class PlaylistSideBar extends StatefulWidget {
@@ -34,6 +35,11 @@ class _PlaylistSideBarState extends State<PlaylistSideBar> {
                         'Playlists',
                         style: Theme.of(context).textTheme.titleSmall,
                       ),
+                      const SizedBox(height: 5),
+                      const BasicDivider(
+                        dividerTypeEnum: DividerTypeEnum.horizontal,
+                      ),
+                      const SizedBox(height: 5),
                       SizedBox(
                         width: double.infinity,
                         child: HoverButton(
