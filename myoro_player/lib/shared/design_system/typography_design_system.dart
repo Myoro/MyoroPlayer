@@ -10,6 +10,8 @@ TextStyle _textStyle(
     TextStyle(
         fontFamily: 'Ubuntu',
         fontSize: fontSize,
+        fontStyle: fontStyle,
+        fontWeight: fontWeight,
         color: isDarkMode
             ? DarkDesignSystem.onBackground
             : LightDesignSystem.onBackground);
