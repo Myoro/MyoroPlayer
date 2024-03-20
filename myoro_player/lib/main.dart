@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/main_screen/main_screen/main_screen.dart';
+import 'package:myoro_player/desktop/main_screen/main_screen.dart';
 import 'package:myoro_player/shared/blocs/dark_mode_cubit.dart';
 import 'package:myoro_player/shared/database.dart';
 import 'package:myoro_player/shared/design_system/theme_data.dart';
