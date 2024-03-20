@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
 import 'package:myoro_player/shared/enums/divider_type_enum.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 
@@ -81,7 +82,10 @@ class BaseDivider extends StatelessWidget {
                   child: Container(
                     width: width,
                     height: height,
-                    color: ColorDesignSystem.onBackground(context),
+                    decoration: BoxDecoration(
+                      color: ColorDesignSystem.onBackground(context),
+                      borderRadius: DecorationDesignSystem.borderRadius,
+                    ),
                   ),
                 ),
               ],
