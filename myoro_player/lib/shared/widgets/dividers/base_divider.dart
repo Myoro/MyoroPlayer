@@ -75,17 +75,41 @@ class BaseDivider extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.symmetric(
                     vertical:
-                        dividerTypeEnum == DividerTypeEnum.vertical ? 5 : 0,
+                        dividerTypeEnum == DividerTypeEnum.vertical ? 35 : 0,
                     horizontal:
                         dividerTypeEnum == DividerTypeEnum.horizontal ? 5 : 0,
                   ),
-                  child: Container(
-                    width: width,
-                    height: height,
-                    decoration: BoxDecoration(
-                      color: ColorDesignSystem.onBackground(context),
-                      borderRadius: DecorationDesignSystem.borderRadius,
-                    ),
+                  child: Stack(
+                    alignment: Alignment.center,
+                    children: [
+                      Container(
+                        width: width,
+                        height: height,
+                        decoration: BoxDecoration(
+                          color: ColorDesignSystem.onBackground(context),
+                          borderRadius: DecorationDesignSystem.borderRadius,
+                        ),
+                      ),
+                      // For resize dividers
+                      if (onHorizontalDragUpdate != null ||
+                          onVerticalDragUpdate != null)
+                        Positioned(
+                          child: Container(
+                            width: 6 +
+                                (dividerTypeEnum == DividerTypeEnum.horizontal
+                                    ? 10
+                                    : 0),
+                            height: 6 +
+                                (dividerTypeEnum == DividerTypeEnum.vertical
+                                    ? 10
+                                    : 0),
+                            decoration: BoxDecoration(
+                              color: ColorDesignSystem.onBackground(context),
+                              borderRadius: DecorationDesignSystem.borderRadius,
+                            ),
+                          ),
+                        ),
+                    ],
                   ),
                 ),
               ],

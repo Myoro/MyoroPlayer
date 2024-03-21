@@ -6,6 +6,7 @@ class HoverButton extends StatelessWidget {
   final Function onTap;
   final IconData? icon;
   final double? iconSize;
+  final String? svgPath;
   final String? text;
 
   const HoverButton({
@@ -13,6 +14,7 @@ class HoverButton extends StatelessWidget {
     required this.onTap,
     this.icon,
     this.iconSize,
+    this.svgPath,
     this.text,
   });
 
@@ -22,6 +24,7 @@ class HoverButton extends StatelessWidget {
         onTap: onTap,
         icon: icon,
         iconSize: iconSize,
+        svgPath: svgPath,
         text: text,
       );
 }
