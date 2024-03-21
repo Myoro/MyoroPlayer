@@ -11,6 +11,7 @@ ThemeData createTheme({required bool isDarkMode}) {
     primaryColor: background,
     appBarTheme: AppBarTheme(
       backgroundColor: background,
+      surfaceTintColor: background,
     ),
     scaffoldBackgroundColor: background,
     textTheme: TextTheme(

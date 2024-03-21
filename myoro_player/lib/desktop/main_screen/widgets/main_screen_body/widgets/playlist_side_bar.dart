@@ -28,16 +28,17 @@ class _PlaylistSideBarState extends State<PlaylistSideBar> {
             valueListenable: _width,
             builder: (context, width, constraints) => Container(
               width: width,
-              constraints: const BoxConstraints(
+              constraints: BoxConstraints(
                 minWidth: 100,
-                maxWidth: double.infinity,
+                // maxWidth: double.infinity - 200,
+                maxWidth: MediaQuery.of(context).size.width - 200,
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Text(
                     'Playlists',
-                    style: Theme.of(context).textTheme.titleSmall,
+                    style: Theme.of(context).textTheme.titleMedium,
                   ),
                   const SizedBox(height: 5),
                   const Padding(

@@ -4,9 +4,16 @@ import 'package:myoro_player/desktop/main_screen/main_screen.dart';
 import 'package:myoro_player/shared/blocs/dark_mode_cubit.dart';
 import 'package:myoro_player/shared/database.dart';
 import 'package:myoro_player/shared/design_system/theme_data.dart';
+import 'package:myoro_player/shared/helpers/platform_helper.dart';
+import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
+  if (PlatformHelper.isDesktop) {
+    windowManager.ensureInitialized();
+    windowManager.setMinimumSize(const Size(400, 400));
+  }
 
   await Database.init();
   final bool isDarkMode =

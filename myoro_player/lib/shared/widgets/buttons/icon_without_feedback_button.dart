@@ -6,12 +6,14 @@ class IconWithoutFeedbackButton extends StatelessWidget {
   final Function onTap;
   final IconData icon;
   final double iconSize;
+  final String? tooltip;
 
   const IconWithoutFeedbackButton({
     super.key,
     required this.onTap,
     required this.icon,
     required this.iconSize,
+    this.tooltip,
   });
 
   @override
@@ -20,5 +22,6 @@ class IconWithoutFeedbackButton extends StatelessWidget {
         onTap: onTap,
         icon: icon,
         iconSize: iconSize,
+        tooltip: tooltip,
       );
 }

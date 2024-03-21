@@ -8,9 +8,10 @@ import 'package:myoro_player/shared/widgets/buttons/hover_button.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_without_feedback_button.dart';
 
 class BaseButton extends StatefulWidget {
-  /// Every [BaseButton] needs this
+  /// For every [BaseButton]
   final ButtonTypeEnum buttonTypeEnum;
   final Function onTap;
+  final String? tooltip;
 
   /// [IconWithoutFeedbackButton] & [HoverButton] section
   final IconData? icon;
@@ -24,6 +25,7 @@ class BaseButton extends StatefulWidget {
     super.key,
     required this.buttonTypeEnum,
     required this.onTap,
+    this.tooltip,
     this.icon,
     this.iconSize,
     this.svgPath,
@@ -60,44 +62,46 @@ class _BaseButtonState extends State<BaseButton> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      hoverColor: ColorDesignSystem.transparent,
-      splashColor: ColorDesignSystem.transparent,
-      highlightColor: ColorDesignSystem.transparent,
-      onTap: () => widget.onTap(),
-      onHover: widget.buttonTypeEnum != ButtonTypeEnum.hoverButton
-          ? null
-          : (value) => _hovered.value = value,
-      child: ValueListenableBuilder(
-          valueListenable: _hovered,
-          builder: (context, hovered, child) {
-            late final Widget child;
+  Widget build(BuildContext context) => Tooltip(
+        waitDuration: const Duration(milliseconds: 100),
+        message: widget.tooltip ?? '',
+        child: InkWell(
+          hoverColor: ColorDesignSystem.transparent,
+          splashColor: ColorDesignSystem.transparent,
+          highlightColor: ColorDesignSystem.transparent,
+          onTap: () => widget.onTap(),
+          onHover: widget.buttonTypeEnum != ButtonTypeEnum.hoverButton
+              ? null
+              : (value) => _hovered.value = value,
+          child: ValueListenableBuilder(
+              valueListenable: _hovered,
+              builder: (context, hovered, child) {
+                late final Widget child;
 
-            switch (widget.buttonTypeEnum) {
-              case ButtonTypeEnum.iconWithoutFeedbackButton:
-                child = _IconWithoutFeedbackButton(
-                  widget.onTap,
-                  widget.icon!,
-                  widget.iconSize!,
-                );
-                break;
-              case ButtonTypeEnum.hoverButton:
-                child = _HoverButton(
-                  hovered,
-                  widget.onTap,
-                  widget.icon,
-                  widget.iconSize,
-                  widget.svgPath,
-                  widget.text,
-                );
-                break;
-            }
+                switch (widget.buttonTypeEnum) {
+                  case ButtonTypeEnum.iconWithoutFeedbackButton:
+                    child = _IconWithoutFeedbackButton(
+                      widget.onTap,
+                      widget.icon!,
+                      widget.iconSize!,
+                    );
+                    break;
+                  case ButtonTypeEnum.hoverButton:
+                    child = _HoverButton(
+                      hovered,
+                      widget.onTap,
+                      widget.icon,
+                      widget.iconSize,
+                      widget.svgPath,
+                      widget.text,
+                    );
+                    break;
+                }
 
-            return child;
-          }),
-    );
-  }
+                return child;
+              }),
+        ),
+      );
 }
 
 class _IconWithoutFeedbackButton extends StatelessWidget {
@@ -177,7 +181,7 @@ class _HoverButton extends StatelessWidget {
                   text!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                  style: Theme.of(context).textTheme.bodyMedium!.copyWith(
                         color: !hovered
                             ? ColorDesignSystem.onBackground(context)
                             : ColorDesignSystem.background(context),
