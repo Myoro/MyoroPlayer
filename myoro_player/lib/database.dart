@@ -1,4 +1,4 @@
-import 'package:myoro_player/shared/helpers/platform_helper.dart';
+import 'package:myoro_player/helpers/platform_helper.dart';
 import 'package:sqflite/sqflite.dart' as sqflite;
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';

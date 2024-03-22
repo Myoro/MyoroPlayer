@@ -1,1 +1,0 @@
-enum DividerTypeEnum { horizontal, vertical }

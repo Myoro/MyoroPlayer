@@ -1,1 +1,0 @@
-enum ButtonTypeEnum { iconWithoutFeedbackButton, hoverButton }

@@ -1,28 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_player/blocs/dark_mode_cubit.dart';
+import 'package:myoro_player/database.dart';
+import 'package:myoro_player/design_system/theme_data.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen.dart';
-import 'package:myoro_player/shared/blocs/dark_mode_cubit.dart';
-import 'package:myoro_player/shared/database.dart';
-import 'package:myoro_player/shared/design_system/theme_data.dart';
-import 'package:myoro_player/shared/helpers/platform_helper.dart';
-import 'package:window_manager/window_manager.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
-  if (PlatformHelper.isDesktop) {
-    windowManager.ensureInitialized();
-    windowManager.setMinimumSize(const Size(400, 400));
-  }
 
   await Database.init();
   final bool isDarkMode =
       (await Database.get('dark_mode'))['enabled'] == 1 ? true : false;
 
-  runApp(BlocProvider(
-    create: (context) => DarkModeCubit(isDarkMode),
-    child: const App(),
-  ));
+  runApp(
+    BlocProvider(
+      create: (context) => DarkModeCubit(isDarkMode),
+      child: const App(),
+    ),
+  );
 }
 
 class App extends StatelessWidget {
