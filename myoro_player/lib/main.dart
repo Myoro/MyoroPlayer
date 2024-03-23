@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:window_manager/window_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_player/blocs/dark_mode_cubit.dart';
 import 'package:myoro_player/database.dart';
 import 'package:myoro_player/design_system/theme_data.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen.dart';
+import 'package:myoro_player/helpers/platform_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  if (PlatformHelper.isDesktop) {
+    windowManager.ensureInitialized();
+    windowManager.setMinimumSize(const Size(300, 300));
+    windowManager.setTitle('MyoroPlayer');
+  }
+
   await Database.init();
-  final bool isDarkMode =
-      (await Database.get('dark_mode'))['enabled'] == 1 ? true : false;
+  final bool isDarkMode = (await Database.get('dark_mode'))['enabled'] == 1 ? true : false;
 
   runApp(
     BlocProvider(

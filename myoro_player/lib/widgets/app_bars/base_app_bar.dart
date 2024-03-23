@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myoro_player/design_system/color_design_system.dart';
 
 class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> children;
@@ -10,6 +11,7 @@ class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
 
   @override
   Widget build(BuildContext context) => AppBar(
+        surfaceTintColor: ColorDesignSystem.transparent,
         title: Row(
           children: children,
         ),

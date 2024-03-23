@@ -14,9 +14,7 @@ TextStyle _textStyle(
       fontSize: fontSize,
       fontStyle: fontStyle,
       fontWeight: fontWeight,
-      color: isDarkMode
-          ? DarkModeColorDesignSystem.onBackground
-          : LightModeColorDesignSystem.onBackground,
+      color: isDarkMode ? DarkModeColorDesignSystem.onBackground : LightModeColorDesignSystem.onBackground,
     );
 
 /// *** DO NOT USE THIS WITHIN THE APPLICATION, only supposed to be called in [createTheme] ***

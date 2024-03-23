@@ -1,4 +1,4 @@
-package com.example.myoro_player
+package com.myoro.myoro_player
 
 import io.flutter.embedding.android.FlutterActivity
 
