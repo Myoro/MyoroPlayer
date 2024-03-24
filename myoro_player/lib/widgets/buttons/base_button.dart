@@ -14,6 +14,7 @@ class BaseButton extends StatefulWidget {
   final ButtonTypeEnum buttonType;
   final Function onTap;
   final EdgeInsets? padding;
+  final String? tooltip;
 
   /// [IconWithoutFeedbackButton] & [HoverButton] members
   final IconData? icon;
@@ -26,6 +27,7 @@ class BaseButton extends StatefulWidget {
     required this.buttonType,
     required this.onTap,
     this.padding,
+    this.tooltip,
     this.icon,
     this.svgPath,
     this.iconSize,
@@ -60,44 +62,47 @@ class _BaseButtonState extends State<BaseButton> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return InkWell(
-      hoverColor: ColorDesignSystem.transparent,
-      splashColor: ColorDesignSystem.transparent,
-      highlightColor: ColorDesignSystem.transparent,
-      onTap: () => widget.onTap(),
-      onHover: widget.buttonType != ButtonTypeEnum.hoverButton ? null : (value) => _hovered.value = value,
-      child: ValueListenableBuilder(
-          valueListenable: _hovered,
-          builder: (context, hovered, child) {
-            late final Widget child;
+  Widget build(BuildContext context) => Tooltip(
+        message: widget.tooltip ?? '',
+        waitDuration: DecorationDesignSystem.tooltipWaitDuration,
+        textAlign: TextAlign.center,
+        child: InkWell(
+          hoverColor: ColorDesignSystem.transparent,
+          splashColor: ColorDesignSystem.transparent,
+          highlightColor: ColorDesignSystem.transparent,
+          onTap: () => widget.onTap(),
+          onHover: widget.buttonType != ButtonTypeEnum.hoverButton ? null : (value) => _hovered.value = value,
+          child: ValueListenableBuilder(
+              valueListenable: _hovered,
+              builder: (context, hovered, child) {
+                late final Widget child;
 
-            switch (widget.buttonType) {
-              case ButtonTypeEnum.iconWithoutFeedbackButton:
-                child = _IconWithoutFeedbackButton(
-                  widget.onTap,
-                  widget.padding,
-                  widget.icon!,
-                  widget.iconSize!,
-                );
-                break;
-              case ButtonTypeEnum.hoverButton:
-                child = _HoverButton(
-                  hovered,
-                  widget.onTap,
-                  widget.padding,
-                  widget.icon,
-                  widget.svgPath,
-                  widget.iconSize,
-                  widget.text,
-                );
-                break;
-            }
+                switch (widget.buttonType) {
+                  case ButtonTypeEnum.iconWithoutFeedbackButton:
+                    child = _IconWithoutFeedbackButton(
+                      widget.onTap,
+                      widget.padding,
+                      widget.icon!,
+                      widget.iconSize!,
+                    );
+                    break;
+                  case ButtonTypeEnum.hoverButton:
+                    child = _HoverButton(
+                      hovered,
+                      widget.onTap,
+                      widget.padding,
+                      widget.icon,
+                      widget.svgPath,
+                      widget.iconSize,
+                      widget.text,
+                    );
+                    break;
+                }
 
-            return child;
-          }),
-    );
-  }
+                return child;
+              }),
+        ),
+      );
 }
 
 class _IconWithoutFeedbackButton extends StatelessWidget {

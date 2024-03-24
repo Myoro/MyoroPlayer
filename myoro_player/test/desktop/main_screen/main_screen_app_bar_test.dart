@@ -8,6 +8,10 @@ import 'package:myoro_player/widgets/icons/base_svg.dart';
 import '../../base_test_widget.dart';
 
 void main() {
+  Finder findIconWithoutFeedbackButtonByPredicate(IconData icon) => find.byWidgetPredicate(
+        (widget) => (widget is IconWithoutFeedbackButton && widget.icon == icon),
+      );
+
   testWidgets('MainScreenAppBar Widget Test', (tester) async {
     await tester.pumpWidget(
       const BaseTestWidget(
@@ -20,6 +24,9 @@ void main() {
     expect(find.byType(BaseAppBar), findsOneWidget);
     expect(find.byType(BaseSvg), findsOneWidget);
     expect(find.byType(Spacer), findsOneWidget);
-    expect(find.byType(IconWithoutFeedbackButton), findsOneWidget);
+    expect(find.byType(IconWithoutFeedbackButton), findsNWidgets(3));
+    findIconWithoutFeedbackButtonByPredicate(Icons.add);
+    findIconWithoutFeedbackButtonByPredicate(Icons.folder_open);
+    findIconWithoutFeedbackButtonByPredicate(Icons.sunny);
   });
 }

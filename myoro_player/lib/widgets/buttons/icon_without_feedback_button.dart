@@ -4,6 +4,7 @@ import 'package:myoro_player/widgets/buttons/base_button.dart';
 
 class IconWithoutFeedbackButton extends StatelessWidget {
   final Function onTap;
+  final String? tooltip;
   final IconData icon;
   final double iconSize;
   final EdgeInsets? padding;
@@ -11,6 +12,7 @@ class IconWithoutFeedbackButton extends StatelessWidget {
   const IconWithoutFeedbackButton({
     super.key,
     required this.onTap,
+    this.tooltip,
     required this.icon,
     required this.iconSize,
     this.padding,
@@ -20,6 +22,7 @@ class IconWithoutFeedbackButton extends StatelessWidget {
   Widget build(BuildContext context) => BaseButton(
         buttonType: ButtonTypeEnum.iconWithoutFeedbackButton,
         onTap: onTap,
+        tooltip: tooltip,
         icon: icon,
         iconSize: iconSize,
         padding: padding,

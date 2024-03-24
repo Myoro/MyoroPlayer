@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myoro_player/widgets/shortcuts/global_keyboard_shortcuts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_player/blocs/dark_mode_cubit.dart';
@@ -12,7 +13,7 @@ void main() async {
 
   if (PlatformHelper.isDesktop) {
     windowManager.ensureInitialized();
-    windowManager.setMinimumSize(const Size(300, 300));
+    windowManager.setMinimumSize(const Size(450, 450));
     windowManager.setTitle('MyoroPlayer');
   }
 
@@ -37,7 +38,12 @@ class App extends StatelessWidget {
           theme: createTheme(isDarkMode: false),
           darkTheme: createTheme(isDarkMode: true),
           themeMode: isDarkMode ? ThemeMode.dark : ThemeMode.light,
-          home: const MainScreen(),
+          home: const GlobalKeyboardShortcuts(
+            child: Focus(
+              autofocus: true,
+              child: MainScreen(),
+            ),
+          ),
         ),
       );
 }

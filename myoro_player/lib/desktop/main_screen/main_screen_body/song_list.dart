@@ -90,7 +90,6 @@ class _SongState extends State<_Song> {
               final TextStyle bodySmall = textTheme.bodySmall!.copyWith(color: iconAndTextColor);
 
               return Container(
-                height: 60,
                 decoration: BoxDecoration(
                   color: !hovered ? ColorDesignSystem.transparent : ColorDesignSystem.onBackground(context),
                   borderRadius: DecorationDesignSystem.borderRadius,

@@ -5,6 +5,7 @@ import 'package:myoro_player/widgets/buttons/base_button.dart';
 class HoverButton extends StatelessWidget {
   final Function onTap;
   final EdgeInsets? padding;
+  final String? tooltip;
   final IconData? icon;
   final String? svgPath;
   final double? iconSize;
@@ -13,6 +14,7 @@ class HoverButton extends StatelessWidget {
   const HoverButton({
     super.key,
     required this.onTap,
+    this.tooltip,
     this.padding,
     this.icon,
     this.svgPath,
@@ -24,6 +26,7 @@ class HoverButton extends StatelessWidget {
   Widget build(BuildContext context) => BaseButton(
         buttonType: ButtonTypeEnum.hoverButton,
         onTap: onTap,
+        tooltip: tooltip,
         padding: padding,
         icon: icon,
         svgPath: svgPath,
