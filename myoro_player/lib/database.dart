@@ -33,7 +33,11 @@ class Database {
   }
 
   static Future<void> init() async {
-    if (PlatformHelper.isDesktop) sqflite.databaseFactory = databaseFactoryFfi;
+    if (PlatformHelper.isDesktop) {
+      sqflite.databaseFactory = databaseFactoryFfi;
+      sqfliteFfiInit();
+    }
+
     _database = await sqflite.openDatabase(await getDatabasePath());
 
     // Dark mode table
@@ -44,6 +48,15 @@ class Database {
       );
     ''');
     if ((await get('dark_mode')).isEmpty) insert('dark_mode', {'enabled': 1});
+
+    // Playlists table
+    await _database.execute('''
+      CREATE TABLE IF NOT EXISTS playlists(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        directory TEXT,
+        name TEXT
+      );
+    ''');
   }
 
   /// Solely for debug purposes
