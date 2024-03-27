@@ -1,17 +1,12 @@
-import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_player/blocs/playlist_cubit.dart';
 
 class NewPlaylistAction extends Intent {
   const NewPlaylistAction();
 
   // TODO
-  static void newPlaylist() async {
-    String? folder = await FilePicker.platform.saveFile(
-      dialogTitle: 'Create New Playlist',
-    );
-
-    if (folder == null) return;
-
-    // TODO: Finish implementation
+  static void newPlaylist(BuildContext context) {
+    BlocProvider.of<PlaylistCubit>(context).addPlaylist();
   }
 }

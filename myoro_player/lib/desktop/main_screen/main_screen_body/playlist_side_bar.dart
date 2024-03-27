@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/blocs/playlist_side_bar_cubit.dart';
+import 'package:myoro_player/blocs/playlist_cubit.dart';
 import 'package:myoro_player/design_system/svg_design_system.dart';
 import 'package:myoro_player/enums/divider_type_enum.dart';
 import 'package:myoro_player/models/playlist.dart';
@@ -19,7 +19,7 @@ class _PlaylistSideBarState extends State<PlaylistSideBar> {
   final ValueNotifier<double> _width = ValueNotifier<double>(200);
 
   @override
-  Widget build(BuildContext context) => BlocBuilder<PlaylistSideBarCubit, List<Playlist>>(
+  Widget build(BuildContext context) => BlocBuilder<PlaylistCubit, List<Playlist>>(
         builder: (context, playlists) => Row(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

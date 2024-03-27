@@ -17,7 +17,7 @@ class GlobalKeyboardShortcuts extends StatelessWidget {
             onInvoke: (_) => exit(0),
           ),
           NewPlaylistAction: CallbackAction<NewPlaylistAction>(
-            onInvoke: (_) => NewPlaylistAction.newPlaylist(),
+            onInvoke: (_) => NewPlaylistAction.newPlaylist(context),
           ),
         },
         child: Shortcuts(

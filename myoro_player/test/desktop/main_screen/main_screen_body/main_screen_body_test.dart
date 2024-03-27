@@ -1,7 +1,9 @@
 // ignore_for_file: deprecated_member_use
 
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myoro_player/blocs/playlist_cubit.dart';
 import 'package:myoro_player/database.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen_body/main_screen_body.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen_body/playlist_side_bar.dart';
@@ -20,9 +22,12 @@ void main() {
 
   testWidgets('MainScreenBody Widget Test', (tester) async {
     await tester.pumpWidget(
-      const BaseTestWidget(
+      BaseTestWidget(
         testType: TestTypeEnum.widget,
-        child: MainScreenBody(),
+        child: BlocProvider(
+          create: (context) => PlaylistCubit(),
+          child: const MainScreenBody(),
+        ),
       ),
     );
 

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myoro_player/blocs/playlist_cubit.dart';
 import 'package:myoro_player/widgets/shortcuts/global_keyboard_shortcuts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,11 +19,14 @@ void main() async {
   }
 
   await Database.init();
-  final bool isDarkMode = (await Database.get('dark_mode'))['enabled'] == 1 ? true : false;
 
   runApp(
-    BlocProvider(
-      create: (context) => DarkModeCubit(isDarkMode),
+    /// GLOBAL BLOCS
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => DarkModeCubit()..getDarkMode()),
+        BlocProvider(create: (context) => PlaylistCubit()..getPlaylists()),
+      ],
       child: const App(),
     ),
   );

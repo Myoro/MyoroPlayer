@@ -25,7 +25,7 @@ class MainScreenAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           const Spacer(),
           IconWithoutFeedbackButton(
-            onTap: () => NewPlaylistAction.newPlaylist(), // TODO
+            onTap: () => NewPlaylistAction.newPlaylist(context), // TODO
             tooltip: 'Open an existing playlist/folder\n\nCtrl + O',
             icon: Icons.add,
             iconSize: 40,
