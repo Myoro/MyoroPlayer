@@ -7,7 +7,7 @@ import 'package:myoro_player/shared/models/playlist.dart';
 class PlaylistHelper {
   static Future<Playlist?> createNewPlaylist() async {
     String? directory = await FilePicker.platform.saveFile(
-      dialogTitle: 'Create New Playlist',
+      dialogTitle: 'Create a new playlist',
     );
 
     if (directory == null) return null;
@@ -21,7 +21,9 @@ class PlaylistHelper {
   }
 
   static Future<Playlist?> addPlaylist() async {
-    final String? directory = await FilePicker.platform.getDirectoryPath();
+    final String? directory = await FilePicker.platform.getDirectoryPath(
+      dialogTitle: 'Add an existing playlist',
+    );
 
     if (directory == null) return null;
 
