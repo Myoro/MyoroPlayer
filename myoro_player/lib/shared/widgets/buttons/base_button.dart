@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/design_system/color_design_system.dart';
-import 'package:myoro_player/design_system/decoration_design_system.dart';
-import 'package:myoro_player/enums/button_type_enum.dart';
-import 'package:myoro_player/widgets/buttons/icon_without_feedback_button.dart';
-import 'package:myoro_player/widgets/buttons/hover_button.dart';
-import 'package:myoro_player/widgets/icons/base_svg.dart';
+import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
+import 'package:myoro_player/shared/enums/button_type_enum.dart';
+import 'package:myoro_player/shared/widgets/buttons/icon_without_feedback_button.dart';
+import 'package:myoro_player/shared/widgets/buttons/hover_button.dart';
+import 'package:myoro_player/shared/widgets/icons/base_svg.dart';
 
 /// Never use this base class in code, always use it's derivations
 ///

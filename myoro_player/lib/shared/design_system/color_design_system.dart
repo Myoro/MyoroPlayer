@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/helpers/build_context_helper.dart';
+import 'package:myoro_player/shared/helpers/build_context_helper.dart';
 
 const Color _primaryDarkColor = Color(0xFF181818);
 const Color _primaryLightColor = Color(0xFFEDE6D6);

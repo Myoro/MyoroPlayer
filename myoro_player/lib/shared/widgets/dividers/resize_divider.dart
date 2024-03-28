@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/enums/divider_type_enum.dart';
-import 'package:myoro_player/widgets/dividers/base_divider.dart';
+import 'package:myoro_player/shared/enums/divider_type_enum.dart';
+import 'package:myoro_player/shared/widgets/dividers/base_divider.dart';
 
 class ResizeDivider extends StatelessWidget {
   final DividerTypeEnum dividerType;

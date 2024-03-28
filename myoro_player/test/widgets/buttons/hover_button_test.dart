@@ -2,9 +2,9 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/design_system/svg_design_system.dart';
-import 'package:myoro_player/widgets/buttons/hover_button.dart';
-import 'package:myoro_player/widgets/icons/base_svg.dart';
+import 'package:myoro_player/shared/design_system/svg_design_system.dart';
+import 'package:myoro_player/shared/widgets/buttons/hover_button.dart';
+import 'package:myoro_player/shared/widgets/icons/base_svg.dart';
 
 import '../../base_test_widget.dart';
 

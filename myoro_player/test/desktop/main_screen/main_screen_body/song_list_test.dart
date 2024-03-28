@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen_body/song_list.dart';
-import 'package:myoro_player/widgets/dividers/basic_divider.dart';
+import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
 
 import '../../../base_test_widget.dart';
 

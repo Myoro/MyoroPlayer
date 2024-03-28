@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/design_system/color_design_system.dart';
-import 'package:myoro_player/design_system/decoration_design_system.dart';
-import 'package:myoro_player/design_system/svg_design_system.dart';
-import 'package:myoro_player/enums/divider_type_enum.dart';
-import 'package:myoro_player/widgets/dividers/basic_divider.dart';
-import 'package:myoro_player/widgets/icons/base_svg.dart';
+import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
+import 'package:myoro_player/shared/design_system/svg_design_system.dart';
+import 'package:myoro_player/shared/enums/divider_type_enum.dart';
+import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
+import 'package:myoro_player/shared/widgets/icons/base_svg.dart';
 
 class SongList extends StatelessWidget {
   const SongList({super.key});

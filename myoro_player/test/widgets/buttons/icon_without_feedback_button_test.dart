@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/widgets/buttons/icon_without_feedback_button.dart';
+import 'package:myoro_player/shared/widgets/buttons/icon_without_feedback_button.dart';
 
 import '../../base_test_widget.dart';
 

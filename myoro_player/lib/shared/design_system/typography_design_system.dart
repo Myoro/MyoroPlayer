@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/design_system/color_design_system.dart';
-import 'package:myoro_player/design_system/theme_data.dart';
-import 'package:myoro_player/enums/font_size_enum.dart';
+import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/theme_data.dart';
+import 'package:myoro_player/shared/enums/font_size_enum.dart';
 
 TextStyle _textStyle(
   bool isDarkMode, {

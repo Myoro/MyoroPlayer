@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen_app_bar.dart';
-import 'package:myoro_player/widgets/app_bars/base_app_bar.dart';
-import 'package:myoro_player/widgets/buttons/icon_without_feedback_button.dart';
-import 'package:myoro_player/widgets/icons/base_svg.dart';
+import 'package:myoro_player/shared/widgets/app_bars/base_app_bar.dart';
+import 'package:myoro_player/shared/widgets/buttons/icon_without_feedback_button.dart';
+import 'package:myoro_player/shared/widgets/icons/base_svg.dart';
 
 import '../../base_test_widget.dart';
 

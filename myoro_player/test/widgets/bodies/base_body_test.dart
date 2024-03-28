@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/widgets/bodies/base_body.dart';
+import 'package:myoro_player/shared/widgets/bodies/base_body.dart';
 
 import '../../base_test_widget.dart';
 

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/design_system/color_design_system.dart';
-import 'package:myoro_player/design_system/decoration_design_system.dart';
-import 'package:myoro_player/enums/divider_type_enum.dart';
-import 'package:myoro_player/widgets/dividers/resize_divider.dart';
+import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
+import 'package:myoro_player/shared/enums/divider_type_enum.dart';
+import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 
 /// Never use this base class in code, always use it's derivations
 ///

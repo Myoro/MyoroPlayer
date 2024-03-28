@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/enums/button_type_enum.dart';
-import 'package:myoro_player/widgets/buttons/base_button.dart';
+import 'package:myoro_player/shared/enums/button_type_enum.dart';
+import 'package:myoro_player/shared/widgets/buttons/base_button.dart';
 
 class IconWithoutFeedbackButton extends StatelessWidget {
   final Function onTap;

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/enums/divider_type_enum.dart';
-import 'package:myoro_player/widgets/dividers/resize_divider.dart';
+import 'package:myoro_player/shared/enums/divider_type_enum.dart';
+import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 
 import '../../base_test_widget.dart';
 

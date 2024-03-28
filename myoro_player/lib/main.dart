@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/blocs/playlist_cubit.dart';
-import 'package:myoro_player/widgets/shortcuts/global_keyboard_shortcuts.dart';
+import 'package:myoro_player/shared/blocs/playlist_cubit.dart';
+import 'package:myoro_player/shared/blocs/song_cubit.dart';
+import 'package:myoro_player/shared/widgets/shortcuts/global_keyboard_shortcuts.dart';
 import 'package:window_manager/window_manager.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/blocs/dark_mode_cubit.dart';
-import 'package:myoro_player/database.dart';
-import 'package:myoro_player/design_system/theme_data.dart';
+import 'package:myoro_player/shared/blocs/dark_mode_cubit.dart';
+import 'package:myoro_player/shared/database.dart';
+import 'package:myoro_player/shared/design_system/theme_data.dart';
 import 'package:myoro_player/desktop/main_screen/main_screen.dart';
-import 'package:myoro_player/helpers/platform_helper.dart';
+import 'package:myoro_player/shared/helpers/platform_helper.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,6 +27,7 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => DarkModeCubit()..getDarkMode()),
         BlocProvider(create: (context) => PlaylistCubit()..getPlaylists()),
+        BlocProvider(create: (context) => SongCubit()),
       ],
       child: const App(),
     ),

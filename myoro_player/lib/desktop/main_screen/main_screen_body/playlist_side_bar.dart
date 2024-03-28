@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/blocs/playlist_cubit.dart';
-import 'package:myoro_player/design_system/svg_design_system.dart';
-import 'package:myoro_player/enums/divider_type_enum.dart';
-import 'package:myoro_player/models/playlist.dart';
-import 'package:myoro_player/widgets/buttons/hover_button.dart';
-import 'package:myoro_player/widgets/dividers/basic_divider.dart';
-import 'package:myoro_player/widgets/dividers/resize_divider.dart';
+import 'package:myoro_player/shared/blocs/playlist_cubit.dart';
+import 'package:myoro_player/shared/design_system/svg_design_system.dart';
+import 'package:myoro_player/shared/enums/divider_type_enum.dart';
+import 'package:myoro_player/shared/models/playlist.dart';
+import 'package:myoro_player/shared/widgets/buttons/hover_button.dart';
+import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
+import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 
 class PlaylistSideBar extends StatefulWidget {
   const PlaylistSideBar({super.key});
@@ -59,7 +59,8 @@ class _PlaylistSideBarState extends State<PlaylistSideBar> {
                             children: [
                               for (final Playlist playlist in playlists) ...[
                                 HoverButton(
-                                  onTap: () {}, // TODO
+                                  // TODO: onTap: () => BlocProvider.of<SongCubit>(context).openPlaylist(playlist.directory),
+                                  onTap: () {},
                                   padding: const EdgeInsets.symmetric(
                                     horizontal: 10,
                                     vertical: 5,

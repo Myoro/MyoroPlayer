@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/design_system/color_design_system.dart';
-import 'package:myoro_player/design_system/typography_design_system.dart';
+import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/typography_design_system.dart';
 
 ThemeData createTheme({required bool isDarkMode}) {
   final Color background = isDarkMode ? DarkModeColorDesignSystem.background : LightModeColorDesignSystem.background;
