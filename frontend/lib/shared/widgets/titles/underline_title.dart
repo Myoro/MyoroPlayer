@@ -13,7 +13,7 @@ final class UnderlineTitle extends StatelessWidget {
       children: [
         Text(
           text ?? '',
-          style: TypographyDesignSystem.headlineSmall,
+          style: TypographyDesignSystem.headlineMedium,
         ),
         const SizedBox(height: 5),
         const BasicDivider(direction: Axis.horizontal),

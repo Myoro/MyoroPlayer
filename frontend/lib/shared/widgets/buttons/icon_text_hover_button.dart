@@ -48,7 +48,7 @@ final class IconTextHoverButton extends StatelessWidget {
                   text!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: (textStyle ?? TypographyDesignSystem.bodySmall).withColor(
+                  style: (textStyle ?? TypographyDesignSystem.bodyMedium).withColor(
                     contentColor,
                   ),
                 ),
