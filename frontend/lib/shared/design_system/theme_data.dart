@@ -19,5 +19,13 @@ ThemeData createTheme(bool isDarkMode) {
       surface: background,
       onSurface: onBackground,
     ),
+    sliderTheme: SliderThemeData(
+      thumbColor: onBackground,
+      thumbShape: const RoundSliderThumbShape(enabledThumbRadius: 8),
+      activeTrackColor: onBackground,
+      inactiveTrackColor: Colors.grey,
+      overlayShape: SliderComponentShape.noOverlay,
+      overlayColor: ColorDesignSystem.transparent,
+    ),
   );
 }

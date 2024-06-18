@@ -64,27 +64,36 @@ final class _Song extends StatelessWidget {
               color: contentColor,
             ),
             const SizedBox(width: 10),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  'Song title',
-                  style: bodyMedium,
-                ),
-                Text(
-                  'Song artist',
-                  style: bodySmall,
-                ),
-              ],
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'Songqowuiejqwoiejqwoiejqwoiejqoiejwqeioj title',
+                    style: bodyMedium,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  Text(
+                    'Song aqwpiejqwoiejqwoiejqwoiejqwoiejrtist',
+                    style: bodySmall,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ],
+              ),
             ),
             const SizedBox(width: 10),
             Expanded(
               child: Text(
-                'Song album',
+                'Song albuqjweoiqwjeioqjeoqiwjeoqiwjeioqwem',
                 style: bodySmall,
                 textAlign: TextAlign.center,
+                maxLines: 1,
+                overflow: TextOverflow.ellipsis,
               ),
             ),
+            const SizedBox(width: 10),
             Text(
               '420:00',
               style: bodyMedium,

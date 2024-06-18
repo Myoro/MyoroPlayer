@@ -28,7 +28,7 @@ class _MainScreenBodyPlaylistSideBarState extends State<MainScreenBodyPlaylistSi
           width: width,
           constraints: BoxConstraints(
             minWidth: 173,
-            maxWidth: MediaQuery.of(context).size.width - 100,
+            maxWidth: MediaQuery.of(context).size.width - 180,
           ),
           child: Row(
             children: [
