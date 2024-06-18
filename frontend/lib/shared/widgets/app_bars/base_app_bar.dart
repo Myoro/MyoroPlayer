@@ -20,5 +20,12 @@ final class BaseAppBar extends StatelessWidget {
   const BaseAppBar({super.key, required this.children});
 
   @override
-  Widget build(BuildContext context) => AppBar(title: Row(children: children));
+  Widget build(BuildContext context) {
+    return AppBar(
+      automaticallyImplyLeading: false,
+      // Flutter moment: This is to not show the end drawer button
+      actions: [Container()],
+      title: Row(children: children),
+    );
+  }
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/desktop/main_screen/widgets/main_screen_app_bar/main_screen_app_bar_drawer.dart';
 import 'package:frontend/shared/design_system/typography_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/widgets/app_bars/base_app_bar.dart';
@@ -23,7 +24,7 @@ final class MainScreenAppBar extends StatelessWidget implements PreferredSizeWid
           padding: const EdgeInsets.all(3),
           icon: Icons.menu,
           iconSize: ImageSizeEnum.small.size,
-          onTap: () => print('Working'),
+          onTap: () => MainScreenAppBarDrawer.show(context),
         ),
       ],
     );
