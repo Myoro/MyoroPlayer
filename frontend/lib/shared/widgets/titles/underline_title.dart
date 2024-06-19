@@ -5,7 +5,7 @@ import 'package:frontend/shared/widgets/dividers/basic_divider.dart';
 final class UnderlineTitle extends StatelessWidget {
   final String? text;
 
-  const UnderlineTitle({super.key, required this.text});
+  const UnderlineTitle({super.key, this.text});
 
   @override
   Widget build(BuildContext context) {
