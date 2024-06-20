@@ -6,11 +6,11 @@ import 'package:frontend/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:provider/provider.dart';
 
 final class MainScreenAppBarDrawer extends StatelessWidget {
-  const MainScreenAppBarDrawer({super.key});
+  const MainScreenAppBarDrawer._();
 
   static void show(BuildContext context) {
     context.read<BaseDrawerController>().openDrawer(
-          drawerContent: const MainScreenAppBarDrawer(),
+          drawerContent: const MainScreenAppBarDrawer._(),
         );
   }
 

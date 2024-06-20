@@ -6,8 +6,21 @@ import 'package:frontend/shared/extensions/text_style_extension.dart';
 import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
 import 'package:frontend/shared/widgets/titles/underline_title.dart';
 
-final class MainScreenBodySongList extends StatelessWidget {
+final class MainScreenBodySongList extends StatefulWidget {
   const MainScreenBodySongList({super.key});
+
+  @override
+  State<MainScreenBodySongList> createState() => _MainScreenBodySongListState();
+}
+
+class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -17,19 +30,24 @@ final class MainScreenBodySongList extends StatelessWidget {
         children: [
           const UnderlineTitle(text: '<Playlist Name>'),
           Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                ),
-                child: Column(
-                  children: [
-                    for (int i = 0; i < 50; i++) ...[
-                      const SizedBox(height: 5),
-                      const _Song(),
-                      if (i == 49) const SizedBox(height: 5),
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                  ),
+                  child: Column(
+                    children: [
+                      for (int i = 0; i < 50; i++) ...[
+                        const SizedBox(height: 5),
+                        const _Song(),
+                        if (i == 49) const SizedBox(height: 5),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),

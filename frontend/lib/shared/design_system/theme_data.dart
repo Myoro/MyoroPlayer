@@ -14,8 +14,6 @@ ThemeData createTheme(bool isDarkMode) {
       onSecondary: onBackground,
       error: ColorDesignSystem.error,
       onError: ColorDesignSystem.onError,
-      background: background,
-      onBackground: onBackground,
       surface: background,
       onSurface: onBackground,
     ),

@@ -49,8 +49,21 @@ class _MainScreenBodyPlaylistSideBarState extends State<MainScreenBodyPlaylistSi
   }
 }
 
-final class _Playlists extends StatelessWidget {
+final class _Playlists extends StatefulWidget {
   const _Playlists();
+
+  @override
+  State<_Playlists> createState() => _PlaylistsState();
+}
+
+class _PlaylistsState extends State<_Playlists> {
+  final _scrollController = ScrollController();
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,27 +73,32 @@ final class _Playlists extends StatelessWidget {
           const UnderlineTitle(text: 'Playlists'),
           // TODO
           Expanded(
-            child: SingleChildScrollView(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                ),
-                child: Column(
-                  children: [
-                    for (int i = 0; i < 50; i++) ...[
-                      const SizedBox(height: 5),
-                      IconTextHoverButton(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 10,
-                          vertical: 5,
+            child: Scrollbar(
+              controller: _scrollController,
+              thumbVisibility: true,
+              child: SingleChildScrollView(
+                controller: _scrollController,
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                  ),
+                  child: Column(
+                    children: [
+                      for (int i = 0; i < 50; i++) ...[
+                        const SizedBox(height: 5),
+                        IconTextHoverButton(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10,
+                            vertical: 5,
+                          ),
+                          icon: Icons.music_note,
+                          text: 'Playlist name',
+                          onTap: () => print('TODO'),
                         ),
-                        icon: Icons.music_note,
-                        text: 'Playlist name',
-                        onTap: () => print('TODO'),
-                      ),
-                      if (i == 49) const SizedBox(height: 5),
+                        if (i == 49) const SizedBox(height: 5),
+                      ],
                     ],
-                  ],
+                  ),
                 ),
               ),
             ),
