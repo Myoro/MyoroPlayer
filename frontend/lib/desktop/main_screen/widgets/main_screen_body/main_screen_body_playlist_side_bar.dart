@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:frontend/shared/widgets/dividers/resize_divider.dart';
+import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
 import 'package:frontend/shared/widgets/titles/underline_title.dart';
 
 final class MainScreenBodyPlaylistSideBar extends StatefulWidget {
@@ -73,34 +74,22 @@ class _PlaylistsState extends State<_Playlists> {
           const UnderlineTitle(text: 'Playlists'),
           // TODO
           Expanded(
-            child: Scrollbar(
-              controller: _scrollController,
-              thumbVisibility: true,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
+            child: VerticalScrollbar(
+              children: [
+                for (int i = 0; i < 50; i++) ...[
+                  const SizedBox(height: 5),
+                  IconTextHoverButton(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    icon: Icons.music_note,
+                    text: 'Playlist name',
+                    onTap: () => print('TODO'),
                   ),
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < 50; i++) ...[
-                        const SizedBox(height: 5),
-                        IconTextHoverButton(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 5,
-                          ),
-                          icon: Icons.music_note,
-                          text: 'Playlist name',
-                          onTap: () => print('TODO'),
-                        ),
-                        if (i == 49) const SizedBox(height: 5),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
+                  if (i == 49) const SizedBox(height: 5),
+                ],
+              ],
             ),
           ),
         ],

@@ -51,10 +51,13 @@ void main() {
     );
 
     expect(
-      find.byWidgetPredicate(
-        (w) =>
-            w is Column && w.children.length == 2 && w.children.first is Row && w.children.last is Text && (w.children.last as Text).data == 'Drawer content',
-      ),
+      find.byWidgetPredicate((w) => (w is Column &&
+          w.children.length == 3 &&
+          w.children.first is Row &&
+          w.children[1] is SizedBox &&
+          (w.children[1] as SizedBox).height == 5 &&
+          w.children.last is Text &&
+          (w.children.last as Text).data == 'Drawer content')),
       findsOneWidget,
     );
 

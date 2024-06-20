@@ -4,6 +4,7 @@ import 'package:frontend/desktop/main_screen/widgets/main_screen_body/main_scree
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
+import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
 import 'package:frontend/shared/widgets/titles/underline_title.dart';
 
 import '../../../../base_test_widget.dart';
@@ -39,19 +40,13 @@ void main() {
     );
 
     expect(
-      find.byWidgetPredicate((w) => (w is Expanded &&
-          w.child is Scrollbar &&
-          (w.child as Scrollbar).thumbVisibility == true &&
-          (w.child as Scrollbar).child is SingleChildScrollView &&
-          ((w.child as Scrollbar).child as SingleChildScrollView).child is Padding &&
-          (((w.child as Scrollbar).child as SingleChildScrollView).child as Padding).padding == const EdgeInsets.symmetric(horizontal: 12) &&
-          (((w.child as Scrollbar).child as SingleChildScrollView).child as Padding).child is Column)),
+      find.byWidgetPredicate((w) => w is Expanded && w.child is VerticalScrollbar),
       findsOneWidget,
     );
 
     expect(
       find.byWidgetPredicate(
-        (w) => w is Column && w.children.length == 50 * 2 + 1 && w.children.last is SizedBox && (w.children.last as SizedBox).height == 5,
+        (w) => w is VerticalScrollbar && w.children.length == 50 * 2 + 1 && w.children.last is SizedBox && (w.children.last as SizedBox).height == 5,
       ),
       findsOneWidget,
     );

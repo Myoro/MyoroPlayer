@@ -65,6 +65,7 @@ final class BaseDrawer extends StatelessWidget {
                   ),
                 ],
               ),
+              const SizedBox(height: 5),
               child,
             ],
           ),

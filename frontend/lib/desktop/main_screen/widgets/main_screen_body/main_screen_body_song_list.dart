@@ -4,6 +4,7 @@ import 'package:frontend/shared/design_system/typography_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/extensions/text_style_extension.dart';
 import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
+import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
 import 'package:frontend/shared/widgets/titles/underline_title.dart';
 
 final class MainScreenBodySongList extends StatefulWidget {
@@ -30,26 +31,14 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
         children: [
           const UnderlineTitle(text: '<Playlist Name>'),
           Expanded(
-            child: Scrollbar(
-              controller: _scrollController,
-              thumbVisibility: true,
-              child: SingleChildScrollView(
-                controller: _scrollController,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 12,
-                  ),
-                  child: Column(
-                    children: [
-                      for (int i = 0; i < 50; i++) ...[
-                        const SizedBox(height: 5),
-                        const _Song(),
-                        if (i == 49) const SizedBox(height: 5),
-                      ],
-                    ],
-                  ),
-                ),
-              ),
+            child: VerticalScrollbar(
+              children: [
+                for (int i = 0; i < 50; i++) ...[
+                  const SizedBox(height: 5),
+                  const _Song(),
+                  if (i == 49) const SizedBox(height: 5),
+                ],
+              ],
             ),
           ),
         ],

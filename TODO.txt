@@ -1,2 +1,1 @@
-1. Fix the drawer issue in [BaseScaffold]
-2. Widget testing and code coverage pipeline
+1. Widget testing and code coverage pipeline

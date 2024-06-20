@@ -10,11 +10,11 @@ void main() {
   windowManager.setTitle('MyoroPlayer');
   windowManager.setMinimumSize(const Size(500, 500));
 
-  runApp(const _App());
+  runApp(const App());
 }
 
-final class _App extends StatelessWidget {
-  const _App();
+final class App extends StatelessWidget {
+  const App();
 
   @override
   Widget build(BuildContext context) {
