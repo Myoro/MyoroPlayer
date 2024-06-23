@@ -18,7 +18,7 @@ final class MainScreenBody extends StatelessWidget {
               MainScreenBodySongList(),
               BasicDivider(
                 direction: Axis.horizontal,
-                padding: const EdgeInsets.symmetric(
+                padding: EdgeInsets.symmetric(
                   horizontal: 10,
                 ),
               ),

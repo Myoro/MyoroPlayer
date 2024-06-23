@@ -22,6 +22,7 @@ final class BaseDrawer extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(10),
       child: Drawer(
+        width: 250,
         shape: RoundedRectangleBorder(
           borderRadius: DecorationDesignSystem.borderRadius,
           side: BorderSide(
@@ -30,7 +31,7 @@ final class BaseDrawer extends StatelessWidget {
           ),
         ),
         child: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: const EdgeInsets.all(5),
           child: Column(
             children: [
               Row(

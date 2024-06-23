@@ -41,7 +41,7 @@ class _MainScreenBodyPlaylistSideBarState extends State<MainScreenBodyPlaylistSi
           ),
           child: Row(
             children: [
-              _Playlists(),
+              const _Playlists(),
               _ResizeDivider(_widthNotifier),
             ],
           ),
@@ -59,7 +59,7 @@ final class _Playlists extends StatelessWidget {
     return Expanded(
       child: Column(
         children: [
-          UnderlineHeader(header: 'Playlists'),
+          const UnderlineHeader(header: 'Playlists'),
           Expanded(
             child: VerticalScrollbar(
               children: List.generate(

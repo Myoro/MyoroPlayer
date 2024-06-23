@@ -83,12 +83,12 @@ final class _SongControls extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           BaseSlider(width: 180),
-          const SizedBox(height: 1),
+          SizedBox(height: 1),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -117,7 +117,7 @@ final class _MiscControls extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          _Button(icon: Icons.queue_music),
+          const _Button(icon: Icons.queue_music),
           BaseSlider(width: width >= 180 ? 180 : width),
         ],
       ),

@@ -8,7 +8,7 @@ import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 
 final class MainScreenBodySongList extends StatelessWidget {
-  const MainScreenBodySongList();
+  const MainScreenBodySongList({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,7 +26,7 @@ final class MainScreenBodySongList extends StatelessWidget {
                       top: 5,
                       bottom: index == 49 ? 5 : 0,
                     ),
-                    child: _Song(),
+                    child: const _Song(),
                   );
                 },
               ),
