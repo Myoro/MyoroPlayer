@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:myoro_player/screens/main_screen/widgets/main_screen.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/database.dart';
@@ -20,19 +21,23 @@ void main() async {
     windowManager.setMinimumSize(const Size(600, 600));
   }
 
-  // Database initialization
+  /// Database initialization
   final database = Database();
   await database.init();
 
-  // KiwiContainer initialization
+  /// KiwiContainer initialization
   KiwiContainer().registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database));
 
-  // User preference initialization for it's cubit
+  /// User preference initialization for it's cubit
   final UserPreferences userPreferences = await KiwiContainer().resolve<UserPreferencesService>().get();
 
   runApp(
-    BlocProvider(
-      create: (context) => UserPreferencesCubit(userPreferences),
+    /// Global BloC initialization
+    MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => UserPreferencesCubit(userPreferences)),
+        BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
+      ],
       child: const App(),
     ),
   );

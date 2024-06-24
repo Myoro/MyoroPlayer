@@ -27,6 +27,8 @@ ThemeData createTheme(bool isDarkMode) {
     // Used to set default colors throughout the application
     colorScheme: ColorScheme(
       brightness: brightness,
+      background: background,
+      onBackground: onBackground,
       primary: background,
       onPrimary: onBackground,
       secondary: background,
