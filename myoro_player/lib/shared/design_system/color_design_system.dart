@@ -21,7 +21,7 @@ final class ColorDesignSystem {
     }
   }
 
-  static const error = Colors.red;
+  static const error = Color(0xFFF88379);
   static const onError = Colors.white;
   static const transparent = Colors.transparent;
 }

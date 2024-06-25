@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,6 +11,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 /// A singleton that needs to be initialized with [Database.init()]
 final class Database {
   static const userPreferencesTableName = 'user_preferences';
+  static const playlistsTableName = 'playlists';
 
   sqflite.Database? _database;
 
@@ -23,9 +25,9 @@ final class Database {
     sqflite.databaseFactory = databaseFactoryFfi;
 
     final dbPath = await getApplicationCacheDirectory();
-    _database =
-        await sqflite.openDatabase(join(dbPath.path, 'myoro_player.db'));
+    _database = await sqflite.openDatabase(join(dbPath.path, 'myoro_player.db'));
 
+    // User preferences table
     await _database?.execute('''
       CREATE TABLE IF NOT EXISTS $userPreferencesTableName(
         id INTEGER PRIMARY KEY,
@@ -38,10 +40,22 @@ final class Database {
         data: {UserPreferences.darkModeJsonKey: 1},
       );
     }
+
+    // Playlists table
+    await _database?.execute('''
+      CREATE TABLE IF NOT EXISTS $playlistsTableName(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${Playlist.pathJsonKey} TEXT,
+        ${Playlist.nameJsonKey} TEXT,
+        ${Playlist.imageJsonKey} LONGTEXT
+      );
+    ''');
   }
 
-  Future<List<Map<String, dynamic>>> select(String table,
-      {Map<String, dynamic>? conditions}) async {
+  Future<List<Map<String, dynamic>>> select(
+    String table, {
+    Map<String, dynamic>? conditions,
+  }) async {
     // TODO: Format conditions
     if (_database == null) {
       if (kDebugMode) {
@@ -52,8 +66,7 @@ final class Database {
     return await _database!.query(table);
   }
 
-  Future<Map<String, dynamic>?> get(String table,
-      {Map<String, dynamic>? conditions}) async {
+  Future<Map<String, dynamic>?> get(String table, {Map<String, dynamic>? conditions}) async {
     final rows = await select(table, conditions: conditions);
     return rows.isEmpty ? null : rows.first;
   }

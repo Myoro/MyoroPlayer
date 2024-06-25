@@ -3,29 +3,29 @@ import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 
 final class MainScreenBodyPlaylistSideBarState extends Equatable {
   final BlocStatusEnum status;
-  final String? errorMessage;
+  final String? snackBarMessage;
 
   const MainScreenBodyPlaylistSideBarState({
     this.status = BlocStatusEnum.idle,
-    this.errorMessage,
+    this.snackBarMessage,
   });
 
   MainScreenBodyPlaylistSideBarState copyWith({
     BlocStatusEnum? status,
-    String? errorMessage,
+    String? snackBarMessage,
   }) {
     return MainScreenBodyPlaylistSideBarState(
       status: status ?? this.status,
-      errorMessage: errorMessage ?? this.errorMessage,
+      snackBarMessage: snackBarMessage ?? this.snackBarMessage,
     );
   }
 
   @override
   String toString() => 'MainScreenBodyPlaylistSideBarState(\n'
       '  status: $status,\n'
-      '  errorMessage: $errorMessage,\n'
+      '  snackBarMessage: $snackBarMessage,\n'
       ');';
 
   @override
-  List<Object?> get props => [status, errorMessage];
+  List<Object?> get props => [status, snackBarMessage];
 }

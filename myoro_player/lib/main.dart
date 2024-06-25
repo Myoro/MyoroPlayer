@@ -6,7 +6,9 @@ import 'package:myoro_player/screens/main_screen/widgets/main_screen.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/database.dart';
 import 'package:myoro_player/shared/design_system/theme_data.dart';
+import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/helpers/platform_helper.dart';
+import 'package:myoro_player/shared/helpers/snack_bar_helper.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service_api.dart';
@@ -26,19 +28,19 @@ void main() async {
   await database.init();
 
   /// KiwiContainer initialization
-  KiwiContainer().registerFactory<UserPreferencesService>(
-      (c) => UserPreferencesServiceApi(database));
+  KiwiContainer()
+    ..registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database))
+    ..registerFactory<FileSystemHelper>((c) => FileSystemHelper())
+    ..registerFactory<SnackBarHelper>((c) => SnackBarHelper());
 
   /// User preference initialization for it's cubit
-  final UserPreferences userPreferences =
-      await KiwiContainer().resolve<UserPreferencesService>().get();
+  final UserPreferences userPreferences = await KiwiContainer().resolve<UserPreferencesService>().get();
 
   runApp(
     /// Global BloC initialization
     MultiBlocProvider(
       providers: [
-        BlocProvider(
-            create: (context) => UserPreferencesCubit(userPreferences)),
+        BlocProvider(create: (context) => UserPreferencesCubit(userPreferences)),
         BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
       ],
       child: const App(),
@@ -55,8 +57,7 @@ final class App extends StatelessWidget {
       builder: (context, userPreferences) {
         return MaterialApp(
           title: 'MyoroPlayer',
-          themeMode:
-              userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
+          themeMode: userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
           theme: createTheme(false),
           darkTheme: createTheme(true),
           home: const MainScreen(),

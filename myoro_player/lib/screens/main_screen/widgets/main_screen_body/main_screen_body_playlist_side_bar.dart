@@ -1,5 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_state.dart';
+import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
+import 'package:myoro_player/shared/helpers/snack_bar_helper.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
@@ -56,34 +62,48 @@ final class _Playlists extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        children: [
-          const UnderlineHeader(header: 'Playlists'),
-          Expanded(
-            child: VerticalScrollbar(
-              children: List.generate(
-                50,
-                (index) {
-                  return Padding(
-                    padding: EdgeInsets.only(
-                      top: 5,
-                      bottom: index == 49 ? 5 : 0,
-                    ),
-                    child: IconTextHoverButton(
-                      icon: Icons.music_note,
-                      iconSize: ImageSizeEnum.small.size + 10,
-                      text: 'Playlist #$index',
-                      onTap: () {},
-                    ),
-                  );
-                },
+    return BlocConsumer<MainScreenBodyPlaylistSideBarBloc, MainScreenBodyPlaylistSideBarState>(
+      listener: (context, state) => _handleSnackBars(context, state),
+      builder: (context, state) {
+        return Expanded(
+          child: Column(
+            children: [
+              const UnderlineHeader(header: 'Playlists'),
+              Expanded(
+                child: VerticalScrollbar(
+                  children: List.generate(
+                    50,
+                    (index) {
+                      return Padding(
+                        padding: EdgeInsets.only(
+                          top: 5,
+                          bottom: index == 49 ? 5 : 0,
+                        ),
+                        child: IconTextHoverButton(
+                          icon: Icons.music_note,
+                          iconSize: ImageSizeEnum.small.size + 10,
+                          text: 'Playlist #$index',
+                          onTap: () {},
+                        ),
+                      );
+                    },
+                  ),
+                ),
               ),
-            ),
+            ],
           ),
-        ],
-      ),
+        );
+      },
     );
+  }
+
+  void _handleSnackBars(BuildContext context, MainScreenBodyPlaylistSideBarState state) {
+    if (state.status == BlocStatusEnum.error) {
+      KiwiContainer().resolve<SnackBarHelper>().showErrorSnackBar(
+            context,
+            state.snackBarMessage!,
+          );
+    }
   }
 }
 
