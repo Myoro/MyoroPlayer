@@ -28,7 +28,7 @@ final class UserPreferencesServiceApi implements UserPreferencesService {
 
   @override
   Future<UserPreferences> update({int? id, Map<String, dynamic>? data}) async {
-    final isDarkMode = (await get()).darkMode;
+    final bool isDarkMode = (await get()).darkMode;
     await database.update(Database.userPreferencesTableName, data: {'dark_mode': isDarkMode ? 0 : 1});
     return await get();
   }

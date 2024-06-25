@@ -9,6 +9,6 @@ final class UserPreferencesCubit extends Cubit<UserPreferences> {
   UserPreferencesCubit(super.userPreferences);
 
   Future<void> toggleTheme() async {
-    emit(await _userPreferencesService.update());
+    emit((await _userPreferencesService.update())!);
   }
 }

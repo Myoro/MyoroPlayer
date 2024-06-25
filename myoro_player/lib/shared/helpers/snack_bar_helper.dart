@@ -7,7 +7,7 @@ final class SnackBarHelper {
   void _showSnackBar(BuildContext context, SnackBarTypeEnum snackBarType, String message) {
     ScaffoldMessenger.of(context).showSnackBar(
       BaseSnackBar(
-        snackBarType: SnackBarTypeEnum.error,
+        snackBarType: snackBarType,
         message: message,
       ),
     );

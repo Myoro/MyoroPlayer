@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:myoro_player/shared/models/conditions.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:path/path.dart';
@@ -54,19 +55,18 @@ final class Database {
 
   Future<List<Map<String, dynamic>>> select(
     String table, {
-    Map<String, dynamic>? conditions,
+    Conditions? conditions,
   }) async {
-    // TODO: Format conditions
     if (_database == null) {
       if (kDebugMode) {
         print('[Database.select]: Database not initialized.');
       }
     }
 
-    return await _database!.query(table);
+    return await _database!.query(table, where: conditions?.where, whereArgs: conditions?.whereArgs);
   }
 
-  Future<Map<String, dynamic>?> get(String table, {Map<String, dynamic>? conditions}) async {
+  Future<Map<String, dynamic>?> get(String table, {Conditions? conditions}) async {
     final rows = await select(table, conditions: conditions);
     return rows.isEmpty ? null : rows.first;
   }
@@ -75,9 +75,7 @@ final class Database {
   Future<int?> insert(
     String table, {
     required Map<String, dynamic> data,
-    Map<String, dynamic>? conditions,
   }) async {
-    // TODO: Format conditions
     return await _database?.insert(table, data);
   }
 
@@ -85,17 +83,36 @@ final class Database {
   Future<bool> update(
     String table, {
     required Map<String, dynamic> data,
-    Map<String, dynamic>? conditions,
+    Conditions? conditions,
   }) async {
     // TODO: Format conditions
     try {
-      await _database?.update(table, data);
+      await _database?.update(
+        table,
+        data,
+        where: conditions?.where,
+        whereArgs: conditions?.whereArgs,
+      );
+
       return true;
     } catch (error) {
       if (kDebugMode) {
         print('[Database.update]: Error updating.');
       }
 
+      return false;
+    }
+  }
+
+  /// Returns if the operation was successful or not
+  Future<bool> delete(String table, {required int id}) async {
+    try {
+      await _database?.delete(table, where: 'id = ?', whereArgs: [id]);
+      return true;
+    } catch (error) {
+      if (kDebugMode) {
+        print('[Database.delete]: Error removing row from table.');
+      }
       return false;
     }
   }

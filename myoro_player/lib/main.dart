@@ -10,6 +10,8 @@ import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/helpers/platform_helper.dart';
 import 'package:myoro_player/shared/helpers/snack_bar_helper.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
+import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/shared/services/playlist_service/playlist_service_api.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service_api.dart';
 import 'package:window_manager/window_manager.dart';
@@ -31,10 +33,11 @@ void main() async {
   KiwiContainer()
     ..registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database))
     ..registerFactory<FileSystemHelper>((c) => FileSystemHelper())
-    ..registerFactory<SnackBarHelper>((c) => SnackBarHelper());
+    ..registerFactory<SnackBarHelper>((c) => SnackBarHelper())
+    ..registerFactory<PlaylistService>((c) => PlaylistServiceApi(database));
 
   /// User preference initialization for it's cubit
-  final UserPreferences userPreferences = await KiwiContainer().resolve<UserPreferencesService>().get();
+  final UserPreferences userPreferences = (await KiwiContainer().resolve<UserPreferencesService>().get())!;
 
   runApp(
     /// Global BloC initialization

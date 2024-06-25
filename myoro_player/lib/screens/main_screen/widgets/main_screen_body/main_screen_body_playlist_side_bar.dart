@@ -6,9 +6,12 @@ import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_playlist
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
 import 'package:myoro_player/shared/helpers/snack_bar_helper.dart';
+import 'package:myoro_player/shared/models/playlist.dart';
+import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
+import 'package:myoro_player/shared/widgets/model_resolvers/model_resolver.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 
 final class MainScreenBodyPlaylistSideBar extends StatefulWidget {
@@ -70,24 +73,29 @@ final class _Playlists extends StatelessWidget {
             children: [
               const UnderlineHeader(header: 'Playlists'),
               Expanded(
-                child: VerticalScrollbar(
-                  children: List.generate(
-                    50,
-                    (index) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: 5,
-                          bottom: index == 49 ? 5 : 0,
-                        ),
-                        child: IconTextHoverButton(
-                          icon: Icons.music_note,
-                          iconSize: ImageSizeEnum.small.size + 10,
-                          text: 'Playlist #$index',
-                          onTap: () {},
-                        ),
-                      );
-                    },
-                  ),
+                child: ModelResolver<List<Playlist>>(
+                  request: () async => await KiwiContainer().resolve<PlaylistService>().select(),
+                  builder: (context, List<Playlist>? playlists) {
+                    return VerticalScrollbar(
+                      children: playlists?.map(
+                            (playlist) {
+                              return Padding(
+                                padding: EdgeInsets.only(
+                                  top: 5,
+                                  bottom: playlist == playlists.last ? 5 : 0,
+                                ),
+                                child: IconTextHoverButton(
+                                  icon: Icons.music_note,
+                                  iconSize: ImageSizeEnum.small.size + 10,
+                                  text: playlist.name,
+                                  onTap: () => debugPrint(playlist.path),
+                                ),
+                              );
+                            },
+                          ).toList() ??
+                          [],
+                    );
+                  },
                 ),
               ),
             ],
@@ -100,6 +108,11 @@ final class _Playlists extends StatelessWidget {
   void _handleSnackBars(BuildContext context, MainScreenBodyPlaylistSideBarState state) {
     if (state.status == BlocStatusEnum.error) {
       KiwiContainer().resolve<SnackBarHelper>().showErrorSnackBar(
+            context,
+            state.snackBarMessage!,
+          );
+    } else if (state.status == BlocStatusEnum.completed) {
+      KiwiContainer().resolve<SnackBarHelper>().showDialogSnackBar(
             context,
             state.snackBarMessage!,
           );

@@ -19,6 +19,7 @@ final class BaseSnackBar extends SnackBar {
           backgroundColor: ColorDesignSystem.transparent,
           elevation: 0,
           content: Row(
+            crossAxisAlignment: CrossAxisAlignment.end,
             children: [
               _SnackBar(
                 snackBarType,
