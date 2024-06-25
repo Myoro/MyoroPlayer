@@ -22,12 +22,9 @@ final class Database {
 
     sqflite.databaseFactory = databaseFactoryFfi;
 
-    _database = await sqflite.openDatabase(
-      join(
-        (await getApplicationCacheDirectory()).path,
-        'myoro_player.db',
-      ),
-    );
+    final dbPath = await getApplicationCacheDirectory();
+    _database =
+        await sqflite.openDatabase(join(dbPath.path, 'myoro_player.db'));
 
     await _database?.execute('''
       CREATE TABLE IF NOT EXISTS $userPreferencesTableName(
@@ -43,7 +40,8 @@ final class Database {
     }
   }
 
-  Future<List<Map<String, dynamic>>> select(String table, {Map<String, dynamic>? conditions}) async {
+  Future<List<Map<String, dynamic>>> select(String table,
+      {Map<String, dynamic>? conditions}) async {
     // TODO: Format conditions
     if (_database == null) {
       if (kDebugMode) {
@@ -54,7 +52,8 @@ final class Database {
     return await _database!.query(table);
   }
 
-  Future<Map<String, dynamic>?> get(String table, {Map<String, dynamic>? conditions}) async {
+  Future<Map<String, dynamic>?> get(String table,
+      {Map<String, dynamic>? conditions}) async {
     final rows = await select(table, conditions: conditions);
     return rows.isEmpty ? null : rows.first;
   }

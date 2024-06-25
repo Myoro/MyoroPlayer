@@ -26,16 +26,19 @@ void main() async {
   await database.init();
 
   /// KiwiContainer initialization
-  KiwiContainer().registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database));
+  KiwiContainer().registerFactory<UserPreferencesService>(
+      (c) => UserPreferencesServiceApi(database));
 
   /// User preference initialization for it's cubit
-  final UserPreferences userPreferences = await KiwiContainer().resolve<UserPreferencesService>().get();
+  final UserPreferences userPreferences =
+      await KiwiContainer().resolve<UserPreferencesService>().get();
 
   runApp(
     /// Global BloC initialization
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => UserPreferencesCubit(userPreferences)),
+        BlocProvider(
+            create: (context) => UserPreferencesCubit(userPreferences)),
         BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
       ],
       child: const App(),
@@ -52,7 +55,8 @@ final class App extends StatelessWidget {
       builder: (context, userPreferences) {
         return MaterialApp(
           title: 'MyoroPlayer',
-          themeMode: userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
+          themeMode:
+              userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
           theme: createTheme(false),
           darkTheme: createTheme(true),
           home: const MainScreen(),
