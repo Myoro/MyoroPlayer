@@ -7,6 +7,8 @@ import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 final class ModelResolverBloc<T> extends Bloc<ModelResolverEvent, ModelResolverState<T>> {
   ModelResolverBloc() : super(ModelResolverState<T>()) {
     on<ExecuteRequestEvent>((event, emit) async {
+      emit(state.copyWith(status: BlocStatusEnum.loading));
+
       try {
         final T? model = await event.request.call();
 

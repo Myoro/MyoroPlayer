@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:faker/faker.dart';
 
 /// User any type of option that will be saved to the local database
 final class UserPreferences extends Equatable {
@@ -13,6 +14,12 @@ final class UserPreferences extends Equatable {
   }) {
     return UserPreferences(
       darkMode: darkMode ?? this.darkMode,
+    );
+  }
+
+  static UserPreferences get mock {
+    return UserPreferences(
+      darkMode: faker.randomGenerator.boolean(),
     );
   }
 
