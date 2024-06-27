@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_player/shared/controllers/base_drawer_controller.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
 import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
@@ -44,9 +46,10 @@ final class BaseDrawer extends StatelessWidget {
                   const Spacer(),
                   if (showCloseButton)
                     IconTextHoverButton(
+                      key: const Key('BaseDrawer close button'),
                       icon: Icons.close,
                       iconSize: ImageSizeEnum.small.size - 10,
-                      onTap: () => Navigator.of(context).pop(),
+                      onTap: () => context.read<BaseDrawerController>().closeDrawer(),
                     ),
                 ],
               ),

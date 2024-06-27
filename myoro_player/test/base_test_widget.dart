@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:myoro_player/shared/design_system/theme_data.dart';
 
 enum TestTypeEnum {
   /// Any type of widget
@@ -42,6 +43,8 @@ final class BaseTestWidget extends StatelessWidget {
 
     return MaterialApp(
       themeMode: themeMode,
+      theme: createTheme(false),
+      darkTheme: createTheme(true),
       home: widget,
     );
   }

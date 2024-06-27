@@ -11,10 +11,10 @@ void main() {
     expectLater(
       bloc.stream,
       emitsInOrder([
-        ModelResolverState<String>(
+        const ModelResolverState<String>(
           status: BlocStatusEnum.loading,
         ),
-        ModelResolverState<String>(
+        const ModelResolverState<String>(
           status: BlocStatusEnum.error,
           snackBarMessage: '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
         ),
@@ -30,10 +30,10 @@ void main() {
     expectLater(
       bloc.stream,
       emitsInOrder([
-        ModelResolverState<String>(
+        const ModelResolverState<String>(
           status: BlocStatusEnum.loading,
         ),
-        ModelResolverState<String>(
+        const ModelResolverState<String>(
           model: 'Response',
           status: BlocStatusEnum.completed,
         ),

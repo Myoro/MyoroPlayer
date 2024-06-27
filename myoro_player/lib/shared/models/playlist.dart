@@ -41,11 +41,14 @@ final class Playlist extends Equatable {
     );
   }
 
-  Playlist.mock()
-      : id = faker.randomGenerator.integer(100),
-        path = faker.internet.uri('/'),
-        name = faker.person.firstName(),
-        image = faker.internet.uri('/');
+  static Playlist get mock {
+    return Playlist(
+      id: faker.randomGenerator.integer(100),
+      path: faker.internet.uri('/'),
+      name: faker.person.firstName(),
+      image: faker.internet.uri('/'),
+    );
+  }
 
   Playlist.fromJson(Map<String, dynamic> json)
       : id = json[idJsonKey],

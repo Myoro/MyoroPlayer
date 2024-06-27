@@ -3,7 +3,7 @@ import 'package:myoro_player/shared/design_system/color_design_system.dart';
 import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
 import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
 
-typedef ResizeDividerCallback = Function(DragUpdateDetails);
+typedef ResizeDividerCallback = Function(DragUpdateDetails details);
 
 /// Divider with callbacks for resizing
 final class ResizeDivider extends StatelessWidget {

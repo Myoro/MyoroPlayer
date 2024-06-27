@@ -6,7 +6,7 @@ import 'package:flutter/foundation.dart';
 /// Used for any operation regarding the file system
 ///
 /// i.e. File/folder dialog menus, writing files, etc...
-final class FileSystemHelper {
+class FileSystemHelper {
   /// Returns the path to the folder in which the user wants to create, null if cancelled
   Future<String?> createFolderDialogWindow() async {
     return await FilePicker.platform.saveFile(
