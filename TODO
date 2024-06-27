@@ -1,6 +1,7 @@
+# TODO
+
 1. Tests and GitHub pipelines
 
-- `database_test.dart`
 - Tests of `./lib/desktop`
 
-2. Opening playlists
+1. Opening playlists

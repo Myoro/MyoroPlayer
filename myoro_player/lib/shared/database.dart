@@ -16,6 +16,7 @@ final class Database {
 
   sqflite.Database? _database;
 
+  /// Initializes the database
   Future<void> init() async {
     if (_database != null) {
       if (kDebugMode) {
@@ -53,6 +54,10 @@ final class Database {
     ''');
   }
 
+  /// Closes the database
+  Future<void> close() async => _database?.close();
+
+  /// SQL select query
   Future<List<Map<String, dynamic>>> select(
     String table, {
     Conditions? conditions,
@@ -63,9 +68,22 @@ final class Database {
       }
     }
 
-    return await _database!.query(table, where: conditions?.where, whereArgs: conditions?.whereArgs);
+    try {
+      return await _database!.query(
+        table,
+        where: conditions?.where,
+        whereArgs: conditions?.whereArgs,
+      );
+    } catch (error) {
+      if (kDebugMode) {
+        print('[Database.select]: Error selecting.');
+      }
+
+      return [];
+    }
   }
 
+  /// SQL get query, returns the first item of a select query
   Future<Map<String, dynamic>?> get(String table, {Conditions? conditions}) async {
     final rows = await select(table, conditions: conditions);
     return rows.isEmpty ? null : rows.first;
@@ -76,7 +94,15 @@ final class Database {
     String table, {
     required Map<String, dynamic> data,
   }) async {
-    return await _database?.insert(table, data);
+    try {
+      return await _database?.insert(table, data);
+    } catch (error) {
+      if (kDebugMode) {
+        print('[Database.insert]: Error inserting.');
+      }
+
+      return null;
+    }
   }
 
   /// Returns if the operation was successful or not
@@ -85,7 +111,6 @@ final class Database {
     required Map<String, dynamic> data,
     Conditions? conditions,
   }) async {
-    // TODO: Format conditions
     try {
       await _database?.update(
         table,
@@ -114,6 +139,22 @@ final class Database {
         print('[Database.delete]: Error removing row from table.');
       }
       return false;
+    }
+  }
+
+  /// Only for debugging
+  Future<void> createPopulatedDummyTable() async {
+    await _database?.execute('DROP TABLE foo;');
+
+    await _database?.execute('''
+      CREATE TABLE IF NOT EXISTS foo(
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        data INTEGER
+      );
+    ''');
+
+    for (int i = 0; i < 10; i++) {
+      await insert('foo', data: {'data': i + 1});
     }
   }
 }

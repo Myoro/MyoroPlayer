@@ -26,6 +26,11 @@ ThemeData createTheme(bool isDarkMode) {
     brightness: brightness,
     // Used to set default colors throughout the application
     colorScheme: ColorScheme(
+      // TODO: Remover esses ignores quando eu não está no Doutor-IE mais
+      // ignore: deprecated_member_use
+      background: background,
+      // ignore: deprecated_member_use
+      onBackground: onBackground,
       brightness: brightness,
       primary: background,
       onPrimary: onBackground,
