@@ -19,7 +19,8 @@ void main() {
     expect(find.byType(BaseSlider), findsOneWidget);
 
     expect(
-      find.byWidgetPredicate((w) => w is SizedBox && w.width == width && w.height == 25 && w.child is Slider),
+      find.byWidgetPredicate(
+          (w) => w is SizedBox && w.width == width && w.height == 25 && w.child is Slider),
       findsOneWidget,
     );
 

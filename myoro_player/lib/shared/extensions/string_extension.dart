@@ -4,7 +4,8 @@ import 'package:myoro_player/shared/helpers/platform_helper.dart';
 
 extension StringExtension on String {
   /// Grabs the name of a file/folder in a path
-  String getNameFromPath({bool removeFileExtension = false}) => split(PlatformHelper.isWindows ? '\\' : '/').last;
+  String getNameFromPath({bool removeFileExtension = false}) =>
+      split(PlatformHelper.isWindows ? '\\' : '/').last;
 
   /// Checks if the [String] (specifically from getNameFromPath) is a valid folder name
   bool get isValidFolderName {

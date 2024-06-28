@@ -26,7 +26,8 @@ final class ModelResolverBloc<T> extends Bloc<ModelResolverEvent, ModelResolverS
         emit(
           state.copyWith(
             status: BlocStatusEnum.error,
-            snackBarMessage: '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
+            snackBarMessage:
+                '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
           ),
         );
       }

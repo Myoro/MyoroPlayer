@@ -32,7 +32,9 @@ final class IconTextHoverButton extends StatelessWidget {
       padding: padding ?? const EdgeInsets.all(3),
       onTap: onTap,
       builder: (hovered) {
-        final Color contentColor = hovered ? ColorDesignSystem.background(context) : ColorDesignSystem.onBackground(context);
+        final Color contentColor = hovered
+            ? ColorDesignSystem.background(context)
+            : ColorDesignSystem.onBackground(context);
 
         return Row(
           children: [

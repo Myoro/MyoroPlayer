@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/shared/extensions/build_context_extension.dart';
 
-const _primaryDarkColor = Color(0xFF181818);
-const _primaryLightColor = Color(0xFFEDE6D6);
+const _primaryDarkColor = Color(0xFF002244);
+const _primaryLightColor = Color(0xFFFFF5EE);
 
 final class ColorDesignSystem {
   static Color background(BuildContext context) {

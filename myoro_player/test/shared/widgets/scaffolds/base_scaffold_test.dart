@@ -8,6 +8,7 @@ void main() {
   testWidgets('BaseScaffold widget test.', (tester) async {
     await tester.pumpWidget(
       BaseTestWidget(
+        testType: TestTypeEnum.screen,
         child: BaseScaffold(
           appBar: AppBar(),
           body: const SizedBox.shrink(),

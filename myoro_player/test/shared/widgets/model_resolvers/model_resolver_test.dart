@@ -44,6 +44,8 @@ void main() {
     expect(find.byType(ModelResolver<String>), findsOneWidget);
     expect(find.byWidgetPredicate((w) => w is Center && w.child is LoadingCircle), findsOneWidget);
     await tester.pump();
-    expect(find.text('[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.'), findsOneWidget);
+    expect(
+        find.text('[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.'),
+        findsOneWidget);
   });
 }

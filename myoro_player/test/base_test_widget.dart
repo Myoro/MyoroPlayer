@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/shared/design_system/theme_data.dart';
+import 'package:myoro_player/shared/widgets/scaffolds/base_scaffold.dart';
 
 enum TestTypeEnum {
   /// Any type of widget
@@ -31,10 +32,10 @@ final class BaseTestWidget extends StatelessWidget {
 
     switch (testType) {
       case TestTypeEnum.widget:
-        widget = Scaffold(body: child);
+        widget = BaseScaffold(body: child);
         break;
       case TestTypeEnum.appBar:
-        widget = Scaffold(appBar: child as PreferredSizeWidget);
+        widget = BaseScaffold(appBar: child as PreferredSizeWidget);
         break;
       case TestTypeEnum.screen:
         widget = child;

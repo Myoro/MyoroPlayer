@@ -12,6 +12,7 @@ import '../../../base_test_widget.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
+  const key = Key('');
 
   setUp(() => kiwiContainer.registerFactory<SnackBarHelper>((_) => SnackBarHelper()));
   tearDown(() => kiwiContainer.clear());
@@ -21,11 +22,15 @@ void main() {
       find.byWidgetPredicate((w) => (w is Container &&
           w.decoration ==
               BoxDecoration(
-                color: snackBarType.isTypeError ? ColorDesignSystem.error : DarkModeColorDesignSystem.background,
+                color: snackBarType.isTypeError
+                    ? ColorDesignSystem.error
+                    : DarkModeColorDesignSystem.background,
                 borderRadius: DecorationDesignSystem.borderRadius,
                 border: Border.all(
                   width: 2,
-                  color: snackBarType.isTypeError ? ColorDesignSystem.error : DarkModeColorDesignSystem.onBackground,
+                  color: snackBarType.isTypeError
+                      ? ColorDesignSystem.error
+                      : DarkModeColorDesignSystem.onBackground,
                 ),
               ) &&
           w.child is Padding)),
@@ -63,7 +68,10 @@ void main() {
           w.child is Icon &&
           (w.child as Icon).icon == Icons.close &&
           (w.child as Icon).size == ImageSizeEnum.small.size - 10 &&
-          (w.child as Icon).color == (snackBarType.isTypeError ? ColorDesignSystem.onError : DarkModeColorDesignSystem.onBackground))),
+          (w.child as Icon).color ==
+              (snackBarType.isTypeError
+                  ? ColorDesignSystem.onError
+                  : DarkModeColorDesignSystem.onBackground))),
       findsOneWidget,
     );
   }
@@ -75,6 +83,7 @@ void main() {
         child: Builder(
           builder: (context) {
             return GestureDetector(
+              key: key,
               onTap: () => kiwiContainer.resolve<SnackBarHelper>().showDialogSnackBar(
                     context,
                     'Dialog snackbar',
@@ -85,7 +94,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byType(GestureDetector));
+    await tester.tap(find.byKey(key));
     await tester.pump();
 
     expectCalls(SnackBarTypeEnum.dialog);
@@ -98,6 +107,7 @@ void main() {
         child: Builder(
           builder: (context) {
             return GestureDetector(
+              key: key,
               onTap: () => kiwiContainer.resolve<SnackBarHelper>().showErrorSnackBar(
                     context,
                     'Error snackbar',
@@ -108,7 +118,7 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byType(GestureDetector));
+    await tester.tap(find.byKey(key));
     await tester.pump();
 
     expectCalls(SnackBarTypeEnum.error);

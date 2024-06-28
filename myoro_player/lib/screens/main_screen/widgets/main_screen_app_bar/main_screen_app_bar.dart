@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/screens/main_screen/widgets/main_screen_body/main_screen_app_bar/main_screen_app_bar_drawer.dart';
+import 'package:myoro_player/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar_drawer.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
 import 'package:myoro_player/shared/extensions/build_context_extension.dart';
 import 'package:myoro_player/shared/widgets/app_bars/base_app_bar.dart';

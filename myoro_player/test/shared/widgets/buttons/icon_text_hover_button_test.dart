@@ -26,7 +26,9 @@ void main() {
     );
 
     expect(find.byType(IconTextHoverButton), findsOneWidget);
-    expect(find.byWidgetPredicate((w) => w is BaseHoverButton && w.padding == const EdgeInsets.all(3)), findsOneWidget);
+    expect(
+        find.byWidgetPredicate((w) => w is BaseHoverButton && w.padding == const EdgeInsets.all(3)),
+        findsOneWidget);
     expect(
       find.byWidgetPredicate((w) => (w is Row &&
           w.children.length == 3 &&
@@ -38,7 +40,11 @@ void main() {
     );
     expect(
       find.byWidgetPredicate(
-        (w) => w is Icon && w.icon == Icons.abc && w.size == iconSize && w.color == DarkModeColorDesignSystem.onBackground,
+        (w) =>
+            w is Icon &&
+            w.icon == Icons.abc &&
+            w.size == iconSize &&
+            w.color == DarkModeColorDesignSystem.onBackground,
       ),
       findsOneWidget,
     );

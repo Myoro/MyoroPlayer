@@ -12,7 +12,7 @@ import 'package:myoro_player/shared/services/playlist_service/playlist_service.d
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/widgets/drawers/base_drawer.dart';
 
-import '../../mocks/playlist_service.mock.dart';
+import '../../mocks/playlist_service_mock.dart';
 import '../../mocks/user_preferences_mock.dart';
 
 void main() {

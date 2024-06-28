@@ -1,4 +1,5 @@
 import 'package:myoro_player/shared/database.dart';
+import 'package:myoro_player/shared/models/conditions.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 
@@ -14,13 +15,13 @@ final class UserPreferencesServiceApi implements UserPreferencesService {
   }
 
   @override
-  Future<List<UserPreferences>> select({Map<String, dynamic>? conditions}) {
+  Future<List<UserPreferences>> select({Conditions? conditions}) {
     // TODO: implement select
     throw UnimplementedError();
   }
 
   @override
-  Future<UserPreferences> get({int? id}) async {
+  Future<UserPreferences> get({Conditions? conditions}) async {
     return UserPreferences.fromJson(
       (await database.get(Database.userPreferencesTableName))!,
     );
@@ -29,7 +30,8 @@ final class UserPreferencesServiceApi implements UserPreferencesService {
   @override
   Future<UserPreferences> update({int? id, Map<String, dynamic>? data}) async {
     final bool isDarkMode = (await get()).darkMode;
-    await database.update(Database.userPreferencesTableName, data: {'dark_mode': isDarkMode ? 0 : 1});
+    await database
+        .update(Database.userPreferencesTableName, data: {'dark_mode': isDarkMode ? 0 : 1});
     return await get();
   }
 

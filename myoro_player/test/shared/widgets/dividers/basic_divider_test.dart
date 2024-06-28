@@ -10,7 +10,11 @@ void main() {
     expect(find.byType(BasicDivider), findsOneWidget);
     expect(
       find.byWidgetPredicate(
-        (w) => w is Padding && w.padding == EdgeInsets.zero && w.child is Container && (w.child as Container).color == DarkModeColorDesignSystem.onBackground,
+        (w) =>
+            w is Padding &&
+            w.padding == EdgeInsets.zero &&
+            w.child is Container &&
+            (w.child as Container).color == DarkModeColorDesignSystem.onBackground,
       ),
       findsOneWidget,
     );

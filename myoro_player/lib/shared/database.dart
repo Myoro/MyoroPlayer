@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:myoro_player/shared/helpers/platform_helper.dart';
 import 'package:myoro_player/shared/models/conditions.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
@@ -24,7 +25,9 @@ final class Database {
       }
     }
 
-    sqflite.databaseFactory = databaseFactoryFfi;
+    if (PlatformHelper.isDesktop) {
+      sqflite.databaseFactory = databaseFactoryFfi;
+    }
 
     final dbPath = await getApplicationCacheDirectory();
     _database = await sqflite.openDatabase(join(dbPath.path, 'myoro_player.db'));
@@ -144,7 +147,7 @@ final class Database {
 
   /// Only for debugging
   Future<void> createPopulatedDummyTable() async {
-    await _database?.execute('DROP TABLE foo;');
+    await _database?.execute('DROP TABLE IF EXISTS foo;');
 
     await _database?.execute('''
       CREATE TABLE IF NOT EXISTS foo(

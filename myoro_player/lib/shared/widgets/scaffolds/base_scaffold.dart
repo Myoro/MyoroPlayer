@@ -4,14 +4,10 @@ import 'package:provider/provider.dart';
 
 /// When creating a new screen, it must use [BaseScaffold]
 final class BaseScaffold extends StatefulWidget {
-  final PreferredSizeWidget appBar;
-  final Widget body;
+  final PreferredSizeWidget? appBar;
+  final Widget? body;
 
-  const BaseScaffold({
-    super.key,
-    required this.appBar,
-    required this.body,
-  });
+  const BaseScaffold({super.key, this.appBar, this.body});
 
   @override
   State<BaseScaffold> createState() => _BaseScaffoldState();

@@ -50,6 +50,15 @@ final class Playlist extends Equatable {
     );
   }
 
+  static List<Playlist> mockList({int size = 10}) {
+    return List.generate(
+      size,
+      (index) {
+        return Playlist.mock;
+      },
+    );
+  }
+
   Playlist.fromJson(Map<String, dynamic> json)
       : id = json[idJsonKey],
         path = json[pathJsonKey],

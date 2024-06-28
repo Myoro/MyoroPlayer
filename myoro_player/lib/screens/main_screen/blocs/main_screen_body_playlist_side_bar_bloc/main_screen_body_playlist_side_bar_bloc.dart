@@ -8,7 +8,8 @@ import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 
-final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylistSideBarEvent, MainScreenBodyPlaylistSideBarState> {
+final class MainScreenBodyPlaylistSideBarBloc
+    extends Bloc<MainScreenBodyPlaylistSideBarEvent, MainScreenBodyPlaylistSideBarState> {
   late final FileSystemHelper _fileSystemHelper;
   late final PlaylistService _playlistService;
 
@@ -32,7 +33,7 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
         emit(
           state.copyWith(
             status: BlocStatusEnum.error,
-            snackBarMessage: 'Playlist contain these characters: \\/:*?"<>|',
+            snackBarMessage: 'Playlist cannot contain these characters: \\/:*?"<>|',
           ),
         );
 
@@ -50,7 +51,7 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
         emit(
           state.copyWith(
             status: BlocStatusEnum.error,
-            snackBarMessage: 'Playlist alreadys exists in your local database.',
+            snackBarMessage: 'Playlist already exists in your local database.',
           ),
         );
 

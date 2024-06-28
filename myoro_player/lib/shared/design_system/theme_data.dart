@@ -13,14 +13,18 @@ TextStyle _textStyle(
     fontSize: fontSize.size,
     fontStyle: fontStyle,
     fontWeight: fontWeight,
-    color: isDarkMode ? DarkModeColorDesignSystem.onBackground : LightModeColorDesignSystem.onBackground,
+    color: isDarkMode
+        ? DarkModeColorDesignSystem.onBackground
+        : LightModeColorDesignSystem.onBackground,
   );
 }
 
 ThemeData createTheme(bool isDarkMode) {
   final brightness = isDarkMode ? Brightness.dark : Brightness.light;
-  final background = isDarkMode ? DarkModeColorDesignSystem.background : LightModeColorDesignSystem.background;
-  final onBackground = isDarkMode ? DarkModeColorDesignSystem.onBackground : LightModeColorDesignSystem.onBackground;
+  final background =
+      isDarkMode ? DarkModeColorDesignSystem.background : LightModeColorDesignSystem.background;
+  final onBackground =
+      isDarkMode ? DarkModeColorDesignSystem.onBackground : LightModeColorDesignSystem.onBackground;
 
   return ThemeData(
     brightness: brightness,

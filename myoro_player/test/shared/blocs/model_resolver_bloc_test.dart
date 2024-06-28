@@ -16,7 +16,8 @@ void main() {
         ),
         const ModelResolverState<String>(
           status: BlocStatusEnum.error,
-          snackBarMessage: '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
+          snackBarMessage:
+              '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
         ),
       ]),
     );

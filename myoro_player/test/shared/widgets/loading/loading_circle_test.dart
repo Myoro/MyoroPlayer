@@ -7,10 +7,12 @@ import '../../../base_test_widget.dart';
 
 void main() {
   testWidgets('LoadingCircle widget test.', (tester) async {
-    await tester.pumpWidget(const BaseTestWidget(themeMode: ThemeMode.dark, child: LoadingCircle()));
+    await tester
+        .pumpWidget(const BaseTestWidget(themeMode: ThemeMode.dark, child: LoadingCircle()));
     expect(find.byType(LoadingCircle), findsOneWidget);
     expect(
-      find.byWidgetPredicate((w) => w is CircularProgressIndicator && w.color == DarkModeColorDesignSystem.onBackground),
+      find.byWidgetPredicate((w) =>
+          w is CircularProgressIndicator && w.color == DarkModeColorDesignSystem.onBackground),
       findsOneWidget,
     );
   });

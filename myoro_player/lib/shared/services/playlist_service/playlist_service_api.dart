@@ -36,7 +36,7 @@ final class PlaylistServiceApi implements PlaylistService {
   }
 
   @override
-  Future<List<Playlist>> select({Map<String, dynamic>? conditions}) async {
+  Future<List<Playlist>> select({Conditions? conditions}) async {
     final rows = await database.select(Database.playlistsTableName);
     final List<Playlist> playlists = rows.map<Playlist>((row) => Playlist.fromJson(row)).toList();
     final List<Playlist> existentPlaylists = [];
@@ -54,7 +54,7 @@ final class PlaylistServiceApi implements PlaylistService {
   }
 
   @override
-  Future<Playlist> get({int? id}) {
+  Future<Playlist> get({Conditions? conditions}) {
     // TODO: implement get
     throw UnimplementedError();
   }

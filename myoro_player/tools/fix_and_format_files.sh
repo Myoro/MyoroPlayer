@@ -11,7 +11,7 @@ echo "Running 'dart fix'..."
 
 echo -e "Running 'dart format'..." 
 {
-  dart format --line-length 160 . 
+  dart format --line-length 100 . 
   echo "Files formatted successfully"
 } || {
   echo "Error formatting files"

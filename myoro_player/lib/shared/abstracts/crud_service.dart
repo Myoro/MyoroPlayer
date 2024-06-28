@@ -1,7 +1,9 @@
+import 'package:myoro_player/shared/models/conditions.dart';
+
 abstract interface class CrudService<T> {
   Future<T?> create({required Map<String, dynamic> data});
-  Future<List<T>> select({Map<String, dynamic>? conditions});
-  Future<T?> get({int? id});
+  Future<List<T>> select({Conditions? conditions});
+  Future<T?> get({Conditions? conditions});
   Future<T?> update({int? id, Map<String, dynamic>? data});
   Future<void> delete({required int id});
 }

@@ -52,7 +52,9 @@ final class _Song extends StatelessWidget {
         horizontal: 5,
       ),
       builder: (hovered) {
-        final Color contentColor = hovered ? ColorDesignSystem.background(context) : ColorDesignSystem.onBackground(context);
+        final Color contentColor = hovered
+            ? ColorDesignSystem.background(context)
+            : ColorDesignSystem.onBackground(context);
         final TextStyle bodyMedium = textTheme.bodyMedium!.withColor(contentColor);
         final TextStyle bodySmall = textTheme.bodySmall!.withColor(contentColor);
 
@@ -95,8 +97,6 @@ final class _Song extends StatelessWidget {
             const SizedBox(width: 10),
             Text(
               '420:00',
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
               style: bodyMedium,
             ),
           ],

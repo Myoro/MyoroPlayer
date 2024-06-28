@@ -29,7 +29,8 @@ final class ResizeDivider extends StatelessWidget {
           child: MouseRegion(
             cursor: isHorizontal ? SystemMouseCursors.resizeRow : SystemMouseCursors.resizeColumn,
             child: GestureDetector(
-              onHorizontalDragUpdate: isHorizontal ? null : (details) => resizeCallback.call(details),
+              onHorizontalDragUpdate:
+                  isHorizontal ? null : (details) => resizeCallback.call(details),
               onVerticalDragUpdate: isHorizontal ? (details) => resizeCallback.call(details) : null,
               child: Container(
                 width: isHorizontal ? 30 : 10,
