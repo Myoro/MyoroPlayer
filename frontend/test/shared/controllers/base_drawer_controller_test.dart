@@ -34,7 +34,7 @@ void main() {
         providers: [
           BlocProvider(create: (context) => UserPreferencesCubit(UserPreferences.mock)),
           BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
-        ],
+        ], FIX THIS LOL
         child: const App(),
       ),
     );

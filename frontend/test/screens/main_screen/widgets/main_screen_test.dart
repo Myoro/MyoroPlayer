@@ -21,7 +21,7 @@ void main() {
     kiwiContainer
       ..registerFactory<SnackBarHelper>((_) => SnackBarHelper())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
-      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured(playlists: []));
   });
   tearDown(() => kiwiContainer.clear());
 

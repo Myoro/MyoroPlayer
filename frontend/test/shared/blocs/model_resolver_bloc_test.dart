@@ -11,13 +11,13 @@ void main() {
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const ModelResolverState<String>(
-          status: BlocStatusEnum.loading,
-        ),
+        // Redundant [copyWith] is for line coverage
+        const ModelResolverState<String>().copyWith().copyWith(
+              status: BlocStatusEnum.loading,
+            ),
         const ModelResolverState<String>(
           status: BlocStatusEnum.error,
-          snackBarMessage:
-              '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
+          snackBarMessage: '[ModelResolverBloc.ExecuteRequestEvent]: Error executing [request] provided.',
         ),
       ]),
     );

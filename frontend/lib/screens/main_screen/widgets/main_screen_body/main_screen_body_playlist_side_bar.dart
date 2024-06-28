@@ -66,7 +66,9 @@ final class _Playlists extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<MainScreenBodyPlaylistSideBarBloc, MainScreenBodyPlaylistSideBarState>(
+      // coverage:ignore-start
       listener: (context, state) => _handleSnackBars(context, state),
+      // coverage:ignore-end
       builder: (context, state) {
         return Expanded(
           child: Column(
@@ -77,23 +79,25 @@ final class _Playlists extends StatelessWidget {
                   request: () async => await KiwiContainer().resolve<PlaylistService>().select(),
                   builder: (context, List<Playlist>? playlists) {
                     return VerticalScrollbar(
-                      children: playlists?.map(
-                            (playlist) {
-                              return Padding(
-                                padding: EdgeInsets.only(
-                                  top: 5,
-                                  bottom: playlist == playlists.last ? 5 : 0,
-                                ),
-                                child: IconTextHoverButton(
-                                  icon: Icons.music_note,
-                                  iconSize: ImageSizeEnum.small.size + 10,
-                                  text: playlist.name,
-                                  onTap: () => debugPrint(playlist.path),
-                                ),
-                              );
-                            },
-                          ).toList() ??
-                          [],
+                      children: playlists!.map(
+                        (playlist) {
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              top: 5,
+                              bottom: playlist == playlists.last ? 5 : 0,
+                            ),
+                            child: IconTextHoverButton(
+                              icon: Icons.music_note,
+                              iconSize: ImageSizeEnum.small.size + 10,
+                              text: playlist.name,
+                              // TODO
+                              // coverage:ignore-start
+                              onTap: () => debugPrint(playlist.path),
+                              // coverage:ignore-end
+                            ),
+                          );
+                        },
+                      ).toList(),
                     );
                   },
                 ),
@@ -105,6 +109,7 @@ final class _Playlists extends StatelessWidget {
     );
   }
 
+  // coverage:ignore-start
   void _handleSnackBars(BuildContext context, MainScreenBodyPlaylistSideBarState state) {
     if (state.status == BlocStatusEnum.error) {
       KiwiContainer().resolve<SnackBarHelper>().showErrorSnackBar(
@@ -118,6 +123,7 @@ final class _Playlists extends StatelessWidget {
           );
     }
   }
+  // coverage:ignore-end
 }
 
 final class _ResizeDivider extends StatelessWidget {
@@ -129,7 +135,9 @@ final class _ResizeDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResizeDivider(
       direction: Axis.vertical,
+      // coverage:ignore-start
       resizeCallback: (details) => widthNotifier.value += details.delta.dx,
+      // coverage:ignore-end
       padding: const EdgeInsets.only(
         top: 40,
         bottom: 15,

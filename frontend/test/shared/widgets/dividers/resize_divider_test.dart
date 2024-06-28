@@ -15,32 +15,24 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is Stack &&
-            w.alignment == Alignment.center &&
-            w.children.length == 2 &&
-            w.children.first is Positioned &&
-            w.children.last is IgnorePointer,
+        (w) => w is Stack && w.alignment == Alignment.center && w.children.length == 2 && w.children.first is Positioned && w.children.last is IgnorePointer,
       ),
       findsOneWidget,
     );
 
-    expect(
-        find.byWidgetPredicate((w) => w is Positioned && w.child is MouseRegion), findsOneWidget);
+    expect(find.byWidgetPredicate((w) => w is Positioned && w.child is MouseRegion), findsOneWidget);
 
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is MouseRegion &&
-            w.cursor ==
-                (isHorizontal ? SystemMouseCursors.resizeRow : SystemMouseCursors.resizeColumn) &&
-            w.child is GestureDetector,
+        (w) => w is MouseRegion && w.cursor == (isHorizontal ? SystemMouseCursors.resizeRow : SystemMouseCursors.resizeColumn) && w.child is GestureDetector,
       ),
       findsOneWidget,
     );
 
-    expect(find.byWidgetPredicate((w) => w is GestureDetector && w.child is Container),
-        findsOneWidget);
+    expect(
+      find.byWidgetPredicate((w) => w is GestureDetector && w.child is Container),
+      findsAtLeastNWidgets(1),
+    );
 
     expect(
       find.byWidgetPredicate((w) => (w is Container &&

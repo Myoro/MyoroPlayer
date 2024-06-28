@@ -20,6 +20,8 @@ void main() {
 
   tearDownAll(() async => await database.close());
 
+  test('Database.init database already initialized case', () async => await database.init());
+
   test('Database.select', () async {
     // Conditionless query
     expect(

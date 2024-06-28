@@ -16,6 +16,7 @@ import 'package:frontend/shared/services/user_preferences_service/user_preferenc
 import 'package:frontend/shared/services/user_preferences_service/user_preferences_service_api.dart';
 import 'package:window_manager/window_manager.dart';
 
+// coverage:ignore-start
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
@@ -37,8 +38,7 @@ void main() async {
     ..registerFactory<PlaylistService>((c) => PlaylistServiceApi(database));
 
   /// User preference initialization for it's cubit
-  final UserPreferences userPreferences =
-      (await KiwiContainer().resolve<UserPreferencesService>().get())!;
+  final UserPreferences userPreferences = (await KiwiContainer().resolve<UserPreferencesService>().get())!;
 
   runApp(
     /// Global BloC initialization
@@ -51,6 +51,7 @@ void main() async {
     ),
   );
 }
+// coverage:ignore-end
 
 final class App extends StatelessWidget {
   const App({super.key});

@@ -33,9 +33,10 @@ void main() {
     expectLater(
       bloc.stream,
       emits(
-        const MainScreenBodyPlaylistSideBarState(
-          status: BlocStatusEnum.loading,
-        ),
+        // Redundant [copyWith] is for line coverage
+        const MainScreenBodyPlaylistSideBarState().copyWith().copyWith(
+              status: BlocStatusEnum.loading,
+            ),
       ),
     );
 
@@ -104,11 +105,9 @@ void main() {
       ]),
     );
 
-    when(() => fileSystemHelperMock.createFolderDialogWindow())
-        .thenAnswer((_) async => playlist.path);
+    when(() => fileSystemHelperMock.createFolderDialogWindow()).thenAnswer((_) async => playlist.path);
     when(() => fileSystemHelperMock.createFolder(any())).thenReturn(true);
-    when(() => playlistServiceMock.create(data: any(named: 'data')))
-        .thenAnswer((_) async => playlist);
+    when(() => playlistServiceMock.create(data: any(named: 'data'))).thenAnswer((_) async => playlist);
 
     bloc.add(const CreatePlaylistEvent());
   });

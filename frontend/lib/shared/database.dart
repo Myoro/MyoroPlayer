@@ -17,6 +17,13 @@ final class Database {
 
   sqflite.Database? _database;
 
+  Future<String> _getDatabasePath() async {
+    return join(
+      (await getApplicationCacheDirectory()).path,
+      'myoro_player.db',
+    );
+  }
+
   /// Initializes the database
   Future<void> init() async {
     if (_database != null) {
@@ -29,8 +36,7 @@ final class Database {
       sqflite.databaseFactory = databaseFactoryFfi;
     }
 
-    final dbPath = await getApplicationCacheDirectory();
-    _database = await sqflite.openDatabase(join(dbPath.path, 'frontend.db'));
+    _database = await sqflite.openDatabase(await _getDatabasePath());
 
     // User preferences table
     await _database?.execute('''
@@ -65,12 +71,6 @@ final class Database {
     String table, {
     Conditions? conditions,
   }) async {
-    if (_database == null) {
-      if (kDebugMode) {
-        print('[Database.select]: Database not initialized.');
-      }
-    }
-
     try {
       return await _database!.query(
         table,
@@ -147,7 +147,8 @@ final class Database {
 
   /// Only for debugging
   Future<void> createPopulatedDummyTable() async {
-    await _database?.execute('DROP TABLE IF EXISTS foo;');
+    await sqflite.deleteDatabase(await _getDatabasePath());
+    await init();
 
     await _database?.execute('''
       CREATE TABLE IF NOT EXISTS foo(

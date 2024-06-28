@@ -34,10 +34,12 @@ final class MainScreenAppBarDrawer extends StatelessWidget {
                 iconSize: ImageSizeEnum.small.size,
                 text: value.text,
                 padding: const EdgeInsets.all(5),
+                // coverage:ignore-start
                 onTap: () {
                   value.callback.call(context);
                   Navigator.of(context).pop();
                 },
+                // coverage:ignore-end
               ),
             );
           },

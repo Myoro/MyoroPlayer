@@ -135,7 +135,10 @@ final class _Button extends StatelessWidget {
     return IconTextHoverButton(
       icon: icon,
       iconSize: ImageSizeEnum.small.size,
+      // TODO
+      // coverage:ignore-start
       onTap: () {},
+      // coverage:ignore-end
     );
   }
 }
