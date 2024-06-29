@@ -28,13 +28,21 @@ jobs:
           retry_on: error
           command: cd frontend && flutter pub get
 
-      - name: Run Dart fix & format (fails if any fixing or formatting occurs)
+      - name: Run Dart fix (fails if any fixing or formatting occurs)
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 5
           retry_wait_seconds: 5
           max_attempts: 2
-          command: cd frontend && bash tools/fix_and_format_files.sh
+          command: cd frontend && dart fix --dry-run .
+
+      - name: Run Dart format (fails if any fixing or formatting occurs)
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          retry_wait_seconds: 5
+          max_attempts: 2
+          command: cd frontend && dart format --line-length 100 -o none --set-exit-if-changed .
 
       - name: Run widget, unit, & line coverage tests
         uses: nick-fields/retry@v2
