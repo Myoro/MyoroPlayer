@@ -33,8 +33,10 @@ void main() {
     expect(find.byType(MainScreenAppBarDrawer), findsOneWidget);
 
     expect(
-      find.byWidgetPredicate((w) =>
-          (w is Expanded && w.child is VerticalScrollbar && (w.child as VerticalScrollbar).children.length == MainScreenAppBarDrawerItemsEnum.values.length)),
+      find.byWidgetPredicate((w) => (w is Expanded &&
+          w.child is VerticalScrollbar &&
+          (w.child as VerticalScrollbar).children.length ==
+              MainScreenAppBarDrawerItemsEnum.values.length)),
       findsOneWidget,
     );
 

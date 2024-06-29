@@ -8,7 +8,8 @@ import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 
-final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylistSideBarEvent, MainScreenBodyPlaylistSideBarState> {
+final class MainScreenBodyPlaylistSideBarBloc
+    extends Bloc<MainScreenBodyPlaylistSideBarEvent, MainScreenBodyPlaylistSideBarState> {
   late final FileSystemHelper _fileSystemHelper;
   late final PlaylistService _playlistService;
 

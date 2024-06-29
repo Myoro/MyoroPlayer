@@ -53,7 +53,9 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
             decoration: BoxDecoration(
               borderRadius: DecorationDesignSystem.borderRadius,
               // coverage:ignore-start
-              color: hovered ? ColorDesignSystem.onBackground(context) : ColorDesignSystem.background(context),
+              color: hovered
+                  ? ColorDesignSystem.onBackground(context)
+                  : ColorDesignSystem.background(context),
               // coverage:ignore-end
             ),
             child: _builder.call(hovered),
