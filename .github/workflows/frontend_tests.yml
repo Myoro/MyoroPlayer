@@ -60,4 +60,4 @@ jobs:
           max_attempts: 2
           command: |
             cd frontend
-            bash tools/test_and_generate_coverage_html.sh | grep "lines......: 100.0"
+            bash tools/test_and_generate_coverage_html.sh | grep "lines......: 100.0" || exit 1
