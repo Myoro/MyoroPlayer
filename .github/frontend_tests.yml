@@ -1,5 +1,3 @@
-# nick-fields/retry@v2 is to repeat a command if it fails for whatever reason
-
 name: "Frontend tests: Widget, unit, & line coverage tests"
 
 on: [push]
