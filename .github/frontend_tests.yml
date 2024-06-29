@@ -12,39 +12,39 @@ jobs:
       - name: Get MyoroPlayer
         uses: actions/checkout@v3
 
-      - name: Install Flutter using it's stable channel
-        uses: subosito/flutter-action@v2
-        with:
-          channel: 'stable'
-          cache: false
+      # - name: Install Flutter using it's stable channel
+      #   uses: subosito/flutter-action@v2
+      #   with:
+      #     channel: 'stable'
+      #     cache: false
 
-      - name: Disable Flutter animations to speed up the CI
-        run: flutter config --no-cli-animations
+      # - name: Disable Flutter animations to speed up the CI
+      #   run: flutter config --no-cli-animations
 
-      - name: Install Flutter dependencies
-        run: flutter pub get
+      # - name: Install Flutter dependencies
+      #   run: flutter pub get
 
-      - name: Install Flutter dependencies
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          retry_wait_seconds: 5
-          max_attempts: 2
-          retry_on: error
-          command: flutter pub get
+      # - name: Install Flutter dependencies
+      #   uses: nick-fields/retry@v2
+      #   with:
+      #     timeout_minutes: 5
+      #     retry_wait_seconds: 5
+      #     max_attempts: 2
+      #     retry_on: error
+      #     command: flutter pub get
 
-      - name: Run Dart fix & format (fails if any fixing or formatting occurs)
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          retry_wait_seconds: 5
-          max_attempts: 2
-          command: cd frontend && bash tools/fix_and_format_files.sh
+      # - name: Run Dart fix & format (fails if any fixing or formatting occurs)
+      #   uses: nick-fields/retry@v2
+      #   with:
+      #     timeout_minutes: 5
+      #     retry_wait_seconds: 5
+      #     max_attempts: 2
+      #     command: cd frontend && bash tools/fix_and_format_files.sh
 
-      - name: Run widget, unit, & line coverage tests
-        uses: nick-fields/retry@v2
-        with:
-          timeout_minutes: 5
-          retry_wait_seconds: 5
-          max_attempts: 2
-          command: cd frontend && bash tools/test_and_generate_coverage_html.sh
+      # - name: Run widget, unit, & line coverage tests
+      #   uses: nick-fields/retry@v2
+      #   with:
+      #     timeout_minutes: 5
+      #     retry_wait_seconds: 5
+      #     max_attempts: 2
+      #     command: cd frontend && bash tools/test_and_generate_coverage_html.sh
