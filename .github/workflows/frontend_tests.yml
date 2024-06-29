@@ -20,16 +20,13 @@ jobs:
         run: flutter config --no-cli-animations
 
       - name: Install Flutter dependencies
-        run: cd frontend && flutter pub get
-
-      - name: Install Flutter dependencies
         uses: nick-fields/retry@v2
         with:
           timeout_minutes: 5
           retry_wait_seconds: 5
           max_attempts: 2
           retry_on: error
-          command: flutter pub get
+          command: cd frontend && flutter pub get
 
       - name: Run Dart fix & format (fails if any fixing or formatting occurs)
         uses: nick-fields/retry@v2
