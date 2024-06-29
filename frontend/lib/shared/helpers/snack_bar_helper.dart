@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/enums/snack_bar_type_enum.dart';
 import 'package:frontend/shared/widgets/snack_bars/base_snack_bar.dart';

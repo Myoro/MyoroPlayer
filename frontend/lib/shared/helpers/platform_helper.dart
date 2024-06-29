@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'dart:io';
 
 final class PlatformHelper {

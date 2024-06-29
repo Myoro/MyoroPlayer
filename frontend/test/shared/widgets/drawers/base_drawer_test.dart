@@ -26,7 +26,8 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-          (w) => w is Padding && w.padding == const EdgeInsets.all(10) && w.child is Drawer),
+        (w) => w is Padding && w.padding == const EdgeInsets.all(10) && w.child is Drawer,
+      ),
       findsOneWidget,
     );
 

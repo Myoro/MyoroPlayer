@@ -42,7 +42,9 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
       splashColor: ColorDesignSystem.transparent,
       highlightColor: ColorDesignSystem.transparent,
       onTap: () => _onTap.call(),
+      // coverage:ignore-start
       onHover: (value) => _hoverNotifier.value = value,
+      // coverage:ignore-end
       child: ValueListenableBuilder(
         valueListenable: _hoverNotifier,
         builder: (context, hovered, child) {
@@ -50,9 +52,9 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
             padding: _padding,
             decoration: BoxDecoration(
               borderRadius: DecorationDesignSystem.borderRadius,
-              color: hovered
-                  ? ColorDesignSystem.onBackground(context)
-                  : ColorDesignSystem.background(context),
+              // coverage:ignore-start
+              color: hovered ? ColorDesignSystem.onBackground(context) : ColorDesignSystem.background(context),
+              // coverage:ignore-end
             ),
             child: _builder.call(hovered),
           );

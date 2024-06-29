@@ -1,6 +1,5 @@
-import 'dart:io';
-
 import 'package:frontend/shared/database.dart';
+import 'package:frontend/shared/extensions/string_extension.dart';
 import 'package:frontend/shared/models/conditions.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
@@ -43,7 +42,7 @@ final class PlaylistServiceApi implements PlaylistService {
 
     // Validating that all of the playlists still exists on the device
     for (final playlist in playlists) {
-      if (!File(playlist.path).existsSync()) {
+      if (!playlist.path.pathExists) {
         await database.delete(Database.playlistsTableName, id: playlist.id!);
       } else {
         existentPlaylists.add(playlist);

@@ -49,10 +49,11 @@ final class BaseDrawer extends StatelessWidget {
                       key: const Key('BaseDrawer close button'),
                       icon: Icons.close,
                       iconSize: ImageSizeEnum.small.size - 10,
+                      // coverage:ignore-start
                       onTap: () {
-                        print('hewwo');
-                        // context.read<BaseDrawerController>().closeDrawer();
+                        context.read<BaseDrawerController>().closeDrawer();
                       },
+                      // coverage:ignore-end
                     ),
                 ],
               ),

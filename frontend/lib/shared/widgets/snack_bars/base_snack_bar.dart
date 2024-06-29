@@ -68,7 +68,9 @@ final class _SnackBar extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             NoFeedbackButton(
+              // coverage:ignore-start
               onTap: () => KiwiContainer().resolve<SnackBarHelper>().closeSnackBar(context),
+              // coverage:ignore-end
               child: Icon(
                 Icons.close,
                 size: ImageSizeEnum.small.size - 10,

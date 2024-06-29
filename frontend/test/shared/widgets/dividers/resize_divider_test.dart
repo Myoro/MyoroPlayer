@@ -8,6 +8,8 @@ import 'package:frontend/shared/widgets/dividers/resize_divider.dart';
 import '../../../base_test_widget.dart';
 
 void main() {
+  final dividerFinder = find.byType(ResizeDivider);
+
   void expectCalls(Axis direction) {
     final bool isHorizontal = direction == Axis.horizontal;
 
@@ -15,16 +17,26 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (w) => w is Stack && w.alignment == Alignment.center && w.children.length == 2 && w.children.first is Positioned && w.children.last is IgnorePointer,
+        (w) =>
+            w is Stack &&
+            w.alignment == Alignment.center &&
+            w.children.length == 2 &&
+            w.children.first is Positioned &&
+            w.children.last is IgnorePointer,
       ),
       findsOneWidget,
     );
 
-    expect(find.byWidgetPredicate((w) => w is Positioned && w.child is MouseRegion), findsOneWidget);
+    expect(
+        find.byWidgetPredicate((w) => w is Positioned && w.child is MouseRegion), findsOneWidget);
 
     expect(
       find.byWidgetPredicate(
-        (w) => w is MouseRegion && w.cursor == (isHorizontal ? SystemMouseCursors.resizeRow : SystemMouseCursors.resizeColumn) && w.child is GestureDetector,
+        (w) =>
+            w is MouseRegion &&
+            w.cursor ==
+                (isHorizontal ? SystemMouseCursors.resizeRow : SystemMouseCursors.resizeColumn) &&
+            w.child is GestureDetector,
       ),
       findsOneWidget,
     );
@@ -60,12 +72,13 @@ void main() {
         themeMode: ThemeMode.dark,
         child: ResizeDivider(
           direction: Axis.horizontal,
-          resizeCallback: (_) {},
+          resizeCallback: (details) => print(details),
         ),
       ),
     );
 
     expectCalls(Axis.horizontal);
+    await tester.drag(dividerFinder, const Offset(50, 0));
   });
 
   testWidgets('Vertical ResizeDivider widget test.', (tester) async {
@@ -73,11 +86,12 @@ void main() {
       BaseTestWidget(
         child: ResizeDivider(
           direction: Axis.vertical,
-          resizeCallback: (_) {},
+          resizeCallback: (details) => print(details),
         ),
       ),
     );
 
     expectCalls(Axis.vertical);
+    await tester.drag(dividerFinder, const Offset(0, 50));
   });
 }

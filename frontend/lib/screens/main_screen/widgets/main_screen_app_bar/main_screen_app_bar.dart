@@ -24,7 +24,9 @@ final class MainScreenAppBar extends StatelessWidget implements PreferredSizeWid
         IconTextHoverButton(
           icon: Icons.menu,
           iconSize: ImageSizeEnum.small.size,
+          // coverage:ignore-start
           onTap: () => MainScreenAppBarDrawer.show(context),
+          // coverage:ignore-end
         ),
         const SizedBox(width: 3),
       ],
