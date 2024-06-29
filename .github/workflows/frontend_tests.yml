@@ -10,6 +10,14 @@ jobs:
       - name: Get MyoroPlayer
         uses: actions/checkout@v3
 
+      - name: Install Ubuntu dependencies
+        uses: nick-fields/retry@v2
+        with:
+          timeout_minutes: 5
+          retry_wait_seconds: 5
+          max_attempts: 2
+          command: sudo apt install -y lcov
+
       - name: Install Flutter using it's stable channel
         uses: subosito/flutter-action@v2
         with:
