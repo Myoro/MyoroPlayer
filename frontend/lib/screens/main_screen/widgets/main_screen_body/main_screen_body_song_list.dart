@@ -56,9 +56,7 @@ final class _Song extends StatelessWidget {
       ),
       builder: (hovered) {
         // coverage:ignore-start
-        final Color contentColor = hovered
-            ? ColorDesignSystem.background(context)
-            : ColorDesignSystem.onBackground(context);
+        final Color contentColor = hovered ? ColorDesignSystem.background(context) : ColorDesignSystem.onBackground(context);
         // coverage:ignore-end
         final TextStyle bodyMedium = textTheme.bodyMedium!.withColor(contentColor);
         final TextStyle bodySmall = textTheme.bodySmall!.withColor(contentColor);

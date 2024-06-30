@@ -49,9 +49,7 @@ void main() {
     );
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is BaseHoverButton &&
-            w.padding == const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
+        (w) => w is BaseHoverButton && w.padding == const EdgeInsets.symmetric(vertical: 3, horizontal: 5),
       ),
       findsNWidgets(50),
     );
@@ -73,10 +71,8 @@ void main() {
       findsNWidgets(50),
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Icon &&
-          w.icon == Icons.music_note &&
-          w.size == ImageSizeEnum.small.size + 10 &&
-          w.color == DarkModeColorDesignSystem.onBackground)),
+      find.byWidgetPredicate(
+          (w) => (w is Icon && w.icon == Icons.music_note && w.size == ImageSizeEnum.small.size + 10 && w.color == DarkModeColorDesignSystem.onBackground)),
       findsNWidgets(50),
     );
     expect(
@@ -94,10 +90,8 @@ void main() {
       findsNWidgets(50),
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Text &&
-          w.maxLines == 1 &&
-          w.overflow == TextOverflow.ellipsis &&
-          w.data == 'aLijeqwje oqwiejqwiejwqoeijqoiejqwioje iqwje')),
+      find.byWidgetPredicate(
+          (w) => (w is Text && w.maxLines == 1 && w.overflow == TextOverflow.ellipsis && w.data == 'aLijeqwje oqwiejqwiejwqoeijqoiejqwioje iqwje')),
       findsNWidgets(50),
     );
     expect(

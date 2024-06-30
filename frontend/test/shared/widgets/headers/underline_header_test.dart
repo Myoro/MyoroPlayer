@@ -32,10 +32,7 @@ void main() {
     expect(find.byWidgetPredicate((w) => w is Text && w.data == header), findsOneWidget);
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is BasicDivider &&
-            w.direction == Axis.horizontal &&
-            w.padding == const EdgeInsets.symmetric(horizontal: 10),
+        (w) => w is BasicDivider && w.direction == Axis.horizontal && w.padding == const EdgeInsets.symmetric(horizontal: 10),
       ),
       findsOneWidget,
     );

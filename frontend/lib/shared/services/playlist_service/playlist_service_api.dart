@@ -42,7 +42,7 @@ final class PlaylistServiceApi implements PlaylistService {
 
     // Validating that all of the playlists still exists on the device
     for (final playlist in playlists) {
-      if (!playlist.path.pathExists) {
+      if (!playlist.path.folderExists) {
         await database.delete(Database.playlistsTableName, id: playlist.id!);
       } else {
         existentPlaylists.add(playlist);

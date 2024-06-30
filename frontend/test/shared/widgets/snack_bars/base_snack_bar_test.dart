@@ -22,15 +22,11 @@ void main() {
       find.byWidgetPredicate((w) => (w is Container &&
           w.decoration ==
               BoxDecoration(
-                color: snackBarType.isTypeError
-                    ? ColorDesignSystem.error
-                    : DarkModeColorDesignSystem.background,
+                color: snackBarType.isTypeError ? ColorDesignSystem.error : DarkModeColorDesignSystem.background,
                 borderRadius: DecorationDesignSystem.borderRadius,
                 border: Border.all(
                   width: 2,
-                  color: snackBarType.isTypeError
-                      ? ColorDesignSystem.error
-                      : DarkModeColorDesignSystem.onBackground,
+                  color: snackBarType.isTypeError ? ColorDesignSystem.error : DarkModeColorDesignSystem.onBackground,
                 ),
               ) &&
           w.child is Padding)),
@@ -68,10 +64,7 @@ void main() {
           w.child is Icon &&
           (w.child as Icon).icon == Icons.close &&
           (w.child as Icon).size == ImageSizeEnum.small.size - 10 &&
-          (w.child as Icon).color ==
-              (snackBarType.isTypeError
-                  ? ColorDesignSystem.onError
-                  : DarkModeColorDesignSystem.onBackground))),
+          (w.child as Icon).color == (snackBarType.isTypeError ? ColorDesignSystem.onError : DarkModeColorDesignSystem.onBackground))),
       findsOneWidget,
     );
   }

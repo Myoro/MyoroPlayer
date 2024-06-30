@@ -27,7 +27,7 @@ void main() {
       Playlist.imageJsonKey: null,
     });
     expect(
-      playlistFromJson.toJson(),
+      playlistFromJson.toJson(buildId: true),
       {
         Playlist.idJsonKey: 0,
         Playlist.pathJsonKey: '/Name',

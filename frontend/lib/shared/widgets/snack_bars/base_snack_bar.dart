@@ -43,9 +43,7 @@ final class _SnackBar extends StatelessWidget {
     return Container(
       width: 300,
       decoration: BoxDecoration(
-        color: snackBarType.isTypeError
-            ? ColorDesignSystem.error
-            : ColorDesignSystem.background(context),
+        color: snackBarType.isTypeError ? ColorDesignSystem.error : ColorDesignSystem.background(context),
         borderRadius: DecorationDesignSystem.borderRadius,
         border: Border.all(
           width: 2,

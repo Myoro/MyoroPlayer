@@ -38,8 +38,7 @@ void main() async {
     ..registerFactory<PlaylistService>((c) => PlaylistServiceApi(database));
 
   /// User preference initialization for it's cubit
-  final UserPreferences userPreferences =
-      (await KiwiContainer().resolve<UserPreferencesService>().get())!;
+  final UserPreferences userPreferences = (await KiwiContainer().resolve<UserPreferencesService>().get())!;
 
   runApp(
     /// Global BloC initialization

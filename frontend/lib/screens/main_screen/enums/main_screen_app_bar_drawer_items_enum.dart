@@ -35,14 +35,15 @@ enum MainScreenAppBarDrawerItemsEnum {
 
   // coverage:ignore-start
   void callback(BuildContext context) {
+    final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<MainScreenBodyPlaylistSideBarBloc>(
+      context,
+    );
+
     return switch (this) {
-      MainScreenAppBarDrawerItemsEnum.openPlaylists => print('Open playlist(s)'),
-      MainScreenAppBarDrawerItemsEnum.createPlaylist =>
-        BlocProvider.of<MainScreenBodyPlaylistSideBarBloc>(context)
-            .add(const CreatePlaylistEvent()),
+      MainScreenAppBarDrawerItemsEnum.openPlaylists => mainScreenBodyPlaylistSideBarBloc.add(const OpenPlaylistsEvent()),
+      MainScreenAppBarDrawerItemsEnum.createPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const CreatePlaylistEvent()),
       MainScreenAppBarDrawerItemsEnum.loginSignup => print('Login/signup'),
-      MainScreenAppBarDrawerItemsEnum.toggleTheme =>
-        BlocProvider.of<UserPreferencesCubit>(context).toggleTheme(),
+      MainScreenAppBarDrawerItemsEnum.toggleTheme => BlocProvider.of<UserPreferencesCubit>(context).toggleTheme(),
       MainScreenAppBarDrawerItemsEnum.quit => exit(0),
     };
   }

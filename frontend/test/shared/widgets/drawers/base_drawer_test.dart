@@ -47,30 +47,20 @@ void main() {
     );
 
     expect(
-      find.byWidgetPredicate(
-          (w) => w is Padding && w.padding == const EdgeInsets.all(5) && w.child is Column),
+      find.byWidgetPredicate((w) => w is Padding && w.padding == const EdgeInsets.all(5) && w.child is Column),
       findsOneWidget,
     );
 
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is Column &&
-            w.children.length == 2 &&
-            w.children.first is Row &&
-            w.children.last is SizedBox,
+        (w) => w is Column && w.children.length == 2 && w.children.first is Row && w.children.last is SizedBox,
       ),
       findsOneWidget,
     );
 
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is Row &&
-            w.children.length == 3 &&
-            w.children.first is Text &&
-            w.children[1] is Spacer &&
-            w.children.last is IconTextHoverButton,
+        (w) => w is Row && w.children.length == 3 && w.children.first is Text && w.children[1] is Spacer && w.children.last is IconTextHoverButton,
       ),
       findsOneWidget,
     );
@@ -79,10 +69,7 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is IconTextHoverButton &&
-            w.icon == Icons.close &&
-            w.iconSize == ImageSizeEnum.small.size - 10,
+        (w) => w is IconTextHoverButton && w.icon == Icons.close && w.iconSize == ImageSizeEnum.small.size - 10,
       ),
       findsOneWidget,
     );

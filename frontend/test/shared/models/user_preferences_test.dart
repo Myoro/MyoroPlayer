@@ -7,8 +7,7 @@ void main() {
 
     // copyWith & props
     expect(userPreferences == userPreferences.copyWith(), isTrue);
-    expect(
-        userPreferences == userPreferences.copyWith(darkMode: !userPreferences.darkMode), isFalse);
+    expect(userPreferences == userPreferences.copyWith(darkMode: !userPreferences.darkMode), isFalse);
 
     // fromJson
     expect(

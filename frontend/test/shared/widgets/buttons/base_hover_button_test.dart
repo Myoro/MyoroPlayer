@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
@@ -7,6 +8,7 @@ import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
 import '../../../base_test_widget.dart';
 
 void main() {
+  final baseHoverButtonFinder = find.byType(BaseHoverButton);
   const text = 'Text';
 
   testWidgets('BaseHoverButton widget test.', (tester) async {
@@ -15,6 +17,7 @@ void main() {
         themeMode: ThemeMode.dark,
         child: BaseHoverButton(
           onTap: () => print('BaseHoverButton [onTap] working.'),
+          onSecondaryTapDown: (_) => print('BaseHoverButton [onSecondaryTapDown] working.'),
           builder: (_) {
             return const Text(text);
           },
@@ -22,7 +25,7 @@ void main() {
       ),
     );
 
-    expect(find.byType(BaseHoverButton), findsOneWidget);
+    expect(baseHoverButtonFinder, findsOneWidget);
     expect(
       find.byWidgetPredicate((w) => (w is InkWell &&
           w.hoverColor == ColorDesignSystem.transparent &&
@@ -44,5 +47,8 @@ void main() {
           (w.child as Text).data == text),
       findsOneWidget,
     );
+
+    await tester.tap(baseHoverButtonFinder);
+    await tester.tap(baseHoverButtonFinder, buttons: kSecondaryButton);
   });
 }

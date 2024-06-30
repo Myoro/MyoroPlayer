@@ -23,8 +23,7 @@ final class UserPreferences extends Equatable {
     );
   }
 
-  UserPreferences.fromJson(Map<String, dynamic> json)
-      : darkMode = json[darkModeJsonKey] == 1 ? true : false;
+  UserPreferences.fromJson(Map<String, dynamic> json) : darkMode = json[darkModeJsonKey] == 1 ? true : false;
 
   Map<String, dynamic> toJson() => {'dark_mode': darkMode ? 1 : 0};
 

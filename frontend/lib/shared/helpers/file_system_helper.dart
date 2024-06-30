@@ -16,10 +16,17 @@ class FileSystemHelper {
     );
   }
 
+  /// Returns the path to the folder in which the user wants to add, null if cancelled
+  Future<String?> openFolderDialogWindow() async {
+    return await FilePicker.platform.getDirectoryPath(
+      dialogTitle: 'Choose the playlists you\'d like to add.',
+    );
+  }
+
   /// Creates a folder on the device. Returns if the operation was successful or not
   bool createFolder(String path) {
     try {
-      File(path).createSync();
+      Directory(path).createSync();
 
       return true;
     } catch (error) {

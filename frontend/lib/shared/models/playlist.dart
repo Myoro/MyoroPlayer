@@ -67,7 +67,7 @@ final class Playlist extends Equatable {
 
   Map<String, dynamic> toJson({bool buildId = false}) {
     return {
-      idJsonKey: id,
+      if (buildId) idJsonKey: id,
       pathJsonKey: path,
       nameJsonKey: name,
       imageJsonKey: image ?? '', // sqflite likes to complain about null

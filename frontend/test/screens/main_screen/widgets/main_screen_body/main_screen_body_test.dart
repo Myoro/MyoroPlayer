@@ -60,10 +60,7 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is BasicDivider &&
-            w.direction == Axis.horizontal &&
-            w.padding == const EdgeInsets.symmetric(horizontal: 10),
+        (w) => w is BasicDivider && w.direction == Axis.horizontal && w.padding == const EdgeInsets.symmetric(horizontal: 10),
       ),
       findsNWidgets(3),
     );

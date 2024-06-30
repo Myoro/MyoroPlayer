@@ -1,12 +1,9 @@
 # TODO
 
-1. Tests and GitHub pipelines
-
-- Get coverage working locally
-- Write pipeline for tests & 100% code coverage
-
-1. Opening playlists
+1. Playlist context menu
 
 1. Generate a wiki on the github page for documenting stuff
 
 - Talk about how // coverage:ignore-start/end is because of this being tested in integration tests and not covering helper lines
+
+1. `dart doc`

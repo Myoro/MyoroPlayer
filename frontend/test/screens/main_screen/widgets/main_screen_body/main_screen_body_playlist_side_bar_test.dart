@@ -44,10 +44,7 @@ void main() {
     expect(find.byType(MainScreenBodyPlaylistSideBar), findsOneWidget);
     expect(find.byType(ValueListenableBuilder<double>), findsOneWidget);
     expect(
-      find.byWidgetPredicate((w) => (w is Container &&
-          w.constraints?.minWidth == 180 &&
-          w.child is Row &&
-          (w.child as Row).children.length == 2)),
+      find.byWidgetPredicate((w) => (w is Container && w.constraints?.minWidth == 180 && w.child is Row && (w.child as Row).children.length == 2)),
       findsOneWidget,
     );
 
@@ -63,37 +60,28 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is VerticalScrollbar &&
-          w.children.length == PlaylistServiceMock.preConfiguredPlaylists.length)),
+      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length == PlaylistServiceMock.preConfiguredPlaylists.length)),
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding &&
-          w.padding == const EdgeInsets.only(top: 5, bottom: 0) &&
-          w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0) && w.child is IconTextHoverButton)),
       findsNWidgets(PlaylistServiceMock.preConfiguredPlaylists.length - 1),
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding &&
-          w.padding == const EdgeInsets.only(top: 5, bottom: 5) &&
-          w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 5) && w.child is IconTextHoverButton)),
       findsOneWidget,
     );
     for (final playlist in PlaylistServiceMock.preConfiguredPlaylists) {
       expect(
-        find.byWidgetPredicate((w) => (w is IconTextHoverButton &&
-            w.icon == Icons.music_note &&
-            w.iconSize == ImageSizeEnum.small.size + 10 &&
-            w.text == playlist.name)),
+        find.byWidgetPredicate(
+            (w) => (w is IconTextHoverButton && w.icon == Icons.music_note && w.iconSize == ImageSizeEnum.small.size + 10 && w.text == playlist.name)),
         findsOneWidget,
       );
     }
 
     // [_ResizeDivider]
     expect(
-      find.byWidgetPredicate((w) => (w is ResizeDivider &&
-          w.direction == Axis.vertical &&
-          w.padding == const EdgeInsets.only(top: 40, bottom: 15))),
+      find.byWidgetPredicate((w) => (w is ResizeDivider && w.direction == Axis.vertical && w.padding == const EdgeInsets.only(top: 40, bottom: 15))),
       findsOneWidget,
     );
   });

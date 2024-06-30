@@ -16,11 +16,7 @@ void main() {
     expect(find.byType(BaseAppBar), findsOneWidget);
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is AppBar &&
-            w.actions?.length == 1 &&
-            w.title is Row &&
-            (w.title as Row).children.isEmpty,
+        (w) => w is AppBar && w.actions?.length == 1 && w.title is Row && (w.title as Row).children.isEmpty,
       ),
       findsOneWidget,
     );

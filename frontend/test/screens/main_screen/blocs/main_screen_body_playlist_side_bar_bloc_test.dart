@@ -105,12 +105,33 @@ void main() {
       ]),
     );
 
-    when(() => fileSystemHelperMock.createFolderDialogWindow())
-        .thenAnswer((_) async => playlist.path);
+    when(() => fileSystemHelperMock.createFolderDialogWindow()).thenAnswer((_) async => playlist.path);
     when(() => fileSystemHelperMock.createFolder(any())).thenReturn(true);
-    when(() => playlistServiceMock.create(data: any(named: 'data')))
-        .thenAnswer((_) async => playlist);
+    when(() => playlistServiceMock.create(data: any(named: 'data'))).thenAnswer((_) async => playlist);
 
     bloc.add(const CreatePlaylistEvent());
+  });
+
+  test('MainScreenBodyPlaylistSideBarBloc.OpenPlaylistsEvent success case.', () {
+    final bloc = MainScreenBodyPlaylistSideBarBloc();
+    final playlist = Playlist.mock.copyWith(path: path);
+
+    expectLater(
+      bloc.stream,
+      emitsInOrder([
+        const MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.loading,
+        ),
+        MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.completed,
+          snackBarMessage: '${playlist.path} created successfully!',
+        ),
+      ]),
+    );
+
+    when(() => fileSystemHelperMock.openFolderDialogWindow()).thenAnswer((_) async => playlist.path);
+    when(() => playlistServiceMock.create(data: any(named: 'data'))).thenAnswer((_) async => playlist);
+
+    bloc.add(const OpenPlaylistsEvent());
   });
 }

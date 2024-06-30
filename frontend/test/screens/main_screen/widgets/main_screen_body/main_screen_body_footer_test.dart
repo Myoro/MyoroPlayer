@@ -29,9 +29,7 @@ void main() {
     expect(find.byType(MainScreenBodyFooter), findsOneWidget);
 
     expect(
-      find.byWidgetPredicate((w) => (w is Container &&
-          w.padding == const EdgeInsets.symmetric(horizontal: 15) &&
-          w.child is LayoutBuilder)),
+      find.byWidgetPredicate((w) => (w is Container && w.padding == const EdgeInsets.symmetric(horizontal: 15) && w.child is LayoutBuilder)),
       findsOneWidget,
     );
 
@@ -56,10 +54,8 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Icon &&
-          w.icon == Icons.music_note &&
-          w.size == ImageSizeEnum.small.size + 10 &&
-          w.color == DarkModeColorDesignSystem.onBackground)),
+      find.byWidgetPredicate(
+          (w) => (w is Icon && w.icon == Icons.music_note && w.size == ImageSizeEnum.small.size + 10 && w.color == DarkModeColorDesignSystem.onBackground)),
       findsOneWidget,
     );
     expect(
@@ -96,8 +92,7 @@ void main() {
     );
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is Row && w.mainAxisAlignment == MainAxisAlignment.center && w.children.length == 5,
+        (w) => w is Row && w.mainAxisAlignment == MainAxisAlignment.center && w.children.length == 5,
       ),
       findsOneWidget,
     );

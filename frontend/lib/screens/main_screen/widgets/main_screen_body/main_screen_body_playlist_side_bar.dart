@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_state.dart';
@@ -90,9 +91,12 @@ final class _Playlists extends StatelessWidget {
                               icon: Icons.music_note,
                               iconSize: ImageSizeEnum.small.size + 10,
                               text: playlist.name,
-                              // TODO
                               // coverage:ignore-start
-                              onTap: () => debugPrint(playlist.path),
+                              onTap: () => debugPrint(playlist.path), // TODO
+                              onSecondaryTapDown: (details) => MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
+                                context,
+                                details,
+                              ),
                               // coverage:ignore-end
                             ),
                           );

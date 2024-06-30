@@ -33,9 +33,7 @@ void main() {
     );
 
     expect(
-      find.byWidgetPredicate((w) => (w is IconTextHoverButton &&
-          w.icon == Icons.menu &&
-          w.iconSize == ImageSizeEnum.small.size)),
+      find.byWidgetPredicate((w) => (w is IconTextHoverButton && w.icon == Icons.menu && w.iconSize == ImageSizeEnum.small.size)),
       findsOneWidget,
     );
   });

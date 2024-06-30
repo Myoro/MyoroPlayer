@@ -9,12 +9,14 @@ typedef HoverButtonBuilder = Function(bool hovered);
 final class BaseHoverButton extends StatefulWidget {
   final EdgeInsets padding;
   final Function onTap;
+  final Function(TapDownDetails details)? onSecondaryTapDown;
   final HoverButtonBuilder builder;
 
   const BaseHoverButton({
     super.key,
     this.padding = EdgeInsets.zero,
     required this.onTap,
+    this.onSecondaryTapDown,
     required this.builder,
   });
 
@@ -25,6 +27,7 @@ final class BaseHoverButton extends StatefulWidget {
 final class _BaseHoverButtonState extends State<BaseHoverButton> {
   EdgeInsets get _padding => widget.padding;
   Function get _onTap => widget.onTap;
+  Function(TapDownDetails details)? get _onSecondaryTapDown => widget.onSecondaryTapDown;
   HoverButtonBuilder get _builder => widget.builder;
 
   final _hoverNotifier = ValueNotifier<bool>(false);
@@ -42,6 +45,7 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
       splashColor: ColorDesignSystem.transparent,
       highlightColor: ColorDesignSystem.transparent,
       onTap: () => _onTap.call(),
+      onSecondaryTapDown: (details) => _onSecondaryTapDown?.call(details),
       // coverage:ignore-start
       onHover: (value) => _hoverNotifier.value = value,
       // coverage:ignore-end
@@ -53,9 +57,7 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
             decoration: BoxDecoration(
               borderRadius: DecorationDesignSystem.borderRadius,
               // coverage:ignore-start
-              color: hovered
-                  ? ColorDesignSystem.onBackground(context)
-                  : ColorDesignSystem.background(context),
+              color: hovered ? ColorDesignSystem.onBackground(context) : ColorDesignSystem.background(context),
               // coverage:ignore-end
             ),
             child: _builder.call(hovered),

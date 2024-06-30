@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
@@ -8,6 +9,7 @@ import 'package:frontend/shared/widgets/buttons/icon_text_hover_button.dart';
 import '../../../base_test_widget.dart';
 
 void main() {
+  final buttonFinder = find.byType(IconTextHoverButton);
   const icon = Icons.abc;
   final double iconSize = ImageSizeEnum.small.size;
   const text = 'Text';
@@ -21,14 +23,13 @@ void main() {
           iconSize: iconSize,
           text: text,
           onTap: () => print('IconTextHoverButton [onTap] working.'),
+          onSecondaryTapDown: (_) => print('IconTextHoverButton [onSecondaryTapDown] working.'),
         ),
       ),
     );
 
-    expect(find.byType(IconTextHoverButton), findsOneWidget);
-    expect(
-        find.byWidgetPredicate((w) => w is BaseHoverButton && w.padding == const EdgeInsets.all(3)),
-        findsOneWidget);
+    expect(buttonFinder, findsOneWidget);
+    expect(find.byWidgetPredicate((w) => w is BaseHoverButton && w.padding == const EdgeInsets.all(3)), findsOneWidget);
     expect(
       find.byWidgetPredicate((w) => (w is Row &&
           w.children.length == 3 &&
@@ -40,11 +41,7 @@ void main() {
     );
     expect(
       find.byWidgetPredicate(
-        (w) =>
-            w is Icon &&
-            w.icon == Icons.abc &&
-            w.size == iconSize &&
-            w.color == DarkModeColorDesignSystem.onBackground,
+        (w) => w is Icon && w.icon == Icons.abc && w.size == iconSize && w.color == DarkModeColorDesignSystem.onBackground,
       ),
       findsOneWidget,
     );
@@ -57,6 +54,7 @@ void main() {
       findsOneWidget,
     );
 
-    await tester.tap(find.byType(IconTextHoverButton));
+    await tester.tap(buttonFinder);
+    await tester.tap(buttonFinder, buttons: kSecondaryButton);
   });
 }

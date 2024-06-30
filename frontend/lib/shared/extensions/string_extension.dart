@@ -20,5 +20,5 @@ extension StringExtension on String {
   }
 
   /// Checks if the [String] exists on the device
-  bool get pathExists => File(this).existsSync();
+  bool get folderExists => Directory(this).existsSync();
 }

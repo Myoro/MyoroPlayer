@@ -17,6 +17,6 @@ void main() {
   });
 
   test('StringExtension.pathExists', () async {
-    expect(validPath.pathExists, isFalse);
+    expect(validPath.folderExists, isFalse);
   });
 }

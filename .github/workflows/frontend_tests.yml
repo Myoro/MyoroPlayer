@@ -50,7 +50,7 @@ jobs:
           timeout_minutes: 5
           retry_wait_seconds: 5
           max_attempts: 2
-          command: cd frontend && dart format --line-length 100 -o none --set-exit-if-changed .
+          command: cd frontend && dart format --line-length 160 -o none --set-exit-if-changed .
 
       - name: Run widget, unit, & line coverage tests
         uses: nick-fields/retry@v2
