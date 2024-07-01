@@ -39,7 +39,7 @@ final class ContextMenuHelper {
         (item) {
           return PopupMenuItem(
             value: item.text,
-            onTap: item.onTap,
+            onTap: () => item.onTap.call(context),
             child: Wrap(
               spacing: 10,
               crossAxisAlignment: WrapCrossAlignment.center,

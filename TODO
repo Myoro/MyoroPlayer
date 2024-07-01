@@ -2,8 +2,21 @@
 
 1. Playlist context menu
 
+- (**TODO**) Implement `BaseForm` then implement that within `BaseModal`
+- Implement key and form thing with inputs
+
 1. Generate a wiki on the github page for documenting stuff
 
 - Talk about how // coverage:ignore-start/end is because of this being tested in integration tests and not covering helper lines
 
-1. `dart doc`
+1. `dart doc` & add stack traces to errors
+
+## TESTS
+
+1. Create `base_modal_test.dart`
+2. Create `rename_playlist_modal_test.dart`
+3. Create `outline_input_test.dart`
+4. Create `underline_input_test.dart`
+5. Create `base_form_test.dart`
+6. Create `base_form_bloc_test.dart`
+7. Create `base_form_controller_test.dart`

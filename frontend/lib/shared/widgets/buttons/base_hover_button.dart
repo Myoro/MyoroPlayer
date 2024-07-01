@@ -8,6 +8,7 @@ typedef HoverButtonBuilder = Function(bool hovered);
 /// Used for making a hover button with any type of widget inside (unlike [IconTextHoverButton] for example)
 final class BaseHoverButton extends StatefulWidget {
   final EdgeInsets padding;
+  final bool bordered;
   final Function onTap;
   final Function(TapDownDetails details)? onSecondaryTapDown;
   final HoverButtonBuilder builder;
@@ -15,6 +16,7 @@ final class BaseHoverButton extends StatefulWidget {
   const BaseHoverButton({
     super.key,
     this.padding = EdgeInsets.zero,
+    this.bordered = false,
     required this.onTap,
     this.onSecondaryTapDown,
     required this.builder,
@@ -26,6 +28,7 @@ final class BaseHoverButton extends StatefulWidget {
 
 final class _BaseHoverButtonState extends State<BaseHoverButton> {
   EdgeInsets get _padding => widget.padding;
+  bool get _bordered => widget.bordered;
   Function get _onTap => widget.onTap;
   Function(TapDownDetails details)? get _onSecondaryTapDown => widget.onSecondaryTapDown;
   HoverButtonBuilder get _builder => widget.builder;
@@ -40,6 +43,8 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
 
   @override
   Widget build(BuildContext context) {
+    final Color onBackground = ColorDesignSystem.onBackground(context);
+
     return InkWell(
       hoverColor: ColorDesignSystem.transparent,
       splashColor: ColorDesignSystem.transparent,
@@ -56,8 +61,12 @@ final class _BaseHoverButtonState extends State<BaseHoverButton> {
             padding: _padding,
             decoration: BoxDecoration(
               borderRadius: DecorationDesignSystem.borderRadius,
+              border: Border.all(
+                width: _bordered ? 2 : 0,
+                color: _bordered ? onBackground : ColorDesignSystem.transparent,
+              ),
               // coverage:ignore-start
-              color: hovered ? ColorDesignSystem.onBackground(context) : ColorDesignSystem.background(context),
+              color: hovered ? onBackground : ColorDesignSystem.background(context),
               // coverage:ignore-end
             ),
             child: _builder.call(hovered),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/helpers/context_menu_helper.dart';
 import 'package:frontend/shared/models/context_menu_item.dart';
+import 'package:frontend/shared/widgets/modals/rename_playlist_modal.dart';
 
 enum MainScreenBodyPlaylistSideBarContextMenuEnum {
   renamePlaylist(
@@ -26,13 +27,18 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
   const MainScreenBodyPlaylistSideBarContextMenuEnum(this.icon, this.text);
 
   // coverage:ignore-start
-  void onTap() {
-    return switch (this) {
-      MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist => print('Rename playlist'),
-      MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage => print('Set image'),
-      MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer => print('Delete MP'),
-      MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer => print('Delete computer'),
-    };
+  void onTap(BuildContext context) {
+    switch (this) {
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist:
+        RenamePlaylistModal.show(context);
+        break;
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage: // TODO
+        throw UnimplementedError();
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer: // TODO
+        throw UnimplementedError();
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer: // TODO
+        throw UnimplementedError();
+    }
   }
   // coverage:ignore-end
 

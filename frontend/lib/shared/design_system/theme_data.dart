@@ -96,5 +96,11 @@ ThemeData createTheme(bool isDarkMode) {
       overlayShape: SliderComponentShape.noOverlay,
       overlayColor: ColorDesignSystem.transparent,
     ),
+    // For [BaseInput]
+    textSelectionTheme: TextSelectionThemeData(
+      cursorColor: onBackground,
+      selectionColor: onBackground.withOpacity(0.3),
+      selectionHandleColor: onBackground,
+    ),
   );
 }

@@ -10,7 +10,9 @@ final class IconTextHoverButton extends StatelessWidget {
   final double? iconSize;
   final String? text;
   final TextStyle? textStyle;
+  final TextAlign textAlign;
   final EdgeInsets? padding;
+  final bool bordered;
   final Function onTap;
   final Function(TapDownDetails details)? onSecondaryTapDown;
 
@@ -20,7 +22,9 @@ final class IconTextHoverButton extends StatelessWidget {
     this.iconSize,
     this.text,
     this.textStyle,
+    this.textAlign = TextAlign.left,
     this.padding,
+    this.bordered = false,
     required this.onTap,
     this.onSecondaryTapDown,
   }) : assert(
@@ -32,6 +36,7 @@ final class IconTextHoverButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BaseHoverButton(
       padding: padding ?? const EdgeInsets.all(3),
+      bordered: bordered,
       onTap: onTap,
       onSecondaryTapDown: onSecondaryTapDown,
       builder: (hovered) {
@@ -54,6 +59,7 @@ final class IconTextHoverButton extends StatelessWidget {
                   text!,
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
+                  textAlign: textAlign,
                   style: (textStyle ?? context.textTheme.bodyMedium)?.withColor(
                     contentColor,
                   ),
