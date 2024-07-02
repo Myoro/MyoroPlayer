@@ -10,11 +10,7 @@
 
 ## TESTS
 
-1. Create `base_modal_test.dart`
-2. Create `rename_playlist_modal_test.dart`
-3. Create `outline_input_test.dart`
-4. Create `underline_input_test.dart`
-5. Create `base_form_test.dart`
-6. Create `base_form_bloc_test.dart`
-7. Create `base_form_controller_test.dart`
-8. Create `model_resolver_controller_test.dart`
+1. Create `base_form_test.dart`
+2. Create `base_form_bloc_test.dart`
+3. Create `base_form_controller_test.dart`
+4. Create `model_resolver_controller_test.dart`

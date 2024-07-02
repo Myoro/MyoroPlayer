@@ -1,26 +1,25 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:frontend/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
 import 'package:frontend/shared/models/playlist.dart';
+import 'package:frontend/shared/widgets/inputs/outline_input.dart';
+import 'package:frontend/shared/widgets/modals/rename_playlist_modal.dart';
 
 import '../../../base_test_widget.dart';
 
 void main() {
   const key = Key('');
 
-  testWidgets('MainScreenBodyPlaylistSideBarContextMenuEnum widget test.', (tester) async {
+  testWidgets('RenamePlaylistModal widget test.', (tester) async {
     await tester.pumpWidget(
       BaseTestWidget(
         child: Builder(
           builder: (context) {
             return GestureDetector(
               key: key,
-              onSecondaryTapDown: (details) {
-                MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
+              onTap: () {
+                RenamePlaylistModal.show(
                   context,
-                  details,
                   Playlist.mock,
                   ModelResolverController<List<Playlist>>(),
                 );
@@ -31,12 +30,15 @@ void main() {
       ),
     );
 
-    await tester.tap(find.byKey(key), buttons: kSecondaryButton);
+    await tester.tap(find.byKey(key));
     await tester.pump();
 
-    for (final value in MainScreenBodyPlaylistSideBarContextMenuEnum.values) {
-      expect(find.byIcon(value.icon), findsOneWidget);
-      expect(find.text(value.text), findsOneWidget);
-    }
+    expect(find.byType(RenamePlaylistModal), findsOneWidget);
+    expect(
+      find.byWidgetPredicate(
+        (w) => w is Column && w.children.length == 1 && w.children.first is OutlineInput,
+      ),
+      findsOneWidget,
+    );
   });
 }
