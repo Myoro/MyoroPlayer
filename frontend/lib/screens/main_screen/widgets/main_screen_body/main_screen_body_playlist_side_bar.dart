@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
+import 'package:frontend/shared/controllers/model_resolver_controller.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_state.dart';
@@ -61,8 +62,15 @@ class _MainScreenBodyPlaylistSideBarState extends State<MainScreenBodyPlaylistSi
   }
 }
 
-final class _Playlists extends StatelessWidget {
+final class _Playlists extends StatefulWidget {
   const _Playlists();
+
+  @override
+  State<_Playlists> createState() => _PlaylistsState();
+}
+
+class _PlaylistsState extends State<_Playlists> {
+  final _playlistResolverController = ModelResolverController<List<Playlist>>();
 
   @override
   Widget build(BuildContext context) {
@@ -77,6 +85,7 @@ final class _Playlists extends StatelessWidget {
               const UnderlineHeader(header: 'Playlists'),
               Expanded(
                 child: ModelResolver<List<Playlist>>(
+                  controller: _playlistResolverController,
                   request: () async => await KiwiContainer().resolve<PlaylistService>().select(),
                   builder: (context, List<Playlist>? playlists) {
                     return VerticalScrollbar(
@@ -96,6 +105,8 @@ final class _Playlists extends StatelessWidget {
                               onSecondaryTapDown: (details) => MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
                                 context,
                                 details,
+                                playlist,
+                                _playlistResolverController,
                               ),
                               // coverage:ignore-end
                             ),
@@ -127,7 +138,6 @@ final class _Playlists extends StatelessWidget {
           );
     }
   }
-  // coverage:ignore-end
 }
 
 final class _ResizeDivider extends StatelessWidget {

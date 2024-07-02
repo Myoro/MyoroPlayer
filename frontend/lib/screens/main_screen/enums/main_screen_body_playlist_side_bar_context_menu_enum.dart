@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:frontend/shared/controllers/model_resolver_controller.dart';
 import 'package:frontend/shared/helpers/context_menu_helper.dart';
 import 'package:frontend/shared/models/context_menu_item.dart';
+import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/widgets/modals/rename_playlist_modal.dart';
 
 enum MainScreenBodyPlaylistSideBarContextMenuEnum {
@@ -27,10 +29,14 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
   const MainScreenBodyPlaylistSideBarContextMenuEnum(this.icon, this.text);
 
   // coverage:ignore-start
-  void onTap(BuildContext context) {
+  void onTap(
+    BuildContext context,
+    Playlist playlist,
+    ModelResolverController<List<Playlist>> playlistResolverController,
+  ) {
     switch (this) {
       case MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist:
-        RenamePlaylistModal.show(context);
+        RenamePlaylistModal.show(context, playlist, playlistResolverController);
         break;
       case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage: // TODO
         throw UnimplementedError();
@@ -42,7 +48,12 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
   }
   // coverage:ignore-end
 
-  static void showContextMenu(BuildContext context, TapDownDetails details) {
+  static void showContextMenu(
+    BuildContext context,
+    TapDownDetails details,
+    Playlist playlist,
+    ModelResolverController<List<Playlist>> playlistResolverController,
+  ) {
     ContextMenuHelper.show(
       context,
       details,
@@ -52,7 +63,11 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
           return ContextMenuItem(
             icon: value.icon,
             text: value.text,
-            onTap: value.onTap,
+            onTap: (context) => value.onTap.call(
+              context,
+              playlist,
+              playlistResolverController,
+            ),
           );
         },
       ).toList(),

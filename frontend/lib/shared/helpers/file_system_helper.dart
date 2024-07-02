@@ -4,6 +4,8 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:frontend/shared/helpers/platform_helper.dart';
+import 'package:path/path.dart';
 
 /// Used for any operation regarding the file system
 ///
@@ -29,12 +31,39 @@ class FileSystemHelper {
       Directory(path).createSync();
 
       return true;
-    } catch (error) {
+    } catch (error, stackTrace) {
       if (kDebugMode) {
         print('[FileSystemHelper.createFolder]: Error creating folder: "$error".');
+        print('Stack trace:\n$stackTrace');
       }
 
       return false;
+    }
+  }
+
+  /// Returns if the new path if the operation was successful
+  String? renameFolder(String path, String newName) {
+    try {
+      final newFolder = Directory(path).renameSync(
+        join(
+          path.substring(
+            0,
+            path.indexOf(
+              path.split(PlatformHelper.isWindows ? '\\' : '/').last,
+            ),
+          ),
+          newName,
+        ),
+      );
+
+      return newFolder.path;
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        print('[FileSystemHelper.renameFolder]: Error renaming folder: "$error".');
+        print('Stack trace:\n$stackTrace');
+      }
+
+      return null;
     }
   }
 }

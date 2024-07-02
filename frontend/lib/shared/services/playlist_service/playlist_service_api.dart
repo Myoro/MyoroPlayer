@@ -1,13 +1,16 @@
 import 'package:frontend/shared/database.dart';
 import 'package:frontend/shared/extensions/string_extension.dart';
+import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/conditions.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
+import 'package:kiwi/kiwi.dart';
 
 final class PlaylistServiceApi implements PlaylistService {
   final Database database;
+  final _fileSystemHelper = KiwiContainer().resolve<FileSystemHelper>();
 
-  const PlaylistServiceApi(this.database);
+  PlaylistServiceApi(this.database);
 
   @override
   Future<Playlist?> create({required Map<String, dynamic> data}) async {
@@ -68,5 +71,28 @@ final class PlaylistServiceApi implements PlaylistService {
   Future<void> delete({required int id}) {
     // TODO: implement delete
     throw UnimplementedError();
+  }
+
+  @override
+  Future<Playlist> renamePlaylist({required Playlist playlist, required String newName}) async {
+    final newPath = _fileSystemHelper.renameFolder(playlist.path, newName);
+
+    await database.update(
+      Database.playlistsTableName,
+      data: {
+        Playlist.nameJsonKey: newName,
+        Playlist.pathJsonKey: newPath,
+      },
+      conditions: Conditions({
+        Playlist.idJsonKey: playlist.id,
+      }),
+    );
+
+    final row = await database.get(
+      Database.playlistsTableName,
+      conditions: Conditions({Playlist.idJsonKey: playlist.id}),
+    );
+
+    return Playlist.fromJson(row!);
   }
 }

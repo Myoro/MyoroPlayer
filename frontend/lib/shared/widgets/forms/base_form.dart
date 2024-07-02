@@ -13,7 +13,7 @@ typedef BaseFormBuilder = Widget Function(BuildContext context);
 
 /// This widget must be used in EVERY form in MyoroPlayer
 final class BaseForm<T> extends StatefulWidget {
-  final BaseFormController controller;
+  final BaseFormController<T> controller;
   final BaseFormValidationCallback? validationCallback;
   final BaseFormRequestCallback<T> requestCallback;
   final BaseFormOnSuccessCallback<T> onSuccessCallback;
@@ -35,7 +35,7 @@ final class BaseForm<T> extends StatefulWidget {
 }
 
 class _BaseFormState<T> extends State<BaseForm<T>> {
-  BaseFormController get _controller => widget.controller;
+  BaseFormController<T> get _controller => widget.controller;
   BaseFormValidationCallback? get _validationCallback => widget.validationCallback;
   BaseFormRequestCallback<T> get _requestCallback => widget.requestCallback;
   BaseFormOnSuccessCallback<T> get _onSuccessCallback => widget.onSuccessCallback;
@@ -64,7 +64,7 @@ class _BaseFormState<T> extends State<BaseForm<T>> {
   Widget build(BuildContext context) {
     return BlocProvider.value(
       value: _bloc,
-      child: BlocListener<BaseFormBloc, BaseFormState>(
+      child: BlocListener<BaseFormBloc<T>, BaseFormState>(
         listener: (context, state) {
           if (state.status == BlocStatusEnum.completed) {
             _onSuccessCallback.call(state.model);
@@ -72,7 +72,10 @@ class _BaseFormState<T> extends State<BaseForm<T>> {
             _onErrorCallback?.call(state.errorMessage!);
           }
         },
-        child: _builder.call(context),
+        child: Form(
+          key: _controller.formKey,
+          child: _builder.call(context),
+        ),
       ),
     );
   }

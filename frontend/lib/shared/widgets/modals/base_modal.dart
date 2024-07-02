@@ -61,6 +61,7 @@ final class BaseModal<T> extends StatefulWidget {
   }) {
     showDialog(
       context: context,
+      barrierDismissible: false,
       builder: (context) {
         return BaseModal<T>._(
           validationCallback: validationCallback,
@@ -86,7 +87,7 @@ class _BaseModalState<T> extends State<BaseModal<T>> {
   String? get _title => widget.title;
   Widget get _child => widget.child;
 
-  final _formController = BaseFormController();
+  final _formController = BaseFormController<T>();
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,7 @@ class _BaseModalState<T> extends State<BaseModal<T>> {
                 maxWidth: 350,
                 maxHeight: constraints.maxHeight - 100,
               ),
-              child: BaseForm(
+              child: BaseForm<T>(
                 controller: _formController,
                 validationCallback: _validationCallback,
                 requestCallback: _requestCallback ?? () => null,
