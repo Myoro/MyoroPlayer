@@ -3,9 +3,8 @@ import 'package:frontend/shared/extensions/string_extension.dart';
 import 'package:frontend/shared/helpers/platform_helper.dart';
 
 void main() {
-  final slash = PlatformHelper.isWindows ? '\\' : '/';
-  final validPath = '${slash}directory${slash}name';
-  final invalidPath = '$slash***\\weqw$slash\$%|';
+  final validPath = '${PlatformHelper.slash}directory${PlatformHelper.slash}name';
+  final invalidPath = '${PlatformHelper.slash}***\\weqw${PlatformHelper.slash}\$%|';
 
   test('StringExtension.getNameFromPath', () {
     expect(validPath.pathName, 'name');

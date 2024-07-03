@@ -1,5 +1,3 @@
-// coverage:ignore-file
-
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/decoration_design_system.dart';

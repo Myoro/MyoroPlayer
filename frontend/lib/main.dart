@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/shared/helpers/device_helper.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen.dart';
@@ -8,7 +9,6 @@ import 'package:frontend/shared/database.dart';
 import 'package:frontend/shared/design_system/theme_data.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/helpers/platform_helper.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/models/user_preferences.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service_api.dart';
@@ -32,9 +32,9 @@ void main() async {
 
   /// KiwiContainer initialization
   KiwiContainer()
-    ..registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database))
     ..registerFactory<FileSystemHelper>((c) => FileSystemHelper())
-    ..registerFactory<SnackBarHelper>((c) => SnackBarHelper())
+    ..registerFactory<DeviceHelper>((c) => DeviceHelper())
+    ..registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database))
     ..registerFactory<PlaylistService>((c) => PlaylistServiceApi(database));
 
   /// User preference initialization for it's cubit

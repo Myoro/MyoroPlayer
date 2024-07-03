@@ -130,15 +130,15 @@ class _PlaylistsState extends State<_Playlists> {
   // coverage:ignore-start
   void _handleSnackBars(BuildContext context, MainScreenBodyPlaylistSideBarState state) {
     if (state.status == BlocStatusEnum.error) {
-      KiwiContainer().resolve<SnackBarHelper>().showErrorSnackBar(
-            context,
-            state.snackBarMessage!,
-          );
+      SnackBarHelper.showErrorSnackBar(
+        context,
+        state.snackBarMessage!,
+      );
     } else if (state.status == BlocStatusEnum.completed) {
-      KiwiContainer().resolve<SnackBarHelper>().showDialogSnackBar(
-            context,
-            state.snackBarMessage!,
-          );
+      SnackBarHelper.showDialogSnackBar(
+        context,
+        state.snackBarMessage!,
+      );
     }
   }
   // coverage:ignore-end

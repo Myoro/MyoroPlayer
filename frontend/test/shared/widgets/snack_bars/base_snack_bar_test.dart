@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/decoration_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
@@ -11,11 +10,7 @@ import 'package:frontend/shared/widgets/buttons/no_feedback_button.dart';
 import '../../../base_test_widget.dart';
 
 void main() {
-  final kiwiContainer = KiwiContainer();
   const key = Key('');
-
-  setUp(() => kiwiContainer.registerFactory<SnackBarHelper>((_) => SnackBarHelper()));
-  tearDown(() => kiwiContainer.clear());
 
   void expectCalls(SnackBarTypeEnum snackBarType) {
     expect(
@@ -77,10 +72,10 @@ void main() {
           builder: (context) {
             return GestureDetector(
               key: key,
-              onTap: () => kiwiContainer.resolve<SnackBarHelper>().showDialogSnackBar(
-                    context,
-                    'Dialog snackbar',
-                  ),
+              onTap: () => SnackBarHelper.showDialogSnackBar(
+                context,
+                'Dialog snackbar',
+              ),
             );
           },
         ),
@@ -101,10 +96,10 @@ void main() {
           builder: (context) {
             return GestureDetector(
               key: key,
-              onTap: () => kiwiContainer.resolve<SnackBarHelper>().showErrorSnackBar(
-                    context,
-                    'Error snackbar',
-                  ),
+              onTap: () => SnackBarHelper.showErrorSnackBar(
+                context,
+                'Error snackbar',
+              ),
             );
           },
         ),

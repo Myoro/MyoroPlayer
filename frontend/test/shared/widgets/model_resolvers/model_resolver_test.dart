@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:kiwi/kiwi.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/widgets/loading/loading_circle.dart';
 import 'package:frontend/shared/widgets/model_resolvers/model_resolver.dart';
 
@@ -25,11 +23,6 @@ void main() {
     await tester.pump();
     expect(find.byWidgetPredicate((w) => w is Text && w.data == text), findsOneWidget);
   });
-
-  final kiwiContainer = KiwiContainer();
-
-  setUp(() => kiwiContainer.registerFactory<SnackBarHelper>((_) => SnackBarHelper()));
-  tearDown(() => kiwiContainer.clear());
 
   testWidgets('Faulty request ModelResolver widget test.', (tester) async {
     await tester.pumpWidget(

@@ -1,13 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_event.dart';
 import 'package:frontend/shared/blocs/user_preferences_cubit.dart';
+import 'package:frontend/shared/helpers/device_helper.dart';
+import 'package:kiwi/kiwi.dart';
 
 enum MainScreenAppBarDrawerItemsEnum {
-  openPlaylists(
+  openPlaylist(
     Icons.folder_open,
     'Open playlist(s)',
   ),
@@ -33,19 +33,17 @@ enum MainScreenAppBarDrawerItemsEnum {
 
   const MainScreenAppBarDrawerItemsEnum(this.icon, this.text);
 
-  // coverage:ignore-start
   void callback(BuildContext context) {
     final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<MainScreenBodyPlaylistSideBarBloc>(
       context,
     );
 
     return switch (this) {
-      MainScreenAppBarDrawerItemsEnum.openPlaylists => mainScreenBodyPlaylistSideBarBloc.add(const OpenPlaylistsEvent()),
+      MainScreenAppBarDrawerItemsEnum.openPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const OpenPlaylistsEvent()),
       MainScreenAppBarDrawerItemsEnum.createPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const CreatePlaylistEvent()),
       MainScreenAppBarDrawerItemsEnum.loginSignup => print('Login/signup'),
       MainScreenAppBarDrawerItemsEnum.toggleTheme => BlocProvider.of<UserPreferencesCubit>(context).toggleTheme(),
-      MainScreenAppBarDrawerItemsEnum.quit => exit(0),
+      MainScreenAppBarDrawerItemsEnum.quit => KiwiContainer().resolve<DeviceHelper>().quit(),
     };
   }
-  // coverage:ignore-end
 }

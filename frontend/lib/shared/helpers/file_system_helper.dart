@@ -49,7 +49,7 @@ class FileSystemHelper {
           path.substring(
             0,
             path.indexOf(
-              path.split(PlatformHelper.isWindows ? '\\' : '/').last,
+              path.split(PlatformHelper.slash).last,
             ),
           ),
           newName,

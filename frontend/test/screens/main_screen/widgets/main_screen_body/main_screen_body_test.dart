@@ -8,7 +8,6 @@ import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_scree
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/widgets/dividers/basic_divider.dart';
 
@@ -21,7 +20,6 @@ void main() {
 
   setUp(() {
     kiwiContainer
-      ..registerFactory<SnackBarHelper>((_) => SnackBarHelper())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
   });

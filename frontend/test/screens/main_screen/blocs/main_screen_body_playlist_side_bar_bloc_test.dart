@@ -17,7 +17,7 @@ void main() {
   final kiwiContainer = KiwiContainer();
   final FileSystemHelper fileSystemHelperMock = FileSystemHelperMock();
   final PlaylistService playlistServiceMock = PlaylistServiceMock();
-  final path = '${PlatformHelper.isWindows ? '\\' : '/'}Name';
+  final path = '${PlatformHelper.slash}Name';
 
   setUpAll(() {
     kiwiContainer

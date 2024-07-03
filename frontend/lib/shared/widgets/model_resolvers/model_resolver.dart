@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_bloc.dart';
 import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_event.dart';
 import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_state.dart';
@@ -74,9 +73,9 @@ class _ModelResolverState<T> extends State<ModelResolver<T>> {
   void _handleSnackBars(BuildContext context, ModelResolverState<T> state) {
     if (state.status != BlocStatusEnum.error) return;
 
-    KiwiContainer().resolve<SnackBarHelper>().showErrorSnackBar(
-          context,
-          state.snackBarMessage!,
-        );
+    SnackBarHelper.showErrorSnackBar(
+      context,
+      state.snackBarMessage!,
+    );
   }
 }

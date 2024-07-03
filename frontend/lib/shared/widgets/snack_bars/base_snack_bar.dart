@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:kiwi/kiwi.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/decoration_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
@@ -66,7 +65,7 @@ final class _SnackBar extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             NoFeedbackButton(
-              onTap: () => KiwiContainer().resolve<SnackBarHelper>().closeSnackBar(context),
+              onTap: () => SnackBarHelper.closeSnackBar(context),
               child: Icon(
                 Icons.close,
                 size: ImageSizeEnum.small.size - 10,

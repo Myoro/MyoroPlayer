@@ -31,10 +31,10 @@ final class RenamePlaylistModal extends StatefulWidget {
       onSuccessCallback: (Playlist? model) {
         playlistResolverController.refresh();
 
-        KiwiContainer().resolve<SnackBarHelper>().showDialogSnackBar(
-              context,
-              'Playlist renamed successfully!',
-            );
+        SnackBarHelper.showDialogSnackBar(
+          context,
+          'Playlist renamed successfully!',
+        );
       },
       title: 'Rename playlist',
       child: RenamePlaylistModal._(

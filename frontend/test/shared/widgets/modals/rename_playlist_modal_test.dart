@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_bloc.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/widgets/inputs/outline_input.dart';
@@ -19,10 +18,7 @@ void main() {
   final modelResolverBloc = ModelResolverBloc<List<Playlist>>();
 
   setUpAll(() {
-    kiwiContainer
-      ..registerFactory<SnackBarHelper>((_) => SnackBarHelper())
-      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
-
+    kiwiContainer.registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
     modelResolverController.bloc = modelResolverBloc;
     modelResolverController.request = () async => PlaylistServiceMock.preConfiguredPlaylists;
   });

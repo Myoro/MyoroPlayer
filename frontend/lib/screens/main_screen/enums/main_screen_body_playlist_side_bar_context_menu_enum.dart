@@ -28,7 +28,6 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
 
   const MainScreenBodyPlaylistSideBarContextMenuEnum(this.icon, this.text);
 
-  // coverage:ignore-start
   void onTap(
     BuildContext context,
     Playlist playlist,
@@ -46,7 +45,6 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
         throw UnimplementedError();
     }
   }
-  // coverage:ignore-end
 
   static void showContextMenu(
     BuildContext context,
@@ -63,13 +61,11 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
           return ContextMenuItem(
             icon: value.icon,
             text: value.text,
-            // coverage:ignore-start
             onTap: (context) => value.onTap.call(
               context,
               playlist,
               playlistResolverController,
             ),
-            // coverage:ignore-end
           );
         },
       ).toList(),
