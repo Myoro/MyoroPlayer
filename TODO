@@ -2,13 +2,6 @@
 
 1. Playlist context menu
 
-1. Generate a wiki on the github page for documenting stuff
-
-1a. When to use // coverage:ignore-[start/end]
-
-- Hover cases
-- Cases that should be covered in integration tests (logic relying on multi-widget testing or are untestable, i.e. (Complex snack bar BloCs, non-final helpers, etc))
-
 1. `dart doc`
 
 ## TESTS
