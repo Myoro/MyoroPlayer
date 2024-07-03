@@ -98,5 +98,7 @@ void main() {
       find.byWidgetPredicate((w) => w is Text && w.data == '420:00'),
       findsNWidgets(50),
     );
+
+    await tester.tap(find.byType(BaseHoverButton).first);
   });
 }

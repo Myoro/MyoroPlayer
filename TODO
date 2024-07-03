@@ -4,13 +4,13 @@
 
 1. Generate a wiki on the github page for documenting stuff
 
-- Talk about how // coverage:ignore-start/end is because of this being tested in integration tests and not covering helper lines
+1a. When to use // coverage:ignore-[start/end]
+
+- Hover cases
+- Cases that should be covered in integration tests (logic relying on multi-widget testing, i.e. (Enums with multiple options, complex snack bar BloCs, etc))
 
 1. `dart doc` & add stack traces to errors
 
 ## TESTS
 
-1. Create `base_form_test.dart`
-2. Create `base_form_bloc_test.dart`
-3. Create `base_form_controller_test.dart`
-4. Create `model_resolver_controller_test.dart`
+1. Line coverage (**REMOVE ALL COVERAGE:IGNORE-START**)

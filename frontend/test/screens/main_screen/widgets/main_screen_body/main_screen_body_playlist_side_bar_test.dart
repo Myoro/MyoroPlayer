@@ -1,3 +1,4 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -84,5 +85,19 @@ void main() {
       find.byWidgetPredicate((w) => (w is ResizeDivider && w.direction == Axis.vertical && w.padding == const EdgeInsets.only(top: 40, bottom: 15))),
       findsOneWidget,
     );
+
+    // Test functionalities of the widget
+    await tester.drag(find.byType(ResizeDivider), const Offset(50, 0));
+    final playlistFinder = find
+        .byWidgetPredicate(
+          (w) => w is IconTextHoverButton && w.icon == Icons.music_note,
+        )
+        .first;
+    await tester.tap(playlistFinder);
+    await tester.tap(playlistFinder, buttons: kSecondaryButton);
+    await tester.pump();
+
+    // The [Playlist] context menu
+    expect(find.byType(PopupMenuItem<dynamic>), findsAtLeastNWidgets(1));
   });
 }

@@ -37,14 +37,14 @@ final class BaseFormBloc<T> extends Bloc<BaseFormEvent, BaseFormState> {
         );
       } catch (error, stackTrace) {
         if (kDebugMode) {
-          print('[BaseFormBloc.FinishFormEvent]: Error executing [requestCallback]: "$error"');
+          print('[BaseFormBloc.FinishFormEvent]: Error executing [requestCallback]: "$error".');
           print('Stack trace:\n$stackTrace');
         }
 
         emit(
           state.copyWith(
             status: BlocStatusEnum.error,
-            errorMessage: 'Error executing request.',
+            errorMessage: 'Error executing request: "$error".',
           ),
         );
       }

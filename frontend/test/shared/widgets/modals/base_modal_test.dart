@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
@@ -14,33 +15,50 @@ void main() {
   const title = 'BaseModal Title';
   const childText = 'BaseModal child';
 
-  testWidgets('BaseModal widget test.', (tester) async {
-    await tester.pumpWidget(
-      BaseTestWidget(
-        themeMode: ThemeMode.dark,
-        child: Builder(
-          builder: (context) {
-            return GestureDetector(
-              key: key,
-              onTap: () {
-                BaseModal.show(
-                  context,
-                  title: title,
-                  child: const Text(
-                    childText,
-                  ),
-                );
-              },
-            );
-          },
-        ),
+  void show(BuildContext context, [bool returnValidationError = false]) {
+    BaseModal.show<String>(
+      context,
+      validationCallback: () => returnValidationError ? '' : null,
+      requestCallback: () async => 'Response',
+      onSuccessCallback: (String? result) {
+        if (kDebugMode) {
+          print('[onSuccessCallback]: result: "$result"');
+        }
+      },
+      onErrorCallback: (String error) {
+        if (kDebugMode) {
+          print('[onErrorCallback]: error: "$error"');
+        }
+      },
+      title: title,
+      child: const Text(
+        childText,
       ),
     );
+  }
 
+  Widget widget({bool returnValidationError = false}) {
+    return BaseTestWidget(
+      themeMode: ThemeMode.dark,
+      child: Builder(
+        builder: (context) {
+          return GestureDetector(
+            key: key,
+            onTap: () => show(
+              context,
+              returnValidationError,
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  Future<void> expectCalls(WidgetTester tester) async {
     await tester.tap(find.byKey(key));
     await tester.pump();
 
-    expect(find.byType(BaseModal), findsOneWidget);
+    expect(find.byType(BaseModal<String>), findsOneWidget);
 
     // Wrapper
     expect(find.byType(LayoutBuilder), findsOneWidget);
@@ -127,5 +145,29 @@ void main() {
         findsOneWidget,
       );
     }
+  }
+
+  testWidgets('BaseModal close text button case widget test.', (tester) async {
+    await tester.pumpWidget(widget());
+    await expectCalls(tester);
+    await tester.tap(find.text('Cancel'));
+  });
+
+  testWidgets('BaseModal close icon button case widget test.', (tester) async {
+    await tester.pumpWidget(widget());
+    await expectCalls(tester);
+    await tester.tap(find.byIcon(Icons.close));
+  });
+
+  testWidgets('BaseModal confirm text button error case widget test.', (tester) async {
+    await tester.pumpWidget(widget(returnValidationError: true));
+    await expectCalls(tester);
+    await tester.tap(find.text('Confirm'));
+  });
+
+  testWidgets('BaseModal confirm text button success case widget test.', (tester) async {
+    await tester.pumpWidget(widget());
+    await expectCalls(tester);
+    await tester.tap(find.text('Confirm'));
   });
 }

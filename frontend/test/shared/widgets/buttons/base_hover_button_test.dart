@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -16,8 +17,17 @@ void main() {
       BaseTestWidget(
         themeMode: ThemeMode.dark,
         child: BaseHoverButton(
-          onTap: () => print('BaseHoverButton [onTap] working.'),
-          onSecondaryTapDown: (_) => print('BaseHoverButton [onSecondaryTapDown] working.'),
+          bordered: true,
+          onTap: () {
+            if (kDebugMode) {
+              print('BaseHoverButton [onTap] working.');
+            }
+          },
+          onSecondaryTapDown: (_) {
+            if (kDebugMode) {
+              print('BaseHoverButton [onSecondaryTapDown] working.');
+            }
+          },
           builder: (_) {
             return const Text(text);
           },
@@ -35,16 +45,19 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) =>
-          (w is Container &&
-              w.padding == EdgeInsets.zero &&
-              w.decoration ==
-                  BoxDecoration(
-                    borderRadius: DecorationDesignSystem.borderRadius,
-                    color: DarkModeColorDesignSystem.background,
-                  )) &&
+      find.byWidgetPredicate((w) => (w is Container &&
+          w.padding == EdgeInsets.zero &&
+          w.decoration ==
+              BoxDecoration(
+                borderRadius: DecorationDesignSystem.borderRadius,
+                color: DarkModeColorDesignSystem.background,
+                border: Border.all(
+                  width: 2,
+                  color: DarkModeColorDesignSystem.onBackground,
+                ),
+              ) &&
           w.child is Text &&
-          (w.child as Text).data == text),
+          (w.child as Text).data == text)),
       findsOneWidget,
     );
 

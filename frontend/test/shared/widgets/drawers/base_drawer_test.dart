@@ -73,5 +73,7 @@ void main() {
       ),
       findsOneWidget,
     );
+
+    await tester.tap(find.byIcon(Icons.close));
   });
 }

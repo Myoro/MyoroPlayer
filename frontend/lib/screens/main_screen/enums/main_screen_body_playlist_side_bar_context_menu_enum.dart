@@ -63,11 +63,13 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
           return ContextMenuItem(
             icon: value.icon,
             text: value.text,
+            // coverage:ignore-start
             onTap: (context) => value.onTap.call(
               context,
               playlist,
               playlistResolverController,
             ),
+            // coverage:ignore-end
           );
         },
       ).toList(),

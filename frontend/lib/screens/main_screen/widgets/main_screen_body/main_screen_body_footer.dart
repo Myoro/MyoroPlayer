@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
@@ -136,9 +137,11 @@ final class _Button extends StatelessWidget {
       icon: icon,
       iconSize: ImageSizeEnum.small.size,
       // TODO
-      // coverage:ignore-start
-      onTap: () {},
-      // coverage:ignore-end
+      onTap: () {
+        if (kDebugMode) {
+          print('TODO: $icon');
+        }
+      },
     );
   }
 }

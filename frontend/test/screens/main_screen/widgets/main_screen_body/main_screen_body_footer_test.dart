@@ -112,5 +112,12 @@ void main() {
       findsOneWidget,
     );
     iconTextHoverButtonPredicate(Icons.queue_music);
+
+    // Testing the buttons
+    await tester.tap(find.byIcon(Icons.shuffle));
+    await tester.tap(find.byIcon(Icons.skip_previous));
+    await tester.tap(find.byIcon(Icons.pause));
+    await tester.tap(find.byIcon(Icons.skip_next));
+    await tester.tap(find.byIcon(Icons.repeat));
   });
 }

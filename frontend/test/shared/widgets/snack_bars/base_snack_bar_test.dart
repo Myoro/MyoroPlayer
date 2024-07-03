@@ -88,9 +88,9 @@ void main() {
     );
 
     await tester.tap(find.byKey(key));
-    await tester.pump();
-
+    await tester.pumpAndSettle();
     expectCalls(SnackBarTypeEnum.dialog);
+    await tester.tap(find.byType(NoFeedbackButton));
   });
 
   testWidgets('Error BaseSnackBar widget test.', (tester) async {
@@ -112,8 +112,8 @@ void main() {
     );
 
     await tester.tap(find.byKey(key));
-    await tester.pump();
-
+    await tester.pumpAndSettle();
     expectCalls(SnackBarTypeEnum.error);
+    await tester.tap(find.byType(NoFeedbackButton));
   });
 }

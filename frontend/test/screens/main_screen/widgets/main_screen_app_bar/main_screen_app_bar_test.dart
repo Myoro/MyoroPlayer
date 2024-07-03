@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar.dart';
+import 'package:frontend/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar_drawer.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/widgets/app_bars/base_app_bar.dart';
 import 'package:frontend/shared/widgets/buttons/icon_text_hover_button.dart';
@@ -36,5 +37,10 @@ void main() {
       find.byWidgetPredicate((w) => (w is IconTextHoverButton && w.icon == Icons.menu && w.iconSize == ImageSizeEnum.small.size)),
       findsOneWidget,
     );
+
+    // Testing the drawer menu button
+    await tester.tap(find.byIcon(Icons.menu));
+    await tester.pump();
+    expect(find.byType(MainScreenAppBarDrawer), findsOneWidget);
   });
 }

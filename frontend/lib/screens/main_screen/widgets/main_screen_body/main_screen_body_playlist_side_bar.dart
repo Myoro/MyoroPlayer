@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
@@ -100,15 +101,17 @@ class _PlaylistsState extends State<_Playlists> {
                               icon: Icons.music_note,
                               iconSize: ImageSizeEnum.small.size + 10,
                               text: playlist.name,
-                              // coverage:ignore-start
-                              onTap: () => debugPrint(playlist.path), // TODO
+                              onTap: () {
+                                if (kDebugMode) {
+                                  print(playlist.path); // TODO
+                                }
+                              },
                               onSecondaryTapDown: (details) => MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
                                 context,
                                 details,
                                 playlist,
                                 _playlistResolverController,
                               ),
-                              // coverage:ignore-end
                             ),
                           );
                         },
@@ -138,6 +141,7 @@ class _PlaylistsState extends State<_Playlists> {
           );
     }
   }
+  // coverage:ignore-end
 }
 
 final class _ResizeDivider extends StatelessWidget {
@@ -149,9 +153,7 @@ final class _ResizeDivider extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResizeDivider(
       direction: Axis.vertical,
-      // coverage:ignore-start
       resizeCallback: (details) => widthNotifier.value += details.delta.dx,
-      // coverage:ignore-end
       padding: const EdgeInsets.only(
         top: 40,
         bottom: 15,

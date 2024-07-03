@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
@@ -47,9 +48,11 @@ final class _Song extends StatelessWidget {
 
     return BaseHoverButton(
       // TODO
-      // coverage:ignore-start
-      onTap: () {},
-      // coverage:ignore-end
+      onTap: () {
+        if (kDebugMode) {
+          print('TODO');
+        }
+      },
       padding: const EdgeInsets.symmetric(
         vertical: 3,
         horizontal: 5,
