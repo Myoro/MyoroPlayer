@@ -35,9 +35,8 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
   ) {
     switch (this) {
       case MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist:
-        RenamePlaylistModal.show(context, playlist, playlistResolverController);
-        break;
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage: // TODO
+        return RenamePlaylistModal.show(context, playlist, playlistResolverController);
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage:
         throw UnimplementedError();
       case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer: // TODO
         throw UnimplementedError();
