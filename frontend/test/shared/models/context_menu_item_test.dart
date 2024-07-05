@@ -7,7 +7,7 @@ void main() {
     final item = ContextMenuItem(
       icon: Icons.abc,
       text: 'Text',
-      onTap: (_) {},
+      onTap: () {},
     );
     final copyItem = item.copyWith();
     final uniqueItem = item.copyWith(icon: Icons.ac_unit);

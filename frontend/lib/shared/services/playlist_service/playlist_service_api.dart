@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:frontend/shared/database.dart';
 import 'package:frontend/shared/extensions/string_extension.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
@@ -43,11 +45,20 @@ final class PlaylistServiceApi implements PlaylistService {
     final List<Playlist> playlists = rows.map<Playlist>((row) => Playlist.fromJson(row)).toList();
     final List<Playlist> existentPlaylists = [];
 
-    // Validating that all of the playlists still exists on the device
-    for (final playlist in playlists) {
+    // Validating that all of the playlists still exists on the device (and if the image exists on the device)
+    for (var playlist in playlists) {
       if (!playlist.path.folderExists) {
         await database.delete(Database.playlistsTableName, id: playlist.id!);
       } else {
+        if (playlist.image != null && !File(playlist.image!).existsSync()) {
+          await update(
+            id: playlist.id,
+            data: {Playlist.imageJsonKey: null},
+          );
+
+          playlist = (await get(conditions: Conditions({Playlist.idJsonKey: playlist.id})))!;
+        }
+
         existentPlaylists.add(playlist);
       }
     }
@@ -56,15 +67,33 @@ final class PlaylistServiceApi implements PlaylistService {
   }
 
   @override
-  Future<Playlist> get({Conditions? conditions}) {
-    // TODO: implement get
-    throw UnimplementedError();
+  Future<Playlist?> get({Conditions? conditions}) async {
+    final Map<String, dynamic>? row = await database.get(
+      Database.playlistsTableName,
+      conditions: conditions,
+    );
+    if (row == null) return null;
+    return Playlist.fromJson(row);
   }
 
   @override
-  Future<Playlist> update({int? id, Map<String, dynamic>? data}) {
-    // TODO: implement update
-    throw UnimplementedError();
+  Future<Playlist> update({int? id, Map<String, dynamic>? data}) async {
+    assert(id != null && data != null);
+
+    final conditions = Conditions({Playlist.idJsonKey: id});
+
+    await database.update(
+      Database.playlistsTableName,
+      data: data!,
+      conditions: conditions,
+    );
+
+    return Playlist.fromJson(
+      (await database.get(
+        Database.playlistsTableName,
+        conditions: conditions,
+      ))!,
+    );
   }
 
   @override

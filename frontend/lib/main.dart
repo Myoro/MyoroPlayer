@@ -61,6 +61,7 @@ final class App extends StatelessWidget {
     return BlocBuilder<UserPreferencesCubit, UserPreferences>(
       builder: (context, userPreferences) {
         return MaterialApp(
+          debugShowCheckedModeBanner: false,
           title: 'MyoroPlayer',
           themeMode: userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
           theme: createTheme(false),

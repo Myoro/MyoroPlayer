@@ -46,7 +46,7 @@ final class Playlist extends Equatable {
       id: faker.randomGenerator.integer(100),
       path: faker.internet.uri('/'),
       name: faker.person.firstName(),
-      image: faker.internet.uri('/'),
+      image: ['assets/images/cat.jpg', null][faker.randomGenerator.integer(2)],
     );
   }
 
@@ -70,7 +70,7 @@ final class Playlist extends Equatable {
       if (buildId) idJsonKey: id,
       pathJsonKey: path,
       nameJsonKey: name,
-      imageJsonKey: image ?? '', // sqflite likes to complain about null
+      imageJsonKey: image, // sqflite likes to complain about null
     };
   }
 

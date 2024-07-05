@@ -32,7 +32,7 @@ void main() {
         Playlist.idJsonKey: 0,
         Playlist.pathJsonKey: '/Name',
         Playlist.nameJsonKey: 'Name',
-        Playlist.imageJsonKey: '',
+        Playlist.imageJsonKey: null,
       },
     );
 

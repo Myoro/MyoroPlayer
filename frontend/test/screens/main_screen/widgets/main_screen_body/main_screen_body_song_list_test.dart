@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
+import 'package:frontend/shared/design_system/image_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
 import 'package:frontend/shared/widgets/headers/underline_header.dart';
+import 'package:frontend/shared/widgets/images/base_image.dart';
 import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
 
 import '../../../../base_test_widget.dart';
@@ -56,7 +58,7 @@ void main() {
     expect(
       find.byWidgetPredicate((w) => (w is Row &&
           w.children.length == 7 &&
-          w.children.first is Icon &&
+          w.children.first is BaseImage &&
           w.children[1] is SizedBox &&
           (w.children[1] as SizedBox).width == 10 &&
           w.children[2] is Expanded &&
@@ -71,8 +73,10 @@ void main() {
       findsNWidgets(50),
     );
     expect(
-      find.byWidgetPredicate(
-          (w) => (w is Icon && w.icon == Icons.music_note && w.size == ImageSizeEnum.small.size + 10 && w.color == DarkModeColorDesignSystem.onBackground)),
+      find.byWidgetPredicate((w) => (w is BaseImage &&
+          w.svgPath == ImageDesignSystem.logo &&
+          w.svgColor == DarkModeColorDesignSystem.onBackground &&
+          w.width == ImageSizeEnum.small.size)),
       findsNWidgets(50),
     );
     expect(

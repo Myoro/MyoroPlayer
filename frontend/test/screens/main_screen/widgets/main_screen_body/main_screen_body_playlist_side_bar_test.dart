@@ -5,7 +5,6 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
-import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
@@ -65,17 +64,18 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0) && w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 4, bottom: 0) && w.child is IconTextHoverButton)),
       findsNWidgets(PlaylistServiceMock.preConfiguredPlaylists.length - 1),
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 5) && w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 4, bottom: 5) && w.child is IconTextHoverButton)),
       findsOneWidget,
     );
     for (final playlist in PlaylistServiceMock.preConfiguredPlaylists) {
       expect(
         find.byWidgetPredicate(
-            (w) => (w is IconTextHoverButton && w.icon == Icons.music_note && w.iconSize == ImageSizeEnum.small.size + 10 && w.text == playlist.name)),
+          (w) => w is IconTextHoverButton && w.padding == const EdgeInsets.only(top: 3, bottom: 3, left: 8, right: 5) && w.text == playlist.name,
+        ),
         findsOneWidget,
       );
     }
@@ -90,7 +90,7 @@ void main() {
     await tester.drag(find.byType(ResizeDivider), const Offset(50, 0));
     final playlistFinder = find
         .byWidgetPredicate(
-          (w) => w is IconTextHoverButton && w.icon == Icons.music_note,
+          (w) => w is IconTextHoverButton && w.padding == const EdgeInsets.only(top: 3, bottom: 3, left: 8, right: 5),
         )
         .first;
     await tester.tap(playlistFinder);

@@ -25,6 +25,17 @@ class FileSystemHelper {
     );
   }
 
+  Future<String?> openImageDialogWindow() async {
+    return (await FilePicker.platform.pickFiles(
+      dialogTitle: 'Select an image (PNG, JPG, or JPEG)',
+      type: FileType.image,
+      allowMultiple: false,
+    ))
+        ?.files
+        .first
+        .path;
+  }
+
   /// Creates a folder on the device. Returns if the operation was successful or not
   bool createFolder(String path) {
     try {

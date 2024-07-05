@@ -98,6 +98,7 @@ final class Database {
     required Map<String, dynamic> data,
   }) async {
     try {
+      print(data);
       return await _database?.insert(table, data);
     } catch (error) {
       if (kDebugMode) {

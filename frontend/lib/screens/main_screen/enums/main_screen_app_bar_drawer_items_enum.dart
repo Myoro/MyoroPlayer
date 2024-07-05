@@ -39,7 +39,7 @@ enum MainScreenAppBarDrawerItemsEnum {
     );
 
     return switch (this) {
-      MainScreenAppBarDrawerItemsEnum.openPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const OpenPlaylistsEvent()),
+      MainScreenAppBarDrawerItemsEnum.openPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const OpenPlaylistEvent()),
       MainScreenAppBarDrawerItemsEnum.createPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const CreatePlaylistEvent()),
       MainScreenAppBarDrawerItemsEnum.loginSignup => print('Login/signup'),
       MainScreenAppBarDrawerItemsEnum.toggleTheme => BlocProvider.of<UserPreferencesCubit>(context).toggleTheme(),

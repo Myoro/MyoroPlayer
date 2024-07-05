@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -22,8 +23,16 @@ void main() {
           icon: icon,
           iconSize: iconSize,
           text: text,
-          onTap: () => print('IconTextHoverButton [onTap] working.'),
-          onSecondaryTapDown: (_) => print('IconTextHoverButton [onSecondaryTapDown] working.'),
+          onTap: () {
+            if (kDebugMode) {
+              print('IconTextHoverButton [onTap] working.');
+            }
+          },
+          onSecondaryTapDown: (_) {
+            if (kDebugMode) {
+              print('IconTextHoverButton [onSecondaryTapDown] working.');
+            }
+          },
         ),
       ),
     );

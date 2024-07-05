@@ -132,6 +132,29 @@ void main() {
     when(() => fileSystemHelperMock.openFolderDialogWindow()).thenAnswer((_) async => playlist.path);
     when(() => playlistServiceMock.create(data: any(named: 'data'))).thenAnswer((_) async => playlist);
 
-    bloc.add(const OpenPlaylistsEvent());
+    bloc.add(const OpenPlaylistEvent());
+  });
+
+  test('MainScreenBodyPlaylistSideBarBloc.SetPlaylistImageEvent success case', () {
+    final bloc = MainScreenBodyPlaylistSideBarBloc();
+    final playlist = Playlist.mock;
+
+    expectLater(
+      bloc.stream,
+      emitsInOrder([
+        const MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.loading,
+        ),
+        MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.completed,
+          snackBarMessage: '${playlist.name}\'s image changed successfully!',
+        ),
+      ]),
+    );
+
+    when(() => fileSystemHelperMock.openImageDialogWindow()).thenAnswer((_) async => 'assets/images/cat.jpg');
+    when(() => playlistServiceMock.update(id: any(named: 'id'), data: any(named: 'data'))).thenAnswer((_) async => playlist);
+
+    bloc.add(SetPlaylistImageEvent(playlist));
   });
 }

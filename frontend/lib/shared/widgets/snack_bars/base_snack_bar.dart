@@ -17,6 +17,7 @@ final class BaseSnackBar extends SnackBar {
           behavior: SnackBarBehavior.floating,
           backgroundColor: ColorDesignSystem.transparent,
           elevation: 0,
+          padding: const EdgeInsets.only(bottom: 5),
           content: Row(
             crossAxisAlignment: CrossAxisAlignment.end,
             children: [

@@ -6,7 +6,7 @@ import 'package:frontend/shared/helpers/context_menu_helper.dart';
 final class ContextMenuItem extends Equatable {
   final IconData icon;
   final String text;
-  final Function(BuildContext context) onTap;
+  final VoidCallback onTap;
 
   const ContextMenuItem({
     required this.icon,
@@ -17,7 +17,7 @@ final class ContextMenuItem extends Equatable {
   ContextMenuItem copyWith({
     IconData? icon,
     String? text,
-    Function(BuildContext context)? onTap,
+    VoidCallback? onTap,
   }) {
     return ContextMenuItem(
       icon: icon ?? this.icon,

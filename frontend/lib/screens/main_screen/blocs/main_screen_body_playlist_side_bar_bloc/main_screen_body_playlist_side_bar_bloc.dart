@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_event.dart';
@@ -20,19 +21,27 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
     on<MainScreenBodyPlaylistSideBarEvent>((event, emit) async {
       emit(state.copyWith(status: BlocStatusEnum.loading));
 
-      late final String? folderPath;
+      if (event is CreatePlaylistEvent || event is OpenPlaylistEvent) {
+        late final String? folderPath;
 
-      if (event is CreatePlaylistEvent) {
-        folderPath = await _fileSystemHelper.createFolderDialogWindow();
-      } else if (event is OpenPlaylistsEvent) {
-        folderPath = await _fileSystemHelper.openFolderDialogWindow();
+        if (event is CreatePlaylistEvent) {
+          folderPath = await _fileSystemHelper.createFolderDialogWindow();
+        } else if (event is OpenPlaylistEvent) {
+          folderPath = await _fileSystemHelper.openFolderDialogWindow();
+        }
+
+        await _validateAndSavePlaylist(
+          emit,
+          folderPath,
+          event is CreatePlaylistEvent,
+        );
       }
 
-      await _validateAndSavePlaylist(
-        emit,
-        folderPath,
-        event is CreatePlaylistEvent,
-      );
+      if (event is SetPlaylistImageEvent) {
+        final String? imagePath = !event.removeImage ? await _fileSystemHelper.openImageDialogWindow() : null;
+        if (!event.removeImage && imagePath == null) return;
+        await _updatePlaylistImage(event.playlist, imagePath, emit);
+      }
     });
   }
 
@@ -84,5 +93,37 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
     );
 
     _fileSystemHelper.createFolder(folderPath);
+  }
+
+  Future<void> _updatePlaylistImage(
+    Playlist playlist,
+    String? imagePath,
+    Emitter<MainScreenBodyPlaylistSideBarState> emit,
+  ) async {
+    try {
+      await _playlistService.update(
+        id: playlist.id,
+        data: {Playlist.imageJsonKey: imagePath},
+      );
+
+      emit(
+        state.copyWith(
+          status: BlocStatusEnum.completed,
+          snackBarMessage: '${playlist.name}\'s image changed successfully!',
+        ),
+      );
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        print('[MainScreenBodyPlaylistSideBarBloc.SetPlaylistImageEvent]: Error updating the image on the database.');
+        print('Stack trace:\n$stackTrace');
+      }
+
+      emit(
+        state.copyWith(
+          status: BlocStatusEnum.error,
+          snackBarMessage: 'Error updating ${playlist.name}\'s image.',
+        ),
+      );
+    }
   }
 }

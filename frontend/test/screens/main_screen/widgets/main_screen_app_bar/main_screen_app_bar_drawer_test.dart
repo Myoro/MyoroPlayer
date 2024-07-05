@@ -84,7 +84,7 @@ void main() {
   testWidgets('MainScreenAppBarDrawer close button widget test.', (tester) async {
     await tester.pumpWidget(widget);
     await expectCalls(tester);
-    await tester.tap(find.byKey(const Key('BaseDrawer close button')));
+    await tester.tap(find.byIcon(Icons.arrow_right));
   });
 
   testWidgets('MainScreenAppBarDrawerItemsEnum.openPlaylist button widget test.', (tester) async {

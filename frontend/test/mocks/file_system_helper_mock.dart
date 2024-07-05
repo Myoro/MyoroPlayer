@@ -22,6 +22,12 @@ final class FileSystemHelperMock extends Mock implements FileSystemHelper {
       (_) async => path ?? preConfiguredPath,
     );
 
+    when(
+      () => mock.openImageDialogWindow(),
+    ).thenAnswer(
+      (_) async => path ?? preConfiguredPath,
+    );
+
     return mock;
   }
 }

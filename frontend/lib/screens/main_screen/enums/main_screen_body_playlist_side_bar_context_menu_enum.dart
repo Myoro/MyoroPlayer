@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_event.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
 import 'package:frontend/shared/helpers/context_menu_helper.dart';
 import 'package:frontend/shared/models/context_menu_item.dart';
@@ -14,8 +17,12 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
     Icons.image,
     'Set playlist\'s image on MyoroPlayer',
   ),
-  deletePlaylistFromMyoroPlayer(
+  removePlaylistImage(
     Icons.remove,
+    'Remove playlist\'s image on MyoroPlayer',
+  ),
+  deletePlaylistFromMyoroPlayer(
+    Icons.playlist_remove,
     'Remove playlist from MyoroPlayer',
   ),
   deletePlaylistFromComputer(
@@ -33,11 +40,15 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
     Playlist playlist,
     ModelResolverController<List<Playlist>> playlistResolverController,
   ) {
+    final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<MainScreenBodyPlaylistSideBarBloc>(context);
+
     switch (this) {
       case MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist:
         return RenamePlaylistModal.show(context, playlist, playlistResolverController);
       case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage:
-        throw UnimplementedError();
+        mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist));
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage:
+        mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist, removeImage: true));
       case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer: // TODO
         throw UnimplementedError();
       case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer: // TODO
@@ -51,23 +62,31 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
     Playlist playlist,
     ModelResolverController<List<Playlist>> playlistResolverController,
   ) {
-    ContextMenuHelper.show(
-      context,
-      details,
-      width: 330,
-      items: MainScreenBodyPlaylistSideBarContextMenuEnum.values.map(
-        (value) {
-          return ContextMenuItem(
+    final List<ContextMenuItem> items = [];
+
+    for (final value in MainScreenBodyPlaylistSideBarContextMenuEnum.values) {
+      if (value == MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage && playlist.image == null) {
+        continue;
+      } else {
+        items.add(
+          ContextMenuItem(
             icon: value.icon,
             text: value.text,
-            onTap: (context) => value.onTap.call(
+            onTap: () => value.onTap.call(
               context,
               playlist,
               playlistResolverController,
             ),
-          );
-        },
-      ).toList(),
+          ),
+        );
+      }
+    }
+
+    ContextMenuHelper.show(
+      context,
+      details,
+      width: 366,
+      items: items,
     );
   }
 }
