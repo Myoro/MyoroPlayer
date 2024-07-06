@@ -70,7 +70,7 @@ final class Playlist extends Equatable {
       if (buildId) idJsonKey: id,
       pathJsonKey: path,
       nameJsonKey: name,
-      imageJsonKey: image, // sqflite likes to complain about null
+      imageJsonKey: image ?? '', // sqflite likes to complain about null
     };
   }
 

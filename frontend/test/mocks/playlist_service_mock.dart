@@ -6,10 +6,19 @@ final class PlaylistServiceMock extends Mock implements PlaylistService {
   static final Playlist preConfiguredPlaylist = Playlist.mock;
   static final List<Playlist> preConfiguredPlaylists = Playlist.mockList();
 
-  static PlaylistServiceMock preConfigured({Playlist? playlist, List<Playlist>? playlists}) {
+  static PlaylistServiceMock preConfigured({
+    Playlist? playlist,
+    List<Playlist>? playlists,
+  }) {
     final mock = PlaylistServiceMock();
 
     registerFallbackValue(playlist ?? preConfiguredPlaylist);
+
+    when(
+      () => mock.create(data: any(named: 'data')),
+    ).thenAnswer(
+      (_) async => playlist ?? preConfiguredPlaylist,
+    );
 
     when(
       () => mock.select(conditions: any(named: 'conditions')),
@@ -24,6 +33,14 @@ final class PlaylistServiceMock extends Mock implements PlaylistService {
       ),
     ).thenAnswer(
       (_) async => playlist ?? preConfiguredPlaylist,
+    );
+
+    when(
+      () => mock.delete(
+        id: any(named: 'id'),
+      ),
+    ).thenAnswer(
+      (_) async {},
     );
 
     return mock;

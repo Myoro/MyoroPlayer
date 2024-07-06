@@ -77,4 +77,20 @@ class FileSystemHelper {
       return null;
     }
   }
+
+  /// Returns if the operation was successful
+  bool deleteFolder(String path) {
+    try {
+      Directory(path).deleteSync(recursive: true);
+
+      return true;
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        print('[FileSystemHelper.deleteFolder]: Error deleting folder: "$error"');
+        print('Stack trace:\n$stackTrace');
+      }
+
+      return false;
+    }
+  }
 }

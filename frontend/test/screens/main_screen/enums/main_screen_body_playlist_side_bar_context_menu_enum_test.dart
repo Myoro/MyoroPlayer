@@ -97,7 +97,6 @@ void main() {
       await tester.pumpWidget(widget);
       await expectCalls(tester);
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer.text));
-      expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     },
   );
 
@@ -107,7 +106,6 @@ void main() {
       await tester.pumpWidget(widget);
       await expectCalls(tester);
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer.text));
-      expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     },
   );
 }

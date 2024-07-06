@@ -97,9 +97,8 @@ final class PlaylistServiceApi implements PlaylistService {
   }
 
   @override
-  Future<void> delete({required int id}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete({required int id}) async {
+    await database.delete(Database.playlistsTableName, id: id);
   }
 
   @override

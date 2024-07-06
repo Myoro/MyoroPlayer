@@ -134,7 +134,7 @@ class _BaseModalState<T> extends State<BaseModal<T>> {
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
-                          const Spacer(),
+                          const SizedBox(width: 20),
                           IconTextHoverButton(
                             icon: Icons.close,
                             iconSize: ImageSizeEnum.small.size - 10,
@@ -146,7 +146,7 @@ class _BaseModalState<T> extends State<BaseModal<T>> {
                       // Content of the modal
                       _child,
                       // Form yes/no buttons
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 15),
                       Row(
                         children: [
                           Expanded(

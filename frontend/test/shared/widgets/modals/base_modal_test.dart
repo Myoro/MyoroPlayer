@@ -96,7 +96,7 @@ void main() {
           (w.children[1] as SizedBox).height == 10 &&
           w.children[2] is Text && // Text inserted in [child]
           w.children[3] is SizedBox &&
-          (w.children[3] as SizedBox).height == 10 &&
+          (w.children[3] as SizedBox).height == 15 &&
           w.children.last is Row)),
       findsOneWidget,
     );
@@ -107,7 +107,8 @@ void main() {
           w.children.length == 3 &&
           w.children.first is Expanded &&
           (w.children.first as Expanded).child is Text &&
-          w.children[1] is Spacer &&
+          w.children[1] is SizedBox &&
+          (w.children[1] as SizedBox).width == 20 &&
           w.children.last is IconTextHoverButton)),
       findsOneWidget,
     );

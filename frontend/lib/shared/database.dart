@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:frontend/shared/helpers/platform_helper.dart';
 import 'package:frontend/shared/models/conditions.dart';
 import 'package:frontend/shared/models/playlist.dart';
+import 'package:frontend/shared/models/song.dart';
 import 'package:frontend/shared/models/user_preferences.dart';
 import 'package:path/path.dart';
 import 'package:path_provider/path_provider.dart';
@@ -14,6 +15,7 @@ import 'package:sqflite_common_ffi/sqflite_ffi.dart';
 final class Database {
   static const userPreferencesTableName = 'user_preferences';
   static const playlistsTableName = 'playlists';
+  static const songsTableName = 'songs';
 
   sqflite.Database? _database;
 
@@ -55,12 +57,34 @@ final class Database {
     // Playlists table
     await _database?.execute('''
       CREATE TABLE IF NOT EXISTS $playlistsTableName(
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${Playlist.idJsonKey} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${Playlist.pathJsonKey} TEXT,
         ${Playlist.nameJsonKey} TEXT,
         ${Playlist.imageJsonKey} LONGTEXT
       );
     ''');
+
+    // Songs table
+    await _database?.execute('''
+      CREATE TABLE IF NOT EXISTS $songsTableName(
+        ${Song.idJsonKey} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${Song.pathJsonKey} TEXT,
+        ${Song.coverJsonKey} LONGTEXT,
+        ${Song.nameJsonKey} TEXT,
+        ${Song.artistJsonKey} TEXT,
+        ${Song.albumJsonKey} TEXT,
+        ${Song.durationJsonKey} TEXT,
+        ${Song.playlistIdJsonKey} INTEGER,
+        FOREIGN KEY (${Song.playlistIdJsonKey}) REFERENCES $playlistsTableName(${Playlist.idJsonKey}) ON DELETE CASCADE
+      );
+    ''');
+  }
+
+  /// Only for debugging
+  Future<void> deleteThenInit() async {
+    if (PlatformHelper.isDesktop) sqflite.databaseFactory = databaseFactoryFfi;
+    sqflite.deleteDatabase(await _getDatabasePath());
+    await init();
   }
 
   /// Closes the database
@@ -98,7 +122,6 @@ final class Database {
     required Map<String, dynamic> data,
   }) async {
     try {
-      print(data);
       return await _database?.insert(table, data);
     } catch (error) {
       if (kDebugMode) {

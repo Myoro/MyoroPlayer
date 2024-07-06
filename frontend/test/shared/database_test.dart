@@ -14,7 +14,7 @@ void main() {
       (_) async => './',
     );
 
-    await database.init();
+    await database.deleteThenInit();
     await database.createPopulatedDummyTable();
   });
 

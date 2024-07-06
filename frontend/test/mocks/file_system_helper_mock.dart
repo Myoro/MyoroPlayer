@@ -28,6 +28,22 @@ final class FileSystemHelperMock extends Mock implements FileSystemHelper {
       (_) async => path ?? preConfiguredPath,
     );
 
+    when(
+      () => mock.createFolder(
+        any(),
+      ),
+    ).thenReturn(
+      true,
+    );
+
+    when(
+      () => mock.deleteFolder(
+        any(),
+      ),
+    ).thenReturn(
+      true,
+    );
+
     return mock;
   }
 }

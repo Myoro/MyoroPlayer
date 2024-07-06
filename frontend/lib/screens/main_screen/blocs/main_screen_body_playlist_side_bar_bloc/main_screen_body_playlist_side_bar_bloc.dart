@@ -42,6 +42,31 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
         if (!event.removeImage && imagePath == null) return;
         await _updatePlaylistImage(event.playlist, imagePath, emit);
       }
+
+      if (event is RemovePlaylistFromMyoroPlayerEvent) {
+        try {
+          await _playlistService.delete(id: event.playlist.id!);
+
+          emit(
+            state.copyWith(
+              status: BlocStatusEnum.completed,
+              snackBarMessage: '${event.playlist.name} removed from MyoroPlayer successfully!',
+            ),
+          );
+        } catch (error, stackTrace) {
+          if (kDebugMode) {
+            print('[MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent]: Error deleting playlist: "$error"');
+            print('Stack trace:\n$stackTrace');
+          }
+
+          emit(
+            state.copyWith(
+              status: BlocStatusEnum.error,
+              snackBarMessage: 'Error removing ${event.playlist.name}.',
+            ),
+          );
+        }
+      }
     });
   }
 

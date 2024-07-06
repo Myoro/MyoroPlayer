@@ -6,6 +6,7 @@ import 'package:frontend/shared/controllers/model_resolver_controller.dart';
 import 'package:frontend/shared/helpers/context_menu_helper.dart';
 import 'package:frontend/shared/models/context_menu_item.dart';
 import 'package:frontend/shared/models/playlist.dart';
+import 'package:frontend/shared/widgets/modals/delete_playlist_from_device_confirmation_modal.dart';
 import 'package:frontend/shared/widgets/modals/rename_playlist_modal.dart';
 
 enum MainScreenBodyPlaylistSideBarContextMenuEnum {
@@ -49,10 +50,10 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
         mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist));
       case MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage:
         mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist, removeImage: true));
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer: // TODO
-        throw UnimplementedError();
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer: // TODO
-        throw UnimplementedError();
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer:
+        mainScreenBodyPlaylistSideBarBloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
+      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer:
+        DeletePlaylistFromDeviceConfirmationModal.show(context, playlist: playlist, playlistResolverController: playlistResolverController);
     }
   }
 

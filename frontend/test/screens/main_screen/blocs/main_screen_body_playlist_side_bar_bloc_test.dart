@@ -157,4 +157,65 @@ void main() {
 
     bloc.add(SetPlaylistImageEvent(playlist));
   });
+
+  test('MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent error case.', () {
+    final bloc = MainScreenBodyPlaylistSideBarBloc();
+    final playlist = Playlist.mock;
+
+    expectLater(
+      bloc.stream,
+      emitsInOrder([
+        const MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.loading,
+        ),
+        MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.error,
+          snackBarMessage: 'Error removing ${playlist.name}.',
+        ),
+      ]),
+    );
+
+    bloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
+  });
+  test('MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent error case.', () {
+    final bloc = MainScreenBodyPlaylistSideBarBloc();
+    final playlist = Playlist.mock;
+
+    expectLater(
+      bloc.stream,
+      emitsInOrder([
+        const MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.loading,
+        ),
+        MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.error,
+          snackBarMessage: 'Error removing ${playlist.name}.',
+        ),
+      ]),
+    );
+
+    bloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
+  });
+
+  test('MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent success case.', () {
+    final bloc = MainScreenBodyPlaylistSideBarBloc();
+    final playlist = Playlist.mock;
+
+    expectLater(
+      bloc.stream,
+      emitsInOrder([
+        const MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.loading,
+        ),
+        MainScreenBodyPlaylistSideBarState(
+          status: BlocStatusEnum.completed,
+          snackBarMessage: '${playlist.name} removed from MyoroPlayer successfully!',
+        ),
+      ]),
+    );
+
+    when(() => playlistServiceMock.delete(id: playlist.id!)).thenAnswer((_) async {});
+
+    bloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
+  });
 }

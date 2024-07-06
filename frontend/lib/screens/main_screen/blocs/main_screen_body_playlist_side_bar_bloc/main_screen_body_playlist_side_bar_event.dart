@@ -20,3 +20,9 @@ final class SetPlaylistImageEvent extends MainScreenBodyPlaylistSideBarEvent {
 
   const SetPlaylistImageEvent(this.playlist, {this.removeImage = false});
 }
+
+final class RemovePlaylistFromMyoroPlayerEvent extends MainScreenBodyPlaylistSideBarEvent {
+  final Playlist playlist;
+
+  const RemovePlaylistFromMyoroPlayerEvent(this.playlist);
+}
