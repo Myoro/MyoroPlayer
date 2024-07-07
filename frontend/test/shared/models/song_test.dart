@@ -3,24 +3,24 @@ import 'package:frontend/shared/models/song.dart';
 
 void main() {
   test('Song model unit test.', () {
-    final song = Song.fake();
+    final song = Song.mock;
     final songCopy = song.copyWith();
-    final songUnique = Song.fromJson(song.toJson()).copyWith(name: 'Catch me outside');
+    final songUnique = Song.fromJson(song.toJson()).copyWith(title: 'Catch me outside');
 
     expect(song == songCopy, isTrue);
     expect(song == songUnique, isFalse);
 
     expect(
-      song.toJson(),
+      song.toJson(buildId: true),
       {
         Song.idJsonKey: song.id,
         Song.playlistIdJsonKey: song.playlistId,
         Song.pathJsonKey: song.path,
         Song.coverJsonKey: song.cover,
-        Song.nameJsonKey: song.name,
+        Song.titleJsonKey: song.title,
         Song.artistJsonKey: song.artist,
         Song.albumJsonKey: song.album,
-        Song.durationJsonKey: song.duration,
+        Song.durationJsonKey: song.duration.inMilliseconds,
       },
     );
 
@@ -31,7 +31,7 @@ void main() {
       '  playlistId: ${song.playlistId},\n'
       '  path: ${song.path},\n'
       '  cover: ${song.cover},\n'
-      '  name: ${song.name},\n'
+      '  title: ${song.title},\n'
       '  artist: ${song.artist},\n'
       '  album: ${song.album},\n'
       '  duration: ${song.duration},\n'

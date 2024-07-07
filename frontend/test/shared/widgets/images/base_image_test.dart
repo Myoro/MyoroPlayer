@@ -8,27 +8,35 @@ import 'package:frontend/shared/widgets/images/base_image.dart';
 import '../../../base_test_widget.dart';
 
 void main() {
-  const double width = 500;
+  const double size = 500;
+  const Color svgColor = Colors.pink;
 
   void expectCalls({required bool isImageWidget}) {
     expect(find.byType(BaseImage), findsOneWidget);
+
     expect(
       find.byWidgetPredicate((w) => (w is ClipRRect &&
-          w.borderRadius == DecorationDesignSystem.borderRadius &&
-          w.child is Padding &&
-          (w.child as Padding).padding == const EdgeInsets.all(3) &&
-          (w.child as Padding).child.runtimeType == (isImageWidget ? Image : SvgPicture))),
+          w.borderRadius == (isImageWidget ? DecorationDesignSystem.borderRadius : BorderRadius.zero) &&
+          w.child.runtimeType == (isImageWidget ? Image : SizedBox))),
       findsOneWidget,
     );
 
     if (isImageWidget) {
       expect(
-        find.byWidgetPredicate((w) => w is Image && w.width == width && w.fit == BoxFit.fitWidth),
+        find.byWidgetPredicate((w) => w is Image && w.width == size && w.fit == BoxFit.fitWidth),
         findsOneWidget,
       );
     } else {
+      expect(find.byWidgetPredicate((w) => w is SizedBox && w.child is SvgPicture), findsOneWidget);
       expect(
-        find.byWidgetPredicate((w) => w is SvgPicture && w.width == width && w.fit == BoxFit.fitWidth),
+        find.byWidgetPredicate((w) => (w is SvgPicture &&
+            w.height == size &&
+            w.fit == BoxFit.fitHeight &&
+            w.colorFilter ==
+                const ColorFilter.mode(
+                  svgColor,
+                  BlendMode.srcIn,
+                ))),
         findsOneWidget,
       );
     }
@@ -39,7 +47,7 @@ void main() {
       const BaseTestWidget(
         child: BaseImage(
           localImagePath: 'assets/cat.jpg',
-          width: width,
+          size: size,
         ),
       ),
     );
@@ -52,7 +60,8 @@ void main() {
       const BaseTestWidget(
         child: BaseImage(
           svgPath: ImageDesignSystem.logo,
-          width: width,
+          svgColor: svgColor,
+          size: size,
         ),
       ),
     );

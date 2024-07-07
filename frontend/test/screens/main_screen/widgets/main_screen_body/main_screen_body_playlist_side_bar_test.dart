@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
@@ -23,7 +24,7 @@ void main() {
 
   setUp(() {
     kiwiContainer
-      ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
+      ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
   });
 
@@ -32,8 +33,11 @@ void main() {
   testWidgets('MainScreenBodyPlaylistSideBar widget test.', (tester) async {
     await tester.pumpWidget(
       BaseTestWidget(
-        child: BlocProvider(
-          create: (context) => MainScreenBodyPlaylistSideBarBloc(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
+            BlocProvider(create: (context) => MainScreenBodySongListBloc()),
+          ],
           child: const MainScreenBodyPlaylistSideBar(),
         ),
       ),
@@ -64,17 +68,26 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 4, bottom: 0) && w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0) && w.child is IconTextHoverButton)),
       findsNWidgets(PlaylistServiceMock.preConfiguredPlaylists.length - 1),
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 4, bottom: 5) && w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 5) && w.child is IconTextHoverButton)),
       findsOneWidget,
     );
     for (final playlist in PlaylistServiceMock.preConfiguredPlaylists) {
       expect(
         find.byWidgetPredicate(
-          (w) => w is IconTextHoverButton && w.padding == const EdgeInsets.only(top: 3, bottom: 3, left: 8, right: 5) && w.text == playlist.name,
+          (w) =>
+              w is IconTextHoverButton &&
+              w.padding ==
+                  const EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                    left: 8,
+                    right: 5,
+                  ) &&
+              w.text == playlist.name,
         ),
         findsOneWidget,
       );
@@ -86,18 +99,30 @@ void main() {
       findsOneWidget,
     );
 
-    // Test functionalities of the widget
+    // Testing resize divider
     await tester.drag(find.byType(ResizeDivider), const Offset(50, 0));
+
     final playlistFinder = find
         .byWidgetPredicate(
-          (w) => w is IconTextHoverButton && w.padding == const EdgeInsets.only(top: 3, bottom: 3, left: 8, right: 5),
+          (w) =>
+              w is IconTextHoverButton &&
+              w.padding ==
+                  const EdgeInsets.only(
+                    top: 5,
+                    bottom: 5,
+                    left: 8,
+                    right: 5,
+                  ),
         )
         .first;
+
+    // Loading a playlist
     await tester.tap(playlistFinder);
-    await tester.tap(playlistFinder, buttons: kSecondaryButton);
     await tester.pump();
 
     // The [Playlist] context menu
+    await tester.tap(playlistFinder, buttons: kSecondaryButton);
+    await tester.pump();
     expect(find.byType(PopupMenuItem<dynamic>), findsAtLeastNWidgets(1));
   });
 }

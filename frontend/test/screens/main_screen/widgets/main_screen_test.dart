@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen.dart';
@@ -27,8 +28,11 @@ void main() {
     await tester.pumpWidget(
       BaseTestWidget(
         testType: TestTypeEnum.screen,
-        child: BlocProvider(
-          create: (context) => MainScreenBodyPlaylistSideBarBloc(),
+        child: MultiBlocProvider(
+          providers: [
+            BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
+            BlocProvider(create: (context) => MainScreenBodySongListBloc()),
+          ],
           child: const MainScreen(),
         ),
       ),

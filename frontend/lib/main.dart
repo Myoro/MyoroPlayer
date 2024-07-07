@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/shared/helpers/device_helper.dart';
 import 'package:frontend/shared/services/song_service/song_service.dart';
 import 'package:frontend/shared/services/song_service/song_service_api.dart';
@@ -31,10 +32,11 @@ void main() async {
   /// Database initialization
   final database = Database();
   await database.init();
+  // await database.deleteThenInit(); // For debugging
 
   /// KiwiContainer initialization
   KiwiContainer()
-    ..registerFactory<FileSystemHelper>((c) => FileSystemHelper())
+    ..registerFactory<FileSystemHelper>((c) => FileSystemHelper(database))
     ..registerFactory<DeviceHelper>((c) => DeviceHelper())
     ..registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database))
     ..registerFactory<PlaylistService>((c) => PlaylistServiceApi(database))
@@ -49,6 +51,7 @@ void main() async {
       providers: [
         BlocProvider(create: (context) => UserPreferencesCubit(userPreferences)),
         BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
+        BlocProvider(create: (context) => MainScreenBodySongListBloc()),
       ],
       child: const App(),
     ),

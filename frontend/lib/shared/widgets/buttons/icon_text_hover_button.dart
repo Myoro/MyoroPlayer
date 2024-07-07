@@ -62,7 +62,7 @@ final class IconTextHoverButton extends StatelessWidget {
                 svgPath: svgPath,
                 svgColor: contentColor,
                 localImagePath: localImagePath,
-                width: iconSize!,
+                size: iconSize!,
               ),
             if (((icon != null) ^ (svgPath != null) ^ (localImagePath != null)) && text != null) const SizedBox(width: 10),
             if (text != null)

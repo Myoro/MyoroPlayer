@@ -8,26 +8,26 @@ final class Song extends Equatable {
   static const playlistIdJsonKey = 'playlist_id';
   static const pathJsonKey = 'path';
   static const coverJsonKey = 'cover';
-  static const nameJsonKey = 'name';
+  static const titleJsonKey = 'title';
   static const artistJsonKey = 'artist';
   static const albumJsonKey = 'album';
   static const durationJsonKey = 'duration';
 
-  final int id;
+  final int? id;
   final int playlistId;
   final String path;
   final Uint8List? cover;
-  final String name;
+  final String title;
   final String? artist;
   final String? album;
   final Duration duration;
 
   const Song({
-    required this.id,
+    this.id,
     required this.playlistId,
     required this.path,
     this.cover,
-    required this.name,
+    required this.title,
     this.artist,
     this.album,
     required this.duration,
@@ -38,7 +38,7 @@ final class Song extends Equatable {
     int? playlistId,
     String? path,
     Uint8List? cover,
-    String? name,
+    String? title,
     String? artist,
     String? album,
     Duration? duration,
@@ -48,43 +48,53 @@ final class Song extends Equatable {
       playlistId: playlistId ?? this.playlistId,
       path: path ?? this.path,
       cover: cover ?? this.cover,
-      name: name ?? this.name,
+      title: title ?? this.title,
       artist: artist ?? this.artist,
       album: album ?? this.album,
       duration: duration ?? this.duration,
     );
   }
 
-  Song.fake()
-      : id = faker.randomGenerator.integer(100),
-        playlistId = faker.randomGenerator.integer(100),
-        path = faker.internet.uri('https'),
-        cover = null,
-        name = faker.randomGenerator.string(50),
-        artist = '${faker.person.firstName()} ${faker.person.lastName()}',
-        album = faker.randomGenerator.string(50),
-        duration = Duration(minutes: faker.date.dateTime().minute);
+  static Song get mock {
+    return Song(
+      id: faker.randomGenerator.integer(100),
+      playlistId: faker.randomGenerator.integer(100),
+      path: faker.internet.uri('https'),
+      cover: null,
+      title: faker.randomGenerator.string(50),
+      artist: '${faker.person.firstName()} ${faker.person.lastName()}',
+      album: faker.randomGenerator.string(50),
+      duration: Duration(minutes: faker.date.dateTime().minute),
+    );
+  }
+
+  static List<Song> mockList([int size = 10]) {
+    return List.generate(
+      size,
+      (index) => Song.mock,
+    );
+  }
 
   Song.fromJson(Map<String, dynamic> json)
       : id = json[idJsonKey],
         playlistId = json[playlistIdJsonKey],
         path = json[pathJsonKey],
-        cover = json[coverJsonKey],
-        name = json[nameJsonKey],
-        artist = json[artistJsonKey],
-        album = json[albumJsonKey],
-        duration = json[durationJsonKey];
+        cover = json[coverJsonKey] != null ? Uint8List.fromList(json[coverJsonKey]) : null,
+        title = json[titleJsonKey],
+        artist = json[artistJsonKey].isNotEmpty ? json[artistJsonKey] : null,
+        album = json[albumJsonKey].isNotEmpty ? json[albumJsonKey] : null,
+        duration = Duration(milliseconds: json[durationJsonKey]);
 
-  Map<String, dynamic> toJson() {
+  Map<String, dynamic> toJson({bool buildId = false}) {
     return {
-      idJsonKey: id,
+      if (buildId) idJsonKey: id,
       playlistIdJsonKey: playlistId,
       pathJsonKey: path,
       coverJsonKey: cover,
-      nameJsonKey: name,
-      artistJsonKey: artist,
-      albumJsonKey: album,
-      durationJsonKey: duration,
+      titleJsonKey: title,
+      artistJsonKey: artist ?? '', // sqflite doesn't like null values
+      albumJsonKey: album ?? '', // sqflite doesn't like null values
+      durationJsonKey: duration.inMilliseconds,
     };
   }
 
@@ -94,7 +104,7 @@ final class Song extends Equatable {
       '  playlistId: $playlistId,\n'
       '  path: $path,\n'
       '  cover: $cover,\n'
-      '  name: $name,\n'
+      '  title: $title,\n'
       '  artist: $artist,\n'
       '  album: $album,\n'
       '  duration: $duration,\n'
@@ -107,7 +117,7 @@ final class Song extends Equatable {
       playlistId,
       path,
       cover,
-      name,
+      title,
       artist,
       album,
       duration,

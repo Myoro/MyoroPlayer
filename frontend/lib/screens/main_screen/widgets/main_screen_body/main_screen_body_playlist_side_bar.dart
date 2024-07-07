@@ -1,6 +1,7 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
@@ -95,31 +96,33 @@ class _PlaylistsState extends State<_Playlists> {
                         (playlist) {
                           return Padding(
                             padding: EdgeInsets.only(
-                              top: 4,
+                              top: 5,
                               bottom: playlist == playlists.last ? 5 : 0,
                             ),
                             child: IconTextHoverButton(
                               svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
                               localImagePath: playlist.image,
-                              iconSize: ImageSizeEnum.small.size + (playlist.image == null ? 0 : 10),
+                              iconSize: ImageSizeEnum.small.size + 10,
                               text: playlist.name,
                               padding: const EdgeInsets.only(
-                                top: 3,
-                                bottom: 3,
+                                top: 5,
+                                bottom: 5,
                                 left: 8,
                                 right: 5,
                               ),
                               onTap: () {
-                                if (kDebugMode) {
-                                  print(playlist.path); // TODO
-                                }
+                                BlocProvider.of<MainScreenBodySongListBloc>(context).add(
+                                  LoadPlaylistSongsEvent(playlist),
+                                );
                               },
-                              onSecondaryTapDown: (details) => MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
-                                context,
-                                details,
-                                playlist,
-                                _playlistResolverController,
-                              ),
+                              onSecondaryTapDown: (details) {
+                                MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
+                                  context,
+                                  details,
+                                  playlist,
+                                  _playlistResolverController,
+                                );
+                              },
                             ),
                           );
                         },

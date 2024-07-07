@@ -69,11 +69,11 @@ final class Database {
       CREATE TABLE IF NOT EXISTS $songsTableName(
         ${Song.idJsonKey} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${Song.pathJsonKey} TEXT,
-        ${Song.coverJsonKey} LONGTEXT,
-        ${Song.nameJsonKey} TEXT,
+        ${Song.coverJsonKey} BLOB,
+        ${Song.titleJsonKey} TEXT,
         ${Song.artistJsonKey} TEXT,
         ${Song.albumJsonKey} TEXT,
-        ${Song.durationJsonKey} TEXT,
+        ${Song.durationJsonKey} REAL,
         ${Song.playlistIdJsonKey} INTEGER,
         FOREIGN KEY (${Song.playlistIdJsonKey}) REFERENCES $playlistsTableName(${Playlist.idJsonKey}) ON DELETE CASCADE
       );
@@ -123,9 +123,10 @@ final class Database {
   }) async {
     try {
       return await _database?.insert(table, data);
-    } catch (error) {
+    } catch (error, stackTrace) {
       if (kDebugMode) {
-        print('[Database.insert]: Error inserting.');
+        print('[Database.insert]: Error inserting: "$error"');
+        print('Stack trace:\n$stackTrace');
       }
 
       return null;
