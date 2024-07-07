@@ -33,7 +33,7 @@ void main() {
           w.padding == const EdgeInsets.only(left: 5) &&
           w.child is BaseImage &&
           (w.child as BaseImage).svgPath == ImageDesignSystem.logo &&
-          (w.child as BaseImage).size == ImageSizeEnum.small.size)),
+          (w.child as BaseImage).size == ImageSizeEnum.small.size + 10)),
       findsOneWidget,
     );
 

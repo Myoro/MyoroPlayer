@@ -22,7 +22,7 @@ final class MainScreenAppBar extends StatelessWidget implements PreferredSizeWid
           ),
           child: BaseImage(
             svgPath: ImageDesignSystem.logo,
-            size: ImageSizeEnum.small.size,
+            size: ImageSizeEnum.small.size + 10,
           ),
         ),
         const Spacer(),
