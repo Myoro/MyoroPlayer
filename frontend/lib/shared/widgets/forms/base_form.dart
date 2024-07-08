@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/shared/blocs/base_form_bloc/base_form_bloc.dart';
@@ -6,7 +8,7 @@ import 'package:frontend/shared/controllers/base_form_controller.dart';
 import 'package:frontend/shared/enums/bloc_status_enum.dart';
 
 typedef BaseFormValidationCallback = String? Function();
-typedef BaseFormRequestCallback<T> = Future<T>? Function();
+typedef BaseFormRequestCallback<T> = FutureOr<T>? Function();
 typedef BaseFormOnSuccessCallback<T> = void Function(T? model);
 typedef BaseFormOnErrorCallback = void Function(String error);
 typedef BaseFormBuilder = Widget Function(BuildContext context);
