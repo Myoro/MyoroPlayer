@@ -62,7 +62,7 @@ void main() {
     await tester.pumpWidget(widget);
     await expectCalls(tester);
     await tester.tap(find.text('Confirm'));
-    await tester.pump();
+    await tester.pumpAndSettle();
     expect(find.text('Name cannot be empty'), findsOneWidget);
   });
 

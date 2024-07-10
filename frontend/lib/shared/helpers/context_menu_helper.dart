@@ -30,7 +30,7 @@ final class ContextMenuHelper {
       position: RelativeRect.fromLTRB(
         details.globalPosition.dx,
         details.globalPosition.dy,
-        MediaQuery.of(context).size.width - width, // Flutter moment
+        MediaQuery.of(context).size.width,
         0,
       ),
       items: items.map<PopupMenuItem>(

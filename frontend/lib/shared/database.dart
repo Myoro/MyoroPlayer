@@ -73,7 +73,7 @@ final class Database {
         ${Song.titleJsonKey} TEXT,
         ${Song.artistJsonKey} TEXT,
         ${Song.albumJsonKey} TEXT,
-        ${Song.durationJsonKey} REAL,
+        ${Song.durationJsonKey} INTEGER,
         ${Song.playlistIdJsonKey} INTEGER,
         FOREIGN KEY (${Song.playlistIdJsonKey}) REFERENCES $playlistsTableName(${Playlist.idJsonKey}) ON DELETE CASCADE
       );
@@ -82,7 +82,7 @@ final class Database {
 
   /// Only for debugging
   Future<void> deleteThenInit() async {
-    if (PlatformHelper.isDesktop) sqflite.databaseFactory = databaseFactoryFfi;
+    await init();
     sqflite.deleteDatabase(await _getDatabasePath());
     await init();
   }

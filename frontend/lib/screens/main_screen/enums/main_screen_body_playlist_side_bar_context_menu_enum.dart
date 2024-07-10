@@ -48,10 +48,13 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
         return RenamePlaylistModal.show(context, playlist, playlistResolverController);
       case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage:
         mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist));
+        break;
       case MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage:
         mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist, removeImage: true));
+        break;
       case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer:
         mainScreenBodyPlaylistSideBarBloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
+        break;
       case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer:
         DeletePlaylistFromDeviceConfirmationModal.show(context, playlist: playlist, playlistResolverController: playlistResolverController);
     }

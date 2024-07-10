@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_state.dart';
+import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
 import 'package:frontend/shared/enums/bloc_status_enum.dart';
@@ -34,7 +35,10 @@ final class MainScreenBodySongList extends StatelessWidget {
                     : VerticalScrollbar(
                         children: state.loadedPlaylistSongs?.map<_Song>(
                               (song) {
-                                return _Song(song, state.loadedPlaylistSongs?.last == song);
+                                return _Song(
+                                  song,
+                                  state.loadedPlaylistSongs?.last == song,
+                                );
                               },
                             ).toList() ??
                             [],
@@ -70,6 +74,13 @@ final class _Song extends StatelessWidget {
             print('TODO');
           }
         },
+        onSecondaryTapDown: (details) {
+          MainScreenBodySongListContextMenuEnum.showContextMenu(
+            context,
+            details,
+            song,
+          );
+        },
         padding: const EdgeInsets.only(
           top: 5,
           bottom: 5,
@@ -85,7 +96,6 @@ final class _Song extends StatelessWidget {
 
           return Row(
             children: [
-              // TODO: Get album covers displaying here
               BaseImage(
                 svgPath: song.cover == null ? ImageDesignSystem.logo : null,
                 svgColor: contentColor,

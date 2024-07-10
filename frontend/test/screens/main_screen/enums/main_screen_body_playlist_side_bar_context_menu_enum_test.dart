@@ -52,10 +52,13 @@ void main() {
 
   tearDownAll(() => kiwiContainer.clear());
 
-  Future<void> expectCalls(WidgetTester tester) async {
+  Future<void> pumpAndDisplayContextMenu(WidgetTester tester) async {
+    await tester.pumpWidget(widget);
     await tester.tap(find.byKey(key), buttons: kSecondaryButton);
     await tester.pumpAndSettle();
+  }
 
+  void expectCalls() {
     for (final value in MainScreenBodyPlaylistSideBarContextMenuEnum.values) {
       expect(find.byIcon(value.icon), findsOneWidget);
       expect(find.text(value.text), findsOneWidget);
@@ -65,8 +68,8 @@ void main() {
   testWidgets(
     'MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist widget test.',
     (tester) async {
-      await tester.pumpWidget(widget);
-      await expectCalls(tester);
+      await pumpAndDisplayContextMenu(tester);
+      expectCalls();
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist.text));
       await tester.pump();
       expect(find.byType(RenamePlaylistModal), findsOneWidget);
@@ -76,8 +79,8 @@ void main() {
   testWidgets(
     'MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage widget test.',
     (tester) async {
-      await tester.pumpWidget(widget);
-      await expectCalls(tester);
+      await pumpAndDisplayContextMenu(tester);
+      expectCalls();
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage.text));
     },
   );
@@ -85,8 +88,8 @@ void main() {
   testWidgets(
     'MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage widget test.',
     (tester) async {
-      await tester.pumpWidget(widget);
-      await expectCalls(tester);
+      await pumpAndDisplayContextMenu(tester);
+      expectCalls();
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage.text));
     },
   );
@@ -94,8 +97,8 @@ void main() {
   testWidgets(
     'MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer widget test.',
     (tester) async {
-      await tester.pumpWidget(widget);
-      await expectCalls(tester);
+      await pumpAndDisplayContextMenu(tester);
+      expectCalls();
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer.text));
     },
   );
@@ -103,8 +106,8 @@ void main() {
   testWidgets(
     'MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer widget test.',
     (tester) async {
-      await tester.pumpWidget(widget);
-      await expectCalls(tester);
+      await pumpAndDisplayContextMenu(tester);
+      expectCalls();
       await tester.tap(find.text(MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer.text));
     },
   );

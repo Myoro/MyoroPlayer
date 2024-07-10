@@ -1,8 +1,10 @@
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
+import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
@@ -142,6 +144,17 @@ void main() {
       );
     }
 
-    await tester.tap(find.byType(BaseHoverButton).first);
+    final songButtonFinder = find.byType(BaseHoverButton).first;
+
+    /// Playing a song
+    await tester.tap(songButtonFinder);
+
+    /// Song context menu
+    await tester.tap(find.byType(BaseHoverButton).first, buttons: kSecondaryButton);
+    await tester.pump();
+    for (final value in MainScreenBodySongListContextMenuEnum.values) {
+      expect(find.byIcon(value.icon), findsOneWidget);
+      expect(find.text(value.text), findsOneWidget);
+    }
   });
 }
