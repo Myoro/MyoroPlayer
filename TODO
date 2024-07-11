@@ -1,5 +1,15 @@
 # TODO
 
 1. `dart doc`
+1. Playing songs
+
+- Direct play
+- Previous play
+- Next/autoplay
 
 ## TESTS
+
+1. Add `SongController.directPlay` test case
+2. Add `SongController.previousPlay` test case
+3. Add `SongController.nextSong` test case
+4. Add `BaseHover.forceHover` test case

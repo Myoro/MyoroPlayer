@@ -1,9 +1,9 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_state.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
+import 'package:frontend/shared/controllers/song_controller.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
 import 'package:frontend/shared/enums/bloc_status_enum.dart';
@@ -17,12 +17,15 @@ import 'package:frontend/shared/widgets/headers/underline_header.dart';
 import 'package:frontend/shared/widgets/images/base_image.dart';
 import 'package:frontend/shared/widgets/loading/loading_circle.dart';
 import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:kiwi/kiwi.dart';
 
 final class MainScreenBodySongList extends StatelessWidget {
   const MainScreenBodySongList({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final songController = KiwiContainer().resolve<SongController>();
+
     return Expanded(
       child: BlocConsumer<MainScreenBodySongListBloc, MainScreenBodySongListState>(
         listener: (context, state) => _handleSnackBars(context, state),
@@ -30,20 +33,26 @@ final class MainScreenBodySongList extends StatelessWidget {
           return Column(
             children: [
               UnderlineHeader(header: state.loadedPlaylist?.name ?? ''),
-              Expanded(
-                child: state.status == BlocStatusEnum.loading
-                    ? const Center(child: LoadingCircle())
-                    : VerticalScrollbar(
-                        children: state.loadedPlaylistSongs?.map<_Song>(
-                              (song) {
-                                return _Song(
-                                  song,
-                                  state.loadedPlaylistSongs?.last == song,
-                                );
-                              },
-                            ).toList() ??
-                            [],
-                      ),
+              ListenableBuilder(
+                listenable: songController,
+                builder: (_, __) {
+                  return Expanded(
+                    child: state.status == BlocStatusEnum.loading
+                        ? const Center(child: LoadingCircle())
+                        : VerticalScrollbar(
+                            children: state.loadedPlaylistSongs?.map<_Song>(
+                                  (song) {
+                                    return _Song(
+                                      song,
+                                      isLastSong: state.loadedPlaylistSongs?.last == song,
+                                      isSelectedSong: songController.loadedSong == song,
+                                    );
+                                  },
+                                ).toList() ??
+                                [],
+                          ),
+                  );
+                },
               ),
             ],
           );
@@ -65,9 +74,14 @@ final class MainScreenBodySongList extends StatelessWidget {
 
 final class _Song extends StatelessWidget {
   final Song song;
-  final bool lastSong;
+  final bool isLastSong;
+  final bool isSelectedSong;
 
-  const _Song(this.song, this.lastSong);
+  const _Song(
+    this.song, {
+    required this.isLastSong,
+    required this.isSelectedSong,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -76,15 +90,11 @@ final class _Song extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(
         top: 5,
-        bottom: lastSong ? 5 : 0,
+        bottom: isLastSong ? 5 : 0,
       ),
       child: BaseHoverButton(
-        // TODO
-        onTap: () {
-          if (kDebugMode) {
-            print('TODO');
-          }
-        },
+        forceHover: isSelectedSong,
+        onTap: () => KiwiContainer().resolve<SongController>().directPlay(song),
         onSecondaryTapDown: (details) {
           MainScreenBodySongListContextMenuEnum.showContextMenu(
             context,
@@ -100,7 +110,11 @@ final class _Song extends StatelessWidget {
         ),
         builder: (hovered) {
           // coverage:ignore-start
-          final Color contentColor = hovered ? ColorDesignSystem.background(context) : ColorDesignSystem.onBackground(context);
+          final Color contentColor = isSelectedSong
+              ? ColorDesignSystem.background(context)
+              : hovered
+                  ? ColorDesignSystem.background(context)
+                  : ColorDesignSystem.onBackground(context);
           // coverage:ignore-end
           final TextStyle bodyMedium = textTheme.bodyMedium!.withColor(contentColor);
           final TextStyle bodySmall = textTheme.bodySmall!.withColor(contentColor);
