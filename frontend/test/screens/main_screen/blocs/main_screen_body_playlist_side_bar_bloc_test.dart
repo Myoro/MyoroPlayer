@@ -129,7 +129,7 @@ void main() {
       ]),
     );
 
-    when(() => fileSystemHelperMock.openFolderDialogWindow()).thenAnswer((_) async => playlist.path);
+    when(() => fileSystemHelperMock.openFolderDialogWindow(title: any(named: 'title'))).thenAnswer((_) async => playlist.path);
     when(() => playlistServiceMock.create(data: any(named: 'data'))).thenAnswer((_) async => playlist);
 
     bloc.add(const OpenPlaylistEvent());

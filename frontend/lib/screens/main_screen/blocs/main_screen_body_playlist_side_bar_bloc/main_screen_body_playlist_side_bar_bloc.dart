@@ -27,7 +27,9 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
         if (event is CreatePlaylistEvent) {
           folderPath = await _fileSystemHelper.createFolderDialogWindow();
         } else if (event is OpenPlaylistEvent) {
-          folderPath = await _fileSystemHelper.openFolderDialogWindow();
+          folderPath = await _fileSystemHelper.openFolderDialogWindow(
+            title: 'Choose the playlists you\'d like to add.',
+          );
         }
 
         await _validateAndSavePlaylist(

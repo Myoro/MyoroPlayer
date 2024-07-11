@@ -5,6 +5,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
 import 'package:frontend/shared/database.dart';
+import 'package:frontend/shared/extensions/string_extension.dart';
 import 'package:frontend/shared/helpers/platform_helper.dart';
 import 'package:frontend/shared/models/conditions.dart';
 import 'package:frontend/shared/models/playlist.dart';
@@ -29,9 +30,9 @@ class FileSystemHelper {
   }
 
   /// Returns the path to the folder in which the user wants to add, null if cancelled
-  Future<String?> openFolderDialogWindow() async {
+  Future<String?> openFolderDialogWindow({required String title}) async {
     return await FilePicker.platform.getDirectoryPath(
-      dialogTitle: 'Choose the playlists you\'d like to add.',
+      dialogTitle: title,
     );
   }
 
@@ -92,7 +93,6 @@ class FileSystemHelper {
   bool deleteFolder(String path) {
     try {
       Directory(path).deleteSync(recursive: true);
-
       return true;
     } catch (error, stackTrace) {
       if (kDebugMode) {
@@ -100,6 +100,51 @@ class FileSystemHelper {
         print('Stack trace:\n$stackTrace');
       }
 
+      return false;
+    }
+  }
+
+  /// Returns the path of the new file path if successful
+  String? copyFile(String filePath, String newFolderPath) {
+    try {
+      final newFilePath = join(newFolderPath, filePath.pathName);
+      File(filePath).copySync(newFilePath);
+      return newFilePath;
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        print('[FileSystemHelper.copyFile]: Error copying file: "$error".');
+        print('Stack trace:\n$stackTrace');
+      }
+
+      return null;
+    }
+  }
+
+  /// Returns the path of the new file path is successful
+  String? moveFile(String filePath, String newFolderPath) {
+    try {
+      final newFilePath = join(newFolderPath, filePath.pathName);
+      File(filePath).renameSync(newFilePath);
+      return newFilePath;
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        print('[FileSystemHelper.moveFile]: Error moving file: "$error".');
+        print('Stack trace:\n$stackTrace');
+      }
+      return null;
+    }
+  }
+
+  /// Returns if the operation was successful
+  bool deleteFile(String filePath) {
+    try {
+      File(filePath).deleteSync();
+      return true;
+    } catch (error, stackTrace) {
+      if (kDebugMode) {
+        print('[FileSystemHelper.deleteFile]: Error deleting file: "$error".');
+        print('Stack trace:\n$stackTrace');
+      }
       return false;
     }
   }
@@ -175,7 +220,7 @@ class FileSystemHelper {
     return await _getPlaylistSongsInDatabase(playlist.id!);
   }
 
-  // Helper function to select the [Song]s with a given [Playlist.id]
+  /// Helper function to select the [Song]s with a given [Playlist.id]
   Future<List<Song>> _getPlaylistSongsInDatabase(int playlistId) async {
     final List<Map<String, dynamic>> rows = await database.select(
       Database.songsTableName,

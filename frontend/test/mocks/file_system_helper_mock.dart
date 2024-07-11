@@ -17,7 +17,9 @@ final class FileSystemHelperMock extends Mock implements FileSystemHelper {
     registerFallbackValue(Playlist.mock);
 
     when(
-      () => mock.openFolderDialogWindow(),
+      () => mock.openFolderDialogWindow(
+        title: any(named: 'title'),
+      ),
     ).thenAnswer(
       (_) async => path ?? preConfiguredPath,
     );
@@ -54,6 +56,14 @@ final class FileSystemHelperMock extends Mock implements FileSystemHelper {
       () => mock.getMp3FilesFromFolder(any()),
     ).thenAnswer(
       (_) async => songList ?? preConfiguredSongList,
+    );
+
+    when(
+      () => mock.deleteFile(
+        any(),
+      ),
+    ).thenReturn(
+      true,
     );
 
     return mock;

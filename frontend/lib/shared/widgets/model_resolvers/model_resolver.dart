@@ -5,7 +5,7 @@ import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_bloc.da
 import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_event.dart';
 import 'package:frontend/shared/blocs/model_resolver_bloc/model_resolver_state.dart';
 import 'package:frontend/shared/enums/bloc_status_enum.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
+import 'package:frontend/shared/extensions/build_context_extension.dart';
 import 'package:frontend/shared/widgets/loading/loading_circle.dart';
 
 typedef ModelResolverRequest<T> = Future<T> Function();
@@ -73,7 +73,7 @@ class _ModelResolverState<T> extends State<ModelResolver<T>> {
   void _handleSnackBars(BuildContext context, ModelResolverState<T> state) {
     if (state.status != BlocStatusEnum.error) return;
 
-    SnackBarHelper.showErrorSnackBar(
+    context.showErrorSnackBar(
       context,
       state.snackBarMessage!,
     );

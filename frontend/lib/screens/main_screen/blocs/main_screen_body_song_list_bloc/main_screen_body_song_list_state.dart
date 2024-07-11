@@ -9,6 +9,9 @@ final class MainScreenBodySongListState extends Equatable {
   /// Standard BloC status enum
   final BlocStatusEnum status;
 
+  /// Standard snackbar response message
+  final String? snackBarMessage;
+
   /// Loaded playlist
   final Playlist? loadedPlaylist;
 
@@ -17,17 +20,20 @@ final class MainScreenBodySongListState extends Equatable {
 
   const MainScreenBodySongListState({
     this.status = BlocStatusEnum.idle,
+    this.snackBarMessage,
     this.loadedPlaylist,
     this.loadedPlaylistSongs,
   });
 
   MainScreenBodySongListState copyWith({
     BlocStatusEnum? status,
+    String? snackBarMessage,
     Playlist? loadedPlaylist,
     List<Song>? loadedPlaylistSongs,
   }) {
     return MainScreenBodySongListState(
       status: status ?? this.status,
+      snackBarMessage: snackBarMessage,
       loadedPlaylist: loadedPlaylist ?? this.loadedPlaylist,
       loadedPlaylistSongs: loadedPlaylistSongs ?? this.loadedPlaylistSongs,
     );
@@ -36,6 +42,7 @@ final class MainScreenBodySongListState extends Equatable {
   @override
   String toString() => 'MainScreenBodySongListState(\n'
       '  status: $status,\n'
+      '  snackBarMessage: $snackBarMessage,\n'
       '  loadedPlaylist: $loadedPlaylist,\n'
       '  loadedPlaylistSongs: $loadedPlaylistSongs,\n'
       ');';
@@ -44,6 +51,7 @@ final class MainScreenBodySongListState extends Equatable {
   List<Object?> get props {
     return [
       status,
+      snackBarMessage,
       loadedPlaylist,
       loadedPlaylistSongs,
     ];

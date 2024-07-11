@@ -33,8 +33,7 @@ final class SongServiceApi implements SongService {
   }
 
   @override
-  Future<void> delete({required int id}) {
-    // TODO: implement delete
-    throw UnimplementedError();
+  Future<void> delete({required int id}) async {
+    await database.delete(Database.songsTableName, id: id);
   }
 }

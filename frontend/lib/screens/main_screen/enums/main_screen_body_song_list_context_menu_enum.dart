@@ -1,7 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
+import 'package:frontend/shared/controllers/song_controller.dart';
+import 'package:frontend/shared/extensions/build_context_extension.dart';
 import 'package:frontend/shared/helpers/context_menu_helper.dart';
 import 'package:frontend/shared/models/context_menu_item.dart';
 import 'package:frontend/shared/models/song.dart';
+import 'package:frontend/shared/widgets/modals/delete_song_modal.dart';
+import 'package:kiwi/kiwi.dart';
 
 enum MainScreenBodySongListContextMenuEnum {
   addToQueue(
@@ -30,15 +37,22 @@ enum MainScreenBodySongListContextMenuEnum {
     BuildContext context,
     Song song,
   ) {
+    final mainScreenBodySongListBloc = BlocProvider.of<MainScreenBodySongListBloc>(context);
+
     switch (this) {
       case MainScreenBodySongListContextMenuEnum.addToQueue:
-        throw UnimplementedError();
+        KiwiContainer().resolve<SongController>().addToQueue(song);
+        context.showDialogSnackBar(context, '${song.title} added to queue.');
+        break;
       case MainScreenBodySongListContextMenuEnum.copySongToPlaylist:
-        throw UnimplementedError();
+        mainScreenBodySongListBloc.add(CopySongToPlaylistEvent(song));
+        break;
       case MainScreenBodySongListContextMenuEnum.moveSongToPlaylist:
-        throw UnimplementedError();
+        mainScreenBodySongListBloc.add(MoveSongToPlaylistEvent(song));
+        break;
       case MainScreenBodySongListContextMenuEnum.deleteSong:
-        throw UnimplementedError();
+        DeleteSongModal.show(context, song);
+        break;
     }
   }
 

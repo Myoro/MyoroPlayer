@@ -24,7 +24,8 @@ final class MainScreenBodySongList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocBuilder<MainScreenBodySongListBloc, MainScreenBodySongListState>(
+      child: BlocConsumer<MainScreenBodySongListBloc, MainScreenBodySongListState>(
+        listener: (context, state) => _handleSnackBars(context, state),
         builder: (context, state) {
           return Column(
             children: [
@@ -50,6 +51,16 @@ final class MainScreenBodySongList extends StatelessWidget {
       ),
     );
   }
+
+  // coverage:ignore-start
+  void _handleSnackBars(BuildContext context, MainScreenBodySongListState state) {
+    if (state.status == BlocStatusEnum.completed && state.snackBarMessage != null) {
+      context.showDialogSnackBar(context, state.snackBarMessage!);
+    } else if (state.status == BlocStatusEnum.error) {
+      context.showErrorSnackBar(context, state.snackBarMessage!);
+    }
+  }
+  // coverage:ignore-end
 }
 
 final class _Song extends StatelessWidget {

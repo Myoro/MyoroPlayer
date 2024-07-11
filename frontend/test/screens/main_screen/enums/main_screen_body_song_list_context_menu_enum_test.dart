@@ -1,27 +1,50 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
+import 'package:frontend/shared/controllers/song_controller.dart';
+import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/song.dart';
+import 'package:frontend/shared/services/song_service/song_service.dart';
+import 'package:frontend/shared/widgets/modals/delete_song_modal.dart';
+import 'package:kiwi/kiwi.dart';
 
 import '../../../base_test_widget.dart';
+import '../../../mocks/file_system_helper_mock.dart';
+import '../../../mocks/song_service.mock.dart';
 
 void main() {
+  final kiwiContainer = KiwiContainer();
   final key = UniqueKey();
+  final song = Song.mock;
+
+  setUpAll(() {
+    kiwiContainer
+      ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
+      ..registerFactory<SongController>((_) => SongController());
+  });
+
+  tearDownAll(() => kiwiContainer.clear());
 
   final widget = BaseTestWidget(
-    child: Builder(
-      builder: (context) {
-        return GestureDetector(
-          key: key,
-          onTap: () {
-            MainScreenBodySongListContextMenuEnum.showContextMenu(
-              context,
-              TapDownDetails(),
-              Song.mock,
-            );
-          },
-        );
-      },
+    child: BlocProvider(
+      create: (context) => MainScreenBodySongListBloc(),
+      child: Builder(
+        builder: (context) {
+          return GestureDetector(
+            key: key,
+            onTap: () {
+              MainScreenBodySongListContextMenuEnum.showContextMenu(
+                context,
+                TapDownDetails(),
+                song,
+              );
+            },
+          );
+        },
+      ),
     ),
   );
 
@@ -44,7 +67,8 @@ void main() {
       await pumpAndDisplayContextMenu(tester);
       expectCalls();
       await tester.tap(find.text(MainScreenBodySongListContextMenuEnum.addToQueue.text));
-      expect(tester.takeException(), isInstanceOf<UnimplementedError>());
+      await tester.pump();
+      expect(find.text('${song.title} added to queue.'), findsOneWidget);
     },
   );
 
@@ -54,7 +78,6 @@ void main() {
       await pumpAndDisplayContextMenu(tester);
       expectCalls();
       await tester.tap(find.text(MainScreenBodySongListContextMenuEnum.copySongToPlaylist.text));
-      expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     },
   );
 
@@ -64,7 +87,6 @@ void main() {
       await pumpAndDisplayContextMenu(tester);
       expectCalls();
       await tester.tap(find.text(MainScreenBodySongListContextMenuEnum.moveSongToPlaylist.text));
-      expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     },
   );
 
@@ -74,7 +96,8 @@ void main() {
       await pumpAndDisplayContextMenu(tester);
       expectCalls();
       await tester.tap(find.text(MainScreenBodySongListContextMenuEnum.deleteSong.text));
-      expect(tester.takeException(), isInstanceOf<UnimplementedError>());
+      await tester.pump();
+      expect(find.byType(DeleteSongModal), findsOneWidget);
     },
   );
 }

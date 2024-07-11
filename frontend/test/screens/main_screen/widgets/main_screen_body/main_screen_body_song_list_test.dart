@@ -13,6 +13,7 @@ import 'package:frontend/shared/extensions/duration_extension.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/models/song.dart';
+import 'package:frontend/shared/services/song_service/song_service.dart';
 import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
 import 'package:frontend/shared/widgets/headers/underline_header.dart';
 import 'package:frontend/shared/widgets/images/base_image.dart';
@@ -21,6 +22,7 @@ import 'package:kiwi/kiwi.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/song_service.mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
@@ -28,11 +30,9 @@ void main() {
   final songList = Song.mockList(2);
 
   setUp(() {
-    kiwiContainer.registerFactory<FileSystemHelper>(
-      (_) => FileSystemHelperMock.preConfigured(
-        songList: songList,
-      ),
-    );
+    kiwiContainer
+      ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured(songList: songList))
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
   });
 
   tearDown(() => kiwiContainer.clear());

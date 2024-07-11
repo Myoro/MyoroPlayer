@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
+import 'package:frontend/shared/extensions/build_context_extension.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/widgets/modals/base_modal.dart';
@@ -26,13 +26,13 @@ final class DeletePlaylistFromDeviceConfirmationModal extends StatelessWidget {
       },
       onSuccessCallback: (_) {
         playlistResolverController.refresh();
-        SnackBarHelper.showDialogSnackBar(
+        context.showDialogSnackBar(
           context,
           '${playlist.name} deleted from device successfully!',
         );
       },
       onErrorCallback: (String error) {
-        SnackBarHelper.showErrorSnackBar(
+        context.showErrorSnackBar(
           context,
           'Error deleting ${playlist.name}.',
         );

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:frontend/shared/controllers/model_resolver_controller.dart';
+import 'package:frontend/shared/extensions/build_context_extension.dart';
 import 'package:frontend/shared/extensions/string_extension.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/widgets/inputs/outline_input.dart';
@@ -31,7 +31,7 @@ final class RenamePlaylistModal extends StatefulWidget {
       onSuccessCallback: (Playlist? model) {
         playlistResolverController.refresh();
 
-        SnackBarHelper.showDialogSnackBar(
+        context.showDialogSnackBar(
           context,
           'Playlist renamed successfully!',
         );

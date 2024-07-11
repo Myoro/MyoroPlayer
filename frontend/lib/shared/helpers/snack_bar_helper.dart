@@ -5,6 +5,7 @@ import 'package:frontend/shared/widgets/snack_bars/base_snack_bar.dart';
 /// For displaying/controlling snack bar messages
 final class SnackBarHelper {
   static void _showSnackBar(BuildContext context, SnackBarTypeEnum snackBarType, String message) {
+    closeSnackBar(context);
     ScaffoldMessenger.of(context).showSnackBar(
       BaseSnackBar(
         snackBarType: snackBarType,

@@ -5,7 +5,6 @@ import 'package:frontend/shared/enums/image_size_enum.dart';
 import 'package:frontend/shared/enums/snack_bar_type_enum.dart';
 import 'package:frontend/shared/extensions/build_context_extension.dart';
 import 'package:frontend/shared/extensions/text_style_extension.dart';
-import 'package:frontend/shared/helpers/snack_bar_helper.dart';
 import 'package:frontend/shared/widgets/buttons/no_feedback_button.dart';
 
 final class BaseSnackBar extends SnackBar {
@@ -66,7 +65,7 @@ final class _SnackBar extends StatelessWidget {
             ),
             const SizedBox(width: 5),
             NoFeedbackButton(
-              onTap: () => SnackBarHelper.closeSnackBar(context),
+              onTap: () => context.closeSnackBar(context),
               child: Icon(
                 Icons.close,
                 size: ImageSizeEnum.small.size - 10,
