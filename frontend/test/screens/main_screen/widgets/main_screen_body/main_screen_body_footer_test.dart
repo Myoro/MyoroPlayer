@@ -1,14 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
+import 'package:frontend/shared/controllers/song_controller.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
+import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:frontend/shared/widgets/sliders/base_slider.dart';
+import 'package:kiwi/kiwi.dart';
 
 import '../../../../base_test_widget.dart';
+import '../../../../mocks/playlist_service_mock.dart';
 
 void main() {
+  final kiwiContainer = KiwiContainer();
+
+  setUp(() {
+    kiwiContainer
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
+      ..registerSingleton<SongController>((_) => SongController());
+  });
+  tearDown(() => kiwiContainer.clear());
+
   void iconTextHoverButtonPredicate(IconData icon) {
     expect(
       find.byWidgetPredicate(
@@ -98,7 +111,7 @@ void main() {
     );
     iconTextHoverButtonPredicate(Icons.shuffle);
     iconTextHoverButtonPredicate(Icons.skip_previous);
-    iconTextHoverButtonPredicate(Icons.pause);
+    iconTextHoverButtonPredicate(Icons.play_arrow);
     iconTextHoverButtonPredicate(Icons.skip_next);
     iconTextHoverButtonPredicate(Icons.repeat);
 
@@ -115,9 +128,15 @@ void main() {
 
     // Testing the buttons
     await tester.tap(find.byIcon(Icons.shuffle));
+    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     await tester.tap(find.byIcon(Icons.skip_previous));
-    await tester.tap(find.byIcon(Icons.pause));
+    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
+    await tester.tap(find.byIcon(Icons.play_arrow));
     await tester.tap(find.byIcon(Icons.skip_next));
+    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     await tester.tap(find.byIcon(Icons.repeat));
+    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
+    await tester.tap(find.byIcon(Icons.queue_music));
+    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
   });
 }

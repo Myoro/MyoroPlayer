@@ -21,6 +21,14 @@ final class PlaylistServiceMock extends Mock implements PlaylistService {
     );
 
     when(
+      () => mock.get(
+        conditions: any(named: 'conditions'),
+      ),
+    ).thenAnswer(
+      (_) async => playlist ?? preConfiguredPlaylist,
+    );
+
+    when(
       () => mock.select(conditions: any(named: 'conditions')),
     ).thenAnswer(
       (_) async => playlists ?? preConfiguredPlaylists,

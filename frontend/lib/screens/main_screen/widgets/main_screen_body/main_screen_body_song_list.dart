@@ -20,7 +20,9 @@ import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
 import 'package:kiwi/kiwi.dart';
 
 final class MainScreenBodySongList extends StatelessWidget {
-  const MainScreenBodySongList({super.key});
+  const MainScreenBodySongList({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

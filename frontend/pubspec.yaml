@@ -25,6 +25,7 @@ dependencies:
   flutter_svg: ^2.0.10+1
   mp3_info: ^0.2.1
   id3tag: ^0.2.0
+  kplayer: ^0.4.2
 
 dev_dependencies:
   flutter_test:

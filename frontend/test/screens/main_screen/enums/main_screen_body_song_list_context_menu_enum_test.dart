@@ -6,12 +6,14 @@ import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_co
 import 'package:frontend/shared/controllers/song_controller.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/song.dart';
+import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/services/song_service/song_service.dart';
 import 'package:frontend/shared/widgets/modals/delete_song_modal.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../../base_test_widget.dart';
 import '../../../mocks/file_system_helper_mock.dart';
+import '../../../mocks/playlist_service_mock.dart';
 import '../../../mocks/song_service.mock.dart';
 
 void main() {
@@ -22,6 +24,7 @@ void main() {
   setUpAll(() {
     kiwiContainer
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
       ..registerFactory<SongController>((_) => SongController());
   });

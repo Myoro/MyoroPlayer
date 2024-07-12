@@ -3,13 +3,18 @@
 1. `dart doc`
 1. Playing songs
 
-- Direct play
+- (**DONE**) Direct play
 - Previous play
 - Next/autoplay
+- Pause/play/next/previous/... buttons
+- Song sliders (music slider and volume slider)
+- Loading song information to the footer
 
 ## TESTS
 
-1. Add `SongController.directPlay` test case
-2. Add `SongController.previousPlay` test case
-3. Add `SongController.nextSong` test case
-4. Add `BaseHover.forceHover` test case
+## CHECKLIST UNTIL FINISHED
+
+1. Playing songs
+1. Zipping playlist(s) for the user
+1. `dart doc`
+1. Deployment doc

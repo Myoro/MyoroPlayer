@@ -6,6 +6,7 @@ import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bl
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
+import 'package:frontend/shared/controllers/song_controller.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
@@ -13,6 +14,7 @@ import 'package:frontend/shared/extensions/duration_extension.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/playlist.dart';
 import 'package:frontend/shared/models/song.dart';
+import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/services/song_service/song_service.dart';
 import 'package:frontend/shared/widgets/buttons/base_hover_button.dart';
 import 'package:frontend/shared/widgets/headers/underline_header.dart';
@@ -22,6 +24,7 @@ import 'package:kiwi/kiwi.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/playlist_service_mock.dart';
 import '../../../../mocks/song_service.mock.dart';
 
 void main() {
@@ -32,7 +35,9 @@ void main() {
   setUp(() {
     kiwiContainer
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured(songList: songList))
-      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
+      ..registerSingleton<SongController>((_) => SongController());
   });
 
   tearDown(() => kiwiContainer.clear());
@@ -61,9 +66,14 @@ void main() {
           w.children.length == 2 &&
           w.children.first is UnderlineHeader &&
           (w.children.first as UnderlineHeader).header == playlist.name &&
-          w.children.last is Expanded &&
-          (w.children.last as Expanded).child is VerticalScrollbar &&
-          ((w.children.last as Expanded).child as VerticalScrollbar).children.length == songList.length)),
+          w.children.last is ListenableBuilder)),
+      findsOneWidget,
+    );
+
+    expect(
+      find.byWidgetPredicate(
+        (w) => w is Expanded && (w).child is VerticalScrollbar && ((w).child as VerticalScrollbar).children.length == songList.length,
+      ),
       findsOneWidget,
     );
 

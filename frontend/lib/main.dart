@@ -18,12 +18,17 @@ import 'package:frontend/shared/services/playlist_service/playlist_service.dart'
 import 'package:frontend/shared/services/playlist_service/playlist_service_api.dart';
 import 'package:frontend/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:frontend/shared/services/user_preferences_service/user_preferences_service_api.dart';
+import 'package:kplayer/kplayer.dart';
 import 'package:window_manager/window_manager.dart';
 
 // coverage:ignore-start
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
+  /// kplayer (the audio player) initialization
+  Player.boot();
+
+  /// Window Manager initialization
   if (PlatformHelper.isDesktop) {
     windowManager.ensureInitialized();
     windowManager.setTitle('MyoroPlayer');
@@ -39,13 +44,13 @@ void main() async {
   KiwiContainer()
 
     /// Helpers
-    ..registerFactory<FileSystemHelper>((c) => FileSystemHelper(database))
-    ..registerFactory<DeviceHelper>((c) => DeviceHelper())
+    ..registerFactory<FileSystemHelper>((_) => FileSystemHelper(database))
+    ..registerFactory<DeviceHelper>((_) => DeviceHelper())
 
     /// (CRUD) services
-    ..registerFactory<UserPreferencesService>((c) => UserPreferencesServiceApi(database))
-    ..registerFactory<PlaylistService>((c) => PlaylistServiceApi(database))
-    ..registerFactory<SongService>((c) => SongServiceApi(database))
+    ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceApi(database))
+    ..registerFactory<PlaylistService>((_) => PlaylistServiceApi(database))
+    ..registerFactory<SongService>((_) => SongServiceApi(database))
 
     /// Controllers
     ..registerSingleton<SongController>((c) => SongController());
