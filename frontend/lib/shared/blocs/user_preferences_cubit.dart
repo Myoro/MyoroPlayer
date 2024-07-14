@@ -9,6 +9,34 @@ final class UserPreferencesCubit extends Cubit<UserPreferences> {
   UserPreferencesCubit(super.userPreferences);
 
   Future<void> toggleTheme() async {
-    emit((await _userPreferencesService.update())!);
+    emit((await _userPreferencesService.update(
+      data: {
+        UserPreferences.darkModeJsonKey: state.darkMode ? 0 : 1,
+      },
+    ))!);
+  }
+
+  Future<void> toggleShuffle() async {
+    emit((await _userPreferencesService.update(
+      data: {
+        UserPreferences.shuffleJsonKey: state.shuffle ? 0 : 1,
+      },
+    ))!);
+  }
+
+  Future<void> toggleRepeat() async {
+    emit((await _userPreferencesService.update(
+      data: {
+        UserPreferences.repeatJsonKey: state.repeat ? 0 : 1,
+      },
+    ))!);
+  }
+
+  Future<void> setVolume(double value) async {
+    emit((await _userPreferencesService.update(
+      data: {
+        UserPreferences.volumeJsonKey: value.toInt(),
+      },
+    ))!);
   }
 }

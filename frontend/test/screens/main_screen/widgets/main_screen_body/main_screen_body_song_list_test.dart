@@ -2,11 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
-import 'package:frontend/shared/controllers/song_controller.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
 import 'package:frontend/shared/enums/image_size_enum.dart';
@@ -36,8 +37,7 @@ void main() {
     kiwiContainer
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured(songList: songList))
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
-      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
-      ..registerSingleton<SongController>((_) => SongController());
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
   });
 
   tearDown(() => kiwiContainer.clear());
@@ -48,8 +48,11 @@ void main() {
         themeMode: ThemeMode.dark,
         child: Column(
           children: [
-            BlocProvider(
-              create: (context) => MainScreenBodySongListBloc()..add(LoadPlaylistSongsEvent(playlist)),
+            MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => MainScreenBodySongListBloc()..add(LoadPlaylistSongsEvent(playlist))),
+                BlocProvider(create: (context) => MainScreenBodyFooterBloc()),
+              ],
               child: const MainScreenBodySongList(),
             ),
           ],
@@ -66,7 +69,7 @@ void main() {
           w.children.length == 2 &&
           w.children.first is UnderlineHeader &&
           (w.children.first as UnderlineHeader).header == playlist.name &&
-          w.children.last is ListenableBuilder)),
+          w.children.last is BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>)),
       findsOneWidget,
     );
 

@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_state.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
-import 'package:frontend/shared/controllers/song_controller.dart';
 import 'package:frontend/shared/design_system/color_design_system.dart';
 import 'package:frontend/shared/design_system/image_design_system.dart';
 import 'package:frontend/shared/enums/bloc_status_enum.dart';
@@ -17,7 +19,6 @@ import 'package:frontend/shared/widgets/headers/underline_header.dart';
 import 'package:frontend/shared/widgets/images/base_image.dart';
 import 'package:frontend/shared/widgets/loading/loading_circle.dart';
 import 'package:frontend/shared/widgets/scrollbars/vertical_scrollbar.dart';
-import 'package:kiwi/kiwi.dart';
 
 final class MainScreenBodySongList extends StatelessWidget {
   const MainScreenBodySongList({
@@ -26,28 +27,25 @@ final class MainScreenBodySongList extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final songController = KiwiContainer().resolve<SongController>();
-
     return Expanded(
       child: BlocConsumer<MainScreenBodySongListBloc, MainScreenBodySongListState>(
-        listener: (context, state) => _handleSnackBars(context, state),
-        builder: (context, state) {
+        listener: (context, mainScreenBodySongListState) => _handleSnackBars(context, mainScreenBodySongListState),
+        builder: (context, mainScreenBodySongListState) {
           return Column(
             children: [
-              UnderlineHeader(header: state.loadedPlaylist?.name ?? ''),
-              ListenableBuilder(
-                listenable: songController,
-                builder: (_, __) {
+              UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),
+              BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>(
+                builder: (context, mainScreenFooterState) {
                   return Expanded(
-                    child: state.status == BlocStatusEnum.loading
+                    child: mainScreenBodySongListState.status == BlocStatusEnum.loading
                         ? const Center(child: LoadingCircle())
                         : VerticalScrollbar(
-                            children: state.loadedPlaylistSongs?.map<_Song>(
+                            children: mainScreenBodySongListState.loadedPlaylistSongs?.map<_Song>(
                                   (song) {
                                     return _Song(
                                       song,
-                                      isLastSong: state.loadedPlaylistSongs?.last == song,
-                                      isSelectedSong: songController.loadedSong == song,
+                                      isLastSong: mainScreenBodySongListState.loadedPlaylistSongs?.last == song,
+                                      isSelectedSong: mainScreenFooterState.loadedSong?.$1 == song,
                                     );
                                   },
                                 ).toList() ??
@@ -96,7 +94,11 @@ final class _Song extends StatelessWidget {
       ),
       child: BaseHoverButton(
         forceHover: isSelectedSong,
-        onTap: () => KiwiContainer().resolve<SongController>().directPlay(song),
+        onTap: () => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+          DirectPlayEvent(
+            song,
+          ),
+        ),
         onSecondaryTapDown: (details) {
           MainScreenBodySongListContextMenuEnum.showContextMenu(
             context,

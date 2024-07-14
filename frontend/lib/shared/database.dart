@@ -44,13 +44,21 @@ final class Database {
     await _database?.execute('''
       CREATE TABLE IF NOT EXISTS $userPreferencesTableName(
         id INTEGER PRIMARY KEY,
-        ${UserPreferences.darkModeJsonKey} INTEGER
+        ${UserPreferences.darkModeJsonKey} INTEGER,
+        ${UserPreferences.shuffleJsonKey} INTEGER,
+        ${UserPreferences.repeatJsonKey} INTEGER,
+        ${UserPreferences.volumeJsonKey} INTEGER
       );
     ''');
     if (await get(userPreferencesTableName) == null) {
       await insert(
         userPreferencesTableName,
-        data: {UserPreferences.darkModeJsonKey: 1},
+        data: {
+          UserPreferences.darkModeJsonKey: 1,
+          UserPreferences.shuffleJsonKey: 0,
+          UserPreferences.repeatJsonKey: 0,
+          UserPreferences.volumeJsonKey: 50,
+        },
       );
     }
 

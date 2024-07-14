@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:frontend/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
-import 'package:frontend/shared/controllers/song_controller.dart';
+import 'package:frontend/shared/blocs/user_preferences_cubit.dart';
 import 'package:frontend/shared/helpers/file_system_helper.dart';
 import 'package:frontend/shared/models/song.dart';
+import 'package:frontend/shared/models/user_preferences.dart';
 import 'package:frontend/shared/services/playlist_service/playlist_service.dart';
 import 'package:frontend/shared/services/song_service/song_service.dart';
 import 'package:frontend/shared/widgets/modals/delete_song_modal.dart';
@@ -25,15 +27,18 @@ void main() {
     kiwiContainer
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
-      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
-      ..registerFactory<SongController>((_) => SongController());
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
   });
 
   tearDownAll(() => kiwiContainer.clear());
 
   final widget = BaseTestWidget(
-    child: BlocProvider(
-      create: (context) => MainScreenBodySongListBloc(),
+    child: MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (context) => UserPreferencesCubit(UserPreferences.mock)),
+        BlocProvider(create: (context) => MainScreenBodySongListBloc()),
+        BlocProvider(create: (context) => MainScreenBodyFooterBloc()),
+      ],
       child: Builder(
         builder: (context) {
           return GestureDetector(

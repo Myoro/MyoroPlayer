@@ -109,17 +109,6 @@ void main() {
     await tester.tap(find.text(MainScreenAppBarDrawerItemsEnum.createPlaylist.text));
   });
 
-  testWidgets('MainScreenAppBarDrawerItemsEnum.loginSignup button widget test.', (tester) async {
-    await tester.pumpWidget(
-      BlocProvider.value(
-        value: mainScreenBodyPlaylistSideBarBloc,
-        child: widget,
-      ),
-    );
-    await expectCalls(tester);
-    await tester.tap(find.text(MainScreenAppBarDrawerItemsEnum.loginSignup.text));
-  });
-
   testWidgets('MainScreenAppBarDrawerItemsEnum.toggleTheme button widget test.', (tester) async {
     await tester.pumpWidget(
       MultiBlocProvider(

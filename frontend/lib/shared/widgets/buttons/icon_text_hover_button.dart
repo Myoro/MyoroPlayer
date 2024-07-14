@@ -16,6 +16,7 @@ final class IconTextHoverButton extends StatelessWidget {
   final TextAlign textAlign;
   final EdgeInsets? padding;
   final bool bordered;
+  final bool forceHover;
   final Function onTap;
   final Function(TapDownDetails details)? onSecondaryTapDown;
 
@@ -30,6 +31,7 @@ final class IconTextHoverButton extends StatelessWidget {
     this.textAlign = TextAlign.left,
     this.padding,
     this.bordered = false,
+    this.forceHover = false,
     required this.onTap,
     this.onSecondaryTapDown,
   }) : assert(
@@ -42,11 +44,16 @@ final class IconTextHoverButton extends StatelessWidget {
     return BaseHoverButton(
       padding: padding ?? const EdgeInsets.all(3),
       bordered: bordered,
+      forceHover: forceHover,
       onTap: onTap,
       onSecondaryTapDown: onSecondaryTapDown,
       builder: (hovered) {
         // coverage:ignore-start
-        final Color contentColor = hovered ? ColorDesignSystem.background(context) : ColorDesignSystem.onBackground(context);
+        final Color contentColor = forceHover
+            ? ColorDesignSystem.background(context)
+            : hovered
+                ? ColorDesignSystem.background(context)
+                : ColorDesignSystem.onBackground(context);
         // coverage:ignore-end
 
         return Row(

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:frontend/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:frontend/shared/controllers/song_controller.dart';
+import 'package:frontend/shared/blocs/user_preferences_cubit.dart';
+import 'package:frontend/shared/models/user_preferences.dart';
 import 'package:frontend/shared/services/song_service/song_service.dart';
+import 'package:frontend/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:frontend/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:frontend/screens/main_screen/widgets/main_screen_body/main_screen_body.dart';
@@ -18,16 +21,17 @@ import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
 import '../../../../mocks/playlist_service_mock.dart';
 import '../../../../mocks/song_service.mock.dart';
+import '../../../../mocks/user_preferences_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
 
   setUp(() {
     kiwiContainer
+      ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
-      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
-      ..registerSingleton<SongController>((_) => SongController());
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
   });
 
   tearDown(() => kiwiContainer.clear());
@@ -37,8 +41,10 @@ void main() {
       BaseTestWidget(
         child: MultiBlocProvider(
           providers: [
+            BlocProvider(create: (context) => UserPreferencesCubit(UserPreferences.mock)),
             BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
             BlocProvider(create: (context) => MainScreenBodySongListBloc()),
+            BlocProvider(create: (context) => MainScreenBodyFooterBloc()),
           ],
           child: const MainScreenBody(),
         ),

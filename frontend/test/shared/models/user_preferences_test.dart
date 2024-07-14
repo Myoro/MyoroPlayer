@@ -11,20 +11,42 @@ void main() {
 
     // fromJson
     expect(
-      UserPreferences.fromJson(const {UserPreferences.darkModeJsonKey: false}),
-      const UserPreferences(darkMode: false),
+      UserPreferences.fromJson(
+        const {
+          UserPreferences.darkModeJsonKey: false,
+          UserPreferences.shuffleJsonKey: false,
+          UserPreferences.repeatJsonKey: false,
+          UserPreferences.volumeJsonKey: 50,
+        },
+      ),
+      const UserPreferences(
+        darkMode: false,
+        shuffle: false,
+        repeat: false,
+        volume: 50,
+      ),
     );
 
     // toJson
     expect(
       userPreferences.toJson(),
-      {UserPreferences.darkModeJsonKey: userPreferences.darkMode ? 1 : 0},
+      {
+        UserPreferences.darkModeJsonKey: userPreferences.darkMode ? 1 : 0,
+        UserPreferences.shuffleJsonKey: userPreferences.shuffle ? 1 : 0,
+        UserPreferences.repeatJsonKey: userPreferences.repeat ? 1 : 0,
+        UserPreferences.volumeJsonKey: userPreferences.volume,
+      },
     );
 
     // toString()
     expect(
       userPreferences.toString(),
-      'UserPreferences(darkMode: ${userPreferences.darkMode});',
+      'UserPreferences(\n'
+      '  darkMode: ${userPreferences.darkMode},\n'
+      '  shuffle: ${userPreferences.shuffle},\n'
+      '  repeat: ${userPreferences.repeat},\n'
+      '  volume: ${userPreferences.volume},\n'
+      ');',
     );
   });
 }

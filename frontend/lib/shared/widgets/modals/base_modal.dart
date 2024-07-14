@@ -131,6 +131,8 @@ class _BaseModalState<T> extends State<BaseModal<T>> {
                             Expanded(
                               child: Text(
                                 _title!,
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
                                 style: Theme.of(context).textTheme.titleMedium,
                               ),
                             ),
