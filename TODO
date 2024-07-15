@@ -3,12 +3,8 @@
 1. `dart doc`
 1. Playing songs
 
-- (**DONE**) Direct play
 - Previous play
 - Next/autoplay
-- Pause/(**DONE**)play/next/previous/... buttons
-- (**DONE**) Song sliders (music slider and volume slider)
-- (**DONE**) Loading song information to the footer
 - Queue list
 - Download all playlists zip
 
@@ -16,7 +12,5 @@
 
 ## CHECKLIST UNTIL FINISHED
 
-1. Playing songs
-1. Zipping playlist(s) for the user
 1. `dart doc`
 1. Deployment doc
