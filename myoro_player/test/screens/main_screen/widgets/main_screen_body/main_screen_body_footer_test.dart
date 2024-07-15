@@ -9,6 +9,7 @@ import 'package:myoro_player/shared/design_system/image_design_system.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
@@ -17,17 +18,26 @@ import 'package:kiwi/kiwi.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/playlist_service_mock.dart';
+import '../../../../mocks/song_service.mock.dart';
 import '../../../../mocks/user_preferences_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
+  late final UserPreferencesCubit userPreferencesCubit;
 
   setUp(() {
     kiwiContainer
       ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
-      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
+
+    userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
   });
-  tearDown(() => kiwiContainer.clear());
+
+  tearDown(() {
+    kiwiContainer.clear();
+    userPreferencesCubit.close();
+  });
 
   void iconTextHoverButtonPredicate(IconData icon) {
     expect(
@@ -44,8 +54,8 @@ void main() {
         themeMode: ThemeMode.dark,
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (_) => UserPreferencesCubit(UserPreferences.mock)),
-            BlocProvider(create: (_) => MainScreenBodyFooterBloc()),
+            BlocProvider(create: (_) => userPreferencesCubit),
+            BlocProvider(create: (_) => MainScreenBodyFooterBloc(userPreferencesCubit)),
           ],
           child: const MainScreenBodyFooter(),
         ),
@@ -148,10 +158,8 @@ void main() {
     // Testing the buttons and sliders
     await tester.tap(find.byIcon(Icons.shuffle));
     await tester.tap(find.byIcon(Icons.skip_previous));
-    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     await tester.tap(find.byIcon(Icons.play_arrow));
     await tester.tap(find.byIcon(Icons.skip_next));
-    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     await tester.tap(find.byIcon(Icons.repeat));
     await tester.tap(find.byIcon(Icons.queue_music));
     expect(tester.takeException(), isInstanceOf<UnimplementedError>());

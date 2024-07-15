@@ -1,8 +1,13 @@
+import 'package:myoro_player/shared/models/song.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:mocktail/mocktail.dart';
 
 final class SongServiceMock extends Mock implements SongService {
-  static SongServiceMock preConfigured() {
+  static final preConfiguredSongList = Song.mockList();
+
+  static SongServiceMock preConfigured({
+    List<Song>? songList,
+  }) {
     final mock = SongServiceMock();
 
     when(
@@ -11,6 +16,14 @@ final class SongServiceMock extends Mock implements SongService {
       ),
     ).thenAnswer(
       (_) async {},
+    );
+
+    when(
+      () => mock.select(
+        conditions: any(named: 'conditions'),
+      ),
+    ).thenAnswer(
+      (_) async => songList ?? preConfiguredSongList,
     );
 
     return mock;

@@ -136,6 +136,12 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
   @override
   void onStatusChanged(PlayerStatus status) {
     _isPlayingNotifier.value = status == PlayerStatus.playing ? true : false;
+
+    if (status == PlayerStatus.ended) {
+      BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+        const NextSongEvent(),
+      );
+    }
   }
   // coverage:ignore-end
 

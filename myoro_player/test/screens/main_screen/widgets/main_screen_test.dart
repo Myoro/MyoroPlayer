@@ -23,6 +23,7 @@ import '../../../mocks/user_preferences_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
+  late final UserPreferencesCubit userPreferencesCubit;
 
   setUp(() {
     kiwiContainer
@@ -30,8 +31,14 @@ void main() {
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured(playlists: []))
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
+
+    userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
   });
-  tearDown(() => kiwiContainer.clear());
+
+  tearDown(() {
+    kiwiContainer.clear();
+    userPreferencesCubit.close();
+  });
 
   testWidgets('MainScreen widget test.', (tester) async {
     await tester.pumpWidget(
@@ -39,10 +46,10 @@ void main() {
         testType: TestTypeEnum.screen,
         child: MultiBlocProvider(
           providers: [
-            BlocProvider(create: (context) => UserPreferencesCubit(UserPreferences.mock)),
+            BlocProvider(create: (context) => userPreferencesCubit),
             BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
             BlocProvider(create: (context) => MainScreenBodySongListBloc()),
-            BlocProvider(create: (context) => MainScreenBodyFooterBloc()),
+            BlocProvider(create: (context) => MainScreenBodyFooterBloc(userPreferencesCubit)),
           ],
           child: const MainScreen(),
         ),

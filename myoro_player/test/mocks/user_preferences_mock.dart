@@ -9,8 +9,21 @@ final class UserPreferencesServiceMock extends Mock implements UserPreferencesSe
     final mock = UserPreferencesServiceMock();
 
     when(
-      () => mock.update(id: any(named: 'id'), data: any(named: 'data')),
-    ).thenAnswer((_) async => model ?? UserPreferences.mock);
+      () => mock.update(
+        id: any(named: 'id'),
+        data: any(named: 'data'),
+      ),
+    ).thenAnswer(
+      (_) async => model ?? UserPreferences.mock,
+    );
+
+    when(
+      () => mock.get(
+        conditions: any(named: 'conditions'),
+      ),
+    ).thenAnswer(
+      (_) async => model ?? UserPreferences.mock,
+    );
 
     return mock;
   }

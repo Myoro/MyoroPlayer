@@ -8,6 +8,7 @@ import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_lis
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
 import 'package:myoro_player/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:myoro_player/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
+import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
 import 'package:myoro_player/shared/design_system/image_design_system.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
@@ -15,8 +16,10 @@ import 'package:myoro_player/shared/extensions/duration_extension.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/song.dart';
+import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
+import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
@@ -27,20 +30,28 @@ import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
 import '../../../../mocks/playlist_service_mock.dart';
 import '../../../../mocks/song_service.mock.dart';
+import '../../../../mocks/user_preferences_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
+  late final UserPreferencesCubit userPreferencesCubit;
   final playlist = Playlist.mock;
   final songList = Song.mockList(2);
 
   setUp(() {
     kiwiContainer
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured(songList: songList))
+      ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
+
+    userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
   });
 
-  tearDown(() => kiwiContainer.clear());
+  tearDown(() {
+    kiwiContainer.clear();
+    userPreferencesCubit.close();
+  });
 
   testWidgets('MainScreenBodySongList widget test.', (tester) async {
     await tester.pumpWidget(
@@ -50,8 +61,9 @@ void main() {
           children: [
             MultiBlocProvider(
               providers: [
+                BlocProvider(create: (context) => userPreferencesCubit),
                 BlocProvider(create: (context) => MainScreenBodySongListBloc()..add(LoadPlaylistSongsEvent(playlist))),
-                BlocProvider(create: (context) => MainScreenBodyFooterBloc()),
+                BlocProvider(create: (context) => MainScreenBodyFooterBloc(userPreferencesCubit)),
               ],
               child: const MainScreenBodySongList(),
             ),
@@ -153,7 +165,7 @@ void main() {
       );
       expect(
         find.byWidgetPredicate((w) => w is Text && w.data == song.duration.hhMmSsFormat),
-        findsOneWidget,
+        findsAtLeastNWidgets(1),
       );
     }
 

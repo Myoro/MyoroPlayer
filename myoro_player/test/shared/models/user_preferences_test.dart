@@ -16,14 +16,14 @@ void main() {
           UserPreferences.darkModeJsonKey: false,
           UserPreferences.shuffleJsonKey: false,
           UserPreferences.repeatJsonKey: false,
-          UserPreferences.volumeJsonKey: 50,
+          UserPreferences.volumeJsonKey: 0.5,
         },
       ),
       const UserPreferences(
         darkMode: false,
         shuffle: false,
         repeat: false,
-        volume: 50,
+        volume: 0.5,
       ),
     );
 
