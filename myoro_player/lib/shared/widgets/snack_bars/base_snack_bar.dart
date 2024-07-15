@@ -8,7 +8,8 @@ import 'package:myoro_player/shared/extensions/text_style_extension.dart';
 import 'package:myoro_player/shared/widgets/buttons/no_feedback_button.dart';
 
 final class BaseSnackBar extends SnackBar {
-  BaseSnackBar({
+  BaseSnackBar(
+    BuildContext context, {
     super.key,
     required SnackBarTypeEnum snackBarType,
     required String message,
@@ -17,14 +18,23 @@ final class BaseSnackBar extends SnackBar {
           backgroundColor: ColorDesignSystem.transparent,
           elevation: 0,
           padding: const EdgeInsets.only(bottom: 5),
-          content: Row(
-            crossAxisAlignment: CrossAxisAlignment.end,
-            children: [
-              _SnackBar(
-                snackBarType,
-                message,
-              ),
-            ],
+          margin: EdgeInsets.only(
+            top: 5,
+            bottom: 5,
+            // If this line wasn't here, the snack bar
+            // would have a width of double.infinity
+            // disallowing the user to click anywhere
+            // on the bottom of the screen.
+            right: MediaQuery.of(context).size.width - 300,
+          ),
+          content: Padding(
+            padding: const EdgeInsets.only(
+              left: 10,
+            ),
+            child: _SnackBar(
+              snackBarType,
+              message,
+            ),
           ),
         );
 }

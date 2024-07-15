@@ -35,7 +35,7 @@ final class UserPreferencesCubit extends Cubit<UserPreferences> {
   Future<void> setVolume(double value) async {
     emit((await _userPreferencesService.update(
       data: {
-        UserPreferences.volumeJsonKey: value.toInt(),
+        UserPreferences.volumeJsonKey: value,
       },
     ))!);
   }

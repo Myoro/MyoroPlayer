@@ -124,8 +124,8 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
   // coverage:ignore-start
   @override
   void didUpdateWidget(covariant _SongControls oldWidget) {
-    usePlayer(_mainScreenBodyFooterState.player);
     super.didUpdateWidget(oldWidget);
+    usePlayer(_mainScreenBodyFooterState.player);
   }
 
   @override
@@ -142,6 +142,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
   @override
   Widget build(BuildContext context) {
     final userPreferencesCubit = BlocProvider.of<UserPreferencesCubit>(context);
+    final mainScreenBodyFooterBloc = BlocProvider.of<MainScreenBodyFooterBloc>(context);
 
     return Expanded(
       child: Column(
@@ -176,7 +177,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
                   const SizedBox(width: 1),
                   _Button(
                     icon: Icons.skip_previous,
-                    onPressed: () => throw UnimplementedError(), // TODO
+                    onPressed: () => mainScreenBodyFooterBloc.add(const PreviousSongEvent()),
                   ),
                   const SizedBox(width: 1),
                   ValueListenableBuilder(
@@ -184,14 +185,14 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
                     builder: (_, bool isPlaying, __) {
                       return _Button(
                         icon: isPlaying ? Icons.pause : Icons.play_arrow,
-                        onPressed: () => BlocProvider.of<MainScreenBodyFooterBloc>(context)..add(const TogglePlayPauseEvent()),
+                        onPressed: () => mainScreenBodyFooterBloc.add(const TogglePlayPauseEvent()),
                       );
                     },
                   ),
                   const SizedBox(width: 1),
                   _Button(
                     icon: Icons.skip_next,
-                    onPressed: () => throw UnimplementedError(), // TODO
+                    onPressed: () => mainScreenBodyFooterBloc.add(const NextSongEvent()),
                   ),
                   const SizedBox(width: 1),
                   _Button(
@@ -231,9 +232,13 @@ final class _MiscControls extends StatelessWidget {
               const SizedBox(width: 5),
               BaseSlider(
                 width: width >= 180 ? 180 : width,
-                value: userPreferences.volume,
+                value: userPreferences.volume * 100,
                 max: 100,
-                onChanged: (value) => BlocProvider.of<UserPreferencesCubit>(context).setVolume(value),
+                onChanged: (value) => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+                  ChangeVolumeEvent(
+                    value / 100,
+                  ),
+                ),
               ),
             ],
           );

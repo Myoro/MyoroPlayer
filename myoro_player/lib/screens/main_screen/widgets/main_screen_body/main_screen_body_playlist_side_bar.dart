@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
 import 'package:myoro_player/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
@@ -111,8 +113,16 @@ class _PlaylistsState extends State<_Playlists> {
                                 right: 5,
                               ),
                               onTap: () {
+                                BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+                                  SetLoadedPlaylistEvent(
+                                    playlist,
+                                  ),
+                                );
+
                                 BlocProvider.of<MainScreenBodySongListBloc>(context).add(
-                                  LoadPlaylistSongsEvent(playlist),
+                                  LoadPlaylistSongsEvent(
+                                    playlist,
+                                  ),
                                 );
                               },
                               onSecondaryTapDown: (details) {

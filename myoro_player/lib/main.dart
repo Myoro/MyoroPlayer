@@ -52,17 +52,19 @@ void main() async {
     ..registerFactory<PlaylistService>((_) => PlaylistServiceApi(database))
     ..registerFactory<SongService>((_) => SongServiceApi(database));
 
-  /// User preference initialization for it's cubit
-  final UserPreferences userPreferences = (await KiwiContainer().resolve<UserPreferencesService>().get())!;
+  /// User preferences cubit initialized here to provide to [MainScreenBodyFooterBloc]
+  final userPreferencesCubit = UserPreferencesCubit(
+    (await KiwiContainer().resolve<UserPreferencesService>().get())!,
+  );
 
   runApp(
     /// Global BloC initialization
     MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => UserPreferencesCubit(userPreferences)),
+        BlocProvider(create: (context) => userPreferencesCubit),
         BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
         BlocProvider(create: (context) => MainScreenBodySongListBloc()),
-        BlocProvider(create: (context) => MainScreenBodyFooterBloc()),
+        BlocProvider(create: (context) => MainScreenBodyFooterBloc(userPreferencesCubit)),
       ],
       child: const App(),
     ),

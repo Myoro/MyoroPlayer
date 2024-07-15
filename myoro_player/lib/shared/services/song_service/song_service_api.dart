@@ -15,9 +15,9 @@ final class SongServiceApi implements SongService {
   }
 
   @override
-  Future<List<Song>> select({Conditions? conditions}) {
-    // TODO: implement select
-    throw UnimplementedError();
+  Future<List<Song>> select({Conditions? conditions}) async {
+    final rows = await database.select(Database.songsTableName, conditions: conditions);
+    return rows.map<Song>((row) => Song.fromJson(row)).toList();
   }
 
   @override

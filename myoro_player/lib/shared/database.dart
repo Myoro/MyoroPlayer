@@ -47,7 +47,7 @@ final class Database {
         ${UserPreferences.darkModeJsonKey} INTEGER,
         ${UserPreferences.shuffleJsonKey} INTEGER,
         ${UserPreferences.repeatJsonKey} INTEGER,
-        ${UserPreferences.volumeJsonKey} INTEGER
+        ${UserPreferences.volumeJsonKey} REAL
       );
     ''');
     if (await get(userPreferencesTableName) == null) {
@@ -57,7 +57,7 @@ final class Database {
           UserPreferences.darkModeJsonKey: 1,
           UserPreferences.shuffleJsonKey: 0,
           UserPreferences.repeatJsonKey: 0,
-          UserPreferences.volumeJsonKey: 50,
+          UserPreferences.volumeJsonKey: 0.5,
         },
       );
     }

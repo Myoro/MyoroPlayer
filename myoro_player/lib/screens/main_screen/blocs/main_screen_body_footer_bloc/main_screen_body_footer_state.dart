@@ -12,6 +12,11 @@ final class MainScreenBodyFooterState extends Equatable {
   /// Loaded [Playlist] that is used to, for example, pick/choose new songs
   final Playlist? loadedPlaylist;
 
+  /// [loadedPlaylist] [Song]s randomized
+  ///
+  /// Works like Spotify's smart shuffle to prevent repititions when shuffle is enabled
+  final List<Song>? randomizedLoadedPlaylistSongs;
+
   /// The [Song] that is loaded and, for example, could be playing
   final (Song song, bool cacheSong)? loadedSong;
 
@@ -29,6 +34,7 @@ final class MainScreenBodyFooterState extends Equatable {
   const MainScreenBodyFooterState({
     this.player,
     this.loadedPlaylist,
+    this.randomizedLoadedPlaylistSongs,
     this.loadedSong,
     this.lastPlaylistSong,
     this.queue = const [],
@@ -38,6 +44,7 @@ final class MainScreenBodyFooterState extends Equatable {
   MainScreenBodyFooterState copyWith({
     PlayerController? player,
     Playlist? loadedPlaylist,
+    List<Song>? randomizedLoadedPlaylistSongs,
     (Song song, bool cacheSong)? loadedSong,
     Song? lastPlaylistSong,
     List<Song>? queue,
@@ -46,6 +53,7 @@ final class MainScreenBodyFooterState extends Equatable {
     return MainScreenBodyFooterState(
       player: player ?? this.player,
       loadedPlaylist: loadedPlaylist ?? this.loadedPlaylist,
+      randomizedLoadedPlaylistSongs: randomizedLoadedPlaylistSongs ?? this.randomizedLoadedPlaylistSongs,
       loadedSong: loadedSong ?? this.loadedSong,
       lastPlaylistSong: lastPlaylistSong ?? this.lastPlaylistSong,
       queue: queue ?? this.queue,
@@ -57,6 +65,7 @@ final class MainScreenBodyFooterState extends Equatable {
   String toString() => 'MainScreenBodyFooterState(\n'
       '  player: $player,\n'
       '  loadedPlaylist: $loadedPlaylist,\n'
+      '  randomizedLoadedPlaylistSongs: $randomizedLoadedPlaylistSongs,\n'
       '  loadedSong: $loadedSong,\n'
       '  lastPlaylistSong: $lastPlaylistSong,\n'
       '  queue: $queue,\n'
@@ -68,6 +77,7 @@ final class MainScreenBodyFooterState extends Equatable {
     return [
       player,
       loadedPlaylist,
+      randomizedLoadedPlaylistSongs,
       loadedSong,
       lastPlaylistSong,
       queue,

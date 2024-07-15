@@ -8,6 +8,7 @@ final class SnackBarHelper {
     closeSnackBar(context);
     ScaffoldMessenger.of(context).showSnackBar(
       BaseSnackBar(
+        context,
         snackBarType: snackBarType,
         message: message,
       ),

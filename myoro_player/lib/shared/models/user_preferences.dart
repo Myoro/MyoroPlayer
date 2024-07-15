@@ -47,7 +47,7 @@ final class UserPreferences extends Equatable {
       : darkMode = json[darkModeJsonKey] == 1 ? true : false,
         shuffle = json[shuffleJsonKey] == 1 ? true : false,
         repeat = json[repeatJsonKey] == 1 ? true : false,
-        volume = json[volumeJsonKey].toDouble();
+        volume = json[volumeJsonKey];
 
   Map<String, dynamic> toJson() {
     return {
