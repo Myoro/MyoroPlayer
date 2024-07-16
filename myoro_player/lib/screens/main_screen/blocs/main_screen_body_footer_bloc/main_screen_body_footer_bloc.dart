@@ -69,6 +69,19 @@ final class MainScreenBodyFooterBloc extends Bloc<MainScreenBodyFooterEvent, Mai
       );
     });
 
+    on<PlayQueuedSongEvent>((event, emit) async {
+      _killPlayer();
+
+      emit(
+        state.copyWith(
+          player: await _initPlayer(event.song),
+          loadedSong: (event.song, true),
+          queue: List.from(state.queue)..remove(event.song),
+          cache: _cacheSong(),
+        ),
+      );
+    });
+
     on<DirectPlayEvent>((event, emit) async {
       final loadedPlaylist = await _playlistService.get(
         conditions: Conditions({

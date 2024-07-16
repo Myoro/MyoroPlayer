@@ -2,17 +2,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
+import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
 import 'package:myoro_player/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
+import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
 import 'package:myoro_player/shared/design_system/image_design_system.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
+import 'package:myoro_player/shared/models/song.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
+import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 import 'package:myoro_player/shared/widgets/sliders/base_slider.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -24,6 +30,9 @@ import '../../../../mocks/user_preferences_mock.dart';
 void main() {
   final kiwiContainer = KiwiContainer();
   late final UserPreferencesCubit userPreferencesCubit;
+  late final MainScreenBodyFooterBloc mainScreenBodyFooterBloc;
+  final songOne = Song.mock;
+  final songTwo = Song.mock.copyWith(title: 'Another song');
 
   setUp(() {
     kiwiContainer
@@ -32,11 +41,13 @@ void main() {
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
 
     userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
+    mainScreenBodyFooterBloc = MainScreenBodyFooterBloc(userPreferencesCubit);
   });
 
   tearDown(() {
     kiwiContainer.clear();
     userPreferencesCubit.close();
+    mainScreenBodyFooterBloc.close();
   });
 
   void iconTextHoverButtonPredicate(IconData icon) {
@@ -50,14 +61,14 @@ void main() {
 
   testWidgets('MainScreenBodyFooter widget test.', (tester) async {
     await tester.pumpWidget(
-      BaseTestWidget(
-        themeMode: ThemeMode.dark,
-        child: MultiBlocProvider(
-          providers: [
-            BlocProvider(create: (_) => userPreferencesCubit),
-            BlocProvider(create: (_) => MainScreenBodyFooterBloc(userPreferencesCubit)),
-          ],
-          child: const MainScreenBodyFooter(),
+      MultiBlocProvider(
+        providers: [
+          BlocProvider.value(value: userPreferencesCubit),
+          BlocProvider.value(value: mainScreenBodyFooterBloc),
+        ],
+        child: const BaseTestWidget(
+          themeMode: ThemeMode.dark,
+          child: MainScreenBodyFooter(),
         ),
       ),
     );
@@ -101,15 +112,11 @@ void main() {
       find.byWidgetPredicate((w) => (w is Column &&
           w.mainAxisAlignment == MainAxisAlignment.center &&
           w.crossAxisAlignment == CrossAxisAlignment.start &&
-          w.children.length == 2 &&
+          w.children.length == 1 &&
           w.children.first is Text &&
           (w.children.first as Text).maxLines == 1 &&
           (w.children.first as Text).overflow == TextOverflow.ellipsis &&
-          (w.children.first as Text).data == '' &&
-          w.children.last is Text &&
-          (w.children.last as Text).maxLines == 1 &&
-          (w.children.last as Text).overflow == TextOverflow.ellipsis &&
-          (w.children.last as Text).data == '')),
+          (w.children.first as Text).data == '')),
       findsOneWidget,
     );
 
@@ -161,8 +168,6 @@ void main() {
     await tester.tap(find.byIcon(Icons.play_arrow));
     await tester.tap(find.byIcon(Icons.skip_next));
     await tester.tap(find.byIcon(Icons.repeat));
-    await tester.tap(find.byIcon(Icons.queue_music));
-    expect(tester.takeException(), isInstanceOf<UnimplementedError>());
     await tester.drag(
       find.byWidgetPredicate((w) => w is BaseSlider && w.width == 190),
       const Offset(50, 0),
@@ -171,5 +176,121 @@ void main() {
       find.byWidgetPredicate((w) => w is BaseSlider && w.max == 100),
       const Offset(50, 0),
     );
+
+    // Testing the queue overlay
+    mainScreenBodyFooterBloc.add(AddToQueueEvent(songOne));
+    mainScreenBodyFooterBloc.add(AddToQueueEvent(songTwo));
+    await tester.pump();
+    await tester.tap(find.byIcon(Icons.queue_music));
+    await tester.pump();
+    expect(
+      find.byWidgetPredicate((w) => (w is GestureDetector &&
+          w.child is Stack &&
+          (w.child as Stack).children.length == 2 &&
+          (w.child as Stack).children.first is Container &&
+          ((w.child as Stack).children.first as Container).color == ColorDesignSystem.transparent &&
+          (w.child as Stack).children.last is Positioned)),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) => w is Positioned && w.bottom == 95 && w.child is AnimatedBuilder),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) => w is FadeTransition && w.child is Container),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) =>
+          (w is Container &&
+              w.decoration ==
+                  BoxDecoration(
+                    color: DarkModeColorDesignSystem.background,
+                    borderRadius: DecorationDesignSystem.borderRadius,
+                    border: Border.all(width: 2, color: DarkModeColorDesignSystem.onBackground),
+                  )) &&
+          w.child is BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) => (w is Material &&
+          w.borderRadius == DecorationDesignSystem.borderRadius &&
+          w.child is Padding &&
+          (w.child as Padding).padding == const EdgeInsets.symmetric(vertical: 5) &&
+          (w.child as Padding).child is ValueListenableBuilder<List<Song>>)),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) => w is VerticalScrollbar && w.children.length == 2),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) => (w is Padding &&
+          w.child is BaseHoverButton &&
+          (w.child as BaseHoverButton).padding ==
+              const EdgeInsets.only(
+                top: 5,
+                bottom: 5,
+                left: 8,
+                right: 5,
+              ))),
+      findsNWidgets(2),
+    );
+    expect(
+      find.byWidgetPredicate((w) => (w is Row &&
+          w.children.length == 5 &&
+          w.children.first is BaseImage &&
+          w.children[1] is SizedBox &&
+          (w.children[1] as SizedBox).width == 10 &&
+          w.children[2] is Expanded &&
+          (w.children[2] as Expanded).child is Column &&
+          w.children[3] is SizedBox &&
+          (w.children[3] as SizedBox).width == 10 &&
+          w.children.last is BaseHoverButton &&
+          (w.children.last as BaseHoverButton).disableHover)),
+      findsNWidgets(2),
+    );
+    expect(
+      find.byWidgetPredicate((w) => (w is BaseImage &&
+          w.svgPath == ImageDesignSystem.logo &&
+          w.svgColor == DarkModeColorDesignSystem.onBackground &&
+          w.size == ImageSizeEnum.small.size + 10)),
+      findsNWidgets(3), // This includes [_SongInformation] not in this overlay
+    );
+    for (final song in [songOne, songTwo]) {
+      expect(
+        find.byWidgetPredicate((w) => (w is Column &&
+            w.mainAxisSize == MainAxisSize.min &&
+            w.mainAxisAlignment == MainAxisAlignment.center &&
+            w.crossAxisAlignment == CrossAxisAlignment.start &&
+            w.children.length == 2 &&
+            w.children.first is Text &&
+            (w.children.first as Text).data == song.title &&
+            (w.children.first as Text).maxLines == 1 &&
+            (w.children.first as Text).overflow == TextOverflow.ellipsis &&
+            w.children.last is Text &&
+            (w.children.last as Text).data == song.artist &&
+            (w.children.last as Text).maxLines == 1 &&
+            (w.children.last as Text).overflow == TextOverflow.ellipsis)),
+        findsOneWidget,
+      );
+    }
+    expect(
+      find.byWidgetPredicate((w) => (w is Container &&
+          w.decoration ==
+              BoxDecoration(
+                color: ColorDesignSystem.transparent,
+                borderRadius: DecorationDesignSystem.borderRadius,
+              ) &&
+          w.child is Icon &&
+          (w.child as Icon).icon == Icons.arrow_upward &&
+          (w.child as Icon).size == ImageSizeEnum.small.size &&
+          (w.child as Icon).color == DarkModeColorDesignSystem.onBackground)),
+      findsNWidgets(2),
+    );
+    await tester.tap(find.byIcon(Icons.arrow_upward).last);
+    await tester.pump();
+    await tester.tap(find.byWidgetPredicate((w) => w is Container && w.color == ColorDesignSystem.transparent));
+    await tester.pump();
   });
 }

@@ -9,7 +9,7 @@ abstract class MainScreenBodyFooterEvent {
   const MainScreenBodyFooterEvent();
 }
 
-/// General operations
+// General operations
 final class TogglePlayPauseEvent extends MainScreenBodyFooterEvent {
   const TogglePlayPauseEvent();
 }
@@ -38,9 +38,14 @@ final class SetLoadedPlaylistEvent extends MainScreenBodyFooterEvent {
   const SetLoadedPlaylistEvent(this.playlist);
 }
 
-///
+final class PlayQueuedSongEvent extends MainScreenBodyFooterEvent {
+  final Song song;
 
-/// Primary song logic operations
+  const PlayQueuedSongEvent(this.song);
+}
+//
+
+// Primary song logic operations
 final class DirectPlayEvent extends MainScreenBodyFooterEvent {
   final Song song;
 
@@ -54,4 +59,4 @@ final class PreviousSongEvent extends MainScreenBodyFooterEvent {
 final class NextSongEvent extends MainScreenBodyFooterEvent {
   const NextSongEvent();
 }
-///
+//

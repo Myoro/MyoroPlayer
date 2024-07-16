@@ -1,9 +1,5 @@
 # TODO
 
-1. `dart doc`
-1. Playing songs
-
-- Queue list
 - Download all playlists zip
 
 ## TESTS
@@ -11,4 +7,4 @@
 ## CHECKLIST UNTIL FINISHED
 
 1. `dart doc`
-1. Deployment doc
+1. Deployment pipeline(ssh )
