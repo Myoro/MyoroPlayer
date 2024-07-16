@@ -4,6 +4,8 @@
 
 ## TESTS
 
+- (mobile) `main_screen_test.dart`
+
 ## CHECKLIST UNTIL FINISHED
 
 1. `dart doc`

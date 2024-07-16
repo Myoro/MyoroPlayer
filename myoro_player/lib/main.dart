@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
 import 'package:myoro_player/shared/helpers/device_helper.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/song_service/song_service_api.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
-import 'package:myoro_player/screens/main_screen/widgets/main_screen.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen.dart' as desktop;
+import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen.dart' as mobile;
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/database.dart';
 import 'package:myoro_player/shared/design_system/theme_data.dart';
@@ -85,7 +86,7 @@ final class App extends StatelessWidget {
           themeMode: userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
           theme: createTheme(false),
           darkTheme: createTheme(true),
-          home: const MainScreen(),
+          home: PlatformHelper.isDesktop ? const desktop.MainScreen() : const mobile.MainScreen(),
         );
       },
     );

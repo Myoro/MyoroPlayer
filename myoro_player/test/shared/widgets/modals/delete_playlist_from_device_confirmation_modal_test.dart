@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:myoro_player/shared/blocs/model_resolver_bloc/model_resolver_bloc.dart';
 import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
