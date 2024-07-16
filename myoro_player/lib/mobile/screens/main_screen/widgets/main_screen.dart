@@ -5,10 +5,8 @@ final class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: const Text(
-        'Hello, World!',
-      ),
+    return const Text(
+      'Hello, Android!',
     );
   }
 }
