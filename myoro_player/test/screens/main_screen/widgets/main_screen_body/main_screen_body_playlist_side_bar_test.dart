@@ -85,11 +85,11 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0) && w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0) && w.child is Tooltip)),
       findsNWidgets(PlaylistServiceMock.preConfiguredPlaylists.length - 1),
     );
     expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 5) && w.child is IconTextHoverButton)),
+      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 5) && w.child is Tooltip)),
       findsOneWidget,
     );
     for (final playlist in PlaylistServiceMock.preConfiguredPlaylists) {

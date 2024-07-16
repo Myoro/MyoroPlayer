@@ -6,6 +6,7 @@ import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_lis
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
 import 'package:myoro_player/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
+import 'package:myoro_player/shared/constants.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
 import 'package:myoro_player/shared/design_system/image_design_system.dart';
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
@@ -92,87 +93,91 @@ final class _Song extends StatelessWidget {
         top: 5,
         bottom: isLastSong ? 5 : 0,
       ),
-      child: BaseHoverButton(
-        forceHover: isSelectedSong,
-        onTap: () => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
-          DirectPlayEvent(
-            song,
+      child: Tooltip(
+        waitDuration: kTooltipWaitDuration,
+        message: song.path,
+        child: BaseHoverButton(
+          forceHover: isSelectedSong,
+          onTap: () => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+            DirectPlayEvent(
+              song,
+            ),
           ),
-        ),
-        onSecondaryTapDown: (details) {
-          MainScreenBodySongListContextMenuEnum.showContextMenu(
-            context,
-            details,
-            song,
-          );
-        },
-        padding: const EdgeInsets.only(
-          top: 5,
-          bottom: 5,
-          left: 8,
-          right: 5,
-        ),
-        builder: (hovered) {
-          // coverage:ignore-start
-          final Color contentColor = isSelectedSong
-              ? ColorDesignSystem.background(context)
-              : hovered
-                  ? ColorDesignSystem.background(context)
-                  : ColorDesignSystem.onBackground(context);
-          // coverage:ignore-end
-          final TextStyle bodyMedium = textTheme.bodyMedium!.withColor(contentColor);
-          final TextStyle bodySmall = textTheme.bodySmall!.withColor(contentColor);
+          onSecondaryTapDown: (details) {
+            MainScreenBodySongListContextMenuEnum.showContextMenu(
+              context,
+              details,
+              song,
+            );
+          },
+          padding: const EdgeInsets.only(
+            top: 5,
+            bottom: 5,
+            left: 8,
+            right: 5,
+          ),
+          builder: (hovered) {
+            // coverage:ignore-start
+            final Color contentColor = isSelectedSong
+                ? ColorDesignSystem.background(context)
+                : hovered
+                    ? ColorDesignSystem.background(context)
+                    : ColorDesignSystem.onBackground(context);
+            // coverage:ignore-end
+            final TextStyle bodyMedium = textTheme.bodyMedium!.withColor(contentColor);
+            final TextStyle bodySmall = textTheme.bodySmall!.withColor(contentColor);
 
-          return Row(
-            children: [
-              BaseImage(
-                svgPath: song.cover == null ? ImageDesignSystem.logo : null,
-                svgColor: contentColor,
-                blob: song.cover,
-                size: ImageSizeEnum.small.size + 10,
-              ),
-              const SizedBox(width: 10),
-              Expanded(
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      song.title,
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      style: bodyMedium,
-                    ),
-                    if (song.artist != null)
+            return Row(
+              children: [
+                BaseImage(
+                  svgPath: song.cover == null ? ImageDesignSystem.logo : null,
+                  svgColor: contentColor,
+                  blob: song.cover,
+                  size: ImageSizeEnum.small.size + 10,
+                ),
+                const SizedBox(width: 10),
+                Expanded(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       Text(
-                        song.artist!,
+                        song.title,
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
-                        style: bodySmall,
+                        style: bodyMedium,
                       ),
-                  ],
-                ),
-              ),
-              const SizedBox(width: 10),
-              if (song.album != null) ...[
-                Expanded(
-                  child: Text(
-                    song.album!,
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: bodySmall,
+                      if (song.artist != null)
+                        Text(
+                          song.artist!,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: bodySmall,
+                        ),
+                    ],
                   ),
                 ),
                 const SizedBox(width: 10),
+                if (song.album != null) ...[
+                  Expanded(
+                    child: Text(
+                      song.album!,
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis,
+                      style: bodySmall,
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                ],
+                Text(
+                  song.duration.hhMmSsFormat,
+                  style: bodyMedium,
+                ),
               ],
-              Text(
-                song.duration.hhMmSsFormat,
-                style: bodyMedium,
-              ),
-            ],
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }

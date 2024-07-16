@@ -43,21 +43,16 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
   ) {
     final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<MainScreenBodyPlaylistSideBarBloc>(context);
 
-    switch (this) {
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist:
-        return RenamePlaylistModal.show(context, playlist, playlistResolverController);
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage:
-        mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist));
-        break;
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage:
-        mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist, removeImage: true));
-        break;
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer:
-        mainScreenBodyPlaylistSideBarBloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
-        break;
-      case MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer:
-        DeletePlaylistFromDeviceConfirmationModal.show(context, playlist: playlist, playlistResolverController: playlistResolverController);
-    }
+    return switch (this) {
+      MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist => RenamePlaylistModal.show(context, playlist, playlistResolverController),
+      MainScreenBodyPlaylistSideBarContextMenuEnum.setPlaylistImage => mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist)),
+      MainScreenBodyPlaylistSideBarContextMenuEnum.removePlaylistImage =>
+        mainScreenBodyPlaylistSideBarBloc.add(SetPlaylistImageEvent(playlist, removeImage: true)),
+      MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromMyoroPlayer =>
+        mainScreenBodyPlaylistSideBarBloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist)),
+      MainScreenBodyPlaylistSideBarContextMenuEnum.deletePlaylistFromComputer =>
+        DeletePlaylistFromDeviceConfirmationModal.show(context, playlist: playlist, playlistResolverController: playlistResolverController),
+    };
   }
 
   static void showContextMenu(

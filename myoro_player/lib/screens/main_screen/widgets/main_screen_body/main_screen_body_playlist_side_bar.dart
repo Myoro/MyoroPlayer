@@ -5,6 +5,7 @@ import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_footer_b
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
 import 'package:myoro_player/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
 import 'package:myoro_player/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
+import 'package:myoro_player/shared/constants.dart';
 import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/shared/design_system/image_design_system.dart';
 import 'package:kiwi/kiwi.dart';
@@ -101,38 +102,42 @@ class _PlaylistsState extends State<_Playlists> {
                               top: 5,
                               bottom: playlist == playlists.last ? 5 : 0,
                             ),
-                            child: IconTextHoverButton(
-                              svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
-                              localImagePath: playlist.image,
-                              iconSize: ImageSizeEnum.small.size + 10,
-                              text: playlist.name,
-                              padding: const EdgeInsets.only(
-                                top: 5,
-                                bottom: 5,
-                                left: 8,
-                                right: 5,
-                              ),
-                              onTap: () {
-                                BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
-                                  SetLoadedPlaylistEvent(
-                                    playlist,
-                                  ),
-                                );
+                            child: Tooltip(
+                              waitDuration: kTooltipWaitDuration,
+                              message: playlist.path,
+                              child: IconTextHoverButton(
+                                svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
+                                localImagePath: playlist.image,
+                                iconSize: ImageSizeEnum.small.size + 10,
+                                text: playlist.name,
+                                padding: const EdgeInsets.only(
+                                  top: 5,
+                                  bottom: 5,
+                                  left: 8,
+                                  right: 5,
+                                ),
+                                onTap: () {
+                                  BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+                                    SetLoadedPlaylistEvent(
+                                      playlist,
+                                    ),
+                                  );
 
-                                BlocProvider.of<MainScreenBodySongListBloc>(context).add(
-                                  LoadPlaylistSongsEvent(
+                                  BlocProvider.of<MainScreenBodySongListBloc>(context).add(
+                                    LoadPlaylistSongsEvent(
+                                      playlist,
+                                    ),
+                                  );
+                                },
+                                onSecondaryTapDown: (details) {
+                                  MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
+                                    context,
+                                    details,
                                     playlist,
-                                  ),
-                                );
-                              },
-                              onSecondaryTapDown: (details) {
-                                MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
-                                  context,
-                                  details,
-                                  playlist,
-                                  _playlistResolverController,
-                                );
-                              },
+                                    _playlistResolverController,
+                                  );
+                                },
+                              ),
                             ),
                           );
                         },
