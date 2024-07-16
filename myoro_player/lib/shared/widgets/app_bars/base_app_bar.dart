@@ -17,7 +17,10 @@ import 'package:flutter/material.dart';
 final class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
   final List<Widget> children;
 
-  const BaseAppBar({super.key, required this.children});
+  const BaseAppBar({
+    super.key,
+    required this.children,
+  });
 
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
@@ -27,8 +30,14 @@ final class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       // Flutter moment: This is so the [endDrawer] menu button doesn't show
       actions: [Container()],
-      title: Row(
-        children: children,
+      title: Padding(
+        padding: EdgeInsets.only(
+          // Used to offset phones that have the front camera blocking the UI
+          top: MediaQuery.of(context).padding.top,
+        ),
+        child: Row(
+          children: children,
+        ),
       ),
     );
   }

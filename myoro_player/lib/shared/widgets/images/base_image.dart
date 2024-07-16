@@ -53,8 +53,8 @@ final class BaseImage extends StatelessWidget {
       widget = SizedBox(
         width: size,
         height: size,
-        child: SvgPicture.file(
-          File(svgPath!),
+        child: SvgPicture.asset(
+          svgPath!,
           height: size,
           fit: BoxFit.fitHeight,
           colorFilter: ColorFilter.mode(

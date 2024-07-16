@@ -5,6 +5,7 @@
 ## TESTS
 
 - (mobile) `main_screen_test.dart`
+- Edit/fix `base_app_bar_test.dart` to test the mobile padding
 
 ## CHECKLIST UNTIL FINISHED
 
