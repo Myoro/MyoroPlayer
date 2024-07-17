@@ -19,6 +19,7 @@ import 'package:myoro_player/shared/services/playlist_service/playlist_service.d
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
+import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/model_resolvers/model_resolver.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 
@@ -77,6 +78,24 @@ final class _Playlists extends StatefulWidget {
 
 class _PlaylistsState extends State<_Playlists> {
   final _playlistResolverController = ModelResolverController<List<Playlist>>();
+  final _searchBarController = TextEditingController();
+  final _filteredPlaylistsNotifier = ValueNotifier<List<Playlist>>([]);
+
+  /// "Cached" songs from [MainScreenBodyPlaylistSideBarBloc]
+  List<Playlist>? _playlists;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchBarController.addListener(() => _searchPlaylists());
+  }
+
+  @override
+  void dispose() {
+    _searchBarController.dispose();
+    _filteredPlaylistsNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -94,54 +113,68 @@ class _PlaylistsState extends State<_Playlists> {
                   controller: _playlistResolverController,
                   request: () async => await KiwiContainer().resolve<PlaylistService>().select(),
                   builder: (context, List<Playlist>? playlists) {
-                    return VerticalScrollbar(
-                      children: playlists!.map(
-                        (playlist) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                              top: 5,
-                              bottom: playlist == playlists.last ? 5 : 0,
-                            ),
-                            child: Tooltip(
-                              waitDuration: kTooltipWaitDuration,
-                              message: playlist.path,
-                              child: IconTextHoverButton(
-                                svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
-                                localImagePath: playlist.image,
-                                iconSize: ImageSizeEnum.small.size + 10,
-                                text: playlist.name,
-                                padding: const EdgeInsets.only(
-                                  top: 5,
-                                  bottom: 5,
-                                  left: 8,
-                                  right: 5,
-                                ),
-                                onTap: () {
-                                  BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
-                                    SetLoadedPlaylistEvent(
-                                      playlist,
-                                    ),
-                                  );
+                    _playlists = playlists;
+                    _filteredPlaylistsNotifier.value = playlists ?? [];
 
-                                  BlocProvider.of<MainScreenBodySongListBloc>(context).add(
-                                    LoadPlaylistSongsEvent(
-                                      playlist,
-                                    ),
-                                  );
-                                },
-                                onSecondaryTapDown: (details) {
-                                  MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
-                                    context,
-                                    details,
-                                    playlist,
-                                    _playlistResolverController,
-                                  );
-                                },
-                              ),
+                    return ValueListenableBuilder(
+                      valueListenable: _filteredPlaylistsNotifier,
+                      builder: (_, List<Playlist> filteredPlaylists, __) {
+                        return VerticalScrollbar(
+                          children: [
+                            UnderlineInput(
+                              controller: _searchBarController,
+                              placeholder: 'Search playlists',
                             ),
-                          );
-                        },
-                      ).toList(),
+                            ...filteredPlaylists.map(
+                              (playlist) {
+                                return Padding(
+                                  padding: EdgeInsets.only(
+                                    top: 5,
+                                    bottom: playlist == filteredPlaylists.last ? 5 : 0,
+                                  ),
+                                  child: Tooltip(
+                                    waitDuration: kTooltipWaitDuration,
+                                    message: playlist.path,
+                                    child: IconTextHoverButton(
+                                      svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
+                                      localImagePath: playlist.image,
+                                      iconSize: ImageSizeEnum.small.size + 10,
+                                      text: playlist.name,
+                                      padding: const EdgeInsets.only(
+                                        top: 5,
+                                        bottom: 5,
+                                        left: 8,
+                                        right: 5,
+                                      ),
+                                      onTap: () {
+                                        BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+                                          SetLoadedPlaylistEvent(
+                                            playlist,
+                                          ),
+                                        );
+
+                                        BlocProvider.of<MainScreenBodySongListBloc>(context).add(
+                                          LoadPlaylistSongsEvent(
+                                            playlist,
+                                          ),
+                                        );
+                                      },
+                                      onSecondaryTapDown: (details) {
+                                        MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
+                                          context,
+                                          details,
+                                          playlist,
+                                          _playlistResolverController,
+                                        );
+                                      },
+                                    ),
+                                  ),
+                                );
+                              },
+                            ),
+                          ],
+                        );
+                      },
                     );
                   },
                 ),
@@ -168,6 +201,20 @@ class _PlaylistsState extends State<_Playlists> {
     }
   }
   // coverage:ignore-end
+
+  void _searchPlaylists() {
+    if (_searchBarController.text.isEmpty) {
+      _filteredPlaylistsNotifier.value = _playlists ?? [];
+      return;
+    }
+
+    final query = _searchBarController.text.toUpperCase();
+    _filteredPlaylistsNotifier.value = (_playlists ?? [])
+        .where(
+          (playlist) => playlist.name.toUpperCase() == query,
+        )
+        .toList();
+  }
 }
 
 final class _ResizeDivider extends StatelessWidget {

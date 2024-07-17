@@ -18,19 +18,47 @@ import 'package:myoro_player/shared/models/song.dart';
 import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
+import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/loading/loading_circle.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 
-final class MainScreenBodySongList extends StatelessWidget {
-  const MainScreenBodySongList({
-    super.key,
-  });
+final class MainScreenBodySongList extends StatefulWidget {
+  const MainScreenBodySongList({super.key});
+
+  @override
+  State<MainScreenBodySongList> createState() => _MainScreenBodySongListState();
+}
+
+class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
+  final _searchBarController = TextEditingController();
+  final _filteredSongsNotifier = ValueNotifier<List<Song>>([]);
+
+  /// "Cached" songs from [MainScreenBodySongListBloc]
+  List<Song>? _loadedPlaylistSongs;
+
+  @override
+  void initState() {
+    super.initState();
+    _searchBarController.addListener(() => _searchSongs());
+  }
+
+  @override
+  void dispose() {
+    _searchBarController.dispose();
+    _filteredSongsNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return Expanded(
       child: BlocConsumer<MainScreenBodySongListBloc, MainScreenBodySongListState>(
-        listener: (context, mainScreenBodySongListState) => _handleSnackBars(context, mainScreenBodySongListState),
+        listener: (context, mainScreenBodySongListState) {
+          _filteredSongsNotifier.value = mainScreenBodySongListState.loadedPlaylistSongs ?? [];
+          _loadedPlaylistSongs = mainScreenBodySongListState.loadedPlaylistSongs;
+
+          _handleSnackBars(context, mainScreenBodySongListState);
+        },
         builder: (context, mainScreenBodySongListState) {
           return Column(
             children: [
@@ -40,17 +68,27 @@ final class MainScreenBodySongList extends StatelessWidget {
                   return Expanded(
                     child: mainScreenBodySongListState.status == BlocStatusEnum.loading
                         ? const Center(child: LoadingCircle())
-                        : VerticalScrollbar(
-                            children: mainScreenBodySongListState.loadedPlaylistSongs?.map<_Song>(
-                                  (song) {
-                                    return _Song(
-                                      song,
-                                      isLastSong: mainScreenBodySongListState.loadedPlaylistSongs?.last == song,
-                                      isSelectedSong: mainScreenFooterState.loadedSong?.$1 == song,
-                                    );
-                                  },
-                                ).toList() ??
-                                [],
+                        : ValueListenableBuilder(
+                            valueListenable: _filteredSongsNotifier,
+                            builder: (_, List<Song> filteredSongs, __) {
+                              return VerticalScrollbar(
+                                children: [
+                                  UnderlineInput(
+                                    controller: _searchBarController,
+                                    placeholder: 'Search songs',
+                                  ),
+                                  ...filteredSongs.map<_Song>(
+                                    (song) {
+                                      return _Song(
+                                        song,
+                                        isLastSong: mainScreenBodySongListState.loadedPlaylistSongs?.last == song,
+                                        isSelectedSong: mainScreenFooterState.loadedSong?.$1 == song,
+                                      );
+                                    },
+                                  ),
+                                ],
+                              );
+                            },
                           ),
                   );
                 },
@@ -71,6 +109,23 @@ final class MainScreenBodySongList extends StatelessWidget {
     }
   }
   // coverage:ignore-end
+
+  void _searchSongs() {
+    if (_searchBarController.text.isEmpty) {
+      _filteredSongsNotifier.value = _loadedPlaylistSongs ?? [];
+      return;
+    }
+
+    final query = _searchBarController.text.toUpperCase();
+    _filteredSongsNotifier.value = (_loadedPlaylistSongs ?? [])
+        .where(
+          (song) =>
+              song.title.toUpperCase().contains(query) ||
+              (song.artist?.toUpperCase().contains(query) ?? false) ||
+              (song.album?.toUpperCase().contains(query) ?? false),
+        )
+        .toList();
+  }
 }
 
 final class _Song extends StatelessWidget {

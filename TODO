@@ -5,6 +5,8 @@
 ## TESTS
 
 - Search bar in `MainScreenBodySongList` and `MainScreenBodyPlaylistSideBar`
+  - Edit `main_screen_body_song_list_test.dart`
+  - Edit `main_screen_body_playlist_side_bar_test.dart`
 - (mobile) `main_screen_test.dart`
 - Edit/fix `base_app_bar_test.dart` to test the mobile padding
 
