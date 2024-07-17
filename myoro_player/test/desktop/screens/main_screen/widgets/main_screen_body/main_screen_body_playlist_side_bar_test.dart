@@ -17,6 +17,7 @@ import 'package:myoro_player/shared/services/user_preferences_service/user_prefe
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
+import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/model_resolvers/model_resolver.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 
@@ -81,7 +82,11 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length == PlaylistServiceMock.preConfiguredPlaylists.length)),
+      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length == PlaylistServiceMock.preConfiguredPlaylists.length + 1)),
+      findsOneWidget,
+    );
+    expect(
+      find.byWidgetPredicate((w) => w is UnderlineInput && w.placeholder == 'Search playlists'),
       findsOneWidget,
     );
     expect(
@@ -136,6 +141,14 @@ void main() {
     // Loading a playlist
     await tester.tap(playlistFinder);
     await tester.pump();
+
+    // Searchbar functionality
+    await tester.enterText(find.byType(UnderlineInput), PlaylistServiceMock.preConfiguredPlaylists.first.name);
+    await tester.pump();
+    expect(
+      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length < PlaylistServiceMock.preConfiguredPlaylists.length)),
+      findsOneWidget,
+    );
 
     // The [Playlist] context menu
     await tester.tap(playlistFinder, buttons: kSecondaryButton);

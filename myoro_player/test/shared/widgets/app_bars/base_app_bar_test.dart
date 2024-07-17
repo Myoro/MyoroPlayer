@@ -15,9 +15,12 @@ void main() {
 
     expect(find.byType(BaseAppBar), findsOneWidget);
     expect(
-      find.byWidgetPredicate(
-        (w) => w is AppBar && w.actions?.length == 1 && w.title is Row && (w.title as Row).children.isEmpty,
-      ),
+      find.byWidgetPredicate((w) => (w is AppBar &&
+          w.actions?.length == 1 &&
+          w.actions?.first is Container &&
+          w.title is Padding &&
+          (w.title as Padding).child is Row &&
+          ((w.title as Padding).child as Row).children.isEmpty)),
       findsOneWidget,
     );
   });

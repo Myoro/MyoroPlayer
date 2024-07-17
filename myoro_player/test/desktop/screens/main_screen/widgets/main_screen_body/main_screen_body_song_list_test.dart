@@ -23,6 +23,7 @@ import 'package:myoro_player/shared/services/user_preferences_service/user_prefe
 import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
+import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -36,14 +37,14 @@ void main() {
   final kiwiContainer = KiwiContainer();
   late final UserPreferencesCubit userPreferencesCubit;
   final playlist = Playlist.mock;
-  final songList = Song.mockList(2);
+  final songList = Song.mockList(10);
 
   setUp(() {
     kiwiContainer
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured(songList: songList))
       ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
-      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured(songList: songList));
 
     userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
   });
@@ -87,8 +88,13 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (w) => w is Expanded && (w).child is VerticalScrollbar && ((w).child as VerticalScrollbar).children.length == songList.length,
+        (w) => w is VerticalScrollbar && w.children.length == songList.length + 1,
       ),
+      findsOneWidget,
+    );
+
+    expect(
+      find.byWidgetPredicate((w) => w is UnderlineInput && w.placeholder == 'Search songs'),
       findsOneWidget,
     );
 
@@ -96,7 +102,7 @@ void main() {
       find.byWidgetPredicate(
         (w) => w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0),
       ),
-      findsOneWidget,
+      findsNWidgets(songList.length - 1),
     );
     expect(
       find.byWidgetPredicate(
@@ -171,10 +177,18 @@ void main() {
 
     final songButtonFinder = find.byType(BaseHoverButton).first;
 
-    /// Playing a song
+    // Searching songs
+    await tester.enterText(find.byType(UnderlineInput), songList.first.title);
+    await tester.pump();
+    expect(
+      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length < songList.length)),
+      findsOneWidget,
+    );
+
+    // Playing a song
     await tester.tap(songButtonFinder);
 
-    /// Song context menu
+    // Song context menu
     await tester.tap(find.byType(BaseHoverButton).first, buttons: kSecondaryButton);
     await tester.pump();
     for (final value in MainScreenBodySongListContextMenuEnum.values) {

@@ -73,10 +73,11 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
                             builder: (_, List<Song> filteredSongs, __) {
                               return VerticalScrollbar(
                                 children: [
-                                  UnderlineInput(
-                                    controller: _searchBarController,
-                                    placeholder: 'Search songs',
-                                  ),
+                                  if (filteredSongs.isNotEmpty)
+                                    UnderlineInput(
+                                      controller: _searchBarController,
+                                      placeholder: 'Search songs',
+                                    ),
                                   ...filteredSongs.map<_Song>(
                                     (song) {
                                       return _Song(
