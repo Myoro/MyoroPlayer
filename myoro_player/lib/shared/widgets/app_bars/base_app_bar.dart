@@ -30,14 +30,8 @@ final class BaseAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       // Flutter moment: This is so the [endDrawer] menu button doesn't show
       actions: [Container()],
-      title: Padding(
-        padding: EdgeInsets.only(
-          // Used to offset phones that have the front camera blocking the UI
-          top: MediaQuery.of(context).padding.top,
-        ),
-        child: Row(
-          children: children,
-        ),
+      title: Row(
+        children: children,
       ),
     );
   }

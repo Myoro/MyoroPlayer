@@ -11,4 +11,4 @@ PRODUCT_NAME = myoro_player
 PRODUCT_BUNDLE_IDENTIFIER = com.myoro.myoroPlayer
 
 // The copyright displayed in application information
-PRODUCT_COPYRIGHT = Copyleft © 2024 com.myoro. No rights reserved.
+PRODUCT_COPYRIGHT = Copyright © 2024 com.myoro. All rights reserved.
