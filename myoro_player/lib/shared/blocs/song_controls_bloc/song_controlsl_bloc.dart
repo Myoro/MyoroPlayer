@@ -3,8 +3,8 @@
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/models/conditions.dart';
 import 'package:myoro_player/shared/models/playlist.dart';

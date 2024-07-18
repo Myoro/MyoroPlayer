@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_state.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:myoro_player/shared/constants.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
