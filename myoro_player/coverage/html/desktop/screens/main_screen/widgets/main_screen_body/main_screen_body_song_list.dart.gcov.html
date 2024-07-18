@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2024-07-17 21:32:56</td>
+            <td class="headerValue">2024-07-17 23:43:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -82,7 +82,7 @@
 <a name="20"><span class="lineNum">      20 </span>            : import 'package:myoro_player/shared/widgets/images/base_image.dart';</a>
 <a name="21"><span class="lineNum">      21 </span>            : import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';</a>
 <a name="22"><span class="lineNum">      22 </span>            : import 'package:myoro_player/shared/widgets/loading/loading_circle.dart';</a>
-<a name="23"><span class="lineNum">      23 </span>            : import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';</a>
+<a name="23"><span class="lineNum">      23 </span>            : import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';</a>
 <a name="24"><span class="lineNum">      24 </span>            : </a>
 <a name="25"><span class="lineNum">      25 </span>            : final class MainScreenBodySongList extends StatefulWidget {</a>
 <a name="26"><span class="lineNum">      26 </span><span class="lineCov">          3 :   const MainScreenBodySongList({super.key});</span></a>
@@ -133,7 +133,7 @@
 <a name="71"><span class="lineNum">      71 </span><span class="lineCov">          3 :                         : ValueListenableBuilder(</span></a>
 <a name="72"><span class="lineNum">      72 </span><span class="lineCov">          3 :                             valueListenable: _filteredSongsNotifier,</span></a>
 <a name="73"><span class="lineNum">      73 </span><span class="lineCov">          3 :                             builder: (_, List&lt;Song&gt; filteredSongs, __) {</span></a>
-<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          3 :                               return VerticalScrollbar(</span></a>
+<a name="74"><span class="lineNum">      74 </span><span class="lineCov">          3 :                               return VerticalScrollList(</span></a>
 <a name="75"><span class="lineNum">      75 </span><span class="lineCov">          3 :                                 children: [</span></a>
 <a name="76"><span class="lineNum">      76 </span><span class="lineCov">          3 :                                   if (filteredSongs.isNotEmpty)</span></a>
 <a name="77"><span class="lineNum">      77 </span><span class="lineCov">          1 :                                     UnderlineInput(</span></a>

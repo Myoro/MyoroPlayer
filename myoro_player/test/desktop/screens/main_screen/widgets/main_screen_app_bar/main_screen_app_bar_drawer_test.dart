@@ -12,7 +12,7 @@ import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../../../../base_test_widget.dart';
@@ -65,7 +65,7 @@ void main() {
 
     expect(
       find.byWidgetPredicate((w) =>
-          (w is Expanded && w.child is VerticalScrollbar && (w.child as VerticalScrollbar).children.length == MainScreenAppBarDrawerItemsEnum.values.length)),
+          (w is Expanded && w.child is VerticalScrollList && (w.child as VerticalScrollList).children.length == MainScreenAppBarDrawerItemsEnum.values.length)),
       findsOneWidget,
     );
 

@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2024-07-17 21:32:56</td>
+            <td class="headerValue">2024-07-17 23:43:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -77,7 +77,7 @@
 <a name="15"><span class="lineNum">      15 </span>            : import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';</a>
 <a name="16"><span class="lineNum">      16 </span>            : import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';</a>
 <a name="17"><span class="lineNum">      17 </span>            : import 'package:myoro_player/shared/widgets/images/base_image.dart';</a>
-<a name="18"><span class="lineNum">      18 </span>            : import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';</a>
+<a name="18"><span class="lineNum">      18 </span>            : import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';</a>
 <a name="19"><span class="lineNum">      19 </span>            : import 'package:myoro_player/shared/widgets/sliders/base_slider.dart';</a>
 <a name="20"><span class="lineNum">      20 </span>            : import 'package:kplayer/kplayer.dart';</a>
 <a name="21"><span class="lineNum">      21 </span>            : </a>
@@ -438,7 +438,7 @@
 <a name="376"><span class="lineNum">     376 </span><span class="lineCov">          1 :                                 child: ValueListenableBuilder(</span></a>
 <a name="377"><span class="lineNum">     377 </span><span class="lineCov">          1 :                                   valueListenable: _queueNotifier,</span></a>
 <a name="378"><span class="lineNum">     378 </span><span class="lineCov">          1 :                                   builder: (_, List&lt;Song&gt; queue, __) {</span></a>
-<a name="379"><span class="lineNum">     379 </span><span class="lineCov">          1 :                                     return VerticalScrollbar(</span></a>
+<a name="379"><span class="lineNum">     379 </span><span class="lineCov">          1 :                                     return VerticalScrollList(</span></a>
 <a name="380"><span class="lineNum">     380 </span><span class="lineCov">          1 :                                       children: queue.map(</span></a>
 <a name="381"><span class="lineNum">     381 </span><span class="lineCov">          1 :                                         (song) {</span></a>
 <a name="382"><span class="lineNum">     382 </span><span class="lineCov">          1 :                                           return Padding(</span></a>

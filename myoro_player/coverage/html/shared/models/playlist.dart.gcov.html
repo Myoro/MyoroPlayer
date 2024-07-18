@@ -37,7 +37,7 @@
           </tr>
           <tr>
             <td class="headerItem">Date:</td>
-            <td class="headerValue">2024-07-17 21:32:56</td>
+            <td class="headerValue">2024-07-17 23:43:24</td>
             <td></td>
             <td class="headerItem">Functions:</td>
             <td class="headerCovTableEntry">0</td>
@@ -82,7 +82,7 @@
 <a name="20"><span class="lineNum">      20 </span>            :   /// Image of the playlist that the user has set in MyoroPlayer</a>
 <a name="21"><span class="lineNum">      21 </span>            :   final String? image;</a>
 <a name="22"><span class="lineNum">      22 </span>            : </a>
-<a name="23"><span class="lineNum">      23 </span><span class="lineCov">         14 :   const Playlist({</span></a>
+<a name="23"><span class="lineNum">      23 </span><span class="lineCov">         15 :   const Playlist({</span></a>
 <a name="24"><span class="lineNum">      24 </span>            :     this.id,</a>
 <a name="25"><span class="lineNum">      25 </span>            :     required this.path,</a>
 <a name="26"><span class="lineNum">      26 </span>            :     required this.name,</a>
@@ -103,20 +103,20 @@
 <a name="41"><span class="lineNum">      41 </span>            :     );</a>
 <a name="42"><span class="lineNum">      42 </span>            :   }</a>
 <a name="43"><span class="lineNum">      43 </span>            : </a>
-<a name="44"><span class="lineNum">      44 </span><span class="lineCov">         14 :   static Playlist get mock {</span></a>
-<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         14 :     return Playlist(</span></a>
-<a name="46"><span class="lineNum">      46 </span><span class="lineCov">         42 :       id: faker.randomGenerator.integer(100),</span></a>
-<a name="47"><span class="lineNum">      47 </span><span class="lineCov">         42 :       path: faker.internet.uri('/'),</span></a>
-<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         42 :       name: faker.person.firstName(),</span></a>
-<a name="49"><span class="lineNum">      49 </span><span class="lineCov">         70 :       image: ['assets/images/cat.jpg', null][faker.randomGenerator.integer(2)],</span></a>
+<a name="44"><span class="lineNum">      44 </span><span class="lineCov">         15 :   static Playlist get mock {</span></a>
+<a name="45"><span class="lineNum">      45 </span><span class="lineCov">         15 :     return Playlist(</span></a>
+<a name="46"><span class="lineNum">      46 </span><span class="lineCov">         45 :       id: faker.randomGenerator.integer(100),</span></a>
+<a name="47"><span class="lineNum">      47 </span><span class="lineCov">         45 :       path: faker.internet.uri('/'),</span></a>
+<a name="48"><span class="lineNum">      48 </span><span class="lineCov">         45 :       name: faker.person.firstName(),</span></a>
+<a name="49"><span class="lineNum">      49 </span><span class="lineCov">         75 :       image: ['assets/images/cat.jpg', null][faker.randomGenerator.integer(2)],</span></a>
 <a name="50"><span class="lineNum">      50 </span>            :     );</a>
 <a name="51"><span class="lineNum">      51 </span>            :   }</a>
 <a name="52"><span class="lineNum">      52 </span>            : </a>
-<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          3 :   static List&lt;Playlist&gt; mockList({int size = 10}) {</span></a>
-<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          3 :     return List.generate(</span></a>
+<a name="53"><span class="lineNum">      53 </span><span class="lineCov">          4 :   static List&lt;Playlist&gt; mockList({int size = 10}) {</span></a>
+<a name="54"><span class="lineNum">      54 </span><span class="lineCov">          4 :     return List.generate(</span></a>
 <a name="55"><span class="lineNum">      55 </span>            :       size,</a>
-<a name="56"><span class="lineNum">      56 </span><span class="lineCov">          3 :       (index) {</span></a>
-<a name="57"><span class="lineNum">      57 </span><span class="lineCov">          3 :         return Playlist.mock;</span></a>
+<a name="56"><span class="lineNum">      56 </span><span class="lineCov">          4 :       (index) {</span></a>
+<a name="57"><span class="lineNum">      57 </span><span class="lineCov">          4 :         return Playlist.mock;</span></a>
 <a name="58"><span class="lineNum">      58 </span>            :       },</a>
 <a name="59"><span class="lineNum">      59 </span>            :     );</a>
 <a name="60"><span class="lineNum">      60 </span>            :   }</a>
@@ -144,8 +144,8 @@
 <a name="82"><span class="lineNum">      82 </span><span class="lineCov">          2 :       '  image: $image,\n'</span></a>
 <a name="83"><span class="lineNum">      83 </span>            :       ');';</a>
 <a name="84"><span class="lineNum">      84 </span>            : </a>
-<a name="85"><span class="lineNum">      85 </span><span class="lineCov">          3 :   @override</span></a>
-<a name="86"><span class="lineNum">      86 </span><span class="lineCov">         15 :   List&lt;Object?&gt; get props =&gt; [id, path, name, image];</span></a>
+<a name="85"><span class="lineNum">      85 </span><span class="lineCov">          4 :   @override</span></a>
+<a name="86"><span class="lineNum">      86 </span><span class="lineCov">         20 :   List&lt;Object?&gt; get props =&gt; [id, path, name, image];</span></a>
 <a name="87"><span class="lineNum">      87 </span>            : }</a>
 </pre>
       </td>

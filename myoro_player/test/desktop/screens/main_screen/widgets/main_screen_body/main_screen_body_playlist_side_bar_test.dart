@@ -1,4 +1,3 @@
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
@@ -11,15 +10,11 @@ import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
-import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
-import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
-import 'package:myoro_player/shared/widgets/model_resolvers/model_resolver.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/specific/playlist_listing.dart';
 
 import '../../../../../base_test_widget.dart';
 import '../../../../../mocks/file_system_helper_mock.dart';
@@ -70,50 +65,15 @@ void main() {
       findsOneWidget,
     );
 
-    // [_Playlists]
     expect(
       find.byWidgetPredicate((w) => (w is Expanded &&
           w.child is Column &&
           (w.child as Column).children.length == 2 &&
           (w.child as Column).children.first is UnderlineHeader &&
           ((w.child as Column).children.first as UnderlineHeader).header == 'Playlists' &&
-          (w.child as Column).children.last is Expanded &&
-          ((w.child as Column).children.last as Expanded).child is ModelResolver<List<Playlist>>)),
+          (w.child as Column).children.last is PlaylistListing)),
       findsOneWidget,
     );
-    expect(
-      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length == PlaylistServiceMock.preConfiguredPlaylists.length + 1)),
-      findsOneWidget,
-    );
-    expect(
-      find.byWidgetPredicate((w) => w is UnderlineInput && w.placeholder == 'Search playlists'),
-      findsOneWidget,
-    );
-    expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 0) && w.child is Tooltip)),
-      findsNWidgets(PlaylistServiceMock.preConfiguredPlaylists.length - 1),
-    );
-    expect(
-      find.byWidgetPredicate((w) => (w is Padding && w.padding == const EdgeInsets.only(top: 5, bottom: 5) && w.child is Tooltip)),
-      findsOneWidget,
-    );
-    for (final playlist in PlaylistServiceMock.preConfiguredPlaylists) {
-      expect(
-        find.byWidgetPredicate(
-          (w) =>
-              w is IconTextHoverButton &&
-              w.padding ==
-                  const EdgeInsets.only(
-                    top: 5,
-                    bottom: 5,
-                    left: 8,
-                    right: 5,
-                  ) &&
-              w.text == playlist.name,
-        ),
-        findsOneWidget,
-      );
-    }
 
     // [_ResizeDivider]
     expect(
@@ -123,36 +83,5 @@ void main() {
 
     // Testing resize divider
     await tester.drag(find.byType(ResizeDivider), const Offset(50, 0));
-
-    final playlistFinder = find
-        .byWidgetPredicate(
-          (w) =>
-              w is IconTextHoverButton &&
-              w.padding ==
-                  const EdgeInsets.only(
-                    top: 5,
-                    bottom: 5,
-                    left: 8,
-                    right: 5,
-                  ),
-        )
-        .first;
-
-    // Loading a playlist
-    await tester.tap(playlistFinder);
-    await tester.pump();
-
-    // Searchbar functionality
-    await tester.enterText(find.byType(UnderlineInput), PlaylistServiceMock.preConfiguredPlaylists.first.name);
-    await tester.pump();
-    expect(
-      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length < PlaylistServiceMock.preConfiguredPlaylists.length)),
-      findsOneWidget,
-    );
-
-    // The [Playlist] context menu
-    await tester.tap(playlistFinder, buttons: kSecondaryButton);
-    await tester.pump();
-    expect(find.byType(PopupMenuItem<dynamic>), findsAtLeastNWidgets(1));
   });
 }

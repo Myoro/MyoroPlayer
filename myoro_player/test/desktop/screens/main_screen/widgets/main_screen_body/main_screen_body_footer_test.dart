@@ -18,7 +18,7 @@ import 'package:myoro_player/shared/services/user_preferences_service/user_prefe
 import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:myoro_player/shared/widgets/sliders/base_slider.dart';
 import 'package:kiwi/kiwi.dart';
 
@@ -221,7 +221,7 @@ void main() {
       findsOneWidget,
     );
     expect(
-      find.byWidgetPredicate((w) => w is VerticalScrollbar && w.children.length == 2),
+      find.byWidgetPredicate((w) => w is VerticalScrollList && w.children.length == 2),
       findsOneWidget,
     );
     expect(

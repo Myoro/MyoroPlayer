@@ -20,7 +20,7 @@ import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
 import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/loading/loading_circle.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 
 final class MainScreenBodySongList extends StatefulWidget {
   const MainScreenBodySongList({super.key});
@@ -71,7 +71,7 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
                         : ValueListenableBuilder(
                             valueListenable: _filteredSongsNotifier,
                             builder: (_, List<Song> filteredSongs, __) {
-                              return VerticalScrollbar(
+                              return VerticalScrollList(
                                 children: [
                                   if (filteredSongs.isNotEmpty)
                                     UnderlineInput(

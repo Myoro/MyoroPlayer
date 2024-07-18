@@ -15,7 +15,7 @@ import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:myoro_player/shared/widgets/sliders/base_slider.dart';
 import 'package:kplayer/kplayer.dart';
 
@@ -376,7 +376,7 @@ class _QueueButtonState extends State<_QueueButton> with SingleTickerProviderSta
                                 child: ValueListenableBuilder(
                                   valueListenable: _queueNotifier,
                                   builder: (_, List<Song> queue, __) {
-                                    return VerticalScrollbar(
+                                    return VerticalScrollList(
                                       children: queue.map(
                                         (song) {
                                           return Padding(

@@ -9,7 +9,8 @@ import '../../base_test_widget.dart';
 void main() {
   testWidgets('BaseControllerDrawer Test', (tester) async {
     late final BaseDrawerController drawerController;
-    final Finder baseDrawerFinder = find.byType(BaseDrawer);
+    final baseDrawerFinder = find.byType(BaseDrawer);
+    const drawer = BaseDrawer(child: SizedBox.shrink());
 
     await tester.pumpWidget(
       BaseTestWidget(
@@ -23,12 +24,22 @@ void main() {
       ),
     );
 
-    drawerController.openDrawer(drawer: const BaseDrawer(child: SizedBox.shrink()));
+    drawerController.openDrawer(drawer: drawer);
     await tester.pump();
 
     expect(baseDrawerFinder, findsOneWidget);
 
     drawerController.closeDrawer();
+    await tester.pump();
+
+    expect(baseDrawerFinder, findsNothing);
+
+    drawerController.openEndDrawer(drawer: drawer);
+    await tester.pump();
+
+    expect(baseDrawerFinder, findsOneWidget);
+
+    drawerController.closeEndDrawer();
     await tester.pump();
 
     expect(baseDrawerFinder, findsNothing);

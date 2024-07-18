@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 
 /// Vertical scrollbar that always shows the scrollbar
-final class VerticalScrollbar extends StatefulWidget {
+final class VerticalScrollList extends StatefulWidget {
   final ScrollController? scrollController;
   final List<Widget> children;
 
-  const VerticalScrollbar({
+  const VerticalScrollList({
     super.key,
     this.scrollController,
     this.children = const [],
   });
 
   @override
-  State<VerticalScrollbar> createState() => _VerticalScrollbarState();
+  State<VerticalScrollList> createState() => _VerticalScrollListState();
 }
 
-final class _VerticalScrollbarState extends State<VerticalScrollbar> {
+final class _VerticalScrollListState extends State<VerticalScrollList> {
   late final ScrollController _scrollController;
 
   @override

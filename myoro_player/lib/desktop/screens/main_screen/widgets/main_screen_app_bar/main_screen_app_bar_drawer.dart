@@ -4,14 +4,14 @@ import 'package:myoro_player/shared/controllers/base_drawer_controller.dart';
 import 'package:myoro_player/shared/enums/image_size_enum.dart';
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/drawers/base_drawer.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:provider/provider.dart';
 
 final class MainScreenAppBarDrawer extends StatelessWidget {
   const MainScreenAppBarDrawer._();
 
   static void show(BuildContext context) {
-    context.read<BaseDrawerController>().openDrawer(
+    context.read<BaseDrawerController>().openEndDrawer(
           drawer: const BaseDrawer(
             child: MainScreenAppBarDrawer._(),
           ),
@@ -21,7 +21,7 @@ final class MainScreenAppBarDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: VerticalScrollbar(
+      child: VerticalScrollList(
         children: MainScreenAppBarDrawerItemsEnum.values.map(
           (value) {
             return Padding(

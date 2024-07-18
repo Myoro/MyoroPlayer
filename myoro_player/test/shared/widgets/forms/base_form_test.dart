@@ -9,7 +9,7 @@ void main() {
   void expectCalls() {
     expect(find.byType(BaseForm<String>), findsOneWidget);
     expect(find.byType(Form), findsOneWidget);
-    expect(find.byType(SizedBox), findsOneWidget); // [builder]'s [SizedBox]
+    expect(find.byType(SizedBox), findsNWidgets(3)); // [builder]'s [SizedBox]
   }
 
   testWidgets('BaseForm error case widget test.', (tester) async {

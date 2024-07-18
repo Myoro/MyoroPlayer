@@ -24,7 +24,7 @@ import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/images/base_image.dart';
 import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../../../../base_test_widget.dart';
@@ -88,7 +88,7 @@ void main() {
 
     expect(
       find.byWidgetPredicate(
-        (w) => w is VerticalScrollbar && w.children.length == songList.length + 1,
+        (w) => w is VerticalScrollList && w.children.length == songList.length + 1,
       ),
       findsOneWidget,
     );
@@ -181,7 +181,7 @@ void main() {
     await tester.enterText(find.byType(UnderlineInput), songList.first.title);
     await tester.pump();
     expect(
-      find.byWidgetPredicate((w) => (w is VerticalScrollbar && w.children.length < songList.length)),
+      find.byWidgetPredicate((w) => (w is VerticalScrollList && w.children.length < songList.length)),
       findsOneWidget,
     );
 

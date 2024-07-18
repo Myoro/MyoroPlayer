@@ -26,20 +26,19 @@ class _BaseScaffoldState extends State<BaseScaffold> {
   Widget build(BuildContext context) {
     return InheritedProvider.value(
       value: _drawerController,
-      child: Scaffold(
-        key: _drawerController.scaffoldKey,
-        appBar: widget.appBar,
-        body: widget.body,
-        endDrawer: ListenableBuilder(
-          listenable: _drawerController,
-          builder: (context, _) {
-            if (_drawerController.drawer != null) {
-              return _drawerController.drawer!;
-            } else {
-              return const SizedBox.shrink();
-            }
-          },
-        ),
+      child: ListenableBuilder(
+        listenable: _drawerController,
+        builder: (_, __) {
+          return Scaffold(
+            key: _drawerController.scaffoldKey,
+            appBar: widget.appBar,
+            body: widget.body,
+            drawer: _drawerController.drawer ?? const SizedBox.shrink(),
+            endDrawer: _drawerController.endDrawer ?? const SizedBox.shrink(),
+            drawerEnableOpenDragGesture: false,
+            endDrawerEnableOpenDragGesture: false,
+          );
+        },
       ),
     );
   }

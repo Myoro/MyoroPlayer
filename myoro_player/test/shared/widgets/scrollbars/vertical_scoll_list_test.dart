@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scrollbar.dart';
+import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 
 import '../../../base_test_widget.dart';
 
 void main() {
-  testWidgets('VerticalScrollbar widget test', (tester) async {
+  testWidgets('VerticallScrollList widget test', (tester) async {
     await tester.pumpWidget(
       const BaseTestWidget(
-        child: VerticalScrollbar(),
+        child: VerticalScrollList(),
       ),
     );
 
-    expect(find.byType(VerticalScrollbar), findsOneWidget);
+    expect(find.byType(VerticalScrollList), findsOneWidget);
 
     expect(
       find.byWidgetPredicate((w) => (w is SingleChildScrollView &&
