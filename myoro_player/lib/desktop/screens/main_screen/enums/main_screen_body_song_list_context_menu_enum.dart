@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
 import 'package:myoro_player/shared/extensions/build_context_extension.dart';
 import 'package:myoro_player/shared/helpers/context_menu_helper.dart';
 import 'package:myoro_player/shared/models/context_menu_item.dart';
@@ -37,8 +37,8 @@ enum MainScreenBodySongListContextMenuEnum {
     BuildContext context,
     Song song,
   ) {
-    final mainScreenBodySongListBloc = BlocProvider.of<MainScreenBodySongListBloc>(context);
-    final mainScreenBodyFooterBloc = BlocProvider.of<MainScreenBodyFooterBloc>(context);
+    final mainScreenBodySongListBloc = BlocProvider.of<SongListingBloc>(context);
+    final mainScreenBodyFooterBloc = BlocProvider.of<SongControlsBloc>(context);
 
     switch (this) {
       case MainScreenBodySongListContextMenuEnum.addToQueue:

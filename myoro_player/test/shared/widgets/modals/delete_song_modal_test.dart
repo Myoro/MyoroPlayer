@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/song.dart';
@@ -32,7 +32,7 @@ void main() {
     await tester.pumpWidget(
       BaseTestWidget(
         child: BlocProvider(
-          create: (context) => MainScreenBodySongListBloc()
+          create: (context) => SongListingBloc()
             ..add(
               LoadPlaylistSongsEvent(Playlist.mock),
             ),

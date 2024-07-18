@@ -1,8 +1,8 @@
 import 'package:faker/faker.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_state.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_state.dart';
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
@@ -11,8 +11,8 @@ import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:mocktail/mocktail.dart';
 
-import '../../../../mocks/file_system_helper_mock.dart';
-import '../../../../mocks/song_service.mock.dart';
+import '../../mocks/file_system_helper_mock.dart';
+import '../../mocks/song_service.mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
@@ -33,17 +33,17 @@ void main() {
     kiwiContainer.clear();
   });
 
-  test('MainScreenBodySongListBloc.LoadPlaylistSongsEvent unit test.', () {
-    final bloc = MainScreenBodySongListBloc();
+  test('SongListingBloc.LoadPlaylistSongsEvent unit test.', () {
+    final bloc = SongListingBloc();
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodySongListState(
+        const SongListingState(
           status: BlocStatusEnum.loading,
         ),
         // Double [copyWith] is for line coverage
-        const MainScreenBodySongListState().copyWith().copyWith(
+        const SongListingState().copyWith().copyWith(
               status: BlocStatusEnum.completed,
               loadedPlaylist: playlist,
               loadedPlaylistSongs: playlistSongs,
@@ -62,13 +62,13 @@ void main() {
     bloc.add(LoadPlaylistSongsEvent(playlist));
   });
 
-  test('MainScreenBodySongListBloc.CopySongToPlaylistEvent error case.', () {
-    final bloc = MainScreenBodySongListBloc();
+  test('SongListingBloc.CopySongToPlaylistEvent error case.', () {
+    final bloc = SongListingBloc();
 
     expectLater(
       bloc.stream,
       emits(
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Error copying ${song.title} to $folderPath.',
         ),
@@ -86,13 +86,13 @@ void main() {
     bloc.add(CopySongToPlaylistEvent(song));
   });
 
-  test('MainScreenBodySongListBloc.CopySongToPlaylistEvent success case.', () {
-    final bloc = MainScreenBodySongListBloc();
+  test('SongListingBloc.CopySongToPlaylistEvent success case.', () {
+    final bloc = SongListingBloc();
 
     expectLater(
       bloc.stream,
       emits(
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${song.title} copied to $folderPath successfully!',
         ),
@@ -117,13 +117,13 @@ void main() {
     bloc.add(CopySongToPlaylistEvent(song));
   });
 
-  test('MainScreenBodySongListBloc.MoveSongToPlaylistEvent error case.', () {
-    final bloc = MainScreenBodySongListBloc();
+  test('SongListingBloc.MoveSongToPlaylistEvent error case.', () {
+    final bloc = SongListingBloc();
 
     expectLater(
       bloc.stream,
       emits(
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Error moving ${song.title} to $folderPath.',
         ),
@@ -141,8 +141,8 @@ void main() {
     bloc.add(MoveSongToPlaylistEvent(song));
   });
 
-  test('MainScreenBodySongListBloc.MoveSongToPlaylistEvent success case.', () {
-    final bloc = MainScreenBodySongListBloc()
+  test('SongListingBloc.MoveSongToPlaylistEvent success case.', () {
+    final bloc = SongListingBloc()
       ..add(
         LoadPlaylistSongsEvent(playlist),
       );
@@ -150,15 +150,15 @@ void main() {
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodySongListState(
+        const SongListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.completed,
           loadedPlaylist: playlist,
           loadedPlaylistSongs: playlistSongs,
         ),
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${song.title} moved to $folderPath successfully!',
           loadedPlaylist: playlist,
@@ -193,8 +193,8 @@ void main() {
     bloc.add(MoveSongToPlaylistEvent(song));
   });
 
-  test('MainScreenBodySongListBloc.DeleteSongFromDeviceEvent error case unit test.', () {
-    final bloc = MainScreenBodySongListBloc()
+  test('SongListingBloc.DeleteSongFromDeviceEvent error case unit test.', () {
+    final bloc = SongListingBloc()
       ..add(
         LoadPlaylistSongsEvent(playlist),
       );
@@ -202,15 +202,15 @@ void main() {
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodySongListState(
+        const SongListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.completed,
           loadedPlaylist: playlist,
           loadedPlaylistSongs: playlistSongs,
         ),
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Error deleting ${song.title} from your device.',
           loadedPlaylist: playlist,
@@ -224,8 +224,8 @@ void main() {
     bloc.add(DeleteSongFromDeviceEvent(song));
   });
 
-  test('MainScreenBodySongListBloc.DeleteSongFromDeviceEvent success case unit test.', () {
-    final bloc = MainScreenBodySongListBloc()
+  test('SongListingBloc.DeleteSongFromDeviceEvent success case unit test.', () {
+    final bloc = SongListingBloc()
       ..add(
         LoadPlaylistSongsEvent(playlist),
       );
@@ -233,15 +233,15 @@ void main() {
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodySongListState(
+        const SongListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.completed,
           loadedPlaylist: playlist,
           loadedPlaylistSongs: playlistSongs,
         ),
-        MainScreenBodySongListState(
+        SongListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${song.title} deleted from your device successfully!',
           loadedPlaylist: playlist,

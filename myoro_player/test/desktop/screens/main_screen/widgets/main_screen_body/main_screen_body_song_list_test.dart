@@ -2,10 +2,10 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
@@ -63,8 +63,8 @@ void main() {
             MultiBlocProvider(
               providers: [
                 BlocProvider(create: (context) => userPreferencesCubit),
-                BlocProvider(create: (context) => MainScreenBodySongListBloc()..add(LoadPlaylistSongsEvent(playlist))),
-                BlocProvider(create: (context) => MainScreenBodyFooterBloc(userPreferencesCubit)),
+                BlocProvider(create: (context) => SongListingBloc()..add(LoadPlaylistSongsEvent(playlist))),
+                BlocProvider(create: (context) => SongControlsBloc(userPreferencesCubit)),
               ],
               child: const MainScreenBodySongList(),
             ),
@@ -82,7 +82,7 @@ void main() {
           w.children.length == 2 &&
           w.children.first is UnderlineHeader &&
           (w.children.first as UnderlineHeader).header == playlist.name &&
-          w.children.last is BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>)),
+          w.children.last is BlocBuilder<SongControlsBloc, SongControlsState>)),
       findsOneWidget,
     );
 

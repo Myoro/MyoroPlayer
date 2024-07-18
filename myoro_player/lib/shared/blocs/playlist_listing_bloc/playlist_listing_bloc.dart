@@ -1,24 +1,24 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_state.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_state.dart';
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/extensions/string_extension.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 
-final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylistSideBarEvent, MainScreenBodyPlaylistSideBarState> {
+final class PlaylistListingBloc extends Bloc<PlaylistListingEvent, PlaylistListingState> {
   late final FileSystemHelper _fileSystemHelper;
   late final PlaylistService _playlistService;
 
-  MainScreenBodyPlaylistSideBarBloc() : super(const MainScreenBodyPlaylistSideBarState()) {
+  PlaylistListingBloc() : super(const PlaylistListingState()) {
     final kiwiContainer = KiwiContainer();
     _fileSystemHelper = kiwiContainer.resolve<FileSystemHelper>();
     _playlistService = kiwiContainer.resolve<PlaylistService>();
 
-    on<MainScreenBodyPlaylistSideBarEvent>((event, emit) async {
+    on<PlaylistListingEvent>((event, emit) async {
       emit(state.copyWith(status: BlocStatusEnum.loading));
 
       if (event is CreatePlaylistEvent || event is OpenPlaylistEvent) {
@@ -57,7 +57,7 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
           );
         } catch (error, stackTrace) {
           if (kDebugMode) {
-            print('[MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent]: Error deleting playlist: "$error"');
+            print('[PlaylistListingBloc.RemovePlaylistFromMyoroPlayerEvent]: Error deleting playlist: "$error"');
             print('Stack trace:\n$stackTrace');
           }
 
@@ -73,7 +73,7 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
   }
 
   Future<void> _validateAndSavePlaylist(
-    Emitter<MainScreenBodyPlaylistSideBarState> emit,
+    Emitter<PlaylistListingState> emit,
     String? folderPath,
     bool createFolder,
   ) async {
@@ -125,7 +125,7 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
   Future<void> _updatePlaylistImage(
     Playlist playlist,
     String? imagePath,
-    Emitter<MainScreenBodyPlaylistSideBarState> emit,
+    Emitter<PlaylistListingState> emit,
   ) async {
     try {
       await _playlistService.update(
@@ -141,7 +141,7 @@ final class MainScreenBodyPlaylistSideBarBloc extends Bloc<MainScreenBodyPlaylis
       );
     } catch (error, stackTrace) {
       if (kDebugMode) {
-        print('[MainScreenBodyPlaylistSideBarBloc.SetPlaylistImageEvent]: Error updating the image on the database.');
+        print('[PlaylistListingBloc.SetPlaylistImageEvent]: Error updating the image on the database.');
         print('Stack trace:\n$stackTrace');
       }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_event.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
 import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/shared/helpers/context_menu_helper.dart';
 import 'package:myoro_player/shared/models/context_menu_item.dart';
@@ -41,7 +41,7 @@ enum MainScreenBodyPlaylistSideBarContextMenuEnum {
     Playlist playlist,
     ModelResolverController<List<Playlist>> playlistResolverController,
   ) {
-    final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<MainScreenBodyPlaylistSideBarBloc>(context);
+    final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<PlaylistListingBloc>(context);
 
     return switch (this) {
       MainScreenBodyPlaylistSideBarContextMenuEnum.renamePlaylist => RenamePlaylistModal.show(context, playlist, playlistResolverController),

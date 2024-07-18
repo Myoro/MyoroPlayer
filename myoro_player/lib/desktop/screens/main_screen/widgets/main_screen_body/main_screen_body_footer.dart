@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
 import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
@@ -34,12 +34,12 @@ final class MainScreenBodyFooter extends StatelessWidget {
           final bool showSideWidgets = constraints.maxWidth >= 665;
           final sideWidgetWidths = constraints.maxWidth / 3;
 
-          return BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>(
+          return BlocBuilder<SongControlsBloc, SongControlsState>(
             builder: (context, mainScreenBodyFooterState) {
               return Row(
                 children: [
                   if (showSideWidgets) _SongInformation(mainScreenBodyFooterState, width: sideWidgetWidths),
-                  _SongControls(mainScreenBodyFooterState),
+                  _MainScreenBodyFooter(mainScreenBodyFooterState),
                   if (showSideWidgets) _MiscControls(mainScreenBodyFooterState, width: sideWidgetWidths),
                 ],
               );
@@ -52,7 +52,7 @@ final class MainScreenBodyFooter extends StatelessWidget {
 }
 
 final class _SongInformation extends StatelessWidget {
-  final MainScreenBodyFooterState mainScreenBodyFooterState;
+  final SongControlsState mainScreenBodyFooterState;
   final double width;
 
   const _SongInformation(this.mainScreenBodyFooterState, {required this.width});
@@ -101,17 +101,17 @@ final class _SongInformation extends StatelessWidget {
   }
 }
 
-final class _SongControls extends StatefulWidget {
-  final MainScreenBodyFooterState mainScreenBodyFooterState;
+final class _MainScreenBodyFooter extends StatefulWidget {
+  final SongControlsState mainScreenBodyFooterState;
 
-  const _SongControls(this.mainScreenBodyFooterState);
+  const _MainScreenBodyFooter(this.mainScreenBodyFooterState);
 
   @override
-  State<_SongControls> createState() => _SongControlsState();
+  State<_MainScreenBodyFooter> createState() => _MainScreenBodyFooterState();
 }
 
-class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
-  MainScreenBodyFooterState get _mainScreenBodyFooterState => widget.mainScreenBodyFooterState;
+class _MainScreenBodyFooterState extends State<_MainScreenBodyFooter> with PlayerStateMixin {
+  SongControlsState get _mainScreenBodyFooterState => widget.mainScreenBodyFooterState;
 
   final _songPositionNotifier = ValueNotifier<double?>(null);
   final _isPlayingNotifier = ValueNotifier<bool>(false);
@@ -131,7 +131,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
 
   // coverage:ignore-start
   @override
-  void didUpdateWidget(covariant _SongControls oldWidget) {
+  void didUpdateWidget(covariant _MainScreenBodyFooter oldWidget) {
     super.didUpdateWidget(oldWidget);
     usePlayer(_mainScreenBodyFooterState.player);
   }
@@ -146,7 +146,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
     _isPlayingNotifier.value = status == PlayerStatus.playing ? true : false;
 
     if (status == PlayerStatus.ended) {
-      BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+      BlocProvider.of<SongControlsBloc>(context).add(
         const NextSongEvent(),
       );
     }
@@ -156,7 +156,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
   @override
   Widget build(BuildContext context) {
     final userPreferencesCubit = BlocProvider.of<UserPreferencesCubit>(context);
-    final mainScreenBodyFooterBloc = BlocProvider.of<MainScreenBodyFooterBloc>(context);
+    final mainScreenBodyFooterBloc = BlocProvider.of<SongControlsBloc>(context);
 
     return Expanded(
       child: Column(
@@ -169,7 +169,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
                 width: 190,
                 max: _mainScreenBodyFooterState.loadedSong?.$1.duration.inSeconds.toDouble(),
                 value: position,
-                onChanged: (value) => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+                onChanged: (value) => BlocProvider.of<SongControlsBloc>(context).add(
                   ChangeSongPositionEvent(
                     value,
                   ),
@@ -225,7 +225,7 @@ class _SongControlsState extends State<_SongControls> with PlayerStateMixin {
 }
 
 final class _MiscControls extends StatelessWidget {
-  final MainScreenBodyFooterState mainScreenBodyFooterState;
+  final SongControlsState mainScreenBodyFooterState;
   final double width;
 
   const _MiscControls(this.mainScreenBodyFooterState, {required this.width});
@@ -245,7 +245,7 @@ final class _MiscControls extends StatelessWidget {
                 width: width >= 180 ? 180 : width,
                 value: userPreferences.volume * 100,
                 max: 100,
-                onChanged: (value) => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+                onChanged: (value) => BlocProvider.of<SongControlsBloc>(context).add(
                   ChangeVolumeEvent(
                     value / 100,
                   ),
@@ -363,7 +363,7 @@ class _QueueButtonState extends State<_QueueButton> with SingleTickerProviderSta
                             color: onBackground,
                           ),
                         ),
-                        child: BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>(
+                        child: BlocBuilder<SongControlsBloc, SongControlsState>(
                           builder: (context, state) {
                             _queueNotifier.value = List.from(state.queue);
 
@@ -498,7 +498,7 @@ class _QueueButtonState extends State<_QueueButton> with SingleTickerProviderSta
 
   // coverage:ignore-start
   void _playQueuedSong(Song song) {
-    BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+    BlocProvider.of<SongControlsBloc>(context).add(
       PlayQueuedSongEvent(
         song,
       ),

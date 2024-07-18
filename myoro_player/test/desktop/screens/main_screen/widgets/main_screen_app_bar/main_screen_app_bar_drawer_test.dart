@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_app_bar_drawer_items_enum.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar_drawer.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
@@ -25,7 +25,7 @@ void main() {
   const key = Key('');
   final kiwiContainer = KiwiContainer();
   late final UserPreferencesCubit userPreferencesCubit;
-  late final MainScreenBodyPlaylistSideBarBloc mainScreenBodyPlaylistSideBarBloc;
+  late final PlaylistListingBloc mainScreenBodyPlaylistSideBarBloc;
 
   setUpAll(() {
     kiwiContainer
@@ -35,7 +35,7 @@ void main() {
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
 
     userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
-    mainScreenBodyPlaylistSideBarBloc = MainScreenBodyPlaylistSideBarBloc();
+    mainScreenBodyPlaylistSideBarBloc = PlaylistListingBloc();
   });
 
   tearDownAll(() {

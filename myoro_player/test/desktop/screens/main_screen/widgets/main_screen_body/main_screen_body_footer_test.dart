@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
@@ -30,7 +30,7 @@ import '../../../../../mocks/user_preferences_mock.dart';
 void main() {
   final kiwiContainer = KiwiContainer();
   late final UserPreferencesCubit userPreferencesCubit;
-  late final MainScreenBodyFooterBloc mainScreenBodyFooterBloc;
+  late final SongControlsBloc mainScreenBodyFooterBloc;
   final songOne = Song.mock;
   final songTwo = Song.mock.copyWith(title: 'Another song');
 
@@ -41,7 +41,7 @@ void main() {
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
 
     userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
-    mainScreenBodyFooterBloc = MainScreenBodyFooterBloc(userPreferencesCubit);
+    mainScreenBodyFooterBloc = SongControlsBloc(userPreferencesCubit);
   });
 
   tearDown(() {
@@ -59,7 +59,7 @@ void main() {
     );
   }
 
-  testWidgets('MainScreenBodyFooter widget test.', (tester) async {
+  testWidgets('SongControls widget test.', (tester) async {
     await tester.pumpWidget(
       MultiBlocProvider(
         providers: [
@@ -209,7 +209,7 @@ void main() {
                     borderRadius: DecorationDesignSystem.borderRadius,
                     border: Border.all(width: 2, color: DarkModeColorDesignSystem.onBackground),
                   )) &&
-          w.child is BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>),
+          w.child is BlocBuilder<SongControlsBloc, SongControlsState>),
       findsOneWidget,
     );
     expect(

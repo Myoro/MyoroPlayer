@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_state.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_state.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:myoro_player/shared/constants.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
@@ -52,7 +52,7 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: BlocConsumer<MainScreenBodySongListBloc, MainScreenBodySongListState>(
+      child: BlocConsumer<SongListingBloc, SongListingState>(
         listener: (context, mainScreenBodySongListState) {
           _filteredSongsNotifier.value = mainScreenBodySongListState.loadedPlaylistSongs ?? [];
           _loadedPlaylistSongs = mainScreenBodySongListState.loadedPlaylistSongs;
@@ -63,7 +63,7 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
           return Column(
             children: [
               UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),
-              BlocBuilder<MainScreenBodyFooterBloc, MainScreenBodyFooterState>(
+              BlocBuilder<SongControlsBloc, SongControlsState>(
                 builder: (context, mainScreenFooterState) {
                   return Expanded(
                     child: mainScreenBodySongListState.status == BlocStatusEnum.loading
@@ -102,7 +102,7 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
   }
 
   // coverage:ignore-start
-  void _handleSnackBars(BuildContext context, MainScreenBodySongListState state) {
+  void _handleSnackBars(BuildContext context, SongListingState state) {
     if (state.status == BlocStatusEnum.completed && state.snackBarMessage != null) {
       context.showDialogSnackBar(context, state.snackBarMessage!);
     } else if (state.status == BlocStatusEnum.error) {
@@ -154,7 +154,7 @@ final class _Song extends StatelessWidget {
         message: song.path,
         child: BaseHoverButton(
           forceHover: isSelectedSong,
-          onTap: () => BlocProvider.of<MainScreenBodyFooterBloc>(context).add(
+          onTap: () => BlocProvider.of<SongControlsBloc>(context).add(
             DirectPlayEvent(
               song,
             ),

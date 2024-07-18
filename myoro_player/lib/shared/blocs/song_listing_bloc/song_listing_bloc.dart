@@ -1,17 +1,18 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_state.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_state.dart';
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/models/song.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:kiwi/kiwi.dart';
 
-final class MainScreenBodySongListBloc extends Bloc<MainScreenBodySongListEvent, MainScreenBodySongListState> {
+/// Used for controlling the list of [Song]s to be displayed to the user
+final class SongListingBloc extends Bloc<SongListingEvent, SongListingState> {
   late final FileSystemHelper _fileSystemHelper;
   late final SongService _songService;
 
-  MainScreenBodySongListBloc() : super(const MainScreenBodySongListState()) {
+  SongListingBloc() : super(const SongListingState()) {
     final kiwiContainer = KiwiContainer();
     _fileSystemHelper = kiwiContainer.resolve<FileSystemHelper>();
     _songService = kiwiContainer.resolve<SongService>();

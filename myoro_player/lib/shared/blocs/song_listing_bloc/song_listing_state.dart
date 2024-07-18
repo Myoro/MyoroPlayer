@@ -1,11 +1,9 @@
 import 'package:equatable/equatable.dart';
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
-import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/song.dart';
 
-/// BloC for [MainScreenBodySongList]
-final class MainScreenBodySongListState extends Equatable {
+final class SongListingState extends Equatable {
   /// Standard BloC status enum
   final BlocStatusEnum status;
 
@@ -18,20 +16,20 @@ final class MainScreenBodySongListState extends Equatable {
   /// Loaded songs
   final List<Song>? loadedPlaylistSongs;
 
-  const MainScreenBodySongListState({
+  const SongListingState({
     this.status = BlocStatusEnum.idle,
     this.snackBarMessage,
     this.loadedPlaylist,
     this.loadedPlaylistSongs,
   });
 
-  MainScreenBodySongListState copyWith({
+  SongListingState copyWith({
     BlocStatusEnum? status,
     String? snackBarMessage,
     Playlist? loadedPlaylist,
     List<Song>? loadedPlaylistSongs,
   }) {
-    return MainScreenBodySongListState(
+    return SongListingState(
       status: status ?? this.status,
       snackBarMessage: snackBarMessage,
       loadedPlaylist: loadedPlaylist ?? this.loadedPlaylist,
@@ -40,7 +38,7 @@ final class MainScreenBodySongListState extends Equatable {
   }
 
   @override
-  String toString() => 'MainScreenBodySongListState(\n'
+  String toString() => 'SongListingState(\n'
       '  status: $status,\n'
       '  snackBarMessage: $snackBarMessage,\n'
       '  loadedPlaylist: $loadedPlaylist,\n'

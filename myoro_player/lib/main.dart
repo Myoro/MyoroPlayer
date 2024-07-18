@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
 import 'package:myoro_player/shared/helpers/device_helper.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/song_service/song_service_api.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen.dart' as desktop;
 import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen.dart' as mobile;
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
@@ -53,7 +53,7 @@ void main() async {
     ..registerFactory<PlaylistService>((_) => PlaylistServiceApi(database))
     ..registerFactory<SongService>((_) => SongServiceApi(database));
 
-  /// User preferences cubit initialized here to provide to [MainScreenBodyFooterBloc]
+  /// User preferences cubit initialized here to provide to [SongControlsBloc]
   final userPreferencesCubit = UserPreferencesCubit(
     (await KiwiContainer().resolve<UserPreferencesService>().get())!,
   );
@@ -63,9 +63,9 @@ void main() async {
     MultiBlocProvider(
       providers: [
         BlocProvider(create: (context) => userPreferencesCubit),
-        BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
-        BlocProvider(create: (context) => MainScreenBodySongListBloc()),
-        BlocProvider(create: (context) => MainScreenBodyFooterBloc(userPreferencesCubit)),
+        BlocProvider(create: (context) => PlaylistListingBloc()),
+        BlocProvider(create: (context) => SongListingBloc()),
+        BlocProvider(create: (context) => SongControlsBloc(userPreferencesCubit)),
       ],
       child: const App(),
     ),

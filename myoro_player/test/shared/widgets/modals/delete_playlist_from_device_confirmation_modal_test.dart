@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/model_resolver_bloc/model_resolver_bloc.dart';
 import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
@@ -19,7 +19,7 @@ import '../../../mocks/playlist_service_mock.dart';
 void main() {
   final kiwiContainer = KiwiContainer();
   final PlaylistService playlistServiceMock = PlaylistServiceMock();
-  late final MainScreenBodyPlaylistSideBarBloc mainScreenBodyPlaylistSideBarBloc;
+  late final PlaylistListingBloc mainScreenBodyPlaylistSideBarBloc;
   final playlistResolver = ModelResolverController<List<Playlist>>();
   final key = UniqueKey();
   final playlist = Playlist.mock;
@@ -32,7 +32,7 @@ void main() {
     playlistResolver.bloc = ModelResolverBloc<List<Playlist>>();
     playlistResolver.request = () async => [Playlist.mock];
 
-    mainScreenBodyPlaylistSideBarBloc = MainScreenBodyPlaylistSideBarBloc();
+    mainScreenBodyPlaylistSideBarBloc = PlaylistListingBloc();
   });
 
   tearDownAll(() {

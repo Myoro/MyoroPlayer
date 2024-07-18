@@ -5,40 +5,40 @@ import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/song.dart';
 
 @immutable
-abstract class MainScreenBodyFooterEvent {
-  const MainScreenBodyFooterEvent();
+abstract class SongControlsEvent {
+  const SongControlsEvent();
 }
 
 // General operations
-final class TogglePlayPauseEvent extends MainScreenBodyFooterEvent {
+final class TogglePlayPauseEvent extends SongControlsEvent {
   const TogglePlayPauseEvent();
 }
 
-final class AddToQueueEvent extends MainScreenBodyFooterEvent {
+final class AddToQueueEvent extends SongControlsEvent {
   final Song song;
 
   const AddToQueueEvent(this.song);
 }
 
-final class ChangeSongPositionEvent extends MainScreenBodyFooterEvent {
+final class ChangeSongPositionEvent extends SongControlsEvent {
   final double position;
 
   const ChangeSongPositionEvent(this.position);
 }
 
-final class ChangeVolumeEvent extends MainScreenBodyFooterEvent {
+final class ChangeVolumeEvent extends SongControlsEvent {
   final double volume;
 
   const ChangeVolumeEvent(this.volume);
 }
 
-final class SetLoadedPlaylistEvent extends MainScreenBodyFooterEvent {
+final class SetLoadedPlaylistEvent extends SongControlsEvent {
   final Playlist playlist;
 
   const SetLoadedPlaylistEvent(this.playlist);
 }
 
-final class PlayQueuedSongEvent extends MainScreenBodyFooterEvent {
+final class PlayQueuedSongEvent extends SongControlsEvent {
   final Song song;
 
   const PlayQueuedSongEvent(this.song);
@@ -46,17 +46,17 @@ final class PlayQueuedSongEvent extends MainScreenBodyFooterEvent {
 //
 
 // Primary song logic operations
-final class DirectPlayEvent extends MainScreenBodyFooterEvent {
+final class DirectPlayEvent extends SongControlsEvent {
   final Song song;
 
   const DirectPlayEvent(this.song);
 }
 
-final class PreviousSongEvent extends MainScreenBodyFooterEvent {
+final class PreviousSongEvent extends SongControlsEvent {
   const PreviousSongEvent();
 }
 
-final class NextSongEvent extends MainScreenBodyFooterEvent {
+final class NextSongEvent extends SongControlsEvent {
   const NextSongEvent();
 }
 //

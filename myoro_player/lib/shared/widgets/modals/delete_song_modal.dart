@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_event.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
 import 'package:myoro_player/shared/models/song.dart';
 import 'package:myoro_player/shared/widgets/modals/base_modal.dart';
 
@@ -16,7 +16,7 @@ final class DeleteSongModal extends StatelessWidget {
     BaseModal.show(
       context,
       requestCallback: () {
-        BlocProvider.of<MainScreenBodySongListBloc>(context).add(
+        BlocProvider.of<SongListingBloc>(context).add(
           DeleteSongFromDeviceEvent(song),
         );
       },

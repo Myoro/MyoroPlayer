@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
 import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
@@ -17,7 +17,7 @@ import '../../../../mocks/playlist_service_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
-  late final MainScreenBodyPlaylistSideBarBloc mainScreenBodyPlaylistSideBarBloc;
+  late final PlaylistListingBloc mainScreenBodyPlaylistSideBarBloc;
   const key = Key('');
   late final Widget widget;
 
@@ -26,7 +26,7 @@ void main() {
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
 
-    mainScreenBodyPlaylistSideBarBloc = MainScreenBodyPlaylistSideBarBloc();
+    mainScreenBodyPlaylistSideBarBloc = PlaylistListingBloc();
 
     widget = BaseTestWidget(
       child: BlocProvider.value(

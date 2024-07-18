@@ -1,13 +1,13 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_song_list_bloc/main_screen_body_song_list_bloc.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/models/user_preferences.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body.dart';
@@ -47,9 +47,9 @@ void main() {
         child: MultiBlocProvider(
           providers: [
             BlocProvider(create: (context) => userPreferencesCubit),
-            BlocProvider(create: (context) => MainScreenBodyPlaylistSideBarBloc()),
-            BlocProvider(create: (context) => MainScreenBodySongListBloc()),
-            BlocProvider(create: (context) => MainScreenBodyFooterBloc(userPreferencesCubit)),
+            BlocProvider(create: (context) => PlaylistListingBloc()),
+            BlocProvider(create: (context) => SongListingBloc()),
+            BlocProvider(create: (context) => SongControlsBloc(userPreferencesCubit)),
           ],
           child: const MainScreen(),
         ),

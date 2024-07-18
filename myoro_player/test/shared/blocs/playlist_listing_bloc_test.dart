@@ -1,17 +1,17 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_playlist_side_bar_bloc/main_screen_body_playlist_side_bar_state.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_state.dart';
 import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/helpers/platform_helper.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 
-import '../../../../mocks/file_system_helper_mock.dart';
-import '../../../../mocks/playlist_service_mock.dart';
+import '../../mocks/file_system_helper_mock.dart';
+import '../../mocks/playlist_service_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();
@@ -27,14 +27,14 @@ void main() {
 
   tearDownAll(() => kiwiContainer.clear());
 
-  test('MainScreenBodyPlaylistSideBarBloc.CreatePlaylistEvent canceled operation case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.CreatePlaylistEvent canceled operation case.', () {
+    final bloc = PlaylistListingBloc();
 
     expectLater(
       bloc.stream,
       emits(
         // Redundant [copyWith] is for line coverage
-        const MainScreenBodyPlaylistSideBarState().copyWith().copyWith(
+        const PlaylistListingState().copyWith().copyWith(
               status: BlocStatusEnum.loading,
             ),
       ),
@@ -45,16 +45,16 @@ void main() {
     bloc.add(const CreatePlaylistEvent());
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.CreatePlaylistEvent invalid folder name case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.CreatePlaylistEvent invalid folder name case.', () {
+    final bloc = PlaylistListingBloc();
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Playlist cannot contain these characters: \\/:*?"<>|',
         ),
@@ -66,16 +66,16 @@ void main() {
     bloc.add(const CreatePlaylistEvent());
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.CreatePlaylistEvent playlist already exists case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.CreatePlaylistEvent playlist already exists case.', () {
+    final bloc = PlaylistListingBloc();
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Playlist already exists in your local database.',
         ),
@@ -88,17 +88,17 @@ void main() {
     bloc.add(const CreatePlaylistEvent());
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.CreatePlaylistEvent success case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.CreatePlaylistEvent success case.', () {
+    final bloc = PlaylistListingBloc();
     final playlist = Playlist.mock.copyWith(path: path);
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodyPlaylistSideBarState(
+        PlaylistListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${playlist.path} created successfully!',
         ),
@@ -112,17 +112,17 @@ void main() {
     bloc.add(const CreatePlaylistEvent());
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.OpenPlaylistsEvent success case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.OpenPlaylistsEvent success case.', () {
+    final bloc = PlaylistListingBloc();
     final playlist = Playlist.mock.copyWith(path: path);
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodyPlaylistSideBarState(
+        PlaylistListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${playlist.path} created successfully!',
         ),
@@ -135,17 +135,17 @@ void main() {
     bloc.add(const OpenPlaylistEvent());
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.SetPlaylistImageEvent success case', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.SetPlaylistImageEvent success case', () {
+    final bloc = PlaylistListingBloc();
     final playlist = Playlist.mock;
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodyPlaylistSideBarState(
+        PlaylistListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${playlist.name}\'s image changed successfully!',
         ),
@@ -158,17 +158,17 @@ void main() {
     bloc.add(SetPlaylistImageEvent(playlist));
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent error case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.RemovePlaylistFromMyoroPlayerEvent error case.', () {
+    final bloc = PlaylistListingBloc();
     final playlist = Playlist.mock;
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodyPlaylistSideBarState(
+        PlaylistListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Error removing ${playlist.name}.',
         ),
@@ -177,17 +177,17 @@ void main() {
 
     bloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
   });
-  test('MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent error case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.RemovePlaylistFromMyoroPlayerEvent error case.', () {
+    final bloc = PlaylistListingBloc();
     final playlist = Playlist.mock;
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodyPlaylistSideBarState(
+        PlaylistListingState(
           status: BlocStatusEnum.error,
           snackBarMessage: 'Error removing ${playlist.name}.',
         ),
@@ -197,17 +197,17 @@ void main() {
     bloc.add(RemovePlaylistFromMyoroPlayerEvent(playlist));
   });
 
-  test('MainScreenBodyPlaylistSideBarBloc.RemovePlaylistFromMyoroPlayerEvent success case.', () {
-    final bloc = MainScreenBodyPlaylistSideBarBloc();
+  test('PlaylistListingBloc.RemovePlaylistFromMyoroPlayerEvent success case.', () {
+    final bloc = PlaylistListingBloc();
     final playlist = Playlist.mock;
 
     expectLater(
       bloc.stream,
       emitsInOrder([
-        const MainScreenBodyPlaylistSideBarState(
+        const PlaylistListingState(
           status: BlocStatusEnum.loading,
         ),
-        MainScreenBodyPlaylistSideBarState(
+        PlaylistListingState(
           status: BlocStatusEnum.completed,
           snackBarMessage: '${playlist.name} removed from MyoroPlayer successfully!',
         ),

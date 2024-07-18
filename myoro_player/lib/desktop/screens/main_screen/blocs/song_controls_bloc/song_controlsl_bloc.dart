@@ -3,8 +3,8 @@
 import 'dart:math';
 
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/blocs/main_screen_body_footer_bloc/main_screen_body_footer_state.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_event.dart';
+import 'package:myoro_player/desktop/screens/main_screen/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/models/conditions.dart';
 import 'package:myoro_player/shared/models/playlist.dart';
@@ -16,15 +16,16 @@ import 'package:kplayer/kplayer.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 
-final class MainScreenBodyFooterBloc extends Bloc<MainScreenBodyFooterEvent, MainScreenBodyFooterState> {
+/// BloC for creating and managing MyoroPlayer's audio player
+final class SongControlsBloc extends Bloc<SongControlsEvent, SongControlsState> {
   late final UserPreferencesService _userPreferencesService;
   late final PlaylistService _playlistService;
   late final SongService _songService;
   late final UserPreferencesCubit _userPreferencesCubit;
 
-  MainScreenBodyFooterBloc(
+  SongControlsBloc(
     UserPreferencesCubit userPreferencesCubit,
-  ) : super(const MainScreenBodyFooterState()) {
+  ) : super(const SongControlsState()) {
     final kiwiContainer = KiwiContainer();
     _userPreferencesService = kiwiContainer.resolve<UserPreferencesService>();
     _playlistService = kiwiContainer.resolve<PlaylistService>();

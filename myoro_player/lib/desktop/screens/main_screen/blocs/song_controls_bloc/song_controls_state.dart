@@ -5,7 +5,7 @@ import 'package:myoro_player/shared/models/playlist.dart';
 import 'package:myoro_player/shared/models/song.dart';
 import 'package:kplayer/kplayer.dart';
 
-final class MainScreenBodyFooterState extends Equatable {
+final class SongControlsState extends Equatable {
   /// The audio player
   final PlayerController? player;
 
@@ -31,7 +31,7 @@ final class MainScreenBodyFooterState extends Equatable {
   /// Previous played (cached) songs
   final List<Song> cache;
 
-  const MainScreenBodyFooterState({
+  const SongControlsState({
     this.player,
     this.loadedPlaylist,
     this.randomizedLoadedPlaylistSongs,
@@ -41,7 +41,7 @@ final class MainScreenBodyFooterState extends Equatable {
     this.cache = const [],
   });
 
-  MainScreenBodyFooterState copyWith({
+  SongControlsState copyWith({
     PlayerController? player,
     Playlist? loadedPlaylist,
     List<Song>? randomizedLoadedPlaylistSongs,
@@ -50,7 +50,7 @@ final class MainScreenBodyFooterState extends Equatable {
     List<Song>? queue,
     List<Song>? cache,
   }) {
-    return MainScreenBodyFooterState(
+    return SongControlsState(
       player: player ?? this.player,
       loadedPlaylist: loadedPlaylist ?? this.loadedPlaylist,
       randomizedLoadedPlaylistSongs: randomizedLoadedPlaylistSongs ?? this.randomizedLoadedPlaylistSongs,
@@ -62,7 +62,7 @@ final class MainScreenBodyFooterState extends Equatable {
   }
 
   @override
-  String toString() => 'MainScreenBodyFooterState(\n'
+  String toString() => 'SongControlsState(\n'
       '  player: $player,\n'
       '  loadedPlaylist: $loadedPlaylist,\n'
       '  randomizedLoadedPlaylistSongs: $randomizedLoadedPlaylistSongs,\n'
