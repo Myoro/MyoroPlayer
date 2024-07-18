@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';

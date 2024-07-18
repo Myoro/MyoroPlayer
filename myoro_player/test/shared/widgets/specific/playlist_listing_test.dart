@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
-import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';

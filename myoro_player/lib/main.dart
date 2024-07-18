@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
-import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/helpers/device_helper.dart';
 import 'package:myoro_player/shared/services/song_service/song_service.dart';
 import 'package:myoro_player/shared/services/song_service/song_service_api.dart';

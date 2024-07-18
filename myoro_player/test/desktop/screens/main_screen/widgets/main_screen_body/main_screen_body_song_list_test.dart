@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';

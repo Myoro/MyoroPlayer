@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controlsl_bloc.dart';
+import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
