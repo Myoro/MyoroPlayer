@@ -51,53 +51,51 @@ class _MainScreenBodySongListState extends State<MainScreenBodySongList> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocConsumer<SongListingBloc, SongListingState>(
-        listener: (context, mainScreenBodySongListState) {
-          _filteredSongsNotifier.value = mainScreenBodySongListState.loadedPlaylistSongs ?? [];
-          _loadedPlaylistSongs = mainScreenBodySongListState.loadedPlaylistSongs;
+    return BlocConsumer<SongListingBloc, SongListingState>(
+      listener: (context, mainScreenBodySongListState) {
+        _filteredSongsNotifier.value = mainScreenBodySongListState.loadedPlaylistSongs ?? [];
+        _loadedPlaylistSongs = mainScreenBodySongListState.loadedPlaylistSongs;
 
-          _handleSnackBars(context, mainScreenBodySongListState);
-        },
-        builder: (context, mainScreenBodySongListState) {
-          return Column(
-            children: [
-              UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),
-              BlocBuilder<SongControlsBloc, SongControlsState>(
-                builder: (context, mainScreenFooterState) {
-                  return Expanded(
-                    child: mainScreenBodySongListState.status == BlocStatusEnum.loading
-                        ? const Center(child: LoadingCircle())
-                        : ValueListenableBuilder(
-                            valueListenable: _filteredSongsNotifier,
-                            builder: (_, List<Song> filteredSongs, __) {
-                              return VerticalScrollList(
-                                children: [
-                                  if (filteredSongs.isNotEmpty)
-                                    UnderlineInput(
-                                      controller: _searchBarController,
-                                      placeholder: 'Search songs',
-                                    ),
-                                  ...filteredSongs.map<_Song>(
-                                    (song) {
-                                      return _Song(
-                                        song,
-                                        isLastSong: mainScreenBodySongListState.loadedPlaylistSongs?.last == song,
-                                        isSelectedSong: mainScreenFooterState.loadedSong?.$1 == song,
-                                      );
-                                    },
+        _handleSnackBars(context, mainScreenBodySongListState);
+      },
+      builder: (context, mainScreenBodySongListState) {
+        return Column(
+          children: [
+            UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),
+            BlocBuilder<SongControlsBloc, SongControlsState>(
+              builder: (context, mainScreenFooterState) {
+                return Expanded(
+                  child: mainScreenBodySongListState.status == BlocStatusEnum.loading
+                      ? const Center(child: LoadingCircle())
+                      : ValueListenableBuilder(
+                          valueListenable: _filteredSongsNotifier,
+                          builder: (_, List<Song> filteredSongs, __) {
+                            return VerticalScrollList(
+                              children: [
+                                if (filteredSongs.isNotEmpty)
+                                  UnderlineInput(
+                                    controller: _searchBarController,
+                                    placeholder: 'Search songs',
                                   ),
-                                ],
-                              );
-                            },
-                          ),
-                  );
-                },
-              ),
-            ],
-          );
-        },
-      ),
+                                ...filteredSongs.map<_Song>(
+                                  (song) {
+                                    return _Song(
+                                      song,
+                                      isLastSong: mainScreenBodySongListState.loadedPlaylistSongs?.last == song,
+                                      isSelectedSong: mainScreenFooterState.loadedSong?.$1 == song,
+                                    );
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        ),
+                );
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 

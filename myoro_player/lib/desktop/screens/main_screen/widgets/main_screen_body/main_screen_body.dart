@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
-import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
+import 'package:myoro_player/shared/widgets/screens/main_screen/main_screen_body_song_list.dart';
 import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
 
 final class MainScreenBody extends StatelessWidget {
@@ -15,7 +15,7 @@ final class MainScreenBody extends StatelessWidget {
         Expanded(
           child: Column(
             children: [
-              MainScreenBodySongList(),
+              Expanded(child: MainScreenBodySongList()),
               BasicDivider(
                 direction: Axis.horizontal,
                 padding: EdgeInsets.symmetric(

@@ -14,13 +14,13 @@ import 'package:myoro_player/shared/services/user_preferences_service/user_prefe
 import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
-import 'package:myoro_player/shared/widgets/specific/playlist_listing.dart';
+import 'package:myoro_player/shared/widgets/screens/main_screen/playlist_listing.dart';
 
-import '../../../base_test_widget.dart';
-import '../../../mocks/file_system_helper_mock.dart';
-import '../../../mocks/playlist_service_mock.dart';
-import '../../../mocks/song_service.mock.dart';
-import '../../../mocks/user_preferences_mock.dart';
+import '../../../../base_test_widget.dart';
+import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/playlist_service_mock.dart';
+import '../../../../mocks/song_service.mock.dart';
+import '../../../../mocks/user_preferences_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();

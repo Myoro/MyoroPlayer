@@ -6,7 +6,7 @@ import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
 import 'package:myoro_player/shared/helpers/snack_bar_helper.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
-import 'package:myoro_player/shared/widgets/specific/playlist_listing.dart';
+import 'package:myoro_player/shared/widgets/screens/main_screen/playlist_listing.dart';
 
 final class MainScreenBodyPlaylistSideBar extends StatefulWidget {
   const MainScreenBodyPlaylistSideBar({super.key});

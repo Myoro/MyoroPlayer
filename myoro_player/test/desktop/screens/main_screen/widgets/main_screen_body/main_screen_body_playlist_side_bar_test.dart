@@ -14,7 +14,7 @@ import 'package:myoro_player/shared/services/playlist_service/playlist_service.d
 import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
 import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
-import 'package:myoro_player/shared/widgets/specific/playlist_listing.dart';
+import 'package:myoro_player/shared/widgets/screens/main_screen/playlist_listing.dart';
 
 import '../../../../../base_test_widget.dart';
 import '../../../../../mocks/file_system_helper_mock.dart';

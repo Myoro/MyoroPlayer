@@ -7,7 +7,7 @@ import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
 import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_song_list_context_menu_enum.dart';
-import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
+import 'package:myoro_player/shared/widgets/screens/main_screen/main_screen_body_song_list.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
 import 'package:myoro_player/shared/design_system/color_design_system.dart';
 import 'package:myoro_player/shared/design_system/image_design_system.dart';
@@ -27,11 +27,11 @@ import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
 import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:kiwi/kiwi.dart';
 
-import '../../../../../base_test_widget.dart';
-import '../../../../../mocks/file_system_helper_mock.dart';
-import '../../../../../mocks/playlist_service_mock.dart';
-import '../../../../../mocks/song_service.mock.dart';
-import '../../../../../mocks/user_preferences_mock.dart';
+import '../../../../base_test_widget.dart';
+import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/playlist_service_mock.dart';
+import '../../../../mocks/song_service.mock.dart';
+import '../../../../mocks/user_preferences_mock.dart';
 
 void main() {
   final kiwiContainer = KiwiContainer();

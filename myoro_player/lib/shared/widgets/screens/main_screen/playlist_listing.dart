@@ -61,11 +61,10 @@ class _PlaylistListingState extends State<PlaylistListing> {
             builder: (_, List<Playlist> filteredPlaylists, __) {
               return VerticalScrollList(
                 children: [
-                  if (filteredPlaylists.isNotEmpty)
-                    UnderlineInput(
-                      controller: _searchBarController,
-                      placeholder: 'Search playlists',
-                    ),
+                  UnderlineInput(
+                    controller: _searchBarController,
+                    placeholder: 'Search playlists',
+                  ),
                   ...filteredPlaylists.map(
                     (playlist) {
                       return Padding(

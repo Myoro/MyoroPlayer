@@ -12,7 +12,7 @@ import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
-import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_song_list.dart';
+import 'package:myoro_player/shared/widgets/screens/main_screen/main_screen_body_song_list.dart';
 import 'package:myoro_player/shared/helpers/file_system_helper.dart';
 import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
