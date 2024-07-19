@@ -5,7 +5,7 @@ import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
-import 'package:myoro_player/desktop/screens/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
+import 'package:myoro_player/desktop/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
 import 'package:myoro_player/shared/constants.dart';
 import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/shared/design_system/image_design_system.dart';

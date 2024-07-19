@@ -1,12 +1,6 @@
 # TODO
 
-- Download all playlists zip
-
-## TESTS
-
-- Tests for all of the mobile components
-
 ## CHECKLIST UNTIL FINISHED
 
-1. `dart doc`
+1. README.md
 1. Deployment pipeline(s)
