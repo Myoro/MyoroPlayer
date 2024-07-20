@@ -1,5 +1,12 @@
 # TODO
 
+## Bugs
+
+1. Fix snackbar not showing when a playlist is added
+2. Fix songs not loading on Android
+3. Create mobile song screen
+4. Move `BaseSnackBar` to `/lib/desktop` and create a `BaseSnackBar` for `lib/mobile`
+
 ## CHECKLIST UNTIL FINISHED
 
 1. README.md
