@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar_playlist_dropdown_modal.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
 import 'package:myoro_player/core/controllers/model_resolver_controller.dart';
 import 'package:myoro_player/core/helpers/context_menu_helper.dart';
 import 'package:myoro_player/core/helpers/platform_helper.dart';
-import 'package:myoro_player/core/models/context_menu_item.dart';
+import 'package:myoro_player/core/models/menu_item.dart';
 import 'package:myoro_player/core/models/playlist.dart';
 import 'package:myoro_player/core/widgets/modals/delete_playlist_from_device_confirmation_modal.dart';
 import 'package:myoro_player/core/widgets/modals/rename_playlist_modal.dart';
-import 'package:myoro_player/shared/widgets/screens/main_screen/playlist_listing.dart';
+import 'package:myoro_player/shared/screens/main_screen/playlist_listing.dart';
 
 /// Enum for displaying the menu for a [Playlist] within [PlaylistListing]
 ///
@@ -69,14 +70,14 @@ enum PlaylistListingPlaylistMenuEnum {
       '[PlaylistListingPlaylistMenu.showContextMenu]: This method is only for desktop.',
     );
 
-    final List<ContextMenuItem> items = [];
+    final List<MenuItem> items = [];
 
     for (final value in PlaylistListingPlaylistMenuEnum.values) {
       if (value == PlaylistListingPlaylistMenuEnum.removePlaylistImage && playlist.image == null) {
         continue;
       } else {
         items.add(
-          ContextMenuItem(
+          MenuItem(
             icon: value.icon,
             text: value.text,
             onTap: () => value.onTap.call(
@@ -97,12 +98,16 @@ enum PlaylistListingPlaylistMenuEnum {
     );
   }
 
-  // TODO
   static void showDropdownModal(
     BuildContext context,
     Playlist playlist,
     ModelResolverController playlistResolverController,
   ) {
-    print('Start');
+    assert(
+      PlatformHelper.isMobile,
+      '[PlaylistListingPlaylistMenu.showDropdownModal]: This method is only for mobile.',
+    );
+
+    MainScreenAppBarPlaylistDropdownModal.show(context);
   }
 }

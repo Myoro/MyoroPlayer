@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:myoro_player/core/design_system/color_design_system.dart';
 import 'package:myoro_player/core/design_system/decoration_design_system.dart';
 import 'package:myoro_player/core/enums/image_size_enum.dart';
-import 'package:myoro_player/core/models/context_menu_item.dart';
+import 'package:myoro_player/core/extensions/build_context_extension.dart';
+import 'package:myoro_player/core/models/menu_item.dart';
 
 /// Used whenever a [showMenu] is required
 final class ContextMenuHelper {
@@ -10,7 +11,7 @@ final class ContextMenuHelper {
     BuildContext context,
     TapDownDetails details, {
     required double width,
-    required List<ContextMenuItem> items,
+    required List<MenuItem> items,
   }) {
     final Color onBackground = ColorDesignSystem.onBackground(context);
 
@@ -49,7 +50,7 @@ final class ContextMenuHelper {
                 ),
                 Text(
                   item.text,
-                  style: Theme.of(context).textTheme.bodyMedium,
+                  style: context.textTheme.bodyMedium,
                 ),
               ],
             ),

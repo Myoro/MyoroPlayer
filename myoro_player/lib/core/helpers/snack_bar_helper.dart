@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/mobile/widgets/base_snack_bar.dart' as mobile;
+import 'package:myoro_player/mobile/widgets/snack_bars/base_snack_bar.dart' as mobile;
 import 'package:myoro_player/core/enums/snack_bar_type_enum.dart';
 import 'package:myoro_player/desktop/widgets/snack_bars/base_snack_bar.dart' as desktop;
 import 'package:myoro_player/core/helpers/platform_helper.dart';
