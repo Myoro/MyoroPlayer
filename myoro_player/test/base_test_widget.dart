@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/shared/design_system/theme_data.dart';
-import 'package:myoro_player/shared/widgets/scaffolds/base_scaffold.dart';
+import 'package:myoro_player/core/design_system/theme_data.dart';
+import 'package:myoro_player/core/widgets/scaffolds/base_scaffold.dart';
 
 enum TestTypeEnum {
   /// Any type of widget

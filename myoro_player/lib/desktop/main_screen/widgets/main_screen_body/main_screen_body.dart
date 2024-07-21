@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:myoro_player/desktop/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
 import 'package:myoro_player/desktop/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
 import 'package:myoro_player/shared/widgets/screens/main_screen/song_listing.dart';
-import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
+import 'package:myoro_player/core/widgets/dividers/basic_divider.dart';
 
 final class MainScreenBody extends StatelessWidget {
   const MainScreenBody({super.key});

@@ -4,19 +4,19 @@ import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
-import 'package:myoro_player/shared/design_system/color_design_system.dart';
-import 'package:myoro_player/shared/design_system/decoration_design_system.dart';
-import 'package:myoro_player/shared/design_system/image_design_system.dart';
-import 'package:myoro_player/shared/enums/image_size_enum.dart';
-import 'package:myoro_player/shared/extensions/build_context_extension.dart';
-import 'package:myoro_player/shared/extensions/text_style_extension.dart';
-import 'package:myoro_player/shared/models/song.dart';
-import 'package:myoro_player/shared/models/user_preferences.dart';
-import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
-import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
-import 'package:myoro_player/shared/widgets/images/base_image.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
-import 'package:myoro_player/shared/widgets/sliders/base_slider.dart';
+import 'package:myoro_player/core/design_system/color_design_system.dart';
+import 'package:myoro_player/core/design_system/decoration_design_system.dart';
+import 'package:myoro_player/core/design_system/image_design_system.dart';
+import 'package:myoro_player/core/enums/image_size_enum.dart';
+import 'package:myoro_player/core/extensions/build_context_extension.dart';
+import 'package:myoro_player/core/extensions/text_style_extension.dart';
+import 'package:myoro_player/core/models/song.dart';
+import 'package:myoro_player/core/models/user_preferences.dart';
+import 'package:myoro_player/core/widgets/buttons/base_hover_button.dart';
+import 'package:myoro_player/core/widgets/buttons/icon_text_hover_button.dart';
+import 'package:myoro_player/core/widgets/images/base_image.dart';
+import 'package:myoro_player/core/widgets/scrollbars/vertical_scroll_list.dart';
+import 'package:myoro_player/core/widgets/sliders/base_slider.dart';
 import 'package:kplayer/kplayer.dart';
 
 final class MainScreenBodyFooter extends StatelessWidget {

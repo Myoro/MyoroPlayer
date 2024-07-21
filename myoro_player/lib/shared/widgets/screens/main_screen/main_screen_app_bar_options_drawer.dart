@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:myoro_player/shared/enums/main_screen_app_bar_options_drawer_items_enum.dart';
-import 'package:myoro_player/shared/controllers/base_drawer_controller.dart';
-import 'package:myoro_player/shared/enums/image_size_enum.dart';
-import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
-import 'package:myoro_player/shared/widgets/drawers/base_drawer.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
+import 'package:myoro_player/core/controllers/base_drawer_controller.dart';
+import 'package:myoro_player/core/enums/image_size_enum.dart';
+import 'package:myoro_player/core/widgets/buttons/icon_text_hover_button.dart';
+import 'package:myoro_player/core/widgets/drawers/base_drawer.dart';
+import 'package:myoro_player/core/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:provider/provider.dart';
 
 final class MainScreenAppBarOptionsDrawer extends StatelessWidget {

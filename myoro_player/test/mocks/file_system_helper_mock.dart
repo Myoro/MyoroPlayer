@@ -1,8 +1,8 @@
 import 'package:faker/faker.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/models/song.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/models/song.dart';
 import 'package:mocktail/mocktail.dart';
-import 'package:myoro_player/shared/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
 
 final class FileSystemHelperMock extends Mock implements FileSystemHelper {
   static final preConfiguredPath = faker.internet.uri('https');

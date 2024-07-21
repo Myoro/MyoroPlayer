@@ -5,17 +5,18 @@ import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
-import 'package:myoro_player/desktop/main_screen/enums/main_screen_body_playlist_side_bar_context_menu_enum.dart';
-import 'package:myoro_player/shared/constants.dart';
-import 'package:myoro_player/shared/controllers/model_resolver_controller.dart';
-import 'package:myoro_player/shared/design_system/image_design_system.dart';
-import 'package:myoro_player/shared/enums/image_size_enum.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
-import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
-import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
-import 'package:myoro_player/shared/widgets/model_resolvers/model_resolver.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
+import 'package:myoro_player/shared/enums/playlist_listing_playlist_menu_enum.dart';
+import 'package:myoro_player/core/constants.dart';
+import 'package:myoro_player/core/controllers/model_resolver_controller.dart';
+import 'package:myoro_player/core/design_system/image_design_system.dart';
+import 'package:myoro_player/core/enums/image_size_enum.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/widgets/buttons/icon_text_hover_button.dart';
+import 'package:myoro_player/core/widgets/inputs/underline_input.dart';
+import 'package:myoro_player/core/widgets/model_resolvers/model_resolver.dart';
+import 'package:myoro_player/core/widgets/scrollbars/vertical_scroll_list.dart';
 
 /// BloC for listing the [Playlist]s that the user will see
 final class PlaylistListing extends StatefulWidget {
@@ -99,14 +100,21 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                 ),
                               );
                             },
-                            onSecondaryTapDown: (details) {
-                              MainScreenBodyPlaylistSideBarContextMenuEnum.showContextMenu(
-                                context,
-                                details,
-                                playlist,
-                                _playlistResolverController,
-                              );
-                            },
+                            onSecondaryTapDown: PlatformHelper.isDesktop
+                                ? (details) => PlaylistListingPlaylistMenuEnum.showContextMenu(
+                                      context,
+                                      details,
+                                      playlist,
+                                      _playlistResolverController,
+                                    )
+                                : null,
+                            onLongPress: PlatformHelper.isDesktop
+                                ? null
+                                : () => PlaylistListingPlaylistMenuEnum.showDropdownModal(
+                                      context,
+                                      playlist,
+                                      _playlistResolverController,
+                                    ),
                           ),
                         ),
                       );

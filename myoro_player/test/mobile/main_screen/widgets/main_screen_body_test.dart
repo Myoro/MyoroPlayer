@@ -6,11 +6,11 @@ import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
-import 'package:myoro_player/shared/helpers/file_system_helper.dart';
-import 'package:myoro_player/shared/models/user_preferences.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
-import 'package:myoro_player/shared/services/song_service/song_service.dart';
-import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/models/user_preferences.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/services/song_service/song_service.dart';
+import 'package:myoro_player/core/services/user_preferences_service/user_preferences_service.dart';
 import 'package:myoro_player/shared/widgets/screens/main_screen/song_listing.dart';
 
 import '../../../base_test_widget.dart';

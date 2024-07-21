@@ -1,6 +1,6 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 
 final class PlaylistServiceMock extends Mock implements PlaylistService {
   static final Playlist preConfiguredPlaylist = Playlist.mock;

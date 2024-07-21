@@ -4,11 +4,11 @@ import 'package:mocktail/mocktail.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_state.dart';
-import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
-import 'package:myoro_player/shared/helpers/file_system_helper.dart';
-import 'package:myoro_player/shared/helpers/platform_helper.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/enums/bloc_status_enum.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 
 import '../../mocks/file_system_helper_mock.dart';
 import '../../mocks/playlist_service_mock.dart';

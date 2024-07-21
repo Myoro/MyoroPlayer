@@ -6,15 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
-import 'package:myoro_player/shared/models/conditions.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/models/song.dart';
-import 'package:myoro_player/shared/models/user_preferences.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/models/conditions.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/models/song.dart';
+import 'package:myoro_player/core/models/user_preferences.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:kplayer/kplayer.dart';
-import 'package:myoro_player/shared/services/song_service/song_service.dart';
-import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
+import 'package:myoro_player/core/services/song_service/song_service.dart';
+import 'package:myoro_player/core/services/user_preferences_service/user_preferences_service.dart';
 
 /// BloC for creating and managing MyoroPlayer's audio player
 final class SongControlsBloc extends Bloc<SongControlsEvent, SongControlsState> {

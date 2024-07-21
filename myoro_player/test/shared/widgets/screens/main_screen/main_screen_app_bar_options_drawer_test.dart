@@ -5,14 +5,14 @@ import 'package:myoro_player/shared/widgets/screens/main_screen/main_screen_app_
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/enums/main_screen_app_bar_options_drawer_items_enum.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
-import 'package:myoro_player/shared/enums/image_size_enum.dart';
-import 'package:myoro_player/shared/helpers/device_helper.dart';
-import 'package:myoro_player/shared/helpers/file_system_helper.dart';
-import 'package:myoro_player/shared/models/user_preferences.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
-import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
-import 'package:myoro_player/shared/widgets/buttons/icon_text_hover_button.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
+import 'package:myoro_player/core/enums/image_size_enum.dart';
+import 'package:myoro_player/core/helpers/device_helper.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/models/user_preferences.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/services/user_preferences_service/user_preferences_service.dart';
+import 'package:myoro_player/core/widgets/buttons/icon_text_hover_button.dart';
+import 'package:myoro_player/core/widgets/scrollbars/vertical_scroll_list.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../../../base_test_widget.dart';

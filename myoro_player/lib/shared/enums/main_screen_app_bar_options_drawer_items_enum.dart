@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
-import 'package:myoro_player/shared/helpers/device_helper.dart';
+import 'package:myoro_player/core/helpers/device_helper.dart';
 import 'package:kiwi/kiwi.dart';
 
 enum MainScreenAppBarOptionsDrawerItemsEnum {
@@ -30,13 +30,13 @@ enum MainScreenAppBarOptionsDrawerItemsEnum {
   const MainScreenAppBarOptionsDrawerItemsEnum(this.icon, this.text);
 
   void callback(BuildContext context) {
-    final mainScreenBodyPlaylistSideBarBloc = BlocProvider.of<PlaylistListingBloc>(
+    final playlistListingBloc = BlocProvider.of<PlaylistListingBloc>(
       context,
     );
 
     return switch (this) {
-      MainScreenAppBarOptionsDrawerItemsEnum.openPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const OpenPlaylistEvent()),
-      MainScreenAppBarOptionsDrawerItemsEnum.createPlaylist => mainScreenBodyPlaylistSideBarBloc.add(const CreatePlaylistEvent()),
+      MainScreenAppBarOptionsDrawerItemsEnum.openPlaylist => playlistListingBloc.add(const OpenPlaylistEvent()),
+      MainScreenAppBarOptionsDrawerItemsEnum.createPlaylist => playlistListingBloc.add(const CreatePlaylistEvent()),
       MainScreenAppBarOptionsDrawerItemsEnum.toggleTheme => BlocProvider.of<UserPreferencesCubit>(context).toggleTheme(),
       MainScreenAppBarOptionsDrawerItemsEnum.quit => KiwiContainer().resolve<DeviceHelper>().quit(),
     };

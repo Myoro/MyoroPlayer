@@ -1,5 +1,5 @@
 import 'package:equatable/equatable.dart';
-import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
+import 'package:myoro_player/core/enums/bloc_status_enum.dart';
 
 final class PlaylistListingState extends Equatable {
   final BlocStatusEnum status;

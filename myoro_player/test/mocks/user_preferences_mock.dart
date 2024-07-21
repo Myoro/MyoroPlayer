@@ -1,6 +1,6 @@
 import 'package:mocktail/mocktail.dart';
-import 'package:myoro_player/shared/models/user_preferences.dart';
-import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
+import 'package:myoro_player/core/models/user_preferences.dart';
+import 'package:myoro_player/core/services/user_preferences_service/user_preferences_service.dart';
 
 final class UserPreferencesServiceMock extends Mock implements UserPreferencesService {
   static UserPreferencesServiceMock preConfigured({

@@ -2,10 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_state.dart';
-import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
-import 'package:myoro_player/shared/helpers/snack_bar_helper.dart';
-import 'package:myoro_player/shared/widgets/dividers/resize_divider.dart';
-import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
+import 'package:myoro_player/core/widgets/dividers/resize_divider.dart';
+import 'package:myoro_player/core/widgets/headers/underline_header.dart';
 import 'package:myoro_player/shared/widgets/screens/main_screen/playlist_listing.dart';
 
 final class MainScreenBodyPlaylistSideBar extends StatefulWidget {
@@ -61,7 +59,7 @@ final class _Playlists extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocConsumer<PlaylistListingBloc, PlaylistListingState>(
       // coverage:ignore-start
-      listener: (context, state) => _handleSnackBars(context, state),
+      listener: (context, state) => PlaylistListingBloc.handleSnackBars(context, state),
       // coverage:ignore-end
       builder: (context, state) {
         return const Expanded(
@@ -75,22 +73,6 @@ final class _Playlists extends StatelessWidget {
       },
     );
   }
-
-  // coverage:ignore-start
-  void _handleSnackBars(BuildContext context, PlaylistListingState state) {
-    if (state.status == BlocStatusEnum.error) {
-      SnackBarHelper.showErrorSnackBar(
-        context,
-        state.snackBarMessage!,
-      );
-    } else if (state.status == BlocStatusEnum.completed) {
-      SnackBarHelper.showDialogSnackBar(
-        context,
-        state.snackBarMessage!,
-      );
-    }
-  }
-  // coverage:ignore-end
 }
 
 final class _ResizeDivider extends StatelessWidget {

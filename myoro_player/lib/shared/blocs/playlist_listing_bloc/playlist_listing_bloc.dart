@@ -1,15 +1,25 @@
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_state.dart';
-import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
-import 'package:myoro_player/shared/extensions/string_extension.dart';
-import 'package:myoro_player/shared/helpers/file_system_helper.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/enums/bloc_status_enum.dart';
+import 'package:myoro_player/core/extensions/build_context_extension.dart';
+import 'package:myoro_player/core/extensions/string_extension.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 
 final class PlaylistListingBloc extends Bloc<PlaylistListingEvent, PlaylistListingState> {
+  static void handleSnackBars(BuildContext context, PlaylistListingState state) {
+    if (state.status == BlocStatusEnum.error) {
+      context.showErrorSnackBar(state.snackBarMessage!);
+    } else if (state.status == BlocStatusEnum.completed) {
+      context.showDialogSnackBar(state.snackBarMessage!);
+    }
+  }
+
   late final FileSystemHelper _fileSystemHelper;
   late final PlaylistService _playlistService;
 
@@ -94,12 +104,7 @@ final class PlaylistListingBloc extends Bloc<PlaylistListingEvent, PlaylistListi
       return;
     }
 
-    final Playlist? playlist = await _playlistService.create(
-      data: Playlist(
-        path: folderPath,
-        name: folderName,
-      ).toJson(),
-    );
+    final Playlist? playlist = await _playlistService.create(data: {Playlist.pathJsonKey: folderPath});
 
     if (playlist == null) {
       emit(

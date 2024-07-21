@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/models/song.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/models/song.dart';
 
 @immutable
 abstract class SongListingEvent {

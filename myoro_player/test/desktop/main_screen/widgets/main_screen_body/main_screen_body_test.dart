@@ -5,17 +5,17 @@ import 'package:myoro_player/desktop/main_screen/widgets/main_screen_body/main_s
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
-import 'package:myoro_player/shared/models/user_preferences.dart';
-import 'package:myoro_player/shared/services/song_service/song_service.dart';
-import 'package:myoro_player/shared/services/user_preferences_service/user_preferences_service.dart';
+import 'package:myoro_player/core/models/user_preferences.dart';
+import 'package:myoro_player/core/services/song_service/song_service.dart';
+import 'package:myoro_player/core/services/user_preferences_service/user_preferences_service.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/desktop/main_screen/widgets/main_screen_body/main_screen_body.dart';
 import 'package:myoro_player/desktop/main_screen/widgets/main_screen_body/main_screen_body_playlist_side_bar.dart';
 import 'package:myoro_player/shared/widgets/screens/main_screen/song_listing.dart';
-import 'package:myoro_player/shared/helpers/file_system_helper.dart';
-import 'package:myoro_player/shared/services/playlist_service/playlist_service.dart';
-import 'package:myoro_player/shared/widgets/dividers/basic_divider.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
+import 'package:myoro_player/core/widgets/dividers/basic_divider.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';

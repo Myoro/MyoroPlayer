@@ -2,10 +2,13 @@
 
 ## Bugs
 
-1. Fix snackbar not showing when a playlist is added
+1. (**IN PROGRESS**) Create dropdown modals for playlist and song enums
 2. Fix songs not loading on Android
 3. Create mobile song screen
-4. Move `BaseSnackBar` to `/lib/desktop` and create a `BaseSnackBar` for `lib/mobile`
+
+## Tests
+
+1. (Mobile) `base_snack_bar_test.dart`
 
 ## CHECKLIST UNTIL FINISHED
 

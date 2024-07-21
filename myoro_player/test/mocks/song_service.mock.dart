@@ -1,5 +1,5 @@
-import 'package:myoro_player/shared/models/song.dart';
-import 'package:myoro_player/shared/services/song_service/song_service.dart';
+import 'package:myoro_player/core/models/song.dart';
+import 'package:myoro_player/core/services/song_service/song_service.dart';
 import 'package:mocktail/mocktail.dart';
 
 final class SongServiceMock extends Mock implements SongService {

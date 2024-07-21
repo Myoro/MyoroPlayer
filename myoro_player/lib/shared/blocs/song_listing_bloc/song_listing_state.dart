@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
-import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
-import 'package:myoro_player/shared/models/playlist.dart';
-import 'package:myoro_player/shared/models/song.dart';
+import 'package:myoro_player/core/enums/bloc_status_enum.dart';
+import 'package:myoro_player/core/models/playlist.dart';
+import 'package:myoro_player/core/models/song.dart';
 
 final class SongListingState extends Equatable {
   /// Standard BloC status enum

@@ -6,21 +6,22 @@ import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_state.d
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_state.dart';
 import 'package:myoro_player/desktop/main_screen/enums/song_listing_context_menu_enum.dart';
-import 'package:myoro_player/shared/constants.dart';
-import 'package:myoro_player/shared/design_system/color_design_system.dart';
-import 'package:myoro_player/shared/design_system/image_design_system.dart';
-import 'package:myoro_player/shared/enums/bloc_status_enum.dart';
-import 'package:myoro_player/shared/enums/image_size_enum.dart';
-import 'package:myoro_player/shared/extensions/build_context_extension.dart';
-import 'package:myoro_player/shared/extensions/duration_extension.dart';
-import 'package:myoro_player/shared/extensions/text_style_extension.dart';
-import 'package:myoro_player/shared/models/song.dart';
-import 'package:myoro_player/shared/widgets/buttons/base_hover_button.dart';
-import 'package:myoro_player/shared/widgets/headers/underline_header.dart';
-import 'package:myoro_player/shared/widgets/images/base_image.dart';
-import 'package:myoro_player/shared/widgets/inputs/underline_input.dart';
-import 'package:myoro_player/shared/widgets/loading/loading_circle.dart';
-import 'package:myoro_player/shared/widgets/scrollbars/vertical_scroll_list.dart';
+import 'package:myoro_player/core/constants.dart';
+import 'package:myoro_player/core/design_system/color_design_system.dart';
+import 'package:myoro_player/core/design_system/image_design_system.dart';
+import 'package:myoro_player/core/enums/bloc_status_enum.dart';
+import 'package:myoro_player/core/enums/image_size_enum.dart';
+import 'package:myoro_player/core/extensions/build_context_extension.dart';
+import 'package:myoro_player/core/extensions/duration_extension.dart';
+import 'package:myoro_player/core/extensions/text_style_extension.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
+import 'package:myoro_player/core/models/song.dart';
+import 'package:myoro_player/core/widgets/buttons/base_hover_button.dart';
+import 'package:myoro_player/core/widgets/headers/underline_header.dart';
+import 'package:myoro_player/core/widgets/images/base_image.dart';
+import 'package:myoro_player/core/widgets/inputs/underline_input.dart';
+import 'package:myoro_player/core/widgets/loading/loading_circle.dart';
+import 'package:myoro_player/core/widgets/scrollbars/vertical_scroll_list.dart';
 
 final class SongListing extends StatefulWidget {
   const SongListing({super.key});
@@ -61,7 +62,10 @@ class _SongListingState extends State<SongListing> {
       builder: (context, mainScreenBodySongListState) {
         return Column(
           children: [
-            UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),
+            if (!PlatformHelper.isDesktop && mainScreenBodySongListState.loadedPlaylist == null)
+              const SizedBox.shrink()
+            else
+              UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),
             BlocBuilder<SongControlsBloc, SongControlsState>(
               builder: (context, mainScreenFooterState) {
                 return Expanded(
@@ -102,9 +106,9 @@ class _SongListingState extends State<SongListing> {
   // coverage:ignore-start
   void _handleSnackBars(BuildContext context, SongListingState state) {
     if (state.status == BlocStatusEnum.completed && state.snackBarMessage != null) {
-      context.showDialogSnackBar(context, state.snackBarMessage!);
+      context.showDialogSnackBar(state.snackBarMessage!);
     } else if (state.status == BlocStatusEnum.error) {
-      context.showErrorSnackBar(context, state.snackBarMessage!);
+      context.showErrorSnackBar(state.snackBarMessage!);
     }
   }
   // coverage:ignore-end

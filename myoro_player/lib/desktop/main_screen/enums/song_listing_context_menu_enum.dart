@@ -4,11 +4,11 @@ import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_event.dart';
-import 'package:myoro_player/shared/extensions/build_context_extension.dart';
-import 'package:myoro_player/shared/helpers/context_menu_helper.dart';
-import 'package:myoro_player/shared/models/context_menu_item.dart';
-import 'package:myoro_player/shared/models/song.dart';
-import 'package:myoro_player/shared/widgets/modals/delete_song_modal.dart';
+import 'package:myoro_player/core/extensions/build_context_extension.dart';
+import 'package:myoro_player/core/helpers/context_menu_helper.dart';
+import 'package:myoro_player/core/models/context_menu_item.dart';
+import 'package:myoro_player/core/models/song.dart';
+import 'package:myoro_player/core/widgets/modals/delete_song_modal.dart';
 
 enum SongListingContextMenuEnum {
   addToQueue(
@@ -43,7 +43,7 @@ enum SongListingContextMenuEnum {
     switch (this) {
       case SongListingContextMenuEnum.addToQueue:
         mainScreenBodyFooterBloc.add(AddToQueueEvent(song));
-        context.showDialogSnackBar(context, '${song.title} added to queue.');
+        context.showDialogSnackBar('${song.title} added to queue.');
         break;
       case SongListingContextMenuEnum.copySongToPlaylist:
         mainScreenBodySongListBloc.add(CopySongToPlaylistEvent(song));
