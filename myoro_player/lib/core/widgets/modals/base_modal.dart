@@ -91,93 +91,98 @@ class _BaseModalState<T> extends State<BaseModal<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Center(
-          // Needed to, for example, allow [IconTextHoverButton] to be within this modal
-          child: Material(
-            type: MaterialType.transparency,
-            child: Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: ColorDesignSystem.background(context),
-                borderRadius: DecorationDesignSystem.borderRadius,
-                border: Border.all(
-                  width: 2,
-                  color: ColorDesignSystem.onBackground(context),
+    return Padding(
+      padding: EdgeInsets.only(
+        bottom: MediaQuery.of(context).viewInsets.bottom,
+      ),
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Center(
+            // Needed to, for example, allow [IconTextHoverButton] to be within this modal
+            child: Material(
+              type: MaterialType.transparency,
+              child: Container(
+                padding: const EdgeInsets.all(10),
+                decoration: BoxDecoration(
+                  color: ColorDesignSystem.background(context),
+                  borderRadius: DecorationDesignSystem.borderRadius,
+                  border: Border.all(
+                    width: 2,
+                    color: ColorDesignSystem.onBackground(context),
+                  ),
                 ),
-              ),
-              constraints: BoxConstraints(
-                maxWidth: 350,
-                maxHeight: constraints.maxHeight - 100,
-              ),
-              child: BaseForm<T>(
-                controller: _formController,
-                validationCallback: _validationCallback,
-                requestCallback: _requestCallback ?? () => null,
-                onSuccessCallback: (T? model) {
-                  _onSuccessCallback?.call(model);
-                  Navigator.of(context).pop();
-                },
-                onErrorCallback: (error) => _onErrorCallback?.call(error),
-                builder: (context) {
-                  return Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      // Title & close button
-                      Row(
-                        children: [
-                          if (_title != null)
-                            Expanded(
-                              child: Text(
-                                _title!,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: Theme.of(context).textTheme.titleMedium,
+                constraints: BoxConstraints(
+                  maxWidth: 350,
+                  maxHeight: constraints.maxHeight - 100,
+                ),
+                child: BaseForm<T>(
+                  controller: _formController,
+                  validationCallback: _validationCallback,
+                  requestCallback: _requestCallback ?? () => null,
+                  onSuccessCallback: (T? model) {
+                    _onSuccessCallback?.call(model);
+                    Navigator.of(context).pop();
+                  },
+                  onErrorCallback: (error) => _onErrorCallback?.call(error),
+                  builder: (context) {
+                    return Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Title & close button
+                        Row(
+                          children: [
+                            if (_title != null)
+                              Expanded(
+                                child: Text(
+                                  _title!,
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: Theme.of(context).textTheme.titleMedium,
+                                ),
                               ),
-                            ),
-                          const SizedBox(width: 20),
-                          IconTextHoverButton(
-                            icon: Icons.close,
-                            iconSize: ImageSizeEnum.small.size - 10,
-                            onTap: () => Navigator.of(context).pop(),
-                          ),
-                        ],
-                      ),
-                      const SizedBox(height: 10),
-                      // Content of the modal
-                      _child,
-                      // Form yes/no buttons
-                      const SizedBox(height: 15),
-                      Row(
-                        children: [
-                          Expanded(
-                            child: IconTextHoverButton(
-                              text: 'Confirm',
-                              textAlign: TextAlign.center,
-                              bordered: true,
-                              onTap: () => _formController.finishForm(),
-                            ),
-                          ),
-                          const SizedBox(width: 10),
-                          Expanded(
-                            child: IconTextHoverButton(
-                              text: 'Cancel',
-                              textAlign: TextAlign.center,
-                              bordered: true,
+                            const SizedBox(width: 20),
+                            IconTextHoverButton(
+                              icon: Icons.close,
+                              iconSize: ImageSizeEnum.small.size - 10,
                               onTap: () => Navigator.of(context).pop(),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  );
-                },
+                          ],
+                        ),
+                        const SizedBox(height: 10),
+                        // Content of the modal
+                        _child,
+                        // Form yes/no buttons
+                        const SizedBox(height: 15),
+                        Row(
+                          children: [
+                            Expanded(
+                              child: IconTextHoverButton(
+                                text: 'Confirm',
+                                textAlign: TextAlign.center,
+                                bordered: true,
+                                onTap: () => _formController.finishForm(),
+                              ),
+                            ),
+                            const SizedBox(width: 10),
+                            Expanded(
+                              child: IconTextHoverButton(
+                                text: 'Cancel',
+                                textAlign: TextAlign.center,
+                                bordered: true,
+                                onTap: () => Navigator.of(context).pop(),
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

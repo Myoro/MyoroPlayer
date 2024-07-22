@@ -2,16 +2,20 @@
 
 ## Bugs
 
+0. (**IN PROGRESS**) Make the welcome/permission screen
 1. (**IN PROGRESS**) Create dropdown modals for playlist and song enums
 2. Fix songs not loading on Android
 3. Create mobile song screen
 
 ## Tests
 
-1. (Mobile) `base_snack_bar_test.dart`
-2. (Mobile) `base_dropdown_modal_test.dart`
-3. (Mobile) `main_screen_app_bar_playlist_dropdown_modal_test.dart`
-4. (Mobile) `main_screen_app_bar_playlist_drawer_test.dart`
+Mobile
+
+1. `base_snack_bar_test.dart`
+2. `base_dropdown_modal_test.dart`
+3. `main_screen_app_bar_playlist_dropdown_modal_test.dart`
+4. `main_screen_app_bar_playlist_drawer_test.dart`
+5. `permission_screen_test.dart`
 
 ## CHECKLIST UNTIL FINISHED
 

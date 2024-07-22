@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/core/controllers/base_drawer_controller.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
@@ -62,10 +63,12 @@ class _PlaylistListingState extends State<PlaylistListing> {
             builder: (_, List<Playlist> filteredPlaylists, __) {
               return VerticalScrollList(
                 children: [
-                  UnderlineInput(
-                    controller: _searchBarController,
-                    placeholder: 'Search playlists',
-                  ),
+                  // ignore: prefer_is_empty
+                  if (playlists?.length != 0)
+                    UnderlineInput(
+                      controller: _searchBarController,
+                      placeholder: 'Search playlists',
+                    ),
                   ...filteredPlaylists.map(
                     (playlist) {
                       return Padding(
@@ -99,6 +102,10 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                   playlist,
                                 ),
                               );
+
+                              if (PlatformHelper.isMobile) {
+                                context.read<BaseDrawerController>().closeDrawer();
+                              }
                             },
                             onSecondaryTapDown: PlatformHelper.isDesktop
                                 ? (details) => PlaylistListingPlaylistMenuEnum.showContextMenu(

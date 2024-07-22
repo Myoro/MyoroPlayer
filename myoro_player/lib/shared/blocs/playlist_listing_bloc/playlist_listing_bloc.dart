@@ -104,7 +104,12 @@ final class PlaylistListingBloc extends Bloc<PlaylistListingEvent, PlaylistListi
       return;
     }
 
-    final Playlist? playlist = await _playlistService.create(data: {Playlist.pathJsonKey: folderPath});
+    final Playlist? playlist = await _playlistService.create(
+      data: Playlist(
+        name: folderName,
+        path: folderPath,
+      ).toJson(),
+    );
 
     if (playlist == null) {
       emit(

@@ -13,6 +13,7 @@ import 'package:myoro_player/core/models/song.dart';
 import 'package:id3tag/id3tag.dart';
 import 'package:mp3_info/mp3_info.dart';
 import 'package:path/path.dart';
+import 'package:path_provider/path_provider.dart';
 
 /// Used for any operation regarding the file system
 ///
@@ -152,6 +153,9 @@ class FileSystemHelper {
   /// Returns the list of MP3 files extracted from a [Playlist]
   Future<List<Song>> getMp3FilesFromFolder(Playlist playlist) async {
     final folder = Directory(playlist.path);
+
+    print(playlist.path);
+    print('\n\n\nhere${folder.listSync(recursive: true, followLinks: true)}\n\n');
 
     // Making sure that [path] is a valid folder
     if (!folder.existsSync()) {

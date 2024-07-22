@@ -19,7 +19,7 @@ final class PlaylistServiceApi implements PlaylistService {
     /// Validating if the playlist already exists
     final Map<String, dynamic>? playlistAlreadyExists = await database.get(
       Database.playlistsTableName,
-      conditions: Conditions(data),
+      conditions: Conditions({Playlist.pathJsonKey: data[Playlist.pathJsonKey]}),
     );
 
     if (playlistAlreadyExists != null) return null;

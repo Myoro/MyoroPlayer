@@ -26,6 +26,7 @@ dependencies:
   mp3_info: ^0.2.1
   id3tag: ^0.2.0
   kplayer: ^0.4.2
+  permission_handler: ^11.3.1
 
 dev_dependencies:
   flutter_test:

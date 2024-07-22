@@ -3,6 +3,7 @@ import 'package:myoro_player/core/design_system/color_design_system.dart';
 import 'package:myoro_player/core/enums/image_size_enum.dart';
 import 'package:myoro_player/core/extensions/build_context_extension.dart';
 import 'package:myoro_player/core/models/menu_item.dart';
+import 'package:myoro_player/core/widgets/buttons/no_feedback_button.dart';
 import 'package:myoro_player/core/widgets/dividers/basic_divider.dart';
 import 'package:myoro_player/core/widgets/modals/base_modal.dart';
 
@@ -52,15 +53,15 @@ final class BaseDropdownModal extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
           const BasicDivider(direction: Axis.horizontal),
-          Container(
-            height: 200,
+          Material(
             color: ColorDesignSystem.background(context),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: items.map<Widget>(
-                  (item) {
-                    return Padding(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: items.map<Widget>(
+                (item) {
+                  return NoFeedbackButton(
+                    onTap: item.onTap,
+                    child: Padding(
                       padding: const EdgeInsets.all(10),
                       child: Row(
                         children: [
@@ -78,10 +79,10 @@ final class BaseDropdownModal extends StatelessWidget {
                           ),
                         ],
                       ),
-                    );
-                  },
-                ).toList(),
-              ),
+                    ),
+                  );
+                },
+              ).toList(),
             ),
           ),
         ],

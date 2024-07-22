@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar_playlist_dropdown_modal.dart';
+import 'package:myoro_player/core/controllers/base_drawer_controller.dart';
+import 'package:myoro_player/mobile/widgets/modals/base_dropdown_modal.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_event.dart';
 import 'package:myoro_player/core/controllers/model_resolver_controller.dart';
@@ -42,6 +43,41 @@ enum PlaylistListingPlaylistMenuEnum {
 
   const PlaylistListingPlaylistMenuEnum(this.icon, this.text);
 
+  static List<MenuItem> _buildMenuItems(
+    BuildContext context,
+    Playlist playlist,
+    ModelResolverController<List<Playlist>> playlistResolverController,
+  ) {
+    final List<MenuItem> items = [];
+
+    for (final value in PlaylistListingPlaylistMenuEnum.values) {
+      if (value == PlaylistListingPlaylistMenuEnum.removePlaylistImage && playlist.image == null) {
+        continue;
+      } else {
+        items.add(
+          MenuItem(
+            icon: value.icon,
+            text: value.text,
+            onTap: () {
+              value.onTap.call(
+                context,
+                playlist,
+                playlistResolverController,
+              );
+
+              if (PlatformHelper.isMobile) {
+                Navigator.of(context).pop();
+                context.read<BaseDrawerController>().closeDrawer();
+              }
+            },
+          ),
+        );
+      }
+    }
+
+    return items;
+  }
+
   void onTap(
     BuildContext context,
     Playlist playlist,
@@ -70,44 +106,35 @@ enum PlaylistListingPlaylistMenuEnum {
       '[PlaylistListingPlaylistMenu.showContextMenu]: This method is only for desktop.',
     );
 
-    final List<MenuItem> items = [];
-
-    for (final value in PlaylistListingPlaylistMenuEnum.values) {
-      if (value == PlaylistListingPlaylistMenuEnum.removePlaylistImage && playlist.image == null) {
-        continue;
-      } else {
-        items.add(
-          MenuItem(
-            icon: value.icon,
-            text: value.text,
-            onTap: () => value.onTap.call(
-              context,
-              playlist,
-              playlistResolverController,
-            ),
-          ),
-        );
-      }
-    }
-
     ContextMenuHelper.show(
       context,
       details,
       width: 366,
-      items: items,
+      items: _buildMenuItems(
+        context,
+        playlist,
+        playlistResolverController,
+      ),
     );
   }
 
   static void showDropdownModal(
     BuildContext context,
     Playlist playlist,
-    ModelResolverController playlistResolverController,
+    ModelResolverController<List<Playlist>> playlistResolverController,
   ) {
     assert(
       PlatformHelper.isMobile,
       '[PlaylistListingPlaylistMenu.showDropdownModal]: This method is only for mobile.',
     );
 
-    MainScreenAppBarPlaylistDropdownModal.show(context);
+    BaseDropdownModal.show(
+      context,
+      _buildMenuItems(
+        context,
+        playlist,
+        playlistResolverController,
+      ),
+    );
   }
 }
