@@ -154,9 +154,6 @@ class FileSystemHelper {
   Future<List<Song>> getMp3FilesFromFolder(Playlist playlist) async {
     final folder = Directory(playlist.path);
 
-    print(playlist.path);
-    print('\n\n\nhere${folder.listSync(recursive: true, followLinks: true)}\n\n');
-
     // Making sure that [path] is a valid folder
     if (!folder.existsSync()) {
       if (kDebugMode) {

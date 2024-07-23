@@ -2,10 +2,8 @@
 
 ## Bugs
 
-0. (**IN PROGRESS**) Make the welcome/permission screen
 1. (**IN PROGRESS**) Create dropdown modals for playlist and song enums
-2. Fix songs not loading on Android
-3. Create mobile song screen
+2. Create mobile song screen & footer widget
 
 ## Tests
 

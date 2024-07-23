@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:myoro_player/mobile/helpers/permission_helper.dart';
-import 'package:myoro_player/mobile/screens/permission_screen/widgets/permission_screen.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/core/helpers/device_helper.dart';
@@ -71,16 +69,14 @@ void main() async {
       ],
 
       /// Initializing [PermissionScreen] if MyoroPlayer's required permissions are not yet granted
-      child: App(showPermissionScreen: !(await PermissionHelper.storagePermissionsGranted)),
+      child: App(),
     ),
   );
 }
 // coverage:ignore-end
 
 final class App extends StatelessWidget {
-  final bool showPermissionScreen;
-
-  const App({super.key, required this.showPermissionScreen});
+  const App({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +88,7 @@ final class App extends StatelessWidget {
           themeMode: userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
           theme: createTheme(false),
           darkTheme: createTheme(true),
-          home: PlatformHelper.isDesktop
-              ? const desktop.MainScreen()
-              : showPermissionScreen
-                  ? const PermissionScreen()
-                  : const mobile.MainScreen(),
+          home: PlatformHelper.isDesktop ? const desktop.MainScreen() : const mobile.MainScreen(),
         );
       },
     );
