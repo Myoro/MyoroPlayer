@@ -27,6 +27,7 @@ dependencies:
   id3tag: ^0.2.0
   kplayer: ^0.4.2
   permission_handler: ^11.3.1
+  text_scroll: ^0.2.0
 
 dev_dependencies:
   flutter_test:
