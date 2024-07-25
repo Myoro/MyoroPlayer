@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/controllers/base_drawer_controller.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_state.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
@@ -51,83 +53,87 @@ class _PlaylistListingState extends State<PlaylistListing> {
   @override
   Widget build(BuildContext context) {
     return Expanded(
-      child: ModelResolver<List<Playlist>>(
-        controller: _playlistResolverController,
-        request: () async => await KiwiContainer().resolve<PlaylistService>().select(),
-        builder: (context, List<Playlist>? playlists) {
-          _playlists = playlists;
-          _filteredPlaylistsNotifier.value = playlists ?? [];
+      child: BlocBuilder<PlaylistListingBloc, PlaylistListingState>(
+        builder: (_, __) {
+          return ModelResolver<List<Playlist>>(
+            controller: _playlistResolverController,
+            request: () async => await KiwiContainer().resolve<PlaylistService>().select(),
+            builder: (context, List<Playlist>? playlists) {
+              _playlists = playlists;
+              _filteredPlaylistsNotifier.value = playlists ?? [];
 
-          return ValueListenableBuilder(
-            valueListenable: _filteredPlaylistsNotifier,
-            builder: (_, List<Playlist> filteredPlaylists, __) {
-              return VerticalScrollList(
-                children: [
-                  // ignore: prefer_is_empty
-                  if (playlists?.length != 0)
-                    UnderlineInput(
-                      controller: _searchBarController,
-                      placeholder: 'Search playlists',
-                    ),
-                  ...filteredPlaylists.map(
-                    (playlist) {
-                      return Padding(
-                        padding: EdgeInsets.only(
-                          top: 5,
-                          bottom: playlist == filteredPlaylists.last ? 5 : 0,
+              return ValueListenableBuilder(
+                valueListenable: _filteredPlaylistsNotifier,
+                builder: (_, List<Playlist> filteredPlaylists, __) {
+                  return VerticalScrollList(
+                    children: [
+                      // ignore: prefer_is_empty
+                      if (playlists?.length != 0)
+                        UnderlineInput(
+                          controller: _searchBarController,
+                          placeholder: 'Search playlists',
                         ),
-                        child: Tooltip(
-                          waitDuration: kTooltipWaitDuration,
-                          message: playlist.path,
-                          child: IconTextHoverButton(
-                            svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
-                            localImagePath: playlist.image,
-                            iconSize: ImageSizeEnum.small.size + 10,
-                            text: playlist.name,
-                            padding: const EdgeInsets.only(
+                      ...filteredPlaylists.map(
+                        (playlist) {
+                          return Padding(
+                            padding: EdgeInsets.only(
                               top: 5,
-                              bottom: 5,
-                              left: 8,
-                              right: 5,
+                              bottom: playlist == filteredPlaylists.last ? 5 : 0,
                             ),
-                            onTap: () {
-                              BlocProvider.of<SongControlsBloc>(context).add(
-                                SetLoadedPlaylistEvent(
-                                  playlist,
+                            child: Tooltip(
+                              waitDuration: kTooltipWaitDuration,
+                              message: playlist.path,
+                              child: IconTextHoverButton(
+                                svgPath: playlist.image == null ? ImageDesignSystem.logo : null,
+                                localImagePath: playlist.image,
+                                iconSize: ImageSizeEnum.small.size + 10,
+                                text: playlist.name,
+                                padding: const EdgeInsets.only(
+                                  top: 5,
+                                  bottom: 5,
+                                  left: 8,
+                                  right: 5,
                                 ),
-                              );
-
-                              BlocProvider.of<SongListingBloc>(context).add(
-                                LoadPlaylistSongsEvent(
-                                  playlist,
-                                ),
-                              );
-
-                              if (PlatformHelper.isMobile) {
-                                context.read<BaseDrawerController>().closeDrawer();
-                              }
-                            },
-                            onSecondaryTapDown: PlatformHelper.isDesktop
-                                ? (details) => PlaylistListingPlaylistMenuEnum.showContextMenu(
-                                      context,
-                                      details,
+                                onTap: () {
+                                  BlocProvider.of<SongControlsBloc>(context).add(
+                                    SetLoadedPlaylistEvent(
                                       playlist,
-                                      _playlistResolverController,
-                                    )
-                                : null,
-                            onLongPress: PlatformHelper.isDesktop
-                                ? null
-                                : () => PlaylistListingPlaylistMenuEnum.showDropdownModal(
-                                      context,
-                                      playlist,
-                                      _playlistResolverController,
                                     ),
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                                  );
+
+                                  BlocProvider.of<SongListingBloc>(context).add(
+                                    LoadPlaylistSongsEvent(
+                                      playlist,
+                                    ),
+                                  );
+
+                                  if (PlatformHelper.isMobile) {
+                                    context.read<BaseDrawerController>().closeDrawer();
+                                  }
+                                },
+                                onSecondaryTapDown: PlatformHelper.isDesktop
+                                    ? (details) => PlaylistListingPlaylistMenuEnum.showContextMenu(
+                                          context,
+                                          details,
+                                          playlist,
+                                          _playlistResolverController,
+                                        )
+                                    : null,
+                                onLongPress: PlatformHelper.isDesktop
+                                    ? null
+                                    : () => PlaylistListingPlaylistMenuEnum.showDropdownModal(
+                                          context,
+                                          playlist,
+                                          _playlistResolverController,
+                                        ),
+                              ),
+                            ),
+                          );
+                        },
+                      ),
+                    ],
+                  );
+                },
               );
             },
           );

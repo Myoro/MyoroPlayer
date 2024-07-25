@@ -113,8 +113,8 @@ final class _MainScreenBodyFooter extends StatefulWidget {
 class _MainScreenBodyFooterState extends State<_MainScreenBodyFooter> with PlayerStateMixin {
   SongControlsState get _mainScreenBodyFooterState => widget.mainScreenBodyFooterState;
 
-  final _songPositionNotifier = ValueNotifier<double?>(null);
   final _isPlayingNotifier = ValueNotifier<bool>(false);
+  final _songPositionNotifier = ValueNotifier<double?>(null);
 
   @override
   void initState() {
@@ -156,7 +156,7 @@ class _MainScreenBodyFooterState extends State<_MainScreenBodyFooter> with Playe
   @override
   Widget build(BuildContext context) {
     final userPreferencesCubit = BlocProvider.of<UserPreferencesCubit>(context);
-    final mainScreenBodyFooterBloc = BlocProvider.of<SongControlsBloc>(context);
+    final songControlsBloc = BlocProvider.of<SongControlsBloc>(context);
 
     return Expanded(
       child: Column(
@@ -191,7 +191,7 @@ class _MainScreenBodyFooterState extends State<_MainScreenBodyFooter> with Playe
                   const SizedBox(width: 1),
                   _Button(
                     icon: Icons.skip_previous,
-                    onPressed: () => mainScreenBodyFooterBloc.add(const PreviousSongEvent()),
+                    onPressed: () => songControlsBloc.add(const PreviousSongEvent()),
                   ),
                   const SizedBox(width: 1),
                   ValueListenableBuilder(
@@ -199,14 +199,14 @@ class _MainScreenBodyFooterState extends State<_MainScreenBodyFooter> with Playe
                     builder: (_, bool isPlaying, __) {
                       return _Button(
                         icon: isPlaying ? Icons.pause : Icons.play_arrow,
-                        onPressed: () => mainScreenBodyFooterBloc.add(const TogglePlayPauseEvent()),
+                        onPressed: () => songControlsBloc.add(const TogglePlayPauseEvent()),
                       );
                     },
                   ),
                   const SizedBox(width: 1),
                   _Button(
                     icon: Icons.skip_next,
-                    onPressed: () => mainScreenBodyFooterBloc.add(const NextSongEvent()),
+                    onPressed: () => songControlsBloc.add(const NextSongEvent()),
                   ),
                   const SizedBox(width: 1),
                   _Button(
