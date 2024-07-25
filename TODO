@@ -1,22 +1,5 @@
 # TODO
 
-## Bugs
-
-1. (**IN PROGRESS**) Create dropdown modals for playlist and song enums
-2. Create mobile song screen & footer widget
-
-- Slide for next song
-
-## Tests
-
-Mobile
-
-1. `base_snack_bar_test.dart`
-2. `base_dropdown_modal_test.dart`
-3. `main_screen_app_bar_playlist_dropdown_modal_test.dart`
-4. `main_screen_app_bar_playlist_drawer_test.dart`
-5. `permission_screen_test.dart`
-
 ## CHECKLIST UNTIL FINISHED
 
 1. README.md

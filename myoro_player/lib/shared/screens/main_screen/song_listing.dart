@@ -161,13 +161,8 @@ final class _Song extends StatelessWidget {
               song,
             ),
           ),
-          onSecondaryTapDown: (details) {
-            SongListingContextMenuEnum.showContextMenu(
-              context,
-              details,
-              song,
-            );
-          },
+          onSecondaryTapDown: (details) => SongListingContextMenuEnum.showContextMenu(context, details, song),
+          onLongPress: () => SongListingContextMenuEnum.showDropdownModal(context, song),
           padding: const EdgeInsets.only(
             top: 5,
             bottom: 5,

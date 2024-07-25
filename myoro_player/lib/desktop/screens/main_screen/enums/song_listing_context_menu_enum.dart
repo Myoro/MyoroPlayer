@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
+import 'package:myoro_player/mobile/widgets/modals/base_dropdown_modal.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
@@ -57,24 +59,63 @@ enum SongListingContextMenuEnum {
     }
   }
 
+  static List<MenuItem> _buildMenuItems(
+    BuildContext context,
+    Song song,
+  ) {
+    return SongListingContextMenuEnum.values.map<MenuItem>(
+      (value) {
+        return MenuItem(
+          icon: value.icon,
+          text: value.text,
+          onTap: () {
+            value.onTap.call(context, song);
+
+            if (PlatformHelper.isMobile) {
+              Navigator.of(context).pop();
+            }
+          },
+        );
+      },
+    ).toList();
+  }
+
   static void showContextMenu(
     BuildContext context,
     TapDownDetails details,
     Song song,
   ) {
+    assert(
+      PlatformHelper.isDesktop,
+      '[SongListingContextMenuEnum.showDropdownModal]: This method is only for desktop.',
+    );
+
     ContextMenuHelper.show(
       context,
       details,
       width: 287,
-      items: SongListingContextMenuEnum.values.map(
-        (value) {
-          return MenuItem(
-            icon: value.icon,
-            text: value.text,
-            onTap: () => value.onTap.call(context, song),
-          );
-        },
-      ).toList(),
+      items: _buildMenuItems(
+        context,
+        song,
+      ),
+    );
+  }
+
+  static void showDropdownModal(
+    BuildContext context,
+    Song song,
+  ) {
+    assert(
+      PlatformHelper.isMobile,
+      '[SongListingContextMenuEnum.showDropdownModal]: This method is only for mobile.',
+    );
+
+    BaseDropdownModal.show(
+      context,
+      _buildMenuItems(
+        context,
+        song,
+      ),
     );
   }
 }

@@ -221,12 +221,6 @@ final class _Controls extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        const BasicDivider(
-          direction: Axis.horizontal,
-          padding: EdgeInsets.symmetric(
-            horizontal: 10,
-          ),
-        ),
         ValueListenableBuilder(
           valueListenable: songPositionNotifier,
           builder: (_, double? position, __) {
