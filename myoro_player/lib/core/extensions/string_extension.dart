@@ -1,10 +1,11 @@
 import 'dart:io';
 
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/helpers/platform_helper.dart';
 
 extension StringExtension on String {
   /// Grabs the name of a file/folder in a path
-  String get pathName => split(PlatformHelper.slash).last;
+  String get pathName => split(KiwiContainer().resolve<PlatformHelper>().slash).last;
 
   /// Checks if the [String] (specifically from getNameFromPath) is a valid folder name
   bool get isValidFolderName {

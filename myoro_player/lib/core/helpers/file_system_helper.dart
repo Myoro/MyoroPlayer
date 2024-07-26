@@ -4,6 +4,7 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/foundation.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/database.dart';
 import 'package:myoro_player/core/extensions/string_extension.dart';
 import 'package:myoro_player/core/helpers/platform_helper.dart';
@@ -71,7 +72,7 @@ class FileSystemHelper {
           path.substring(
             0,
             path.indexOf(
-              path.split(PlatformHelper.slash).last,
+              path.split(KiwiContainer().resolve<PlatformHelper>().slash).last,
             ),
           ),
           newName,
@@ -195,7 +196,7 @@ class FileSystemHelper {
       if (tag.title != null) {
         title = tag.title!;
       } else {
-        final String pathWithExtension = path.split(PlatformHelper.slash).last;
+        final String pathWithExtension = path.split(KiwiContainer().resolve<PlatformHelper>().slash).last;
         title = pathWithExtension.substring(
           0,
           pathWithExtension.indexOf(pathWithExtension.split('.').last) - 1,

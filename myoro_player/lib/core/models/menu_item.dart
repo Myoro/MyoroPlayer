@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:faker/faker.dart';
 import 'package:flutter/material.dart';
 import 'package:myoro_player/core/helpers/context_menu_helper.dart';
 import 'package:myoro_player/mobile/widgets/modals/base_dropdown_modal.dart';
@@ -26,6 +27,10 @@ final class MenuItem extends Equatable {
       onTap: onTap ?? this.onTap,
     );
   }
+
+  MenuItem.fake({required this.onTap})
+      : icon = [Icons.abc, Icons.ac_unit, Icons.catching_pokemon, Icons.access_alarm, Icons.zoom_out_sharp][faker.randomGenerator.integer(5)],
+        text = faker.randomGenerator.string(50);
 
   @override
   String toString() => 'MenuItem(\n'

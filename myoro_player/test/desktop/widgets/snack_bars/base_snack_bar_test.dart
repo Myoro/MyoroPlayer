@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/design_system/color_design_system.dart';
 import 'package:myoro_player/core/design_system/decoration_design_system.dart';
 import 'package:myoro_player/core/enums/image_size_enum.dart';
 import 'package:myoro_player/core/enums/snack_bar_type_enum.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/core/helpers/snack_bar_helper.dart';
 import 'package:myoro_player/core/widgets/buttons/no_feedback_button.dart';
 
 import '../../../base_test_widget.dart';
+import '../../../mocks/platform_helper_mock.dart';
 
 void main() {
   const key = Key('');
+  final kiwiContainer = KiwiContainer();
+
+  setUp(() => kiwiContainer.registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfiguredDesktop()));
+  tearDown(() => kiwiContainer.clear());
 
   void expectCalls(SnackBarTypeEnum snackBarType) {
     expect(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_event.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_state.dart';
@@ -62,7 +63,7 @@ class _SongListingState extends State<SongListing> {
       builder: (context, mainScreenBodySongListState) {
         return Column(
           children: [
-            if (!PlatformHelper.isDesktop && mainScreenBodySongListState.loadedPlaylist == null)
+            if (!KiwiContainer().resolve<PlatformHelper>().isDesktop && mainScreenBodySongListState.loadedPlaylist == null)
               const SizedBox.shrink()
             else
               UnderlineHeader(header: mainScreenBodySongListState.loadedPlaylist?.name ?? ''),

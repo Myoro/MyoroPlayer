@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/core/blocs/model_resolver_bloc/model_resolver_bloc.dart';
 import 'package:myoro_player/core/controllers/model_resolver_controller.dart';
@@ -14,6 +15,7 @@ import 'package:mocktail/mocktail.dart';
 
 import '../../../base_test_widget.dart';
 import '../../../mocks/file_system_helper_mock.dart';
+import '../../../mocks/platform_helper_mock.dart';
 import '../../../mocks/playlist_service_mock.dart';
 
 void main() {
@@ -26,6 +28,7 @@ void main() {
 
   setUpAll(() {
     kiwiContainer
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => playlistServiceMock);
 

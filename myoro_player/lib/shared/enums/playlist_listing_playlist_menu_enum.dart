@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/controllers/base_drawer_controller.dart';
 import 'package:myoro_player/mobile/widgets/modals/base_dropdown_modal.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
@@ -65,7 +66,7 @@ enum PlaylistListingPlaylistMenuEnum {
                 playlistResolverController,
               );
 
-              if (PlatformHelper.isMobile) {
+              if (KiwiContainer().resolve<PlatformHelper>().isMobile) {
                 Navigator.of(context).pop();
                 context.read<BaseDrawerController>().closeDrawer();
               }
@@ -102,7 +103,7 @@ enum PlaylistListingPlaylistMenuEnum {
     ModelResolverController<List<Playlist>> playlistResolverController,
   ) {
     assert(
-      PlatformHelper.isDesktop,
+      KiwiContainer().resolve<PlatformHelper>().isDesktop,
       '[PlaylistListingPlaylistMenu.showContextMenu]: This method is only for desktop.',
     );
 
@@ -124,7 +125,7 @@ enum PlaylistListingPlaylistMenuEnum {
     ModelResolverController<List<Playlist>> playlistResolverController,
   ) {
     assert(
-      PlatformHelper.isMobile,
+      KiwiContainer().resolve<PlatformHelper>().isMobile,
       '[PlaylistListingPlaylistMenu.showDropdownModal]: This method is only for mobile.',
     );
 

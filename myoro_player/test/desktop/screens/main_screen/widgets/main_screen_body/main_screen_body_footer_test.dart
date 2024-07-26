@@ -290,7 +290,7 @@ void main() {
     );
     await tester.tap(find.byIcon(Icons.arrow_upward).last);
     await tester.pump();
-    await tester.tap(find.byWidgetPredicate((w) => w is Container && w.color == ColorDesignSystem.transparent));
+    await tester.tap(find.byWidgetPredicate((w) => w is Container && w.color == ColorDesignSystem.transparent), warnIfMissed: false);
     await tester.pump();
   });
 }

@@ -1,3 +1,5 @@
+// coverage:ignore-file
+
 import 'package:permission_handler/permission_handler.dart';
 
 /// Used for requesting mobile permissoes such as file read/write permissions

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/mobile/widgets/modals/base_dropdown_modal.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
@@ -71,7 +72,7 @@ enum SongListingContextMenuEnum {
           onTap: () {
             value.onTap.call(context, song);
 
-            if (PlatformHelper.isMobile) {
+            if (KiwiContainer().resolve<PlatformHelper>().isMobile) {
               Navigator.of(context).pop();
             }
           },
@@ -86,7 +87,7 @@ enum SongListingContextMenuEnum {
     Song song,
   ) {
     assert(
-      PlatformHelper.isDesktop,
+      KiwiContainer().resolve<PlatformHelper>().isDesktop,
       '[SongListingContextMenuEnum.showDropdownModal]: This method is only for desktop.',
     );
 
@@ -106,7 +107,7 @@ enum SongListingContextMenuEnum {
     Song song,
   ) {
     assert(
-      PlatformHelper.isMobile,
+      KiwiContainer().resolve<PlatformHelper>().isMobile,
       '[SongListingContextMenuEnum.showDropdownModal]: This method is only for mobile.',
     );
 

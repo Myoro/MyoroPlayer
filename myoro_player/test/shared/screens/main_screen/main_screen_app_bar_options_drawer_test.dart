@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/shared/screens/main_screen/main_screen_app_bar_options_drawer.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/enums/main_screen_app_bar_options_drawer_items_enum.dart';
@@ -18,6 +19,7 @@ import 'package:kiwi/kiwi.dart';
 import '../../../base_test_widget.dart';
 import '../../../mocks/device_helper_mock.dart';
 import '../../../mocks/file_system_helper_mock.dart';
+import '../../../mocks/platform_helper_mock.dart';
 import '../../../mocks/playlist_service_mock.dart';
 import '../../../mocks/user_preferences_mock.dart';
 
@@ -29,6 +31,7 @@ void main() {
 
   setUpAll(() {
     kiwiContainer
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured())
       ..registerFactory<DeviceHelper>((_) => DeviceHelperMock())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())

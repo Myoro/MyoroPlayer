@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/mobile/widgets/snack_bars/base_snack_bar.dart' as mobile;
 import 'package:myoro_player/core/enums/snack_bar_type_enum.dart';
 import 'package:myoro_player/desktop/widgets/snack_bars/base_snack_bar.dart' as desktop;
@@ -9,7 +10,7 @@ final class SnackBarHelper {
   static void _showSnackBar(BuildContext context, SnackBarTypeEnum snackBarType, String message) {
     closeSnackBar(context);
     ScaffoldMessenger.of(context).showSnackBar(
-      PlatformHelper.isDesktop
+      KiwiContainer().resolve<PlatformHelper>().isDesktop
           ? desktop.BaseSnackBar(
               context,
               snackBarType: snackBarType,

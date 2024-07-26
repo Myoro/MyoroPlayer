@@ -1,5 +1,6 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
@@ -17,6 +18,7 @@ import 'package:myoro_player/core/widgets/scaffolds/base_scaffold.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/platform_helper_mock.dart';
 import '../../../../mocks/playlist_service_mock.dart';
 import '../../../../mocks/song_service.mock.dart';
 import '../../../../mocks/user_preferences_mock.dart';
@@ -27,8 +29,9 @@ void main() {
 
   setUp(() {
     kiwiContainer
-      ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
+      ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured(playlists: []))
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
 

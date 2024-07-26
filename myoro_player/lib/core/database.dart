@@ -1,4 +1,5 @@
 import 'package:flutter/foundation.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/core/models/conditions.dart';
 import 'package:myoro_player/core/models/playlist.dart';
@@ -34,7 +35,7 @@ final class Database {
       }
     }
 
-    if (PlatformHelper.isDesktop) {
+    if (KiwiContainer().resolve<PlatformHelper>().isDesktop) {
       sqflite.databaseFactory = databaseFactoryFfi;
     }
 

@@ -1,5 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/core/helpers/file_system_helper.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
+import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar.dart';
 import 'package:myoro_player/core/design_system/color_design_system.dart';
 import 'package:myoro_player/core/design_system/image_design_system.dart';
@@ -8,17 +13,35 @@ import 'package:myoro_player/core/widgets/app_bars/base_app_bar.dart';
 import 'package:myoro_player/core/widgets/buttons/icon_text_hover_button.dart';
 import 'package:myoro_player/core/widgets/drawers/base_drawer.dart';
 import 'package:myoro_player/core/widgets/images/base_image.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/screens/main_screen/main_screen_app_bar_options_drawer.dart';
 import 'package:myoro_player/shared/screens/main_screen/playlist_listing.dart';
 
 import '../../../../../base_test_widget.dart';
+import '../../../../../mocks/file_system_helper_mock.dart';
+import '../../../../../mocks/platform_helper_mock.dart';
+import '../../../../../mocks/playlist_service_mock.dart';
 
 void main() {
+  final kiwiContainer = KiwiContainer();
+
+  setUp(() {
+    kiwiContainer
+      ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfiguredMobile());
+  });
+
+  tearDown(() => kiwiContainer.clear());
+
   testWidgets('MainScreenAppBar widget test.', (tester) async {
     await tester.pumpWidget(
-      const BaseTestWidget(
-        themeMode: ThemeMode.dark,
-        child: MainScreenAppBar(),
+      BlocProvider(
+        create: (_) => PlaylistListingBloc(),
+        child: const BaseTestWidget(
+          themeMode: ThemeMode.dark,
+          child: MainScreenAppBar(),
+        ),
       ),
     );
 

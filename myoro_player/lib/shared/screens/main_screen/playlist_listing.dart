@@ -107,11 +107,11 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                     ),
                                   );
 
-                                  if (PlatformHelper.isMobile) {
+                                  if (KiwiContainer().resolve<PlatformHelper>().isMobile) {
                                     context.read<BaseDrawerController>().closeDrawer();
                                   }
                                 },
-                                onSecondaryTapDown: PlatformHelper.isDesktop
+                                onSecondaryTapDown: KiwiContainer().resolve<PlatformHelper>().isDesktop
                                     ? (details) => PlaylistListingPlaylistMenuEnum.showContextMenu(
                                           context,
                                           details,
@@ -119,7 +119,7 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                           _playlistResolverController,
                                         )
                                     : null,
-                                onLongPress: PlatformHelper.isDesktop
+                                onLongPress: KiwiContainer().resolve<PlatformHelper>().isDesktop
                                     ? null
                                     : () => PlaylistListingPlaylistMenuEnum.showDropdownModal(
                                           context,

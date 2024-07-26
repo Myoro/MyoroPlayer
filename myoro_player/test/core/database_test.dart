@@ -1,14 +1,22 @@
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:kiwi/kiwi.dart';
 import 'package:myoro_player/core/database.dart';
+import 'package:myoro_player/core/enums/platform_enum.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/core/models/conditions.dart';
+
+import '../mocks/platform_helper_mock.dart';
 
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
+  final kiwiContainer = KiwiContainer();
   final database = Database();
 
   setUpAll(() async {
+    kiwiContainer.registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured(platform: PlatformEnum.windows));
+
     TestDefaultBinaryMessengerBinding.instance.defaultBinaryMessenger.setMockMethodCallHandler(
       const MethodChannel('plugins.flutter.io/path_provider'),
       (_) async => './',
@@ -18,7 +26,10 @@ void main() {
     await database.createPopulatedDummyTable();
   });
 
-  tearDownAll(() async => await database.close());
+  tearDownAll(() async {
+    await database.close();
+    kiwiContainer.clear();
+  });
 
   test('Database.init database already initialized case', () async => await database.init());
 

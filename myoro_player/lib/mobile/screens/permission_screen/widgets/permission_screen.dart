@@ -45,7 +45,7 @@ final class PermissionScreen extends StatelessWidget {
               Row(
                 children: [
                   _Button(
-                    'App Settings',
+                    'App settings',
                     () => openAppSettings(),
                   ),
                   const SizedBox(width: 10),

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:myoro_player/core/blocs/model_resolver_bloc/model_resolver_bloc.dart';
 import 'package:myoro_player/core/controllers/model_resolver_controller.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/core/models/playlist.dart';
 import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 import 'package:myoro_player/core/widgets/inputs/outline_input.dart';
@@ -9,6 +10,7 @@ import 'package:myoro_player/core/widgets/modals/rename_playlist_modal.dart';
 import 'package:kiwi/kiwi.dart';
 
 import '../../../base_test_widget.dart';
+import '../../../mocks/platform_helper_mock.dart';
 import '../../../mocks/playlist_service_mock.dart';
 
 void main() {
@@ -18,7 +20,10 @@ void main() {
   final modelResolverBloc = ModelResolverBloc<List<Playlist>>();
 
   setUpAll(() {
-    kiwiContainer.registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
+    kiwiContainer
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured())
+      ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured());
+
     modelResolverController.bloc = modelResolverBloc;
     modelResolverController.request = () async => PlaylistServiceMock.preConfiguredPlaylists;
   });

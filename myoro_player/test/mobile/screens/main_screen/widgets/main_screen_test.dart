@@ -1,9 +1,11 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen.dart';
 import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen_app_bar/main_screen_app_bar.dart';
 import 'package:myoro_player/mobile/screens/main_screen/widgets/main_screen_body.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
@@ -16,6 +18,7 @@ import 'package:myoro_player/core/widgets/scaffolds/base_scaffold.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/platform_helper_mock.dart';
 import '../../../../mocks/playlist_service_mock.dart';
 import '../../../../mocks/song_service.mock.dart';
 import '../../../../mocks/user_preferences_mock.dart';
@@ -26,6 +29,7 @@ void main() {
 
   setUp(() {
     kiwiContainer
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfiguredMobile())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
@@ -43,6 +47,7 @@ void main() {
           providers: [
             BlocProvider.value(value: userPreferencesCubit),
             BlocProvider(create: (_) => SongListingBloc()),
+            BlocProvider(create: (_) => PlaylistListingBloc()),
             BlocProvider(create: (_) => SongControlsBloc(userPreferencesCubit)),
           ],
           child: const MainScreen(),

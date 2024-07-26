@@ -1,6 +1,9 @@
+import 'package:faker/faker.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/core/enums/platform_enum.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body.dart';
 import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
@@ -15,6 +18,7 @@ import 'package:myoro_player/shared/screens/main_screen/song_listing.dart';
 
 import '../../../../base_test_widget.dart';
 import '../../../../mocks/file_system_helper_mock.dart';
+import '../../../../mocks/platform_helper_mock.dart';
 import '../../../../mocks/playlist_service_mock.dart';
 import '../../../../mocks/song_service.mock.dart';
 import '../../../../mocks/user_preferences_mock.dart';
@@ -28,7 +32,13 @@ void main() {
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
-      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
+      ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
+      ..registerFactory<PlatformHelper>(
+        (_) => PlatformHelperMock.preConfigured(
+          platform: faker.randomGenerator.boolean() ? PlatformEnum.android : PlatformEnum.ios,
+        ),
+      );
+
     userPreferencesCubit = UserPreferencesCubit(UserPreferences.mock);
   });
 
@@ -51,6 +61,7 @@ void main() {
         ),
       ),
     );
+
     expect(find.byType(MainScreenBody), findsOneWidget);
     expect(find.byType(SongListing), findsOneWidget);
   });

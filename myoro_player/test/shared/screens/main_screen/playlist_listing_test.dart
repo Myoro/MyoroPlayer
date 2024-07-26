@@ -3,6 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:kiwi/kiwi.dart';
+import 'package:myoro_player/core/enums/platform_enum.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
+import 'package:myoro_player/shared/blocs/playlist_listing_bloc/playlist_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
 import 'package:myoro_player/shared/blocs/user_preferences_cubit.dart';
@@ -18,6 +21,7 @@ import 'package:myoro_player/shared/screens/main_screen/playlist_listing.dart';
 
 import '../../../base_test_widget.dart';
 import '../../../mocks/file_system_helper_mock.dart';
+import '../../../mocks/platform_helper_mock.dart';
 import '../../../mocks/playlist_service_mock.dart';
 import '../../../mocks/song_service.mock.dart';
 import '../../../mocks/user_preferences_mock.dart';
@@ -28,6 +32,7 @@ void main() {
 
   setUp(() {
     kiwiContainer
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured(platform: PlatformEnum.windows))
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock.preConfigured())
       ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured())
@@ -46,8 +51,9 @@ void main() {
       MultiBlocProvider(
         providers: [
           BlocProvider.value(value: userPreferencesCubit),
-          BlocProvider(create: (context) => SongListingBloc()),
-          BlocProvider(create: (context) => SongControlsBloc(userPreferencesCubit)),
+          BlocProvider(create: (_) => SongListingBloc()),
+          BlocProvider(create: (_) => SongControlsBloc(userPreferencesCubit)),
+          BlocProvider(create: (_) => PlaylistListingBloc()),
         ],
         child: const BaseTestWidget(
           child: Column(

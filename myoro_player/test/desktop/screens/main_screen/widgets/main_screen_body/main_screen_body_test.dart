@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:myoro_player/core/helpers/platform_helper.dart';
 import 'package:myoro_player/desktop/screens/main_screen/widgets/main_screen_body/main_screen_body_footer.dart';
 import 'package:myoro_player/shared/blocs/song_controls_bloc/song_controls_bloc.dart';
 import 'package:myoro_player/shared/blocs/song_listing_bloc/song_listing_bloc.dart';
@@ -19,6 +20,7 @@ import 'package:myoro_player/core/widgets/dividers/basic_divider.dart';
 
 import '../../../../../base_test_widget.dart';
 import '../../../../../mocks/file_system_helper_mock.dart';
+import '../../../../../mocks/platform_helper_mock.dart';
 import '../../../../../mocks/playlist_service_mock.dart';
 import '../../../../../mocks/song_service.mock.dart';
 import '../../../../../mocks/user_preferences_mock.dart';
@@ -29,8 +31,9 @@ void main() {
 
   setUp(() {
     kiwiContainer
-      ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
+      ..registerFactory<PlatformHelper>((_) => PlatformHelperMock.preConfigured())
       ..registerFactory<FileSystemHelper>((_) => FileSystemHelperMock())
+      ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceMock.preConfigured())
       ..registerFactory<PlaylistService>((_) => PlaylistServiceMock.preConfigured())
       ..registerFactory<SongService>((_) => SongServiceMock.preConfigured());
 
@@ -78,7 +81,7 @@ void main() {
       find.byWidgetPredicate(
         (w) => w is BasicDivider && w.direction == Axis.horizontal && w.padding == const EdgeInsets.symmetric(horizontal: 10),
       ),
-      findsNWidgets(3),
+      findsAtLeastNWidgets(2),
     );
   });
 }

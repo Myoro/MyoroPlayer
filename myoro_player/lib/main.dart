@@ -30,7 +30,7 @@ void main() async {
   Player.boot();
 
   /// Window Manager initialization
-  if (PlatformHelper.isDesktop) {
+  if (PlatformHelper().isDesktop) {
     windowManager.ensureInitialized();
     windowManager.setTitle('MyoroPlayer');
     windowManager.setMinimumSize(const Size(600, 600));
@@ -47,6 +47,7 @@ void main() async {
     /// Helpers
     ..registerFactory<FileSystemHelper>((_) => FileSystemHelper(database))
     ..registerFactory<DeviceHelper>((_) => DeviceHelper())
+    ..registerFactory<PlatformHelper>((_) => PlatformHelper())
 
     /// (CRUD) services
     ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceApi(database))
@@ -67,9 +68,7 @@ void main() async {
         BlocProvider(create: (context) => SongListingBloc()),
         BlocProvider(create: (context) => SongControlsBloc(userPreferencesCubit)),
       ],
-
-      /// Initializing [PermissionScreen] if MyoroPlayer's required permissions are not yet granted
-      child: App(),
+      child: const App(),
     ),
   );
 }
@@ -88,7 +87,7 @@ final class App extends StatelessWidget {
           themeMode: userPreferences.darkMode ? ThemeMode.dark : ThemeMode.light,
           theme: createTheme(false),
           darkTheme: createTheme(true),
-          home: PlatformHelper.isDesktop ? const desktop.MainScreen() : const mobile.MainScreen(),
+          home: KiwiContainer().resolve<PlatformHelper>().isDesktop ? const desktop.MainScreen() : const mobile.MainScreen(),
         );
       },
     );
