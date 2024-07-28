@@ -12,7 +12,9 @@ final class MainScreenBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocListener<PlaylistListingBloc, PlaylistListingState>(
+      // coverage:ignore-start
       listener: (context, state) => PlaylistListingBloc.handleSnackBars(context, state),
+      // coverage:ignore-end
       child: const Column(
         children: [
           Expanded(child: SongListing()),

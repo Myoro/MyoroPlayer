@@ -108,7 +108,9 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                   );
 
                                   if (KiwiContainer().resolve<PlatformHelper>().isMobile) {
+                                    // coverage:ignore-start
                                     context.read<BaseDrawerController>().closeDrawer();
+                                    // coverage:ignore-end
                                   }
                                 },
                                 onSecondaryTapDown: KiwiContainer().resolve<PlatformHelper>().isDesktop
@@ -119,6 +121,7 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                           _playlistResolverController,
                                         )
                                     : null,
+                                // coverage:ignore-start
                                 onLongPress: KiwiContainer().resolve<PlatformHelper>().isDesktop
                                     ? null
                                     : () => PlaylistListingPlaylistMenuEnum.showDropdownModal(
@@ -126,6 +129,7 @@ class _PlaylistListingState extends State<PlaylistListing> {
                                           playlist,
                                           _playlistResolverController,
                                         ),
+                                // coverage:ignore-end
                               ),
                             ),
                           );

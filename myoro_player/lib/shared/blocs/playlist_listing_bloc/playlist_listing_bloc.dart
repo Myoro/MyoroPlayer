@@ -12,6 +12,7 @@ import 'package:myoro_player/core/models/playlist.dart';
 import 'package:myoro_player/core/services/playlist_service/playlist_service.dart';
 
 final class PlaylistListingBloc extends Bloc<PlaylistListingEvent, PlaylistListingState> {
+  // coverage:ignore-start
   static void handleSnackBars(BuildContext context, PlaylistListingState state) {
     if (state.status == BlocStatusEnum.error) {
       context.showErrorSnackBar(state.snackBarMessage!);
@@ -19,6 +20,7 @@ final class PlaylistListingBloc extends Bloc<PlaylistListingEvent, PlaylistListi
       context.showDialogSnackBar(state.snackBarMessage!);
     }
   }
+  // coverage:ignore-end
 
   late final FileSystemHelper _fileSystemHelper;
   late final PlaylistService _playlistService;

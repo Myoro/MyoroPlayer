@@ -96,10 +96,12 @@ void main() {
   testWidgets('Dialog BaseSnackBar widget test.', (tester) async {
     await setup(tester, SnackBarTypeEnum.dialog);
     expectCalls(SnackBarTypeEnum.dialog);
+    await tester.tap(find.byType(NoFeedbackButton));
   });
 
   testWidgets('Error BaseSnackBar widget test.', (tester) async {
     await setup(tester, SnackBarTypeEnum.error);
     expectCalls(SnackBarTypeEnum.error);
+    await tester.tap(find.byType(NoFeedbackButton));
   });
 }

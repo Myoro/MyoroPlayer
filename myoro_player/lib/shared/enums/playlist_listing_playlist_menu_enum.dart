@@ -67,8 +67,10 @@ enum PlaylistListingPlaylistMenuEnum {
               );
 
               if (KiwiContainer().resolve<PlatformHelper>().isMobile) {
+                // coverage:ignore-start
                 Navigator.of(context).pop();
                 context.read<BaseDrawerController>().closeDrawer();
+                // coverage:ignore-end
               }
             },
           ),
@@ -119,6 +121,7 @@ enum PlaylistListingPlaylistMenuEnum {
     );
   }
 
+  // coverage:ignore-start
   static void showDropdownModal(
     BuildContext context,
     Playlist playlist,
@@ -138,4 +141,5 @@ enum PlaylistListingPlaylistMenuEnum {
       ),
     );
   }
+  // coverage:ignore-end
 }

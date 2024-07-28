@@ -28,6 +28,11 @@ void main() {
               print('BaseHoverButton [onSecondaryTapDown] working.');
             }
           },
+          onLongPress: () {
+            if (kDebugMode) {
+              print('BaseHoverButton [onLongPress] working.');
+            }
+          },
           builder: (_) {
             return const Text(text);
           },
@@ -63,5 +68,6 @@ void main() {
 
     await tester.tap(baseHoverButtonFinder);
     await tester.tap(baseHoverButtonFinder, buttons: kSecondaryButton);
+    await tester.longPress(baseHoverButtonFinder);
   });
 }

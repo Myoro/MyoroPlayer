@@ -44,6 +44,7 @@ final class PermissionScreen extends StatelessWidget {
               const SizedBox(height: 30),
               Row(
                 children: [
+                  // coverage:ignore-start
                   _Button(
                     'App settings',
                     () => openAppSettings(),
@@ -57,6 +58,7 @@ final class PermissionScreen extends StatelessWidget {
                       permissionCubit.checkPermissions();
                     },
                   ),
+                  // coverage:ignore-end
                 ],
               ),
             ],

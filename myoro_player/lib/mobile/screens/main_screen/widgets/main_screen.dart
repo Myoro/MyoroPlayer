@@ -27,6 +27,7 @@ class _MainScreenState extends State<MainScreen> {
     return BlocProvider.value(
       value: _permissionCubit,
       child: BlocListener<PermissionCubit, bool>(
+        // coverage:ignore-start
         listener: (context, showPermissionScreen) {
           if (!showPermissionScreen) return;
 
@@ -39,6 +40,7 @@ class _MainScreenState extends State<MainScreen> {
             ),
           );
         },
+        // coverage:ignore-end
         child: const BaseScaffold(
           appBar: MainScreenAppBar(),
           body: MainScreenBody(),

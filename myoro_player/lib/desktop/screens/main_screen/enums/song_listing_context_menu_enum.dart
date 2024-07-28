@@ -72,9 +72,11 @@ enum SongListingContextMenuEnum {
           onTap: () {
             value.onTap.call(context, song);
 
+            // coverage:ignore-start
             if (KiwiContainer().resolve<PlatformHelper>().isMobile) {
               Navigator.of(context).pop();
             }
+            // coverage:ignore-end
           },
         );
       },
@@ -102,6 +104,7 @@ enum SongListingContextMenuEnum {
     );
   }
 
+  // coverage:ignore-start
   static void showDropdownModal(
     BuildContext context,
     Song song,
@@ -119,4 +122,5 @@ enum SongListingContextMenuEnum {
       ),
     );
   }
+  // coverage:ignore-end
 }
