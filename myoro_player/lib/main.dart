@@ -36,18 +36,20 @@ void main() async {
     windowManager.setMinimumSize(const Size(600, 600));
   }
 
+  /// KiwiContainer initialization #1
+  KiwiContainer().registerFactory<PlatformHelper>((_) => PlatformHelper());
+
   /// Database initialization
   final database = Database();
   await database.init();
   // await database.deleteThenInit(); // For debugging
 
-  /// KiwiContainer initialization
+  /// KiwiContainer initialization #2
   KiwiContainer()
 
     /// Helpers
     ..registerFactory<FileSystemHelper>((_) => FileSystemHelper(database))
     ..registerFactory<DeviceHelper>((_) => DeviceHelper())
-    ..registerFactory<PlatformHelper>((_) => PlatformHelper())
 
     /// (CRUD) services
     ..registerFactory<UserPreferencesService>((_) => UserPreferencesServiceApi(database))
